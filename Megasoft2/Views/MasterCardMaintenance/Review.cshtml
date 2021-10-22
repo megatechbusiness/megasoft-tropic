@@ -1,0 +1,106 @@
+﻿@model Megasoft2.ViewModel.MaterCardMaintenanceViewModel
+@{
+    ViewBag.Title = "Review";
+}
+
+<h2 class="text-center"> <span class="fa fa-list"></span>&nbsp;&nbsp;Review</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.stockCodeUpdate.StockCode)
+    <div class="form-horizontal row spacer">
+        <div class="text-right">
+
+            @if (ViewBag.CanPost)
+            {
+                <button type="submit" class="btn btn-success btn-sm" id="btnPostStockCode" name="action:PostStockCode" value="PostStockCode">
+                    <i class="fa fa-save"> Post</i>
+                </button>
+
+                <button type="submit" class="btn btn-warning btn-sm" id="btnCancelPosting" name="action:CancelPosting" value="CancelPosting">
+                    <i class="fa fa-undo"> Cancel</i>
+                </button>
+            }
+        </div>
+    </div>
+
+    <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+        <thead>
+            <tr>
+
+                <th>
+                    Stock Code
+                </th>
+                <th>
+                    Program
+                </th>
+                <th>
+                    Key Field
+                </th>
+                <th>
+                    Old Value
+                </th>
+                <th>
+                    New Value
+                </th>
+                <th>
+                    Parent Part
+                </th>
+                <th>
+                    Component
+                </th>
+                <th>
+                    Trn Date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                if (Model.updateAudits != null)
+                {
+                    for (int i = 0; i < Model.updateAudits.Count; i++)
+                    {
+                        <tr class="nr">
+
+                            <td>
+                                @Model.updateAudits[i].StockCode
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].Program
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].KeyField
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].OldValue
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].NewValue
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].ParentPart
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].Component
+                            </td>
+                            <td>
+                                @Model.updateAudits[i].TrnDate
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+}

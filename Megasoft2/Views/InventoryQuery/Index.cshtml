@@ -1,0 +1,160 @@
+﻿
+@model Megasoft2.ViewModel.InventoryQueryViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <h4 class="text-center" style="font-weight:bold;">Inventory Query</h4><hr />
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                            @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @id = "txtStockCode" })
+                            @Html.ValidationMessageFor(model => model.StockCode)
+                        </div>
+                        <div class="col-md-9 col-xs-2" style="text-align:left;">
+                            <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:Index" value="Index">
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td >
+                                        <b>Stk Code:</b>
+                                    </td>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.Items != null)
+                                        {
+                                            if (Model.Items.Count != 0)
+                                            {
+                                                <td>@Model.StockCode</td>
+                                            }
+                                        }
+                                    }
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <b>Description:</b>
+                                    </td>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.Items != null)
+                                        {
+                                            if (Model.Items.Count != 0)
+                                            {
+                                                <td>@Model.Description</td>
+                                            }
+                                        }
+                                    }
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <b>UOM:</b>
+                                    </td>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.Items != null)
+                                        {
+                                            if (Model.Items.Count != 0)
+                                            {
+                                                <td>@Model.StockUom</td>
+                                            }
+                                        }
+                                    }
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <b>Supplier:</b>
+                                    </td>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.Items != null)
+                                        {
+                                            if (Model.Items.Count != 0)
+                                            {
+                                                <td>@Model.Supplier</td>
+                                            }
+                                        }
+                                    }
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <div class="form-horizontal row">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Warehouse
+                                    </th>
+                                    <th>
+                                        Qty On Hand
+                                    </th>
+                                    <th>
+                                        Qty On Order
+                                    </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    if (Model.Items != null)
+                                    {
+                                        foreach (var line in Model.Items)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(model => line.Warehouse)</td>
+                                                <td>@Html.DisplayFor(model => line.QtyOnHand)</td>
+                                                <td>@Html.DisplayFor(model => line.QtyOnOrder)</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtStockCode').on('change', function (e) {
+            var str = document.getElementById('txtStockCode').value;
+
+            //If Megasoft Barcode
+            if (str.indexOf("|") > 0) {
+                var Values = document.getElementById('txtStockCode').value.split("|");
+                document.getElementById('txtStockCode').value = Values[0];
+            }
+        });
+    });
+
+
+</script>

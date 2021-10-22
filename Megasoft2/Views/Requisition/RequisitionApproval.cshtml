@@ -1,0 +1,160 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "Requisition" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="bs-example">
+        <div class="panel panel-yellow">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    Requisition Approval
+                    <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                    &nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-horizontal row spacer">
+                        <label class="col-md-3 control-label input-sm-label" style="text-align:left;">Requisition</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.Requisition, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    @if (ViewBag.TrnType == "C")
+                    {
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-3"></div>
+
+                            <div class="col-md-6"><p>Are you sure you want to clear this requisition?</p></div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-3"></div>
+
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-sm text-center" name="action:RequisitionClear" id="btnPost">
+                                    <i class="fa fa-save"></i> Clear
+                                </button>
+                            </div>
+                            <div class="col-md-3"></div>
+
+                        </div>
+                    }
+                    else if (Model.FinalApproval)
+                    {
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-3"></div>
+
+                            <div class="col-md-6"><p>Are you sure you want to approve this requisition?</p></div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-3"></div>
+
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-sm text-center" name="action:RequisitionApproval" id="btnPost">
+                                    <i class="fa fa-save"></i> Approve
+                                </button>
+                            </div>
+                            <div class="col-md-3"></div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-horizontal row spacer">
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-3"></div>
+
+                                <div class="col-md-6"><p>Further approval required. Requisition will be routed as follows:</p></div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                    <thead><tr><th>Route To</th></tr></thead>
+                                    <tbody id="data">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.RouteOn != null)
+                                            {
+                                                for (int i = 0; i < Model.RouteOn.Count(); i++)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Model.RouteOn[i].RouteTo
+                                                            @Html.HiddenFor(model => model.RouteOn[i].UserCode)
+                                                            @Html.HiddenFor(model => model.RouteOn[i].RouteTo)
+                                                            @Html.HiddenFor(model => model.RouteOn[i].Username)
+                                                            @Html.HiddenFor(model => model.RouteOn[i].NoOfApprovals)
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <label class="col-md-3 control-label input-sm-label" style="text-align:left;">Route Note</label>
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(model => model.RouteNote, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-3"></div>
+
+                            <div class="col-md-6">
+
+                                @if (Model != null)
+                                {
+                                    if (Model.RouteOn != null)
+                                    {
+                                        if (Model.RouteOn.Count > 0)
+                                        {
+                                            <button type="submit" class="btn btn-success btn-sm" name="action:RequisitionRouting" id="btnPost">
+                                                <i class="fa fa-save"></i> Approve
+                                            </button>
+
+                                        }
+                                        else
+                                        {
+                                            <p class="alert alert-danger">No further routing found in Setup. Please contact your administrator.</p>
+                                        }
+
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                    }
+
+                </div>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+}

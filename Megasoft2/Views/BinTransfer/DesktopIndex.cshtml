@@ -1,0 +1,469 @@
+﻿@model Megasoft2.Models.BinTransfer
+@{
+    ViewBag.Title = "DesktopIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<fieldset>
+    <div class="form-group " style="margin-left:-20px">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+
+            <div id="errordiv" class="col-xs-10" style="font-size:xx-small">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <h4 class="text-center" style="font-weight:bold;">Bin Transfer</h4>
+        </div>
+        <hr />
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
+            <div class="form-horizontal row spacer-sm" id="firstrow">
+                <div class="control-label col-sm-2" style="text-align:left;">
+                    Ware_Hse.
+                </div>
+                <div class="editor-field col-sm-6">
+                    @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlSource", @class = "form-control input-sm", @style = "font-size:small;" })
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-sm" id="SourceBin">
+                <div class="control-label col-sm-2" style="text-align:left;">
+                    From_Bin.
+                </div>
+                <div class="editor-field col-sm-6">
+                    @Html.DropDownListFor(model => model.SourceBin, new SelectList(ViewBag.Bin, "Bin", "Description"), new { @id = "ddlSourceBin", @class = "form-control input-sm", @style = "font-size:small;" })
+                    @*<select class="form-control input-sm" id="ddlSourceBin"></select>*@
+                </div>
+
+            </div>
+            <div class="form-horizontal row spacer-sm" id="DestinationBin">
+
+                <div class="control-label col-sm-2" style="text-align:left;">
+                    To_Bin.
+                </div>
+                <div class="editor-field col-sm-6">
+                    @Html.DropDownListFor(model => model.DestinationBin, new SelectList(ViewBag.Bin, "Bin", "Description"), new { @id = "ddlDestinationBin", @class = "form-control input-sm", @style = "font-size:small;" })
+                    @*<select class="form-control input-sm" id="ddlDestinationBin"></select>*@
+                </div>
+
+            </div>
+            @*<div class="form-horizontal row spacer-sm">
+
+            <div class="control-label col-sm-2" style="text-align:left;">
+                Barcode
+            </div>
+            <div class="editor-field col-sm-5">
+                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-sm", @id = "txtBarcode", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Barcode)
+                <input type="hidden" id="hdSupplier" />
+            </div>
+            <div class="col-xs-1 text-left" style="margin-left:-20px;">
+                <a href="#" class="btn btn-success btn-sm" id="btnValidate" onclick="ValidateBarcode();">
+                    <span class="fa fa-gear" aria-hidden="true" title="Validate Barcode"></span>
+                </a>
+            </div>
+
+        </div>*@
+            <div class="form-horizontal row spacer-sm">
+
+                <div class="control-label col-sm-2" style="text-align:left;">
+                    StockCode
+                </div>
+                <div class="editor-field col-sm-6">
+                    <div class="input-group add-on">
+                        @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @id = "txtStockCode", @style = "font-size:small;" })
+                        <input type="hidden" id="Barcode" />
+                        <div class="input-group-btn">
+                            <a href="@Url.Action("StockCodeSearch", "WarehouseTransfer")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-md-1 col-xs-2 text-left">
+                <a href="@Url.Action("Index", "StockCodeBrowse")" class="modal-link btn btn-success">
+                    <span class="fa fa-search" aria-hidden="true" title="Browse"></span>
+                </a>
+            </div>*@
+
+            </div>
+            <div class="form-horizontal row spacer-sm">
+
+                <div class="control-label col-sm-2" style="text-align:left;">
+                    Lot/Serial
+                </div>
+                <div class="editor-field col-sm-6">
+                    <div class="input-group add-on">
+                        @Html.TextBoxFor(model => model.LotNumber, new { @class = "form-control input-sm", @id = "txtLot", @style = "font-size:small;" })
+                        <input type="hidden" id="Barcode" />
+                        <div class="input-group-btn">
+                            <a href="@Url.Action("LotSearch", "BinTransfer")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-horizontal row spacer-sm">
+
+                <div class="control-label col-sm-2" style="text-align:left;">
+                    Quantity
+                </div>
+                <div class="editor-field col-sm-4">
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-sm", @id = "txtQuantity", @style = "font-size:small;" })
+                    @Html.ValidationMessageFor(model => model.Quantity)
+                </div>
+                <div class="editor-field col-sm-2 text-right">
+                    <a href="#" class="btn btn-primary btn-sm" id="btnAdd" onclick="AddLine();">
+                        <span class="fa fa-plus" aria-hidden="true" title="Add"></span>
+                    </a>
+                </div>
+            </div><br />
+            <div class="form-horizontal row text-center col-sm-8">
+                <div class="control-label col-sm-1" style="text-align:left;font-size:small;" id="txtCount">
+
+                </div>
+                
+
+            </div>
+            <div class="form-horizontal row text-center col-sm-8">
+               
+                <div class="control-label col-sm-1" style="text-align:left;font-size:small;" id="txtqty">
+
+                </div>
+                <a href="#" class="btn btn-primary btn-sm" onclick="PostBinTransfer();" id="btnPost">
+                    <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+                </a>
+
+            </div>
+            <br />
+            <div class="form-horizontal row spacer-xs col-sm-8">
+                <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:small">
+                    <thead>
+                        <tr>
+                            <th>StockCode</th>
+                            <th>Reel</th>
+                            <th>Qty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+</fieldset>
+
+
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    function checkMultiBins(Warehouse, WhSource) {
+        var mydata = [];
+        var myObject = new Object();
+        myObject.Warehouse = Warehouse;
+
+        mydata.push(myObject);
+
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CheckWarehouseMultiBin", "BinTransfer")",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (response == "Y") {
+                if (WhSource == "Source") {
+                    $('#bin').show();
+                }
+                else {
+                    $('#destinationbin').show();
+
+                }
+
+                GetBins(Warehouse, WhSource);
+
+            }
+            else {
+                if (WhSource == "Source") {
+                    $('#bin').hide();
+                }
+                else {
+                    $('#destinationbin').hide();
+                }
+            }
+
+        }
+
+        function OnErrorCall(response) {
+            if (response != "") {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+        }
+    }
+
+
+    function GetBins(Warehouse, WhSource) {
+
+                var myString = JSON.stringify({
+                    Warehouse: Warehouse
+                });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url:"@Url.Action("GetBins", "BinTransfer")",
+                    contentType: "application/json; charset=utf-8",
+                    data: exportdata,
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+                function OnSuccess(response) {
+                    if (response) {
+                        var ddlWarehouse = $("#ddlSourceBin");
+                        var ddlWarehouseDestination = $("#ddlDestinationBin");
+                        if (WhSource == "Source") {
+                            ddlWarehouse = $("#ddlSourceBin");
+                            ddlWarehouseDestination = $("#ddlDestinationBin");
+                        }
+                        else {
+                            ddlWarehouse = $("#ddlSourceBin");
+                            ddlWarehouse = $("#ddlDestinationBin");
+                        }
+                        ddlWarehouse.empty();
+                        $("#WorkCentre").prepend("<option value='' selected='selected'></option>");
+
+                        $.each(response, function () {
+                            //alert(this['Value'] + ' space ' + this['Text']);
+                            ddlWarehouse.append($("<option></option>").val(this['ID'].trim()).html(this['Text']));
+                        //alert($('#ddlSourceBin').val());
+                            ddlWarehouseDestination.append($("<option></option>").val(this['ID'].trim()).html(this['Text']));
+                        });
+                    }
+                }
+
+        }
+
+
+
+    function PostBinTransfer() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        showprogressbar();
+
+        var e = document.getElementById("ddlSource");
+        var sw = e.options[e.selectedIndex].text.split(" - ");
+        var SourceWarehouse = sw[0];
+        var SourceBin = document.getElementById('ddlSourceBin').value
+
+        //var f = document.getElementById("ddlDestination");
+        //var dw = f.options[f.selectedIndex].text.split(" - ");
+        //var DestinationWarehouse = dw[0];
+        var DestinationBin = document.getElementById('ddlDestinationBin').value;
+
+
+        //if ($('#destinationbin').is(':visible')) {
+        //    if(DestinationBin == "")
+        //    {
+        //        alert("To Bin cannot be blank.");
+        //        hideprogressbar();
+        //        return;
+        //    }
+        //}
+
+        if ($('#bin').is(':visible')) {
+            if (SourceBin == "") {
+                alert("From Bin cannot be blank.");
+                hideprogressbar();
+                return;
+            }
+        }
+
+
+        var mydata = [];
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td')
+            var StockCode = $tds.eq(0).text();
+            var Lot = $tds.eq(1).text();;
+            var Quantity = $tds.eq(2).text();;
+
+            var myObject = new Object();
+            myObject.Warehouse = SourceWarehouse;
+            myObject.SourceBin = SourceBin;
+            myObject.StockCode = StockCode;
+            myObject.LotNumber = Lot;
+            myObject.Quantity = Quantity;
+           // myObject.DestinationWarehouse = DestinationWarehouse;
+            myObject.DestinationBin = DestinationBin;
+            //alert(SourceWarehouse);
+            mydata.push(myObject);
+        });
+
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PostBinTransfer", "BinTransfer")",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (response != "") {
+                document.getElementById('txtStockCode').value = "";
+                document.getElementById('txtLot').value = "";
+                document.getElementById('txtQuantity').value = "";
+                document.getElementById('ddlSourceBin').value = "";
+                document.getElementById('ddlDestinationBin').value = "";
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+                if (response.indexOf("Posting Complete.") == 0) {
+                    $('#tblLines tbody').empty();
+                    @*if ("@ViewBag.SmartId" != "") {
+                        window.setTimeout(function () {
+                            window.location = "http://192.168.0.22/Megasoft";
+                        }, 3000);
+                    }*@
+                }
+
+            }
+            hideprogressbar();
+        }
+
+        function OnErrorCall(response) {
+            if (response != "") {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+
+            }
+            hideprogressbar();
+        }
+    }
+
+
+    function AddLine() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        showprogressbar();
+
+
+
+        var StockCode = document.getElementById('txtStockCode').value;
+        var Lot = document.getElementById('txtLot').value;
+        var Quantity = document.getElementById('txtQuantity').value;
+        var AddReel = true;
+
+        if (Quantity.trim() == "") {
+            alert("Quantity missing.");
+            AddReel = false;
+        }
+
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td');
+            var ReelNumber = $tds.eq(1).text();
+            if (Lot == ReelNumber) {
+                AddReel = false;
+                alert("Reel " + Lot + " already scanned.");
+                return;
+            }
+        });
+
+
+        if (AddReel == true) {
+            $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
+                "</td><td>" + Lot + "</td><td id='txtQty'>" + Quantity +
+                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+        }
+
+
+        document.getElementById('txtStockCode').value = "";
+        document.getElementById('txtLot').value = "";
+        document.getElementById('txtQuantity').value = "";
+
+        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        $('#txtCount').html('Total:' + rows);
+        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr id='txtqty'").length;
+        var qty = 0;
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td');
+            var Quantity = parseInt($tds.eq(2).text());
+            qty += Quantity;
+
+        });
+        //alert(qty);
+        $('#txtqty').html('Total Quantity:' + qty);
+
+        hideprogressbar();
+    }
+
+
+
+    $(document).ready(function () {
+
+
+        //On Load Check if source warehouse is multibin
+        var e = document.getElementById("ddlSource");
+        var SourceWarehouse = e.options[e.selectedIndex].value;
+        checkMultiBins(SourceWarehouse, "Source");
+
+        //On Load Check if destination warehouse is multibin
+        //var f = document.getElementById("ddlDestination");
+        //var DestWarehouse = f.options[f.selectedIndex].value;
+        //checkMultiBins(DestWarehouse, "Destination");
+
+
+
+
+
+
+
+
+
+        //When warehouse changed, check if source warehouse is multibin
+        $("#ddlSource").change(function () {
+            var e = document.getElementById("ddlSource");
+            var SourceWarehouse = e.options[e.selectedIndex].value;
+            checkMultiBins(SourceWarehouse, "Source");
+
+        });
+
+        ////When warehouse changed, check if destination warehouse is multibin
+        //$("#ddlDestination").change(function () {
+        //    var f = document.getElementById("ddlDestination");
+        //    var DestWarehouse = f.options[f.selectedIndex].value;
+        //    checkMultiBins(DestWarehouse, "Destination");
+        //});
+
+
+
+
+
+
+        $('#tblLines').on("click", ".delLine", function () {
+            $(this).closest("tr").remove();
+            var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            $('#txtCount').html('Total:' + rows);
+        });
+
+
+
+
+    });
+</script>
+}

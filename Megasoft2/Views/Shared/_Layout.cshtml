@@ -1,0 +1,698 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>MegaSoft 2.0</title>
+
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="@Url.Content("~/Content/Bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="@Url.Content("~/Content/Bootstrap/css/sb-admin.css")" rel="stylesheet">
+    <!--sidebar-->
+    <link href="@Url.Content("~/Content/simple-sidebar/simple-sidebar.css")" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="@Url.Content("~/Content/Bootstrap/css/plugins/morris.css")" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="@Url.Content("~/Content/Bootstrap/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
+    <!-- Animate - Used for Bootstrap Notify -->
+    <link href="@Url.Content("~/Content/Notify/animate.css")" rel="stylesheet" type="text/css">
+
+    @*<link href="@Url.Content("~/Content/Modal/bootstrap-modal-bs3patch.css")" rel="stylesheet" />*@
+    @*<link href="@Url.Content("~/Content/Modal/bootstrap-modal.css")" rel="stylesheet" />*@
+
+    <link href="@Url.Content("~/Content/ddlSearch/select2.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/DatePicker/bootstrap-datepicker.css")" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .modal-content {
+            /*width: 600px !important;*/
+            width: 50% !important;
+            margin: 30px auto !important;
+        }
+
+        #sidebar-wrapper.affix-top {
+            /*position: static;*/
+            margin-top: 0px;
+            /*width:228px;*/
+        }
+
+        #sidebar-wrapper.affix {
+            position: fixed;
+            top: 58px;
+            /*width:228px;*/
+        }
+
+        .panel-red .panel-heading {
+            border-color: #d9534f;
+            color: blue;
+            background-color: red;
+        }
+
+        .table-striped > tbody > tr:nth-child(odd) > td,
+        .table-striped > tbody > tr:nth-child(odd) > td a,
+        .table-striped > tbody > tr:nth-child(odd) > th {
+            /*background-color: #497593;
+        color:white;*/
+            background-color: #0d68ac;
+            color: white;
+        }
+
+
+        .table {
+            /*border: 0.5px solid #497593;*/
+            border: 0.5px solid #0d68ac;
+        }
+        /*.table-bordered > thead > tr:nth-child(odd) > th,*/
+        .table-bordered > tbody > tr:nth-child(odd) > th,
+        .table-bordered > tfoot > tr:nth-child(odd) > th,
+        /*.table-bordered > thead > tr:nth-child(odd) > td,*/
+        .table-bordered > tbody > tr:nth-child(odd) > td,
+        .table-bordered > tfoot > tr:nth-child(odd) > td {
+            border: 0.5px solid #ffffff;
+        }
+
+        .table-striped tbody tr.highlight td /*{ background-color:#f9f022;color:black }*/ {
+            background-color: rgb(126, 137, 138);
+            color: black
+        }
+
+            .table-striped tbody tr.highlight td a /*{ background-color:#f9f022;color:black }*/ {
+                background-color: rgb(126, 137, 138);
+                color: white
+            }
+
+        .table thead.style1 {
+            background-color: rgb(126, 137, 138);
+            color: white;
+        }
+        /*.table thead.style2  { background-color:white;color:black;}*/
+    </style>
+    @*<script src="@Url.Content("~/Scripts/jquery-2.1.3.min.js")"></script>*@
+</head>
+<body style="background:#fff">
+    <div>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default no-margin navbar-fixed-top" style="background-color:#040404">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header fixed-brand">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle" tabindex="-1">
+                    <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                </button>
+                <a id="megasoftTitle" class="navbar-brand" href="#"><i><img src="/Megasoft/Images/megasoft_transparent.png" style="max-height:130%;padding-bottom:10px" /></i></a>
+            </div><!-- navbar-header-->
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+                </ul>
+
+                <!-- Top Menu Items -->
+                <ul class="nav navbar-right top-nav">
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-database"></i> @Request.Cookies["SysproDatabase"].Value.ToString() </a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @(HttpContext.Current.User.Identity.Name.ToUpper()) <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("ChangePassword", "User", new { id = HttpContext.Current.User.Identity.Name.ToUpper() })" class="modal-link"><i class="fa fa-fw fa-gear"></i> Reset Password</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Login")"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- bs-example-navbar-collapse-1 -->
+
+
+        </nav>
+        <div id="wrapper" style="background-color:white;">
+
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper" style="background-color:#040404;">
+
+                @*<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#Settings"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x"></i></span> Settings <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="Settings" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "User")">Users</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Role")">Roles</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "LabelPrinter")">Label Printers</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "SysproAdmin")">Syspro Companies</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "SmartScanMatrix")">Smart Scan</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "ScaleSystemSetup")">Scale Setup</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ReportAutomationSettings", "Settings")">Report Automation Settings</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManDelayedPosting")">Delayed Posting</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("DelayedPostingCue", "WhseManDelayedPosting")">Delayed Posting Cue</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#LabelPrint"><span class="fa-stack fa-lg pull-left"><i class="fa fa-shopping-cart fa-stack-1x"></i></span> Purchase Orders <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="LabelPrint" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManPoLabel")">Packing Slip</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManPoReceipt")">P/O Receipts</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManPoReceiptScan")">Receipts-Scan</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManLabelReprint")">Label-Reprint</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#Production"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cogs fa-stack-1x"></i></span> Production <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="Stereo" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManProductionLabel",new {Department = "Wicket" })">Wicket Label</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManProductionLabel",new {Department = "Bag" })">Bagging Label</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManBatchReceipt")">Production Receipt</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("OpenPallet", "WhseManBatchReceipt")">Pallet Control</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("TransferBail", "WhseManBatchReceipt")">Batch Transfer</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManLabelMaintenance")">Prduction Label-Reprint</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ProductionReturns", "WhseManBatchReceipt")">Production Return</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ScanReturnItems", "WhseManBatchReceipt")">Production Return - Scan</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ProductionReporting", "WhseManProductionLabel")">Reports</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "ScaleSystem")">Scales Pallet Receipt</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SplitPallet", "WhseManBatchReceipt")">Split Pallet</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManBatchSplit")">Split Batch</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#Despatch"><span class="fa-stack fa-lg pull-left"><i class="fa fa-road fa-stack-1x"></i></span> Despatch <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="Despatch" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManBackOrderRelease")">Back Order Release</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WmsWarehouseRelease")">Warehouse Release</a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index", "WmsSalesRelease")">Sales Release</a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index", "WmsSalesReleaseExpress")">Sales Release Express</a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index", "WmsPicking")">Picking</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("DispatchList", "WmsDespatch")">Dispatch Note Creation</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#LabelPrint"><span class="fa-stack fa-lg pull-left"><i class="fa fa-arrows fa-stack-1x"></i></span> Movements <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="LabelPrint" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "WarehouseTransfer")">Immediate Transfer</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "BinTransfer")">Bin Transfer</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TransferOut")">Transfer Out</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TransferIn")">Transfer In</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManPhysicalAdjustment")">Physical Adjustment</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("PostingManager", "WhseManDelayedPosting")">Delayed Posting Manager</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LotQuery", "WarehouseTransfer")"><span class="fa-stack fa-lg pull-left"><i class="fa fa-barcode fa-stack-1x"></i></span> Lot Query</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#StockTake"><span class="fa-stack fa-lg pull-left"><i class="fa fa-clipboard fa-stack-1x"></i></span> Stock Take <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="LabelPrint" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "StockTakeCapture")">Capture</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "StockTakeImport")">Import</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#PalletAudit"><span class="fa-stack fa-lg pull-left"><i class="fa fa-check fa-stack-1x"></i></span> Pallet Audit <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="PalletAudit" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "WhseManPalletAudit")">Capture</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("PalletAuditPurge", "WhseManPalletAudit")">Purge</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("PalletAuditReview", "WhseManPalletAudit")">Review</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#WipSystem"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks fa-stack-1x"></i></span> WIP <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="WipSystem" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index", "LabourPost")">Labour Post</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("MaterialIssue", "MaterialIssue")">Material Issue</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("LabourPostReversal", "LabourPost")">Labour Post Reversal</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("LabourPostControl", "LabourPost")">Labour Post Control</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#ContractPrice"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dollar fa-stack-1x"></i></span> Contract Pricing <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="ContractPrice" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("NewContract", "SalesContractPricing")">New Contract</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ContractsXref", "SalesContractPricing")">New - Customer Listing</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "SalesContractPricing")">Contract Maintenance</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ExpireContracts", "SalesContractPricing")">Expire Contracts</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#TransportSystemTransporters"><span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x"></i></span> Transport System <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="Transport" class="collapse">
+
+                                <li>
+                                    <a href="@Url.Action("TransporterIndex", "TransportSystemTransporters")">Transporters</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("RateCodeIndex", "TransportSystemTransporters")">Transporter Rates Codes</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("RateIndex", "TransportSystemTransporters")">Transporter Rates</a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index", "TransportSystemWayBillEntry")">Waybill Entry</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TransportSystemWayBillPoEntry")">Purchase Orders</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TransportSystemPoMaintenance")">Purchase Order Maintenance</a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index", "TransportSystemPoInvoice")">Grn / Invoice</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TransportSystemPvJournal")">PV Journal</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TransportSystemCustomerEmail")">Customer Email</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("CustomerSetup", "TransportSystemCustomerEmail")">Customer Setup</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#StereoSystemSupplier"><span class="fa-stack fa-lg pull-left"><i class="fa fa-gavel fa-stack-1x"></i></span> Stereo System <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="Stereo" class="collapse">
+
+                                <li>
+                                    <a href="@Url.Action("Index", "StereoSystemAddStereo")">Stereo Entry</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "StereoSystemGrn")">Grn / Ap</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("StereoQuery", "StereoSystemAddStereo")">Stereo Query</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "StereoSystemSupplier")">Stereo Suppliers</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#MasterCard"><span class="fa-stack fa-lg pull-left"><i class="fa fa-list-alt fa-stack-1x"></i></span> Master Card<i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="Stereo" class="collapse">
+
+                                <li>
+                                    <a href="@Url.Action("Index", "MasterCardMain")">Capture</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "NonStockedInvMaster")">Non-Stocked </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "MasterCardStockCodeBomSetup")">Bill of Materials </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "MasterCardMultimediaViewer")">Art Work </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#EdiSystem"><span class="fa-stack fa-lg pull-left"><i class="fa fa-external-link fa-stack-1x"></i></span> EDI - Customer Invoices <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="EdiSystem" class="collapse">
+
+                                <li>
+                                    <a href="@Url.Action("Index", "CustomerInvoiceExtract")">Invoice Extract</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "CustomerInvoiceReextract")">Invoice Re-Extract</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Create", "CustomerInvoiceExtractSettings")">Settings</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#MegasoftReporting"><span class="fa-stack fa-lg pull-left"><i class="fa fa-laptop fa-stack-1x"></i></span> Megasoft Reporting <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="MegasoftReports" class="collapse">
+
+                                <li>
+                                    <a href="@Url.Action("Index", "Report")">Report Viewer</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ReportSetup", "Report")">Report Setup</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ReportGroupSetup", "Report")">Report Group Setup</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="@Url.Action("Logout", "Login")"><span class="fa-stack fa-lg pull-left"><i class="fa fa-power-off fa-stack-1x"></i></span> Log Out</a>
+                        </li>
+                    </ul>*@
+
+
+                @Html.Action("GetMenu", "Home")
+
+            </div><!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid xyz">
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            @RenderBody()
+                            @Scripts.Render("~/bundles/jquery")
+                            @RenderSection("scripts", required: false)
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+        </div>
+
+        <!-- /#wrapper -->
+    </div>
+    <!-- jQuery -->
+
+
+
+    <script src="@Url.Content("~/Content/Bootstrap/js/jquery.js")"></script>
+    @*Bootstrap Core JavaScript*@
+    <script src="@Url.Content("~/Content/Bootstrap/js/bootstrap.min.js")"></script>
+    @*Morris Charts JavaScript*@
+    <script src="@Url.Content("~/Content/Bootstrap/js/plugins/morris/raphael.min.js")"></script>
+    @*<script src="@Url.Content("~/Content/Bootstrap/js/plugins/morris/morris.min.js")"></script>*@
+    @*<script src="@Url.Content("~/Content/Bootstrap/js/plugins/morris/morris-data.js")"></script>*@
+    @*Select2*@
+    <script src="@Url.Content("~/Content/ddlSearch/select2.js")"></script>
+    <script src="@Url.Content("~/Content/DatePicker/bootstrap-datepicker.js")"></script>
+
+
+    <script src="@Url.Content("~/Content/simple-sidebar/sidebar_menu.js")"></script>
+
+    <!-- Business Logic Scripts -->
+    @*<script src="@Url.Content("~/Content/ProductionReceipt/ProductionReceipt.js")"></script>*@
+
+    @* Unobstrusive for Async Ajax Calls *@
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+
+    <script src="@Url.Content("~/Content/ExcelExport/jquery.table2excel.js")"></script>
+
+    <script src="@Url.Content("~/Content/Notify/bootstrap-notify.js")"></script>
+
+    <script src="@Url.Content("~/Content/bootstrap-treeview/bootstrap-treeview.min.js")"></script>
+
+    <script src="@Url.Content("~/Content/DataTable/datatables.js")"></script>
+    @*<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>*@
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.6/css/select.dataTables.min.css" />
+        <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.6/js/dataTables.select.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>"
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>*@
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTable/select.dataTables.min.css")" />
+    <script src="@Url.Content("~/Content/DataTable/dataTables.select.min.js")"></script>
+    <script src="@Url.Content("~/Content/DataTable/jszip.min.js")"></script>"
+    <script src="@Url.Content("~/Content/DataTable/dataTables.buttons.min.js")"></script>
+    <script src="@Url.Content("~/Content/DataTable/buttons.html5.min.js")"></script>
+
+    @*<script src="@Url.Content("~/Content/DataTable/datatables.js")"></script>*@
+
+    <div id="loadingDiv" class="modal fade" data-backdrop="static" tabindex="-1" data-focus-on="input:first"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"><i class="fa fa-cog fa-spin"></i> Processing, please wait ...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pleaseWaitDialog"
+         @*data-backdrop="static"*@ tabindex="-1" data-focus-on="input:first" style="z-index: 10000000 !important;"
+         @*style="display: none;"*@>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @*<img class="img-responsive" src="Images/MegaTech_60.png" alt="image" />*@
+                </div>
+                <div class="modal-body">
+                    <h1>Processing...</h1>
+                    @*<div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                <span class="sr-only">45% Complete</span>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-container" class="modal fade"
+         tabindex="-1" role="dialog">
+        <div class="modal-content"></div>
+    </div>
+
+
+
+    <script type="text/javascript">
+
+            function showprogressbar()
+            {
+                //$('#pleaseWaitDialog').modal('show');
+                $('#pleaseWaitDialog').modal({ 'backdrop': 'static' });
+            }
+            function hideprogressbar() {
+                $('#pleaseWaitDialog').modal('hide');
+            }
+			 function PopupReport(Report) {
+                var entryGuid = "";
+                window.open('../CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');// calling action
+            }
+
+			function CallAlert(AlertFrom, AlertMessage) {
+            $.notify({
+                // options
+                icon: "@Url.Content("~/Images/favicon.ico")",
+                title: AlertFrom + ": <br>",
+                message: AlertMessage,
+                target: '_blank'
+            }, {
+                    // settings
+                    element: 'body',
+                    position: null,
+                    type: "info",
+                    allow_dismiss: true,
+                    newest_on_top: false,
+                    showProgressbar: false,
+                    placement: {
+                        from: "bottom",
+                        align: "right"
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    z_index: 1031,
+                    delay: 5000,
+                    timer: 1000,
+                    url_target: '_blank',
+                    mouse_over: null,
+                    animate: {
+                        enter: 'animated bounceInUp',
+                        exit: 'animated bounceOutDown'
+                    },
+                    onShow: null,
+                    onShown: null,
+                    onClose: null,
+                    onClosed: null,
+                    icon_type: 'image',
+                    template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                        '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                        '<span data-notify="icon"></span> ' +
+                        '<span data-notify="title">{1}</span> ' +
+                        '<span data-notify="message">{2}</span>' +
+                        '<div class="progress" data-notify="progressbar">' +
+                        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                        '</div>' +
+                        '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                        '</div>'
+                });
+        }
+
+
+        function alertUser() {
+
+            $.getJSON("@Url.Action("GetMegasoftAlerts", "Home")", function (data) {
+                $.each(data, function (i, ALE) {
+                    window.setTimeout(function () {
+                        CallAlert(ALE.AlertFrom, ALE.AlertMessage);
+                    }, 500);
+                });
+            });
+        }
+
+            $(function () {
+
+                alertUser();
+
+				$("input").attr("autocomplete", "off");
+                // Initialize numeric spinner input boxes
+                //$(".numeric-spinner").spinedit();
+
+                // Initalize modal dialog
+                // attach modal-container bootstrap attributes to links with .modal-link class.
+                // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+                $('body').on('click', '.modal-link', function (e) {
+                    e.preventDefault();
+                    $(this).attr('data-target', '#modal-container');
+                    $(this).attr('data-toggle', 'modal');
+                    $(this).attr('data-backdrop', 'static');
+                    $(this).attr('data-keyboard', 'false');
+                });
+
+                // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+                $('body').on('click', '.modal-close-btn', function () {
+
+                    $('#modal-container').modal('hide');
+                });
+
+                //clear modal cache, so that new content can be loaded
+                $('#modal-container').on('hidden.bs.modal', function () {
+                    $(this).removeData('bs.modal');
+                });
+
+                $('#CancelModal').on('click', function () {
+                    return false;
+                });
+
+                $('#sidebar-wrapper').affix({
+                    offset: {
+                        top: 65
+                    }
+                });
+
+            });
+    </script>
+
+</body>
+</html>

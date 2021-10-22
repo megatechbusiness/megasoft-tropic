@@ -1,0 +1,66 @@
+﻿@model Megasoft2.Models.LabelPrintPoLine
+@{
+    ViewBag.Title = "PoLine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("SaveLine", "Requisition"))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Label Print/Receipt</h4><hr />
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-6 col-xs-6 text-left">
+                                <a href="@Url.Action("Index", "PurchaseOrderLabel", new { PurchaseOrder = @Model.PurchaseOrder })" class="btn btn-default btn-sm">
+                                    <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back to P/O"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Back to @Model.PurchaseOrder</span></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Purchase Order</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Line</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.Line, new { @class = "form-control input-sm", @id = "txtLine", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">StockCode</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @id = "txtStockCode" })                                   
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Description</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm", @id = "txtDescription", @maxlength = "100" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}

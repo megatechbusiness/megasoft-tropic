@@ -1,0 +1,102 @@
+﻿@model Megasoft2.ViewModel.TransportSystemTransportersViewModel
+
+@using (Html.BeginForm("CreateRateCode", "TransportSystemTransporters", FormMethod.Post, new { @id = "RateCodesForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">Create Transporter Rate Codes</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Rate Codes</a></li>
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("RateCodeIndex", "TransportSystemTransporters") + "'");">
+                <i class="fa fa-group"></i> Rate Codes
+            </button>
+            <button type="submit" value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Rate Codes
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.RateCodes.RateCode, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.RateCodes.RateCode)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Description
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.RateCodes.Description, new { @class = "form-control input-sm"})
+                                                    @Html.ValidationMessageFor(model => model.RateCodes.Description)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+        <div id="errordiv">
+
+        </div>
+
+    </div>
+
+
+
+}
+<style type="text/css">
+
+</style>
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+
+                function ShowErrorDiv() {
+
+                    $('#errordiv').addClass("alert alert-danger");
+
+                }
+
+                $(function () {
+
+                    $("#RateCodesForm").submit(function (e) {
+                        showprogressbar();
+                    });
+
+                });
+
+</script>
+

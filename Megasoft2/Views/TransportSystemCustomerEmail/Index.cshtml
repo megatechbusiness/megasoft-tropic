@@ -1,0 +1,338 @@
+﻿@model Megasoft2.ViewModel.TransportSystemCustomerEmail
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+       
+        <div class="col-lg-12 col-sm-12">
+
+            <div class="panel panel-primary modal-body" style="border-color:white;">
+
+                <div class="panel-heading">
+
+                    <h4 class="panel-title">
+
+                        <a data-toggle="collapse" data-target="#collapseOne"
+                           href="#collapseOne" class="collapsed">
+                            Customer Email
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+
+                            @if (Model != null)
+                            {
+                                if (!string.IsNullOrEmpty(Model.Customer))
+                                {
+                                    <div class="editor-field col-md-2 col-xs-4" style="text-align:left;">
+                                        @Html.TextBoxFor(m => m.Customer, new { @class = "form-control input-sm tbCustomer", @placeholder = "Customer", @readonly = "readonly" })
+                                    </div>
+                                    <div class="editor-field col-md-2 col-xs-4" style="text-align:left;">
+                                        @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @placeholder = "Date", @readonly = "readonly" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                        <a href="@Url.Action("CustomerSearch", "TransportSystemCustomerEmail")" class="modal-link btn btn-success btn-sm">
+                                            <span class="fa fa-search" aria-hidden="true" title="Browse Customer"> </span>
+                                        </a>
+                                    </div>
+                                    <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                                        @Html.TextBoxFor(m => m.Customer, new { @class = "form-control input-sm tbCustomer", @placeholder = "Customer" })
+                                    </div>
+                                    <div class="editor-field col-md-2 col-xs-4" style="text-align:left;">
+                                        @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm", @placeholder = "Date", @readonly = "readonly" })
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                    <a href="@Url.Action("CustomerSearch", "TransportSystemCustomerEmail")" class="modal-link btn btn-success btn-sm">
+                                        <span class="fa fa-search" aria-hidden="true" title="Browse Customer"> </span>
+                                    </a>
+                                </div>
+                                <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                                    @Html.TextBoxFor(m => m.Customer, new { @class = "form-control input-sm tbCustomer", @placeholder = "Customer" })
+                                </div>
+                                <div class="editor-field col-md-2 col-xs-4" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm", @placeholder = "Date", @readonly = "readonly" })
+                                </div>
+                            }
+                            <div class="col-md-1 col-xs-2" style="text-align:left;">
+                                <button type="submit" class="btn btn-success btn-sm" id="btnLocation" name="action:LoadLocation" value="LoadLocation">
+                                    <i class="fa fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                                @if (ViewBag.CustomerLocations != null)
+                                {
+                                if (Enumerable.Count(ViewBag.CustomerLocations) == 1)
+                                {@Html.TextBoxFor(model => model.Location, new { @class = "form-control input-sm",@readonly="readonly" }) }
+                                else
+                                {@Html.DropDownListFor(n => n.Location, new SelectList(ViewBag.CustomerLocations, "Value", "Text"), "Select Location", new { @class = "form-control input-sm", style = "width:100%" })}
+
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.Location, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                }
+                                @Html.HiddenFor(model => model.Location)
+                            </div>
+                            <div class="col-md-1 col-xs-2" style="text-align:left;">
+                                <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadCustomer" value="LoadCustomer">
+                                    <i class="fa fa-arrow-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-6 pull-right">
+                                <a href="@Url.Action("Index", "TransportSystemCustomerEmail")" class="btn btn-sm btn-default pull-right"><span class="fa fa-refresh" aria-hidden="true"> </span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                Customer Name
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control input-sm ", @placeholder = "Customer Name", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                From Email
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(m => m.EmailFrom, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                To Email
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(m => m.EmailTo, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                CC
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(m => m.CC, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                BCC
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(m => m.BCC, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                Subject
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                Message
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @*@Html.TextBoxFor(m => m.Message, new { @class = "form-control input-sm" })*@
+                                @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @rows = "7", @maxlength = "500", @style = "width:550px; height:70px;" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-6" style="text-align:left;">
+                                <button type="button" onclick="CountPreview(); ExportPdf('TransportScheduleEmailDocument');" value="Preview" class="btn btn-default btn-sm" id="btnPreview">
+                                    <i class="fa fa-print"></i> Preview
+                                </button>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <button type="submit" onclick="CheckDouble();" href="@Url.Action("SendEmail", "TransportSystemCustomerEmail")" name="action:SendMail" value="SendMail" class="btn btn-default btn-sm" id="btnSendEmail">
+                                    <i class="fa fa-print"></i> Send
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    @Scripts.Render("~/Scripts/jquery-2.1.3.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <style>
+        .panel-body {
+            background: #EFEFEF;
+        }
+    </style>
+    <script type="text/javascript">
+        $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+        function ExportPdf(Report) {
+            if ($('#Customer').val() == "") {
+                alert("Please enter customer.");
+                
+            }
+            if ($('#Date').val() == "") {
+                alert("Please select Date.");
+                
+            }
+            if ($('#Location').val() == "") {
+                alert("Location cannot be blank.");
+                
+            }
+            else {
+               
+
+                var Date = $('#Date').val();
+                var Customer = $('#Customer').val();
+                var Location = $('#Location').val();
+                var entryGuid = Date + ";" + Customer + ";" + Location;
+
+                window.open('http://192.168.0.22/Megasoft/CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');
+            }
+        }
+        var submit = 0;
+        var PreviewCounter = 0;
+        function CountPreview() {
+            ++PreviewCounter;
+        }
+        function CheckDouble() {
+            if (++submit > 1) {
+                alert('This sometimes takes a few seconds - please be patient.');
+                return false;
+            }
+        }
+        function ValidateForm() {
+            if ($('#Customer').val() == "") {
+                alert("Please enter customer.");
+                submit = 0;
+                return false
+            }
+            if ($('#ToEmail').val() == "") {
+                alert("Please enter to email.");
+                submit = 0;
+                return false
+            }
+            if ($('#Date').val() == "") {
+                alert("Please select Date.");
+                submit = 0;
+                return false
+            }
+            if ($('#Location').val() == "") {
+                alert("Location cannot be blank.");
+                submit = 0;
+                return false
+            }
+            else {
+                return true;
+            }
+        }
+
+        $(function () {
+            $("#frmMain").submit(function (e) {
+                showprogressbar();
+            });
+
+            $('#btnLoad').on('click', function (e) {
+                if ($('#Customer').val() == "") {
+                    alert("Please enter customer.");
+                    return false
+                }
+                if ($('#Date').val() == "") {
+                    alert("Please select Date.");
+                    return false
+                }
+                else {
+                    return true;
+                }
+
+            });
+            $('#btnLocation').on('click', function (e) {
+                if ($('#Customer').val() == "") {
+                    alert("Please enter customer.");
+                    return false
+                }
+                if ($('#Date').val() == "") {
+                    alert("Please select Date.");
+                    return false
+                }
+                else {
+                    return true;
+                }
+
+            });
+            $('#btnSendEmail').on('click', function (e) {
+
+                if (PreviewCounter == 0) {
+                    var preview = confirm("You haven't previewed the schedule. Do you want to continue?");
+                    if (preview) {
+                        ValidateForm();
+                    }
+                    else {
+                        submit = 0;
+                        return false;
+                    }
+                }
+                var result = confirm("Are you sure you want to save?");
+                if (result) {
+                    ValidateForm();
+                }
+                else {
+                    submit = 0;
+                    return false;
+                }
+
+
+            });
+        });
+
+    </script>
+}

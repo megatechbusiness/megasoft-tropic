@@ -1,0 +1,64 @@
+﻿@model Megasoft2.ViewModel.MenuViewModel
+<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+
+
+    @if (Model != null)
+    {
+        if (Model.Header != null)
+        {
+            if (Model.Detail != null)
+            {
+                foreach (var _mnu in Model.Header)
+                {
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#@_mnu.Menu"><span class="fa-stack fa-lg pull-left"><i class="@_mnu.Icon"></i></span> @_mnu.Menu <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="@_mnu.Menu" class="collapse">
+                            @foreach (var det in Model.Detail.Where(a => a.Menu == _mnu.Menu).Select(b => b).ToList())
+                            {
+                                if (det.Controller == "WhseManProductionLabel" && det.ControllerView == "Index")
+                                {
+                                    if (det.SubMenu == "Bagging Label")
+                                    {
+                                        <li>
+                                            <a href="@Url.Action(det.ControllerView, det.Controller, new {Department = "Bag" })">@det.SubMenu</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="@Url.Action(det.ControllerView, det.Controller, new { Department = "Wicket" })">@det.SubMenu</a>
+                                        </li>
+                                    }
+
+                                }
+                                else if (det.Program == "Maintenance" && (det.SubMenu == "Label Print" || det.SubMenu == "Label Reprint"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action(det.ControllerView, det.Controller, new {Program = "Maintenance" })">@det.SubMenu</a>
+                                    </li>
+                                }
+                                else if (det.Program == "Maintenance" && det.SubMenu == "Expense Issue (Desktop)")
+                                {
+                                    <li>
+                                        <a href="@Url.Action(det.ControllerView, det.Controller, new {ProgramMode = "Desktop" })">@det.SubMenu</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="@Url.Action(det.ControllerView, det.Controller)">@det.SubMenu</a>
+                                    </li>
+                                }
+
+                            }
+                        </ul>
+
+
+                    </li>
+                }
+            }
+        }
+
+    }
+</ul>

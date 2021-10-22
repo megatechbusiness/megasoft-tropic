@@ -1,0 +1,682 @@
+﻿@model Megasoft2.ViewModel.ScaleSystemViewModel
+@{
+
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Scale System - Job Receipt</h4>
+<hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmScaleMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="form-horizontal row spacer-xs ">
+        <div class="form-group row col-sm-12">
+            <div>
+                <a href="@Url.Action("Index", "ScaleSystem")" class="btn btn-sm btn-default pull-left hbutton "><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+                <button type="submit" UseSubmitBehavior="false" class="btn btn-default hbutton btn-sm pull-right auth" id="btnPost" name="action:PostJobReceipt" value="PostJobReceipt">
+                    <i>Post</i>
+                </button>
+
+                @if (Model.PalletReport != null)
+                {
+                    <a href="@Model.PalletReport.FilePath" target="_blank" class="btn btn-default btn-sm">
+                        <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PalletReport.FileName</span></span>
+                    </a>
+                }
+                @if (Model.PalletInformation != null)
+                {
+                    <a href="@Model.PalletInformation.FilePath" target="_blank" class="btn btn-default btn-sm">
+                        <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PalletInformation.FileName</span></span>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Job
+            </div>
+            <div class="col-sm-7">
+                @if (ViewBag.PalletLoaded != null)
+                {
+                    if (ViewBag.PalletLoaded == true)
+                    {
+                        @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm", @onkeydown = "EnterKeyFilter();", @ReadOnly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm", @onkeydown = "EnterKeyFilter();" })
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-sm-4">
+            @if (ViewBag.Scales != null)
+            {<div class="col-sm-4">
+                    Scale
+                </div>
+                <div class="">
+                    <div class="col-sm-5">
+                        @if (ViewBag.PalletLoaded != null)
+                        {
+                            if (ViewBag.PalletLoaded == true)
+                            {
+
+                                @Html.DropDownListFor(n => n.Scale, new SelectList(ViewBag.Scales, "Value", "Text"), new { @class = "form-control input-sm", style = "width:100%", @disabled = "disabled" })
+                                @Html.HiddenFor(m => m.Scale)
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(n => n.Scale, new SelectList(ViewBag.Scales, "Value", "Text"), new { @class = "form-control input-sm", style = "width:100%" })
+                                @Html.HiddenFor(m => m.Scale)
+                            }
+                        }
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm" id="btnJob" name="action:LoadJob" value="LoadJob">
+                        <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                    </button>
+                </div>
+            }
+
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                QtyToMake
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.QtyToMake, "{0:#.#}", new { @class = "form-control input-sm", @readonly = "readonly" })
+
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Department
+            </div>
+            <div class="col-sm-7">
+                @Html.DropDownListFor(n => n.Department, new SelectList(ViewBag.DepartmentList, "Value", "Text"), new { @class = "form-control input-sm", style = "width:100%" })
+                @Html.HiddenFor(m => m.Department)
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="col-sm-4">
+                Stock Desc.
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.StockDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Qty Man.
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.QtyManufactured, "{0:#.#}", new { @class = "form-control tb input-sm", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Customer
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class=" col-sm-4">
+                Stock Code
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Qty Outst.
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.QtyOutstanding, "{0:#.##}", new { @class = "form-control tb input-sm", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Operator
+            </div>
+            @if (Model != null)
+            {
+                if (Model.Department != null)
+                {
+                    if (Model.Department == "PRINT" || Model.Department == "EXTR")
+                    {
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.Operator, new { @class = "form-control input-sm", @onkeydown = "EnterKeyFilter();", @readonly = "readonly" })
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(model => model.Operator, new { @class = "form-control input-sm", @onkeydown = "EnterKeyFilter();" })
+                    </div>
+                }
+            }
+
+
+        </div>
+        <div class="col-sm-4">
+            <div class=" col-sm-4">
+                Extruder No
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.ExtruderNo, new { @class = "form-control input-sm", @onkeydown = "EnterKeyFilter();" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Printer No
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.PrinterNo, new { @class = "form-control tb input-sm", @onkeydown = "EnterKeyFilter();" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="col-sm-4">
+            <div class="form-group col-sm-4">
+                Printer Operator
+            </div>
+            <div class="col-sm-7">
+                @Html.DropDownListFor(n => n.PrintOperator, new SelectList(ViewBag.OperatorList, "Value", "Text"), "", new { @class = "form-control input-sm headselect", style = "width:100%" })
+            </div>
+        </div>
+    </div>
+        <hr />
+        <div class="form-horizontal row spacer-xs ">
+            <div class="form-group row col-sm-12">
+                @*<div class="col-xs-2">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
+                            @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                        </div>
+                    </div>*@
+                <div class="col-xs-2">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
+                        @if (ViewBag.MultiPalletNo == null)
+                        {
+                            @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                        }
+                        else
+                        {
+                            if (Enumerable.Count(ViewBag.MultiPalletNo) > 1)
+                            {
+                                @Html.DropDownListFor(model => model.Pallet, new SelectList(ViewBag.MultiPalletNo, "Value", "Text"), new { @onchange = "setTimeout(function () {$('#PalletBtn').click();}, 1);", @class = "form - control tb input-sm" })
+                                <button type="submit" style="display: none;" class="btn btn-success btn-sm" id="PalletBtn" name="action:RefreshPallet" value="RefreshPallet">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                                </button>
+
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                            }
+                        }
+                        @Html.HiddenFor(m => m.Pallet)
+
+
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon"></span>CORE</span>
+                        @*<input type="text" class="form-control" placeholder="">*@
+                        @Html.TextBoxFor(model => model.Core, new { @class = "form-control tb input-sm" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon"></span>TARE</span>
+                        @*<input type="text" class="form-control" placeholder="">*@
+                        @Html.TextBoxFor(model => model.Tare, new { @class = "form-control tb input-sm" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon "></span>GROSS</span>
+                        @*<input type="text" class="form-control" placeholder="">*@
+                        @Html.TextBoxFor(model => model.Gross, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon"></span>NET</span>
+                        @*<input type="text" class="form-control" placeholder="">*@
+                        @Html.TextBoxFor(model => model.Net, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                        @Html.HiddenFor(model => model.Barcode)
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success btn-sm pull-right" id="btnAddLine" style="float: right;" data-toggle="modal" onclick="CheckBarcodeScanRequired();">
+                    <i class="fa fa-plus"> Add Line</i>
+                </button>
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-group size" id="Detail">
+                <table class="tblDetail table table-hover table-striped  table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                    <thead class="style1" tabindex="-1">
+                        <tr>
+                            <td style="width:15px"></td>
+                            <th style="width:15px">
+                                Item
+                            </th>
+                            <th style="width:90px">
+                                Batch
+                            </th>
+                            <th style="width:50px">
+                                Gross Mass
+                            </th>
+                            <th style="width:50px">
+                                Net Mass
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="datarow">
+                        @*<tr><td></td><td>1</td><td>95968-007-001</td><td>72.5</td><td>76.4</td></tr>*@
+                        @if (Model != null)
+                        {
+                            if (Model.Rolls != null)
+                            {
+                                for (int i = 0; i < Model.Rolls.Count; i++)
+                                {
+                                    <tr class="nr">
+                                        <td>
+                                            <a href="@Url.Action("DeleteLine", new { BatchId = Model.Rolls[i].BatchId,Scale = Model.Scale})" class="btn btn-danger btn-sm">
+                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                            </a>
+                                            <a href="@Url.Action("LabelReprint", new {  BatchId = Model.Rolls[i].BatchId })" class="btn btn-default btn-sm">
+                                                <span class="fa fa-print" aria-hidden="true" title="Reprint"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.Rolls[i].BatchSequence)
+                                            @Html.HiddenFor(model => Model.Rolls[i].BatchSequence)
+                                        </td>
+                                        <td>
+                                            @Model.Rolls[i].BatchId
+                                            @Html.HiddenFor(model => Model.Rolls[i].BatchId)
+                                        </td>
+                                        <td>
+                                            @Model.Rolls[i].GrossMass
+                                            @Html.HiddenFor(model => Model.Rolls[i].GrossMass)
+                                        </td>
+
+                                        <td>
+                                            @Model.Rolls[i].NetMass
+                                            @Html.HiddenFor(model => Model.Rolls[i].NetMass)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        //This is hidden
+        <div class="container">
+            <div class="row">
+                <div id="myModal" class="modal fade in">
+                    <div class="modal-dialog" style="width:1250px;">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                                <h4 class="modal-title" style="font-weight:bold;">Confirm Weight</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Please confirm that the current weight on the scale is: </h4>
+                                @if (Model.Scale != 1034)
+                                {<p id="ShowWeight" style="font-size: 50px;"></p> }
+                                else
+                                {@Html.TextBoxFor(model => model.Weight, new { @class = "text-right form-control input-sm", @onkeydown = "EnterKeyFilter();" })}
+                                @Html.HiddenFor(model => model.Weight)
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="btn-group">
+                                    <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                    <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Save</button>
+                                </div>
+                            </div>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dalog -->
+                </div><!-- /.modal -->
+                @*<a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch demo modal</a>*@
+
+            </div>
+        </div>
+
+
+        //Retail Barcode Validation
+        <div class="container">
+            <div class="row">
+                <div id="BarcodeModal" class="modal fade in">
+                    <div class="modal-dialog" style="width:1250px;">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                                <h4 class="modal-title" style="font-weight:bold;">Product Barcode</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Please scan the product barcode: </h4>
+                                <input type="text" id="validateBarcode" class="text-left form-control input-sm" onkeydown="EnterKeyFilter();" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        }
+
+
+        <style type="text/css">
+
+            .modal-header {
+                background-color: #337ab7;
+            }
+
+            .nowrap {
+                white-space: nowrap;
+            }
+
+            .tb {
+                height: 30px;
+            }
+
+            td {
+                height: 30px;
+            }
+
+            .size {
+                font-size: 25px;
+            }
+
+            .hr {
+                padding: 0px;
+                margin: 0px;
+            }
+
+
+            .modal .modal-header {
+                border-bottom: none;
+                position: relative;
+            }
+
+                .modal .modal-header .btn {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    margin-top: 0;
+                    border-top-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+
+            .modal .modal-footer {
+                border-top: none;
+                padding: 0;
+            }
+
+                .modal .modal-footer .btn-group > .btn:first-child {
+                    border-bottom-left-radius: 0;
+                }
+
+                .modal .modal-footer .btn-group > .btn:last-child {
+                    border-top-right-radius: 0;
+                }
+        </style>
+
+        @section Scripts {
+            @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+            @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+            @Scripts.Render("~/bundles/jqueryval")
+            <script type="text/javascript">
+        function EnterKeyFilter() {
+            if (window.event.keyCode == 13) {
+                event.returnValue = false;
+                event.cancel = true;
+            }
+        }
+
+                $(document).ready(function () {
+                    $('#PrintOperator').change(function () {
+                        var str = $(this).val();
+                        str = str.substring(str.indexOf("-") + 2);
+                        $('#Operator').val(str);
+                        //$('#Price').val($(this).val());
+                    });
+                });
+        function CheckBarcodeScanRequired() {
+            if ($('#Department').val() != "SCALE") {
+                GetWeight();
+            }
+            else if ($('#Barcode').val() == "") {
+                GetWeight();
+            }
+            else {
+                if ($('#Pallet').val() == "") {
+                    alert("No Pallet number please load Job.");
+                    return false
+                }
+                if ($('#StockCode').val() == "") {
+                    alert("Please load Job.");
+                    return false
+                }
+                if ($('#Department').val() === "PRINT") {
+                    var tablelength = $('#tblDetail tbody tr').length;
+                    if (tablelength >= 2) {
+                        alert("Maximum rolls reached. Please receipt pallet to continue.");
+                        return false;
+                    }
+                }
+                GetWeight();
+            }
+                }
+
+                function GetOperator(Department) {
+                    var ddlist = $('#PrintOperator');
+                    ddlist.empty();
+                    $.getJSON('ScaleSystem/GetOperator?Department=' + Department + '&Job=' + $('#Job').val(), function (data) {
+                       
+                        if (typeof data == 'object') {
+                            $.each(data, function (i, item) {
+                                ddlist.append($('<option></option>').attr('value', item.Value ).text( item.Text));
+
+                            });
+
+                        }
+                    });
+
+
+                }
+
+
+
+                $(document).ready(function () {
+
+                    var e = document.getElementById("Department");
+                    var Department = e.options[e.selectedIndex].value;
+                    GetOperator(Department);
+
+                    $("#Department").change(function () {
+                        var e = document.getElementById("Department");
+                        var Department = e.options[e.selectedIndex].value;
+                        GetOperator(Department);
+                    });
+
+            $('#Job').focus();
+
+            $('#btnPost').on('click', function (e) {
+                var result = confirm("Are you sure you want to Post?");
+                if (result) {
+
+                }
+                else {
+                    return false;
+                }
+
+
+            });
+
+            $('#btnJob').on('click', function (e) {
+                if ($('#Job').val() == "") {
+                    alert("Please enter Job no.");
+                    return false
+
+                }
+                else if ($('#Scale').val() == "") {
+                    alert("Please select scale.");
+                    return false
+                }
+                else {
+                    return true;
+                }
+
+            });
+
+            $('#myModal').on('shown.bs.modal', function (e) {
+                var Scale = document.getElementById('Scale').value;
+                if (Scale != 1034) {
+                    $('#SaveWeight').focus();
+                }
+                else {
+                    $('#Weight').focus();
+                }
+
+            });
+
+            $('#myModal').on('hidden.bs.modal', function (e) {
+                $('#btnAddLine').focus();
+            });
+            $("#frmScaleMain").submit(function (e) {
+                showprogressbar();
+            });
+
+
+            $('#validateBarcode').on('change', function (e) {
+                if ($(this).val() != $("#Barcode").val()) {
+                    alert("Invalid product on scale!");
+                }
+                else {
+                    GetWeight();
+                }
+            });
+
+
+        });
+        function GetWeight() {
+            if ($('#Pallet').val() == "") {
+                alert("No Pallet number please load Job.");
+                return false
+            }
+            if ($('#StockCode').val() == "") {
+                alert("Please load Job.");
+                return false
+            }
+            if ($('#Department').val() === "PRINT") {
+                var tablelength = $('#tblDetail tbody tr').length;
+                if (tablelength >= 2) {
+                    alert("Maximum rolls reached. Please receipt pallet to continue.");
+                    return false;
+                }
+            }
+            if ($('#Core').val() == "" || $('#Core').val() == 0) {
+                alert("Please enter a core weight");
+                return false;
+            }
+            var myString = document.getElementById('Scale').value;
+            if (myString === "1034")
+            {
+                $('#myModal').modal('show');
+            }
+            else
+            {
+                $('#errordiv').text("");
+                $('#errordiv').removeClass("alert alert-danger");
+
+
+              if (myString != "") {
+                  var exportdata = JSON.stringify({ Scale: myString });;
+
+                  $.ajax({
+                      type: "POST",
+                      url: "@Url.Action("GetScaleWeight","ScaleSystem")",
+                      data: exportdata,
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      success: OnSuccess,
+                      failure: OnErrorCall
+                  });
+
+                  function OnSuccess(response) {
+                      // alert(response);
+                      if (response != "") {
+
+                          if (response.match("^Error")) {
+                              alert(response);
+                              $('#errordiv').text(response);
+                              $('#errordiv').addClass("alert alert-danger");
+                          }
+                          else {
+                             //alert(response);
+                              $('#ShowWeight').text(response + "KG")
+                              $('#Weight').val(response);
+                              $('#BarcodeModal').modal('hide');
+                              $('#myModal').modal('show');
+                          }
+
+                      }
+                      else {
+
+                      }
+
+                  }
+
+                  function OnErrorCall(response) {
+                      if (response != "") {
+                         // alert(response);
+                          $('#errordiv').text(response);
+                          $('#errordiv').addClass("alert alert-danger");
+                      }
+                      else {
+                      }
+                  }
+                }
+              else {
+                  alert("Please select a scale");
+              }
+
+        }
+
+    }
+            </script>
+        }

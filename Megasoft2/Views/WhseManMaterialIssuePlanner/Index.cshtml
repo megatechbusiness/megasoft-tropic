@@ -1,0 +1,143 @@
+﻿@model Megasoft2.ViewModel.WhseManMaterialIssuePlannerViewModel
+@{
+
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Material Issue Planner</h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmMaterialIssuePlanner" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel panel-primary">
+
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("Index", "WhseManMaterialIssuePlanner")" class="btn btn-default">Material Issue Planner</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="col-md-1"></div>
+            <div class="col-md-9 well well-lg">
+                <fieldset>
+                    <div class="">
+                        <div class="form-horizontal row spacer-xs">
+                            <div class="form-group row col-sm-12">
+                                <div>
+                                    <a href="@Url.Action("Index", "WhseManMaterialIssuePlanner")" class="btn btn-sm btn-default pull-left hbutton "><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+                                    <button type="submit" UseSubmitBehavior="false" class="btn btn-default hbutton btn-sm pull-right auth" id="btnPost" name="action:TransferScale" value="TransferScale">
+                                        <i>Post</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer-xs">
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-2">
+                                    Date
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                                        <span class="input-group-addon input-sm">
+                                            <span class="fa fa-calendar fa-lg"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Job
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.TextBoxFor(model => model.Job, "{0:#.#}", new { @class = "form-control tb input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Issue Quantity
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.TextBoxFor(model => model.Quantity, "{0:#.#}", new { @class = "form-control tb input-sm"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer-xs col-xs-11">
+                            <div id="Results">
+                                <table id="tblLines" class="table table-hover table-striped table-responsive table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Job</th>
+                                            <th>Quantity</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+}
+<style type="text/css">
+    /*.verticalLine {
+        border-left: thin solid #898888;
+    }*/
+
+</style>
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnPost').on('click', function () {
+
+                //alert($('#CurrScale').val() +'==='+ $('#DestScale').val());
+                if ($('#CurrScale').val() === '') {
+                    alert('Please select current scale');
+                    return false;
+                }
+                if ($('#DestScale').val() === '') {
+                    alert('Please select destination scale');
+                    return false;
+                }
+                if ($('#CurrScale').val() === $('#DestScale').val()) {
+                    alert('Please change destination scale');
+                    return false;
+                }
+                if ($('#Pallet').val() === '') {
+                    alert('Please load current scale details to transfer');
+                    return false;
+                }
+            });
+
+            $('#btnLoadScaleTransferDetails').on('click', function () {
+                if ($('#Job').val() === '') {
+                    alert('Please enter job number');
+                    return false;
+                }
+                if ($('#CurrScale').val() === '') {
+                    alert('Please select current scale');
+                    return false;
+                }
+            });
+        });
+    </script>
+}
+
+

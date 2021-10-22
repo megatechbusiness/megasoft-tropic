@@ -1,0 +1,139 @@
+﻿@model Megasoft2.mtUser
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit User Details
+            </a>
+        </h4>
+    </div>
+
+    
+
+    @using (Ajax.BeginForm("Edit", new AjaxOptions()
+{
+    OnSuccess = "ShowErrorDiv",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "errordiv"
+
+}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Username
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Username)
+                        </div>
+                    </div>
+                </div>
+               
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Password
+                        </div>
+                        <div class="editor-field input-sm col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Syspro Username
+                        </div>
+                        <div class="editor-field input-sm col-sm-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.SysproUsername, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.SysproUsername)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Syspro Password
+                        </div>
+                        <div class="editor-field input-sm col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.SysproPassword, new { @type = "password", @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.SysproPassword)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Default Printer
+                        </div>
+                        <div class="editor-field input-sm col-md-9 col-xs-12">
+                            @Html.DropDownListFor(model => model.DefaultPrinter, new SelectList(ViewBag.Printers, "PrinterName", "PrinterName", ViewBag.UserPrinter), new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="errordiv">
+
+                </div>
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-md-6  col-xs-12">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-6 col-xs-12" style="text-align:right;">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
+
+
+
+</div>
+<script type="text/javascript">
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+
+
+
+        //$('#save-btn').click(function () {
+        //    $('#modal-container').modal('hide');
+        //});
+
+
+    });
+</script>
+

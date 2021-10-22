@@ -1,0 +1,322 @@
+﻿@model Megasoft2.ViewModel.SupplierViewModel
+        
+
+@using (Html.BeginForm("Create"))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Supplier Details</a></li>
+        <li class="tab"><a data-toggle="tab" href="#contact">Supplier Contact</a></li>
+        <li class="pull-right">
+            <button type="button" value="Suppliers" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "Supplier") + "'");">
+                <i class="fa fa-plus-square-o"></i> Suppliers
+            </button>
+            @if (Model.isSysproSupplier == "Y")
+            {
+                <button type="submit" value="Save" class="btn btn-info" disabled ="disabled">
+                    <i class="fa fa-save"></i> Save
+                </button>
+            }
+            else
+            {
+                if (ViewBag.SetupSupplier == true)
+                {
+                    <button type="submit" value="Save" class="btn btn-info">
+                        <i class="fa fa-save"></i> Save
+                    </button>
+                }
+
+            }
+            
+           
+        </li>
+    </ul>
+
+    <p>
+
+
+    </p>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Supplier
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            
+                                                @if (string.IsNullOrEmpty(Model.Suppliers.Supplier))
+                                                {
+
+                                                    @Html.TextBoxFor(model => model.Suppliers.Supplier, new { @class = "form-control input-sm" })
+                                                    @Html.ValidationMessageFor(model => model.Suppliers.Supplier)
+                                                    @Html.HiddenFor(model => model.SupplierCode)
+                                                    @Html.HiddenFor(model => model.isSysproSupplier)
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(model => model.Suppliers.Supplier, new { @class = "form-control input-sm" ,@readonly = "readonly"})
+                                                    @Html.ValidationMessageFor(model => model.Suppliers.Supplier)
+                                                    @Html.HiddenFor(model => model.SupplierCode)
+
+                                                }
+                                            
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Supplier Name
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.SupplierName, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.SupplierName)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Branch
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="input-group add-on">
+                                                @Html.TextBoxFor(model => model.Suppliers.Branch, new { @class = "form-control input-sm", @id = "txtBranch" })
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("BranchSearch", "Supplier")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search" style="pointer-events:none;"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Terms Code
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="input-group add-on">
+                                                @Html.TextBoxFor(model => model.Suppliers.TermsCode, new { @class = "form-control input-sm", @id = "txtCode" })
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("ApTermsSearch", "Supplier")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search" style="pointer-events:none;"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Address1
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.Address1, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.Address1)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Address2
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.Address2, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.Address2)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Address3
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.Address3, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.Address3)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Address4
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.Address4, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.Address4)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Address5
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.Address5, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.Address5)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            TaxRegnNum
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.Suppliers.TaxRegnNum, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.TaxRegnNum)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            On Hold
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.DropDownListFor(model => model.Suppliers.OnHold, new SelectList(ViewBag.YesNoList, "Value", "Text"), new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.Suppliers.OnHold)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="contact" class="tab-pane fade in">
+            <p>
+                @if (ViewBag.SetupSupplier == true)
+                {
+                    <a href="@Url.Action("CreateContact", "Supplier", new {Supplier = Model.Suppliers.Supplier })" class="modal-link btn btn-success">
+                    <span class="fa fa-plus-square-o" aria-hidden="true" title="Add Contact"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Add Contact</span></span>
+                </a>
+                }
+                
+            </p>
+            <div class="form-horizontal row">
+                <div class="form-group">
+
+                    <table id="tblSupplierContact" class="table table-hover table-striped table-condensed table-responsive">
+                        <tr>
+                            <th>
+                                Supplier
+                            </th>
+                            <th>
+                                Supplier Name
+                            </th>
+                            <th>
+                                ContactId
+                            </th>
+                            <th>
+                                Contact
+                            </th>
+                            <th>
+                                Telephone
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Fax
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.SupplierContact != null)
+                                {
+
+                                    for (int i = 0; i < Model.SupplierContact.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.SupplierContact[i].Supplier)
+                                                @Html.HiddenFor(model => model.SupplierContact[i].Supplier)
+
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Suppliers.SupplierName)
+                                                @Html.HiddenFor(model => model.Suppliers.SupplierName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.SupplierContact[i].ContactId)
+                                                @Html.HiddenFor(model => model.SupplierContact[i].ContactId)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(model => model.SupplierContact[i].Contact)
+                                                @Html.HiddenFor(model => model.SupplierContact[i].Contact)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.SupplierContact[i].Telephone)
+                                                @Html.HiddenFor(model => model.SupplierContact[i].Telephone)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.SupplierContact[i].Email)
+                                                @Html.HiddenFor(model => model.SupplierContact[i].Email)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.SupplierContact[i].Fax)
+                                                @Html.HiddenFor(model => model.SupplierContact[i].Fax)
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.SetupSupplier == true)
+                                                {
+                                                    <a href="@Url.Action("Edit", "Supplier", new { Supplier = Model.Suppliers.Supplier, id = Model.SupplierContact[i].ContactId })" class="modal-link btn btn-primary">
+                                                        <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Supplier"></span>
+                                                    </a>
+                                                    <a href="@Url.Action("Delete", "Supplier", new {Supplier = Model.Suppliers.Supplier, id = Model.SupplierContact[i].ContactId })" class="modal-link btn btn-danger">
+                                                        <span class="fa fa-trash-o" aria-hidden="true" title="Delete Supplier"></span>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}

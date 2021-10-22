@@ -1,0 +1,72 @@
+﻿@model Megasoft2.ViewModel.ScaleSystemViewModel
+@{
+    ViewBag.Title = "PalletSplit";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Pallet Split</h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmScaleTransfer" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+        <-div class="panel panel-primary">
+
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp&nbsp
+                    <div class="btn-group btn-breadcrumb">
+                        <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                        <a href="@Url.Action("PalletSplit", "ScaleSystem")" class="btn btn-default">Pallet Split</a>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-danger" id="errordiv" hidden="hidden">
+                <label ID="lblError" Text=""></label>
+            </div>
+
+            <div class="panel-body">
+                <div class="col-md-1"></div>
+                <div class="col-md-9">
+                    <fieldset>
+                        <div class="well well-lg">
+                            <div class="form-horizontal row spacer-xs ">
+                                <div class="form-group row col-sm-12">
+                                    <div>
+                                        <a href="@Url.Action("PalletSplit", "ScaleSystem")" class="btn btn-sm btn-default pull-left hbutton "><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="col-sm-1">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group col-sm-4">
+                                        Pallet
+                                    </div>
+                                    <div class="col-sm-7">
+                                        @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm" })
+                                        <button type="submit" UseSubmitBehavior="false" class="btn btn-default hbutton btn-sm pull-right auth" id="btnPost" name="action:LoadSplit" value="LoadSplit">
+                                            <i>Load</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer-xs">
+
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </-div>
+}

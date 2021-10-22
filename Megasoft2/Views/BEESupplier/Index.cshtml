@@ -1,0 +1,228 @@
+﻿@model Megasoft2.ViewModel.BeeSupplier
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Supplier BEE Update</h4><hr />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="form-horizontal row">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Expiry Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "datepicker datepicker-inline form-control input-sm" })
+                @*<input type="text" id="txtExpiryDate" class="datepicker datepicker-inline form-control input-sm" placeholder="Expiry Date" />*@
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Purchase Value
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.PurchaseValue, new { @class = "form-control input-sm" })
+                @*<input type="text" id="txtPurchase" class="form-control input-sm" placeholder="Purchase Value" />*@
+            </div>
+        </div>
+
+    </div>
+    <div class="form-horizontal row">
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.FilterText, new { @class = "form-control input-sm", @placeholder = "search" })
+        </div>
+    </div>
+    <div class="form-horizontal row">
+        <div class="form-group">
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success btn-sm" name="action:Index" id="Index">
+                    <span class="fa fa-refresh"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Refresh</span></span>
+                </button>
+                @*<button type="button" id="btnRefresh" class="btn btn-default btn-sm" onclick="LoadGrid();">
+                        <span class="fa fa-refresh"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Refresh</span></span>
+                    </button>*@
+            </div>
+            <div class="col-sm-6 text-right">
+                <button type="submit" class="btn btn-default btn-sm" name="action:SaveForm" id="SaveForm">
+                    <span class="fa fa-save"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Save</span></span>
+                </button>
+                <a href="@Url.Action("Email", "BEESupplier")" class="modal-link btn btn-default btn-sm">
+                    <span class="fa fa-envelope" aria-hidden="true" title="Email"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Email</span></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row">
+        <div class="form-group" id="SupplierResults" style="overflow: auto;height: 600px">
+
+            <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+                <thead class="style1">
+                    <tr>
+                        <th style="width:150px">
+                            Supplier
+                        </th>
+                        <th style="width:300px">
+                            Supplier Name
+                        </th>
+                        <th style="width:150px">
+                            Enterprise Type
+                        </th>
+                        <th style="width:100px">
+                            BEE Level
+                        </th>
+                        <th style="width:150px">
+                            Black Ownership
+                        </th>
+                        <th style="width:250px">
+                            Black Women Ownership
+                        </th>
+                        <th style="width:150px">
+                            Empowering Supplier
+                        </th>
+                        <th style="width:150px">
+                            Expiry Date
+                        </th>
+                        <th style="width:150px" class="sorttable_numeric">
+                            Purchase Value
+                        </th>
+                        <th style="width:250px">
+                            Email
+                        </th>
+                        @*<th style="width:250px">
+                                Contact
+                            </th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.Detail != null)
+                        {
+                            for (int i = 0; i < Model.Detail.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Detail[i].Supplier)
+                                        @Html.HiddenFor(model => model.Detail[i].Supplier)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Detail[i].SupplierName)
+                                        @Html.HiddenFor(model => model.Detail[i].SupplierName)
+                                        @Html.HiddenFor(model => model.Detail[i].ExpDate)
+                                        @Html.HiddenFor(model => model.Detail[i].PurchaseValue)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].EnterpriseType, new { @class = "form-control input-xs" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].BeeLevel, new { @class = "form-control input-xs" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].BlackOwnership, new { @class = "form-control input-xs" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].BlackWomenOwnershi, new { @class = "form-control input-xs" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].EmpoweringSupplier, new { @class = "form-control input-xs" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].ExpiryDate, new { @class = "datepicker datepicker-inline form-control input-xs" })
+                                    </td>
+                                    <td class="text-right">
+                                        @Html.HiddenFor(model => model.Detail[i].PurchaseValue)
+                                        @string.Format("{0:##,###,##0.00}", Model.Detail[i].PurchaseValue)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail[i].Email, new { @class = "form-control input-xs" })
+                                    </td>
+                                    @*<td>
+                                            @Html.TextBoxFor(model => model.Detail[i].Contact, new { @class = "form-control input-xs" })
+                                        </td>*@
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+@Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+@section Scripts {
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+
+
+
+
+
+        function LoadGrid() {
+            $('.Header tbody').empty();
+            //$.getJSON('BeeSupplier/GetGridData?FilterText=' + $('#txtSearch').val() + '&ExpiryDate=' + $('#txtExpiryDate').val() + '&PurchaseValue=' + $('#txtPurchase').val() + '&FromPeriod=' + $('#FromPeriod').val() + '&ToPeriod=' + $('#ToPeriod').val(), function (data) {
+
+            //    $(".datepicker").datepicker('destroy');
+
+            //    $.each(data, function (i, INV) {
+            //        $('.Header tbody').append("<tr class='nr'>" +
+            //        "<td>" + INV.Supplier + "</td><td>" + INV.SupplierName + "</td><td><input type='text' class='form-control input-xs' value='" + INV.EnterpriseType + "' /></td><td><input type='text' class='form-control input-xs' value='" + INV.BeeLevel +
+            //        "' /></td><td><input type='text' class='form-control input-xs' value='" +
+            //        INV.BlackOwnership + "' /></td><td class='text-right'><input type='text' class='form-control input-xs' value='" + INV.BlackWomenOwnershi +
+            //        "' /></td><td class='text-right'><input type='text' class='form-control input-xs' value='" + INV.EmpoweringSupplier +
+            //        "' /></td><td><input type='text' class='datepicker datepicker-inline form-control input-sm' value='" +
+            //        INV.ExpiryDate + "' /></td><td>" + INV.PurchaseValue + "</td>" +
+            //        "</tr>");
+
+            //    });
+            //    $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+            //});
+        }
+
+        function LoadInitGrid() {
+            //Load dummy table to initiate table scrolling fixed header and height
+            $('.Header tbody').empty();
+            for (var i = 0; i < 80; i++) {
+                $('.Header tbody').append("<tr class='nr'><td colspan='18'></td></tr>");
+            }
+            UltimateScrollingTable('Header', 5500, 1750, 1);
+            $('.Header tbody').empty();
+        }
+
+        $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+        $(document).ready(function () {
+
+
+            $("#frmIndex").submit(function (e) {
+                showprogressbar();
+            });
+
+
+        });
+
+
+        UltimateScrollingTable('Header', 600, 1900, 1);
+
+
+
+    </script>
+}

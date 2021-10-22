@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a799d63046ad42feb851d798236a4b12" Name="Diagram1" ZoomLevel="69">
+        <EntityTypeShape EntityType="MegasoftModel.mtRole" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MegasoftModel.mtRoleFunction" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserRole" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserCompany" Width="2.25" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtTankMaster" Width="1.5" PointX="6.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtTankMovementStaging" Width="1.875" PointX="11.125" PointY="0.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtTankProductHistory" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtTankLevelStaging" Width="1.5" PointX="10.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtOpBranchAccess" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserGlCodeAccess" Width="1.5" PointX="12.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserProductClassLimit" Width="1.5" PointX="12.375" PointY="7.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserWarehouse" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtSmartScanType" Width="1.5" PointX="14.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtSmartScanMatrix" Width="1.5" PointX="3.375" PointY="14.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtDelayedPostingWarehouse" Width="1.5" PointX="14.375" PointY="9.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserPrinterAccess" Width="1.5" PointX="0.75" PointY="15.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserScaleAccess" Width="1.5" PointX="9.375" PointY="15.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserDepartment" Width="1.5" PointX="11.375" PointY="15.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUser" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserReportAccess" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtOpFunction" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtSystemSetting" Width="1.5" PointX="5.375" PointY="14.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtProgramFunction" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserPreference" Width="1.5" PointX="12.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtBuyerRequisitioner" Width="1.5" PointX="14.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtUserBuyerStat" Width="1.5" PointX="14.375" PointY="3.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtSysproAdmin" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtReqCostCentre" Width="1.5" PointX="13.375" PointY="15.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtDistributionSetup" Width="3.125" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtLabelPrinter" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtReqRoutingTracking" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" Width="1.5" PointX="16.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

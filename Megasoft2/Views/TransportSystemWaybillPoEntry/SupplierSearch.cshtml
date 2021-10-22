@@ -1,0 +1,99 @@
+﻿<div id="SupplierModal" class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Supplier
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchSupplier" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="supplierResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetWaybill() {
+        $.getJSON('TransportSystemWaybillPoEntry/SupplierList', function (data) {
+            var items = '<table id="SupplierSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Supplier</th><th>Name</th></tr>';
+            $.each(data, function (i, supplier) {
+                items += "<tr class='nr' id=" + supplier.Transporter + "  data-dismiss='modal'><td><a href=#>" + supplier.Transporter + "</a><input type='hidden' value='" + supplier.TaxCode + "' /></td><td>" + supplier.Name + "<input type='hidden' value='" + supplier.Taxable + "' /></td></tr>";
+            });
+            items += "</table>";
+            $('#supplierResults').html(items);
+            //alert(items);
+        });
+    }
+    $('#txtSearchSupplier').focus();
+    $(document).ready(function () {
+        GetWaybill();
+
+        $('#txtSearchSupplier').focus();
+        $('#txtSearchSupplier').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#SupplierSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+        });
+
+        $('#supplierResults').on("click", ".nr", function () {
+            
+            var supplier = $(this).attr('id');
+            
+            //do something with id
+            $('#Supplier').val(supplier);
+
+
+            var tr = $(this).closest('tr');
+            var Taxable = $(tr).find('td:eq(1)').find('input[type=hidden]').val().trim();
+
+            if (Taxable == "Y")
+            {
+                $('#Taxable').prop('checked', true);
+                $('#TaxCode').val($(tr).find('td:eq(0)').find('input[type=hidden]').val().trim());
+            }
+            else
+            {
+                $('#Taxable').prop('checked', false);
+                $('#TaxCode').val($(tr).find('td:eq(0)').find('input[type=hidden]').val().trim());
+            }
+
+            window.setTimeout(function () {
+                //wait for gl code modal to close.
+            }, 500);
+
+            
+
+        });
+        $('#txtSearchSupplier').focus();
+
+
+    });
+
+</script>

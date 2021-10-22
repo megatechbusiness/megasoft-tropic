@@ -1,0 +1,216 @@
+﻿@model Megasoft2.ViewModel.TransportSystemWaybillEntryViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Transport System - Grn/AP Invoice Posting</h4><hr />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmTransportMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+   
+        <div class="form-horizontal row spacer">
+
+
+            <div class="form-group col-sm-4">
+                <div class="form-group col-sm-4">
+                    Purchase Order
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadPo" value="LoadPo">
+                            <span class="fa fa-arrow-circle-o-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group col-sm-4">
+                <div class="form-group col-sm-4">
+                    Transporter
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-sm", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group col-sm-4">
+                <div class="form-group col-sm-4">
+                    Name
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.SupplierName, new { @class = "form-control input-sm", @readonly = "readonly" })
+                </div>
+            </div>
+
+            
+        </div>
+    
+    <div class="form-horizontal row spacer">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Invoice
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Invoice, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Invoice Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "datepicker datepicker-inline form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Invoice Amount
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row">
+        <div class="form-group">
+
+            <div class="col-md-12 col-xs-12" style="text-align:left;">               
+                <button type="submit" class="btn btn-success btn-sm pull-right" id="btnPost" value="PostGrnInvoice" name="action:PostGrnInvoice">
+                    <i class="fa fa-save"> Post</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer">
+        <div class="col-md-12 col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines">
+                    <thead>
+                        <tr>
+                            <th>Line</th>
+                            <th>StockCode</th>
+                            <th>Descripton</th>
+                            <th>Quantity</th>
+                            <th>Uom</th>
+                            <th>Price</th>
+                            <th>Gl Code</th>
+                            <th>Warehouse</th>
+                        </tr>
+                    </thead>
+                    <tbody class="datarow">
+                        @if (Model != null)
+                        {
+                            if (Model.PoLines != null)
+                            {
+                                for (int i = 0; i < Model.PoLines.Count; i++)
+                                {
+
+                                    <tr class="nr">
+                                        <td>
+                                            @Model.PoLines[i].Line
+                                            @Html.HiddenFor(model => Model.PoLines[i].Line)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].MStockCode
+                                            @Html.HiddenFor(model => Model.PoLines[i].MStockCode)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].Description
+                                            @Html.HiddenFor(model => Model.PoLines[i].Description)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].MOrderQty
+                                            @Html.HiddenFor(model => Model.PoLines[i].MOrderQty)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].MOrderUom
+                                            @Html.HiddenFor(model => Model.PoLines[i].MOrderUom)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].MPrice
+                                            @Html.HiddenFor(model => Model.PoLines[i].MPrice)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].MGlCode
+                                            @Html.HiddenFor(model => Model.PoLines[i].MGlCode)
+                                        </td>
+                                        <td>
+                                            @Model.PoLines[i].MWarehouse
+                                            @Html.HiddenFor(model => Model.PoLines[i].MWarehouse)
+                                        </td>
+                                       
+
+                                    </tr>
+
+
+                                }
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+}
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+
+        $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+        $(document).ready(function () {
+            $('#btnPost').on("click", function () {
+
+                if ($('#Invoice').val() == "") {
+                    alert('Please enter an Invoice Number!');
+                    return false;
+                }
+
+                if ($('#InvoiceDate').val() == "") {
+                    alert('Please select an Invoice Date!');
+                    return false;
+                }
+
+                if ($('#InvoiceAmount').val() == "") {
+                    alert('Please enter an Invoice Amount!');
+                    return false;
+                }
+
+                var result = confirm("Are you sure you want to Post?");
+                if (result) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+
+
+            $("#frmTransportMain").submit(function (e) {
+                showprogressbar();
+            });
+        });
+    </script>
+}

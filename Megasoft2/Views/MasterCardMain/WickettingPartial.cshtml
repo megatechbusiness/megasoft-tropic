@@ -1,0 +1,314 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">WorkCentre</label>
+                <div class="col-sm-8">
+                    @if (ViewBag.WickettingWorkCentres != null)
+                    {
+                        @Html.DropDownListFor(n => n.Wicketing.WorkCentre, new SelectList(ViewBag.WickettingWorkCentres, "Value", "Text"), "Select Work Centre", new { @class = "form-control input-sm", style = "width:100%" })
+                        @Html.HiddenFor(m => m.Wicketing.WorkCentre)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Wicketing.WorkCentre, new { @class = "form-control input-xs" })
+                    }
+                    @Html.HiddenFor(model => model.Wicketing.Id)
+                </div>
+
+            </div>
+        </div>
+
+
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Width</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Wicketing.Width, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Length</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Wicketing.Length, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Left Gusset</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Wicketing.LeftGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Rigth Gusset</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Wicketing.RightGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Top Gusset</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Wicketing.TopGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bottom Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.BottomGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Lip</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.Lip, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Header Seal</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Wicketing.HeaderSeal, new { @class = "form-control input-xs" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.ToleranceOnWidth, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Length</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.ToleranceOnLength, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.ToleranceGusset, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Lip Minimum</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.LipMinimum, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Blocking/Misprints</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Wicketing.NoBlockingMisprints, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bags Per Wicket</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.BagsPerWicket, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bags Per Box</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.BagsPerBox, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Special Instructions</label>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(model => model.Wicketing.SpecialInstructions, 5, 40, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+
+
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Wickett Hole Distance</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.WicketHoleDistance, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bag Openning - Wickett Hole Distance</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.BagOpening, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Mitred</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Wicketing.Mitred, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Position Flush</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Wicketing.PrintPositionFlush, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Wickett Hole Perforation</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Wicketing.WicketHolePerforation, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Ref. Codes for Traceability</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Wicketing.RefCodesTraceability, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">COF Results CLR</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.COFResultsCLR, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">COF Results PRT</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Wicketing.COFResultsPRT, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

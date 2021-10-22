@@ -1,0 +1,195 @@
+﻿@model Megasoft2.ViewModel.StereoSystemAddStereoViewModel
+
+@using (Html.BeginForm("Create", "StereoSystemSupplier", FormMethod.Post, new { @id = "StereoSupplierForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">Create Stereo Supplier</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Supplier</a></li>
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "StereoSystemSupplier") + "'");">
+                <i class="fa fa-group"></i> Suppliers
+            </button>
+            <button type="submit" id ="btnSave"value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Supplier</label>
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-10">
+                                                    @Html.TextBoxFor(model => model.tblSupplier.Supplier, new { @class = "form-control input-sm", @id = "SupplierReference", @readonly = "readonly" })
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("SupplierSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">GL Code</label>
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-10">
+                                                    @Html.TextBoxFor(model => model.tblSupplier.GlCode, new { @class = "form-control input-sm", @id = "GlCode", @readonly = "readonly" })
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("GlCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Product Class</label>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(model => model.tblSupplier.ProductClass, new { @class = "form-control input-sm", @id = "ProductClass", @readonly = "readonly" })
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("ProductClassSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="prodbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Taxable</label>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-10">
+                                                <div class="editor-field input-sm ">
+                                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggleTaxable" onchange="ChangeTaxable()" >
+
+                                                </div>
+                                                @Html.HiddenFor(model => model.tblSupplier.Taxable)
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Tax Code</label>
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-10">
+                                                    @Html.TextBoxFor(model => model.tblSupplier.TaxCode, new { @class = "form-control input-sm", @id = "TaxCode", @readonly = "readonly" })
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("TaxCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Email</label>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(model => model.tblSupplier.Email, new { @class = "form-control input-sm", @id = "Email" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div id="errordiv">
+        </div>
+    </div>
+
+}
+<style type="text/css">
+</style>
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+
+    if ($('#tblSupplier_Taxable').val()) {
+        if ($('#tblSupplier_Taxable').val() === 'Y') {
+            $('#toggleTaxable').prop('checked', true).change();
+        }
+    }
+    else {
+        $('#toggleTaxable').prop('checked', false).change();
+    }
+
+
+    function ChangeTaxable() {
+        if (document.getElementById('toggleTaxable').checked) {
+            $('#tblSupplier_Taxable').val('Y');
+            //alert(document.getElementById("tblSupplier_Taxable").value);
+        } else {
+            $('#tblSupplier_Taxable').val('N');
+            //alert(document.getElementById("tblSupplier_Taxable").value);
+        }
+    }
+
+    function ShowErrorDiv() {
+        $('#errordiv').addClass("alert alert-danger");
+    }
+
+    $(function () {
+        $('#btnSave').on("click", function () {
+
+            if ($('#SupplierReference').val() == "") {
+                alert('Please select a supplier!');
+                return false;
+            }
+            if ($('#GlCode').val() == "") {
+                alert('Please select a Gl Code!');
+                return false;
+            }
+            if ($('#ProductClass').val() == "") {
+                alert('Please select a product class!');
+                return false;
+            }
+            if ($('#Email').val() == "") {
+                alert('Please enter an email address. NB: This is the contact email that is shown on the purchase order!');
+                return false;
+            }
+            if ($('#TaxCode').val() == "") {
+                alert('Please select a tax code!');
+                return false;
+            }
+            var result = confirm("Are you sure you want to Save?");
+            if (result) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        });
+
+
+
+        $("#StereoSupplierForm").submit(function (e) {
+            showprogressbar();
+        });
+
+    });
+</script>

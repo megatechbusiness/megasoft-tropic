@@ -1,0 +1,686 @@
+﻿@model Megasoft2.ViewModel.PurchaseOrderLabel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<fieldset>
+    <div class="col-lg-6 col-sm-12">
+
+        <div class="panel panel-primary modal-body" style="border-color:white;">
+
+            <div class="panel-heading">
+
+                <h4 class="panel-title">
+
+                    <a data-toggle="collapse" data-target="#collapseOne"
+                       href="#collapseOne" class="collapsed">
+                        Label Reprint - Purchase Order
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="col-md-1 col-xs-12" style="text-align:left;">
+                            <a href="@Url.Action("Index", "PurchaseOrderBrowse")" class="modal-link btn btn-success btn-sm">
+                                <span class="fa fa-search" aria-hidden="true" title="Browse Purchase Orders"> </span>
+                            </a>
+                        </div>
+                        <div class="editor-field col-md-4 col-xs-8" style="text-align:left;">
+                            @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @id = "txtPurchaseOrder" })
+                            @Html.ValidationMessageFor(model => model.PurchaseOrder)
+                            @Html.HiddenFor(model => model.Program)
+                        </div>
+
+                        <div class="col-md-1 col-xs-2" style="text-align:left;">
+                            <button type="button" class="btn btn-success btn-sm" id="btnLoad" onclick="ValidatePo();">
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-6 pull-right">
+                            <div class="col-md-7"></div>
+
+                            <div class="input-group col-md-5 text-right">
+                                <span class="input-group-btn"><button class="btn btn-default" type="button" onclick="NavigateLine('Previous')"><span class="fa fa-arrow-left"></span></button></span>
+                                <input type="text" class="form-control" id="txtLine">
+                                <span class="input-group-btn"><button class="btn btn-default" type="button" onclick="NavigateLine('Next')"><span class="fa fa-arrow-right"></span></button></span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            StockCode
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.StockCode)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Description
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+                    </div>
+                </div>
+                <div id="printerrordiv">
+
+                </div>
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-1" style="text-align:left;">
+                            Printer
+                        </div>
+                        <div class="col-sm-3">
+
+                            @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
+                        </div>
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Label Multiplier
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            <input type="text" id="reprintLabelMultiplier" class="form-control input-sm" value="1" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" value="Save" class="btn btn-default btn-sm" id="btnPrint">
+                                <i class="fa fa-print"></i> Print
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Purchase Order</th>
+                                    <th>Line</th>
+                                    <th>StockCode</th>
+                                    <th>Description</th>
+                                    <th>Reel Number</th>
+                                    <th>Reel Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+
+        <div class="panel panel-primary modal-body" style="border-color:white;">
+
+            <div class="panel-heading">
+
+                <h4 class="panel-title">
+
+                    <a data-toggle="collapse" data-target="#collapseOne"
+                       href="#collapseOne" class="collapsed">
+                        Label Print - StockCode
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="col-md-1 col-xs-12" style="text-align:left;">
+                            <a href="@Url.Action("Index", "StockCodeBrowse")" class="modal-link btn btn-success btn-sm">
+                                <span class="fa fa-search" aria-hidden="true" title="Browse StockCode"> </span>
+                            </a>
+                        </div>
+                        <div class="editor-field col-md-4 col-xs-8" style="text-align:left;">
+                            <input type="text" class="form-control input-sm" id="txtStockCode" />
+                        </div>
+                        <div class="col-md-1 col-xs-2" style="text-align:left;">
+                            <button type="button" class="btn btn-success btn-sm" id="btnLoad" onclick="ValidateStockCode();">
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            StockCode
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            <input type="text" class="form-control input-sm" id="txtDispStockCode" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Description
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            <input type="text" class="form-control input-sm" id="txtDispDescription" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Quantity
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            <input type="text" class="form-control input-sm" id="txtReelQuantity" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Reel/Pallet Number
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            <input type="text" class="form-control input-sm" id="txtReelNumber" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Bin/Ref
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            <input type="text" class="form-control input-sm" id="txtBinRef" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            No. of Labels
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            <input type="text" class="form-control input-sm" id="txtNoOfLables" />
+                        </div>
+
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Label Multiplier
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            <input type="text" id="LabelMultiplier" class="form-control input-sm" value="1" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-1" style="text-align:left;">
+                            Printer
+                        </div>
+                        <div class="col-sm-4">
+
+                            @Html.DropDownListFor(model => model.StockPrinter, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlStockPrinter", @class = "form-control input-sm" })
+                        </div>
+                        <div class="col-sm-3">
+                            Auto-Generate Reel
+                            <input type="checkbox" id="AutoReel" name="AutoReel" />
+                        </div>
+                        <div class="col-sm-4" style="text-align:right;">
+                            <button type="button" id="btnAdd" class="btn btn-default">
+                                <i class="fa fa-plus-circle"></i> Add Reel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-6" style="text-align:left;">
+                            <button type="button" value="Delete" class="btn btn-default btn-sm" id="btnClear">
+                                <i class="fa fa-print"></i> Delete
+                            </button>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button type="button" value="Save" class="btn btn-default btn-sm" id="btnPrintStock">
+                                <i class="fa fa-print"></i> Print
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblStock">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>StockCode</th>
+                                    <th>Description</th>
+                                    <th>Reel Number</th>
+                                    <th>Reel Qty</th>
+                                    <th>No. of Labels</th>
+                                    <th>Bin</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    function ValidatePo() {
+        showprogressbar();
+        var PurchaseOrder = $('#txtPurchaseOrder').val();
+        var mydata = [];
+        var myObject = new Object();
+        myObject.PurchaseOrder = PurchaseOrder;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManLabelReprint/ValidatePo",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (typeof response == 'object') {
+                $.each(response, function (i, PO) {
+                    $('#txtLine').val(PO.Line);
+                    $('#StockCode').val(PO.StockCode);
+                    $('#Description').val(PO.Description);
+
+                    LoadGrid();
+                });
+            }
+            else {
+                alert(response);
+            }
+
+        }
+
+        function OnErrorCall(response) {
+            $('#printerrordiv').text(response);
+            $('#printerrordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+
+    function NavigateLine(NavDirection) {
+        showprogressbar();
+        var PurchaseOrder = $('#txtPurchaseOrder').val();
+        var Line = $('#txtLine').val();
+        var mydata = [];
+        var myObject = new Object();
+        myObject.PurchaseOrder = PurchaseOrder;
+        myObject.Line = Line;
+        myObject.NavDirection = NavDirection;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManLabelReprint/NavigatePoLine",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccessNav,
+            failure: OnErrorCallNav
+        });
+
+        function OnSuccessNav(response) {
+            //alert(response);
+            if (typeof response == 'object') {
+                $.each(response, function (i, PO) {
+                    $('#txtLine').val(PO.Line);
+                    $('#StockCode').val(PO.StockCode);
+                    $('#Description').val(PO.Description);
+                });
+                LoadGrid();
+            }
+            else {
+                alert(response);
+            }
+
+
+
+        }
+
+        function OnErrorCallNav(response) {
+            $('#printerrordiv').text(response);
+            $('#printerrordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+
+    function LoadGrid() {
+        $('#tblLines tbody').empty();
+        var PurchaseOrder = $('#txtPurchaseOrder').val();
+        var Line = $('#txtLine').val();
+        $.getJSON('WhseManLabelReprint/GetGridData?PurchaseOrder=' + PurchaseOrder + '&Line=' + Line, function (data) {
+            $.each(data, function (i, Po) {
+                $('#tblLines tbody').append("<tr class='nr'><td><input type='checkbox'></td><td>" + parseInt(Po.PurchaseOrder) + "</td><td>" + parseInt(Po.Line) + "</td><td>" + Po.StockCode + "</td><td>" + Po.Description + "</td><td>" + Po.ReelNumber + "</td><td><input type='text' value='" + Po.ReelQty + "' class='form-control input-xs'/></td></tr>");
+            });
+        });
+    }
+
+
+    function ValidateStockCode() {
+        showprogressbar();
+        var StockCode = $('#txtStockCode').val();
+        var mydata = [];
+        var myObject = new Object();
+        myObject.StockCode = StockCode;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManLabelReprint/ValidateStockCode",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccessCall,
+            failure: OnErrorCall
+        });
+
+        function OnSuccessCall(response) {
+            if (typeof response == 'object') {
+                $.each(response, function (i, PO) {
+
+                    $('#txtDispStockCode').val(PO.StockCode);
+                    $('#txtDispDescription').val(PO.Description);
+
+                });
+            }
+            else {
+                alert(response);
+                $('#txtDispStockCode').val("");
+                $('#txtDispDescription').val("");
+            }
+
+        }
+
+        function OnErrorCall(response) {
+            $('#printerrordiv').text(response);
+            $('#printerrordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+
+
+
+    $(function () {
+
+
+
+        $('#btnPrint').on('click', function (e) {
+
+            e.preventDefault();
+
+            var e = document.getElementById("ddlPrinter");
+            var Printer = e.options[e.selectedIndex].value;
+            var Program = $('#Program').val();
+            var mydata = [];
+            $("#tblLines > tbody > tr ").each(function (i, el) {
+
+                var myObject = new Object();
+                var $tds = $(this).find('td')
+                var PurchaseOrder = $tds.eq(1).text();
+                var Line = $tds.eq(2).text();
+                var StockCode = $tds.eq(3).text();
+                var Description = $tds.eq(4).text();
+                var ReelQty = $tds.eq(6).find("input[type='text']").val();
+                var ReelNumber = $tds.eq(5).text();
+                var NoOfLables = $('#reprintLabelMultiplier').val();
+
+                var PrintLabel = $tds.eq(0).find("input[type='checkbox']").is(":checked");
+
+                if (PrintLabel == true) {
+
+                    myObject.PurchaseOrder = PurchaseOrder;
+                    myObject.Line = Line;
+                    myObject.StockCode = StockCode;
+                    myObject.Description = Description;
+                    myObject.ReelQuantity = ReelQty;
+                    myObject.ReelNumber = ReelNumber;
+                    myObject.Printer = Printer;
+                    myObject.NoOfLables = NoOfLables;
+                    myObject.Reprint = 'Y';
+                    myObject.Printed = 'Y';
+                    myObject.Program = Program;
+                    mydata.push(myObject);
+                }
+
+            });
+
+
+
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "WhseManPoLabel/PrintLabel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccessPoP,
+                failure: OnErrorPoP
+            });
+
+            function OnSuccessPoP(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+
+            function OnErrorPoP(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+        });
+
+        $('#btnAdd').on('click', function (e) {
+            //e.preventDefault();
+
+
+            var StockCode = $('#txtDispStockCode').val();
+            var Description = $('#txtDispDescription').val();
+            var ReelQty = $('#txtReelQuantity').val();
+            var ReelNumber = $('#txtReelNumber').val();
+            var NoOfLables = $('#txtNoOfLables').val();
+            var AutoReel = $('#AutoReel').is(":checked");
+
+            var LabelMultiplier = $('#LabelMultiplier').val();
+            var BinRef = $('#txtBinRef').val();
+
+            if (ReelQty == "") {
+                alert('Reel Quantity cannot be blank.');
+                return;
+            }
+
+            if (AutoReel == false) {
+                if (ReelNumber == "") {
+                    alert('Reel Number cannot be blank.');
+                    return;
+                }
+            }
+
+
+            if (NoOfLables == "") {
+                alert('No. of labels cannot be blank.');
+                return;
+            }
+
+            if (ReelQty == "0") {
+                alert('Reel Quantity cannot be zero.');
+                return;
+            }
+
+            if (NoOfLables == "0") {
+                alert('No. of labels cannot be zero.');
+                return;
+            }
+
+            if (AutoReel == false) {
+                $('#tblStock tbody').append("<tr class='nr'><td><input type='checkbox' checked='checked'></td><td>" + StockCode + "</td><td>" + Description + "</td><td>" + ReelNumber + "</td><td><input type='text' value='" + ReelQty + "' class='form-control input-xs'/></td><td>" + NoOfLables + "</td></tr>");
+            }
+            else {
+                var mydata = [];
+                var myObject = new Object();
+
+                myObject.StockCode = StockCode;
+                myObject.Description = Description;
+                myObject.ReelQuantity = ReelQty;
+                myObject.ReelNumber = ReelNumber;
+                myObject.NoOfLables = NoOfLables;
+                myObject.LabelMultiplier = LabelMultiplier;
+                myObject.Bin = BinRef;
+                mydata.push(myObject);
+                var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+                var exportdata = myString;
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "WhseManLabelReprint/AutoReel",
+                    data: exportdata,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnStockSuccess,
+                    failure: OnStockErrorCall
+                });
+
+                function OnStockSuccess(response) {
+                    if (typeof response == 'object') {
+                        $.each(response, function (i, PO) {
+
+                            $('#tblStock tbody').append("<tr class='nr'><td><input type='checkbox' checked='checked'></td><td>" + PO.StockCode + "</td><td>" + PO.Description + "</td><td>" + PO.ReelNumber + "</td><td><input type='text' value='" + PO.ReelQuantity + "' class='form-control input-xs'/></td><td>" + PO.NoOfLables + "</td><td>" + PO.Bin + "</td></tr>");
+                        });
+                    }
+                    else {
+                        alert(response);
+                    }
+
+                }
+
+                function OnStockErrorCall(response) {
+                    alert(response);
+                }
+            }
+
+        });
+
+
+        $('#btnClear').on('click', function (e) {
+            $('#tblStock tbody').empty();
+        });
+
+
+        $('#btnPrintStock').on('click', function (e) {
+
+            e.preventDefault();
+
+            var e = document.getElementById("ddlStockPrinter");
+            var Printer = e.options[e.selectedIndex].value;
+            var Program = $('#Program').val();
+            var mydata = [];
+            $("#tblStock > tbody > tr ").each(function (i, el) {
+
+                var myObject = new Object();
+                var $tds = $(this).find('td')
+
+                var StockCode = $tds.eq(1).text();
+                var Description = $tds.eq(2).text();
+                var ReelQty = $tds.eq(4).find("input[type='text']").val();
+                var ReelNumber = $tds.eq(3).text();
+                var NoOfLables = $tds.eq(5).text();
+                var Bin = $tds.eq(6).text();
+                var PrintLabel = $tds.eq(0).find("input[type='checkbox']").is(":checked");
+
+                if (PrintLabel == true) {
+
+                    myObject.StockCode = StockCode;
+                    myObject.Description = Description;
+                    myObject.ReelQuantity = ReelQty;
+                    myObject.ReelNumber = ReelNumber;
+                    myObject.Printer = Printer;
+                    myObject.NoOfLables = NoOfLables;
+                    myObject.Bin = Bin;
+                    myObject.Program = Program;
+                    mydata.push(myObject);
+                }
+
+            });
+
+
+
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "WhseManLabelReprint/PrintStockLabel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccessPoP,
+                failure: OnErrorPoP
+            });
+
+            function OnSuccessPoP(response) {
+                alert(response);
+
+
+
+
+            }
+
+            function OnErrorPoP(response) {
+                alert(response);
+
+            }
+        });
+    });
+
+</script>

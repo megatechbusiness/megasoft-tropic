@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Megasoft2.sp_InvMaster_Result>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div class="form-horizontal row">
+    <div class="col-lg-12">
+        <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+    </div>
+</div>
+<div class="form-horizontal row">
+    <table class="table table table-striped table-bordered" cellspacing="0" style="width:100%" id="testTable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StockCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LongDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AlternateKey1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AlternateKey2)
+                </th>
+                <th>
+
+                </th>
+
+            </tr>
+        </thead>
+    </table>
+</div>
+    
+    <style type="text/css">
+        table.dataTable {
+            clear: both;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+            max-width: none !important;
+        }
+    </style>
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>*@
+    @*<script src="http//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>*@
+    @*<script src="~/Content/DataTables/jquerydataTablesmin.js"></script>*@
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            if ($.fn.dataTable.isDataTable('#testTable')) {
+                t.destroy();
+            }
+            t = $("#testTable").DataTable({
+                processing: true,
+                serverSide: true,
+                info: true,
+                ajax: {
+                    url: '../TestLargeData/GetData',
+                    data: function (data) {
+                        delete data.columns;
+                    }
+                },
+                scrollY: 600,
+                deferRender: true,
+                scroller: true,
+                columns: [
+                            { "data": "NoOfRows" },
+                            { "data": "StockCode" },
+                            { "data": "Description" },
+                            { "data": "LongDesc" },
+                            { "data": "AlternateKey1" },
+                            { "data": "AlternateKey2" },
+                            {
+                                "render": function (data, type, full, meta) {
+                                    return '<a class="btn btn-warning" onClick="editdata(' + full.StockCode + ',\'' + full.StockCode + '\',\'' + full.StockCode + '\',\'' + full.StockCode + '\',\'' + full.StockCode + '\',\'' + full.StockCode + '\')" href="javascript://">Edit</a>&nbsp;&nbsp;<a class="btn btn-danger" onClick="deletePhantom(' + full.StockCode + ',\'DELETE\')" href="javascript://">Remove</a>';
+                                }
+                            }
+                ],
+                order: [[0, 'desc']],
+                select: true,
+                dom: 'rfti',
+                responsive: true,
+                buttons: true
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+
+            $('#txtSearch').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#testTable');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+
+
+            });
+        });
+    </script>

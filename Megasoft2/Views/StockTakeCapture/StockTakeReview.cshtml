@@ -1,0 +1,224 @@
+﻿@model Megasoft2.ViewModel.StockTakeReview
+@{
+    ViewBag.Title = "StockTakeReview";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Stock Take Review</h4><hr />
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Warehouse
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                                    @Html.ValidationMessageFor(model => model.Warehouse)
+                                </div>
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Method
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.DropDownListFor(model => model.Increase, new SelectList(ViewBag.Increase, "Text", "Value"), new { @id = "ddlIncrease", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                                    @Html.ValidationMessageFor(model => model.Increase)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Reference
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.Reference, new { @class = "form-control input-xs" })
+                                    @Html.ValidationMessageFor(model => model.Reference)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+
+                                <div class="col-md-12 col-xs-12" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:StockTakeReview" value="StockTakeReview">
+                                        <i class="fa fa-arrow-right"> Load</i>
+                                    </button>
+
+                                    <button type="submit" class="btn btn-success btn-sm pull-right" id="btnPost" value="PostSysproStockTake" name="action:PostSysproStockTake">
+                                        <i class="fa fa-save"> Post</i>
+                                    </button>
+
+                                    @*<a href="#" class="btn btn-success btn-sm" onclick="PopupReport('StockTake')">
+                                        <span class="fa fa-print" aria-hidden="true" title="Print Report"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Report</span></span>
+                                    </a>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLines">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Uom
+                                            </th>
+                                            <th>
+                                                Bin
+                                            </th>
+                                            <th>
+                                                Lot
+                                            </th>
+                                            <th>
+                                                Orig. Qty. on Hand
+                                            </th>
+                                            <th>
+                                                Captured Qty.
+                                            </th>
+                                            <th>
+                                                Ticket No.
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.Stock != null)
+                                            {
+                                                var StockCode = "";
+                                                var c = 0;
+                                                var w = 0.00M;
+                                                var o = 0.00M;
+                                                for (int i = 0; i < Model.Stock.Count; i++)
+                                                {
+
+                                                    if (i == 0)
+                                                    {
+                                                        StockCode = Model.Stock[i].StockCode;
+                                                    }
+                                                    if (StockCode != Model.Stock[i].StockCode)
+                                                    {
+
+                                                        StockCode = Model.Stock[i].StockCode;
+                                                        <tr><th colspan="5" class="text-right">Total(s): </th><th class="text-right">@o</th><th class="text-right">@w</th><th class="text-right">@c</th></tr>
+                                                        c = 0;
+                                                        w = 0.00M;
+                                                        o = 0.00M;
+                                                    }
+                                                    c++;
+                                                    w = w + Model.Stock[i].CapturedQty;
+                                                    o = o + Model.Stock[i].OrigQtyOnHand;
+                                                    <tr class="nr">
+                                                        <td>
+
+                                                            @Html.DisplayFor(model => model.Stock[i].StockCode)
+                                                            @Html.HiddenFor(model => Model.Stock[i].StockCode)
+                                                            @Html.HiddenFor(model => Model.Stock[i].Warehouse)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Stock[i].Description
+                                                            @Html.HiddenFor(model => Model.Stock[i].Description)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Stock[i].StockUom
+                                                            @Html.HiddenFor(model => Model.Stock[i].StockUom)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Stock[i].Bin
+                                                            @Html.HiddenFor(model => Model.Stock[i].Bin)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Stock[i].Lot
+                                                            @Html.HiddenFor(model => Model.Stock[i].Lot)
+                                                        </td>
+
+                                                        <td>
+                                                            @Model.Stock[i].OrigQtyOnHand
+                                                            @Html.HiddenFor(model => Model.Stock[i].OrigQtyOnHand)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.Stock[i].CapturedQty, new { @class = "form-control input-xs" })
+                                                        </td>
+                                                        <td>
+                                                            @Model.Stock[i].TicketNum
+                                                            @Html.HiddenFor(model => Model.Stock[i].TicketNum)
+                                                        </td>
+
+                                                    </tr>
+
+                                                    if (i == Model.Stock.Count - 1)
+                                                    {
+
+                                                        StockCode = Model.Stock[i].StockCode;
+                                                        <tr><th colspan="5" class="text-right">Total(s): </th><th class="text-right">@o</th><th class="text-right">@w</th><th class="text-right">@c</th></tr>
+                                                        c = 0;
+                                                        w = 0.00M;
+                                                        o = 0.00M;
+                                                    }
+
+
+
+                                                }
+                                            }
+                                        }
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <style type="text/css">
+        .table-striped tbody tr.highlight td {
+            background-color: red;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+    function PopupReport(Report) {
+        window.open('../CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=', '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');// calling action
+    }
+
+        $(function () {
+            $("#frmIndex").submit(function (e) {
+                showprogressbar();
+            });
+        });
+    </script>
+}

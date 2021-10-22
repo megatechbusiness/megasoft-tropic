@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Megasoft2.mtSysproAdmin>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Syspro Company Setup</h2>
+
+<p>
+    <a href="@Url.Action("Create", "SysproAdmin")" class="modal-link btn btn-success">
+        <span class="fa fa-plus-square-o" aria-hidden="true" title="Add New Company"> New Company</span>
+    </a>
+    <a href="@Url.Action("Index", "SysproAdmin")" class="btn btn-success">
+        <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
+    </a>
+</p>
+<table class="table table-hover table-striped table-condensed table-responsive">
+    <tr>
+        <th>
+            Company
+        </th>
+        <th>
+            Database Name
+        </th>
+        <th>
+            Company Password
+        </th>        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatabaseName)
+            </td>
+            <td>
+               ***********
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "SysproAdmin", new { id = item.Company })" class="modal-link btn btn-primary">
+                    <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Company"></span>
+                </a>
+                <a href="@Url.Action("Delete", "SysproAdmin", new { id = item.Company })" class="modal-link btn btn-danger">
+                    <span class="fa fa-trash-o" aria-hidden="true" title="Delete Company"></span>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

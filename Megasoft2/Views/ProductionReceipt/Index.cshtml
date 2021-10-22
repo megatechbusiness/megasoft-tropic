@@ -1,0 +1,110 @@
+﻿@model Megasoft2.Models.ProductionReceipt
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel-group" id="accordion">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="panel panel-primary modal-body" style="border-color:white;">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseOne"
+                           href="#collapseOne" class="collapsed">
+                            Production Receipt
+                        </a>
+
+                    </h4>
+
+                </div>
+                <div class="panel-body">
+                    <fieldset>
+
+                        <div id="errordiv">
+
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                                    Job
+                                </div>
+                                <div class="editor-field input-md col-md-8 col-xs-10">
+                                    @Html.TextBoxFor(model => model.Job, new { @id = "txtJob", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-md-1 col-xs-2 text-left">
+                                    <a href="#" class="btn btn-success" id="btnValidate" onclick="ValidateBarcode();">
+                                        <span class="fa fa-gear" aria-hidden="true" title="Validate Barcode"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                                    StockCode
+                                </div>
+                                <div class="editor-field input-md col-md-8 col-xs-10">
+                                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @id = "txtStockCode" })
+                                    @Html.ValidationMessageFor(model => model.StockCode)
+                                </div>
+                                <div class="col-md-1 col-xs-2 text-left">
+                                    <a href="@Url.Action("Index", "StockCodeBrowse")" class="modal-link btn btn-success">
+                                        <span class="fa fa-search" aria-hidden="true" title="Browse"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-sm-3" style="text-align:left;">
+                                    Quantity
+                                </div>
+                                <div class="editor-field input-md col-md-9 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-sm", @id = "txtQuantity" })
+                                    @Html.ValidationMessageFor(model => model.Quantity)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-sm-3" style="text-align:left;">
+                                    Lot/Pallet Id
+                                </div>
+                                <div class="editor-field input-md col-md-9 col-xs-12">
+                                    @Html.TextBoxFor(model => model.LotNumber, new { @class = "form-control input-sm", @id = "txtLot" })
+                                    @Html.ValidationMessageFor(model => model.LotNumber)
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-horizontal row text-center">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-primary" id="btnPost">
+                                    <span class="fa fa-save" aria-hidden="true" title="Post"> Post</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+
+@*<script src="~/Content/ProductionReceipt/ProductionReceipt.js"></script>*@
+
+
+

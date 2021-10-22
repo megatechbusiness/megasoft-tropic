@@ -1,0 +1,300 @@
+﻿@model Megasoft2.ViewModel.BuyerStatsViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Buyer Stats</h4><hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="form-horizontal row">
+
+                        <div class="control-label col-lg-1" style="text-align:left;">
+                            From Date :
+                        </div>
+                        <div class="control-label col-lg-5" style="text-align:left;">
+                            @Html.TextBoxFor(model => Model.FromDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                        </div>
+
+                        <div class="control-label col-lg-1" style="text-align:left;">
+                            To Date :
+                        </div>
+                        <div class="control-label col-lg-5" style="text-align:left;">
+                            @Html.TextBoxFor(model => Model.ToDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-horizontal row">
+
+                        @*<div class="col-lg-6">*@
+                            @*<div style="overflow: auto;height: 150px" class="col-lg-12">
+                                    <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <th>
+                                                    Branch
+                                                </th>
+                                                <th>
+                                                    Name
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.Branch.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.CheckBoxFor(model => Model.Branch[i].ViewStats)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => Model.Branch[i].Branch)
+                                                        @Html.HiddenFor(model => Model.Branch[i].Branch)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => Model.Branch[i].BranchName)
+                                                        @Html.HiddenFor(model => Model.Branch[i].Branch)
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+                                </div>*@
+                        @*</div>*@
+                        <div class="col-lg-6">
+                            
+                            <div class="col-lg-6">
+                                Select All
+                                <input type="checkbox" id="SelectAll" name="SelectAll" checked="checked" />
+                                <input type="submit" value="Refresh" class="btn btn-default btn-sm" />
+                                <button type="button" id="Export" class="btn btn-default btn-sm">
+                                    <span class="fa fa-file-excel-o"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Excel</span></span>
+                                </button>
+                            </div>
+                            <div style="overflow: auto;height: 400px" class="col-lg-12">
+                                <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblBuyer">
+                                    <thead>
+                                        <tr>
+                                            <th>
+
+                                            </th>
+                                            <th>
+                                                Buyer
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @for (int i = 0; i < Model.Buyer.Count; i++)
+                                        {
+                                            <tr class="nr">
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => Model.Buyer[i].ViewStats)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => Model.Buyer[i].Operator)
+                                                    @Html.HiddenFor(model => Model.Buyer[i].Operator)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => Model.Buyer[i].Name)
+                                                    @Html.HiddenFor(model => Model.Buyer[i].Name)
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="col-lg-12">
+                        
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-12">
+                            @if (Model.BuyerStats != null)
+                            {
+                                <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblSummary">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Buyer
+                                            </th>
+                                            <th>
+                                                Firstname
+                                            </th>
+                                            <th>
+                                                Surname
+                                            </th>
+                                            @*<th>
+                                                Created
+                                            </th>*@
+                                            <th>
+                                                Accepted
+                                            </th>
+                                            <th>
+                                               Quoted                                                
+                                            </th>
+                                            <th>
+                                                P/O Created
+                                            </th>  
+                                            <th>
+                                                <a href="@Url.Action("Detail", "BranchStats", new { eGuid = Model.eGuid, DetailType = "QuoteOverride" })">
+                                                    Quote Override
+                                                </a>
+                                                
+                                            </th>        
+                                            <th>
+                                                <a href="@Url.Action("Detail", "BranchStats", new { eGuid = Model.eGuid, DetailType = "SupplierOverride" })">
+                                                    Supplier Override
+                                                </a>
+                                                
+                                            </th>     
+                                            <th>
+                                                Grn Created
+                                            </th>      
+                                            <th>
+                                                <a href="@Url.Action("Detail", "BranchStats", new { eGuid = Model.eGuid, DetailType = "OrdersAfterDelivery" })">
+                                                    Orders after Delivery
+                                                </a>
+                                                
+                                            </th>      
+                                            <th>
+                                                % - PO's
+                                            </th>  
+                                            <th>
+                                                % - Grn's
+                                            </th>                
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.BuyerStats)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.Buyer)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.FirstName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.Surname)
+                                                </td>
+                                                @*<td>
+                                                    @Html.DisplayFor(model => item.ReqCreated)
+                                                </td>*@
+                                                <td>
+                                                    @Html.DisplayFor(model => item.ReqAccepted)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.ReqQuoted)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.PoCreated)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.QuoteOverride)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.SupplierOverride)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.OrderGRNed)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => item.OrderAfterDel)
+                                                </td>
+                                                <td>
+                                                    @{ decimal perc = 0; if (item.OrderAfterDel != 0 && item.PoCreated != 0) { perc = Convert.ToDecimal((Convert.ToDecimal(item.OrderAfterDel) / Convert.ToDecimal(item.PoCreated)) * 100); }}
+                                                    @string.Format("{0:##,###,##0.00}", perc)
+                                                    
+                                                </td>
+                                                <td>
+                                                    @{ decimal percGrn = 0; if (item.OrderAfterDel != 0 && item.OrderGRNed != 0) { percGrn = Convert.ToDecimal((Convert.ToDecimal(item.OrderAfterDel) / Convert.ToDecimal(item.OrderGRNed)) * 100); }}
+                                                    @string.Format("{0:##,###,##0.00}", percGrn)
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+
+        $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+        $(document).ready(function () {
+            $("#Export").click(function () {
+                //alert('clicked');
+                $("#tblSummary").table2excel({
+                    // exclude CSS class
+                    exclude: ".noExl",
+                    name: "BuyerStatsSummary",
+                    filename: "BuyerStatsSummary" //do not include extension
+                });
+            });
+
+
+            $("#SelectAll").click(function () {
+                //$('.case').attr('checked', this.checked);
+                var control = $("#SelectAll").is(":checked");
+
+                var selected;
+                $("#tblBuyer > tbody.datarow > tr ").each(function (i, el) {
+                    var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                    if ($(this).is(':visible')) {
+                        if (control == true) {
+                            $(this).find("input[type='checkbox']").prop('checked', true);
+                        }
+                        else {
+                            $(this).find("input[type='checkbox']").prop('checked', false);
+
+                        }
+                    }
+
+                });
+
+            });
+        });
+    </script>
+}

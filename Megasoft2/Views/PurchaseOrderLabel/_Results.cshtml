@@ -1,0 +1,38 @@
+﻿@using Megasoft2.Models
+
+@model LabelPrintPurchaseOrder
+<div class="col-md-12 col-xs-12">
+    <table class="table table-condensed table-striped table-responsive">
+        <tr>
+            <th></th>
+            <th>Line</th>
+            <th>StockCode</th>
+            <th>Description</th>
+            <th style="text-align:right">Order Quantity</th>
+            <th style="text-align:right">Received Quantity</th>
+            <th style="text-align:right">Outstanding Quantity</th>
+        </tr>
+
+
+        @foreach (var s in Model.Lines)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("DisplayLabel", "PurchaseOrderLabel", new { PurchaseOrder = @s.PurchaseOrder, Line = @s.Line, StockCode = @s.MStockCode, Description = @s.MStockDes })" class="modal-link btn btn-success btn-xs">
+                        <span class="fa fa-print" aria-hidden="true" title="Show Label Details"></span>
+                    </a>
+                </td>
+                <td>@s.Line</td>
+                <td>@s.MStockCode</td>
+                <td>@s.MStockDes</td>
+                <td style="text-align:right">@s.MOrderQty</td>
+                <td style="text-align:right">@s.MReceivedQty</td>
+                <td style="text-align:right">@s.OutstandingQty</td>
+            </tr>
+
+
+
+        }
+    </table>
+
+</div>

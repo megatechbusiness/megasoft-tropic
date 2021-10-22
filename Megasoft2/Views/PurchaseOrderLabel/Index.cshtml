@@ -1,0 +1,116 @@
+﻿@model Megasoft2.ViewModel.PurchaseOrderLabel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Purchase Order Receipt & Label Print</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                    <a href="@Url.Action("Index", "PurchaseOrderBrowse")" class="modal-link btn btn-success btn-sm">
+                                        <span class="fa fa-search" aria-hidden="true" title="Browse Purchase Orders"> Search</span>
+                                    </a>
+                                </div>
+                                <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @id = "txtPurchaseOrder" })
+                                    @Html.ValidationMessageFor(model => model.PurchaseOrder)
+                                </div>
+                                <div class="col-md-9 col-xs-2" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Purchase Order
+                                            </th>
+                                            <th>
+                                                Line
+                                            </th>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Warehouse
+                                            </th>
+                                            <th>
+                                                Uom
+                                            </th>
+                                            <th>
+                                                Order Qty
+                                            </th>
+                                            <th>
+                                                Received Qty
+                                            </th>
+                                            <th>
+                                                Outstanding Qty
+                                            </th>
+                                            <th></th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.PoLines != null)
+                                        {
+                                            foreach (var line in Model.PoLines)
+                                            {
+                                                <tr>
+                                                    <td>@line.PurchaseOrder</td>
+                                                    <td>@line.Line</td>
+                                                    <td>@line.MStockCode</td>
+                                                    <td>@line.MStockDes</td>
+                                                    <td>@line.MWarehouse</td>
+                                                    <td>@line.MOrderUom</td>
+                                                    <td>@line.MOrderQty</td>
+                                                    <td>@line.MReceivedQty</td>
+                                                    <td>@line.OutstandingQty</td>
+                                                    <td>
+                                                        <a href="@Url.Action("DisplayLabel", "PurchaseOrderLabel", new { PurchaseOrder = @Model.PurchaseOrder, Line = @line.Line })" class="modal-link btn btn-default btn-xs">
+                                                            <span class="fa fa-print" aria-hidden="true" title="Print Label"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+

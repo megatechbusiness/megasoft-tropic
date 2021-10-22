@@ -1,0 +1,190 @@
+﻿@model Megasoft2.Models.BatchReceipt
+@{
+                /**/
+
+                ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSplitBatch" }))
+{
+
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default well">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Batch Split</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-6" style="text-align:left;">
+                                    <a href="@Url.Action("Index", "WhseManBatchSplit")" class="btn btn-default btn-sm">
+                                        <span class="fa" aria-hidden="true" title="">Refresh</span>
+                                    </a>
+                                </div>
+                                <div class="col-md-6" style="text-align:right;">
+                                    @if (ViewBag.LoadPallet != null)
+                                    {
+                                        <button type="submit" class="btn btn-success btn-sm" id="btnPost" name="action:PostBatchSplit" value="PostBatchSplit">
+                                            <i class="fa fa-save">   Split</i>
+                                        </button>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            @if (ViewBag.LoadPallet == null)
+                            {
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Batch No.
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.BailNo, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:BatchSplit" value="BatchSplit">
+                                                <span class="fa fa-arrow-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Batch No.
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.BailNo, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        @Html.HiddenFor(model => model.Job)
+                                        <div class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadSplitPallet" value="LoadSplitPallet" disabled>
+                                                <span class="fa fa-arrow-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Stock Code
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.Job)
+                                    @Html.HiddenFor(model => model.TraceableType)
+                                    @Html.HiddenFor(model => model.Uom)
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <div class="form-group col-sm-4">
+                                    Stock Description
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.StockDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group col-sm-3">
+                                <div class="form-group col-sm-4">
+                                    Qty. On Hand
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.QtyOnHand, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Pack Size
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.PackSize, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <div class="form-group col-sm-4">
+                                    No. of Labels
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.NoOfLabels, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">                          
+                            <div class="form-group col-sm-3">
+                                <div class="form-group col-sm-4">
+                                    Warehouse
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouses, "Description", "Warehouse"), new { @id = "ddlWarehouse", @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Printer
+                                </div>
+                                <div class="input-group input-sm col-sm-8">
+                                    @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
+                                </div>
+                            </div>                           
+                        </div>
+                        <hr />
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        function calcNoOfLabels() {
+            if ("@ViewBag.LoadPallet" != "") {
+                if ($('#PackSize').val() == "" || $('#PackSize').val() == "0") {
+                    alert("Pack Size cannot be blank or zero.");
+                    return;
+                }
+            
+
+            if ($('#QtyOnHand').val() == "" || $('#QtyOnHand').val() == "0") {
+                alert("Zero Quantity Available for Batch.");
+                return;
+            }
+
+            if (($('#QtyOnHand').val() / $('#PackSize').val()) % 1 != 0) {
+                alert("Invalid Pack Size. Cannot split quantity evenly.");
+                return;
+            }
+
+                $('#NoOfLabels').val($('#QtyOnHand').val() / $('#PackSize').val());
+            }
+        }
+        
+
+        $(document).ready(function () {
+
+            $('#PackSize').on('change', function (e) {
+                calcNoOfLabels();
+            });
+
+            $("#frmSplitBatch").submit(function (e) {
+                showprogressbar();
+            });
+
+            calcNoOfLabels();
+        });
+    </script>

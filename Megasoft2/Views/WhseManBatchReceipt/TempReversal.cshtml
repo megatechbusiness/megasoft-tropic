@@ -1,0 +1,21 @@
+﻿@model Megasoft2.mtTmpLotsToReverse
+@{
+    ViewBag.Title = "TempReversal";
+}
+
+<h2>TempReversal</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success btn-sm" id="btnLoad">
+        <i class="fa fa-arrow-right"> Post</i>
+    </button>
+}

@@ -1,0 +1,153 @@
+﻿@model Megasoft2.ViewModel.TransportSystemWaybillPOEntryViewModel
+
+<h4 style="font-weight:bold;" class="text-center">Transport System - PO Entry</h4><hr />
+
+@Html.AntiForgeryToken()
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary(true)
+    </div>
+}
+<div id="errordiv"></div>
+<div class="form-horizontal row">
+    <div class="pull-right">
+        <a href="@Url.Action("Index", "TransportSystemWaybillPoEntry")" class="btn btn-default">
+            <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> New</span>
+        </a>
+    </div>
+</div>
+
+<div class="form-horizontal row">
+    <div class="form-group col-sm-12">
+        <div class="col-sm-2">
+            Supplier
+        </div>
+        <div class="input-group col-sm-2">
+            @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-sm", @id = "Supplier", @readonly = "readonly" })
+            <div class="input-group-btn">
+                <a href="@Url.Action("SupplierSearch", "TransportSystemWaybillPoEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="txtSupplier"><span class="fa fa-search"> </span></a>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="input-group-btn">
+                <a href="@Url.Action("WaybillSearch", "TransportSystemWaybillPoEntry")" class=" btn btn-sm btn-info modal-link searchbox " id=" btnload"><span class="fa fa-arrow-right"> </span></a>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+<div class="form-horizontal row">
+    <div class="form-group col-sm-12">
+
+        <div class="col-sm-2">
+            @*@Html.CheckBoxFor(model => model.Taxable, new { @class = "", @id = "Taxable", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                @Html.ValidationMessageFor(model => model.Taxable)*@
+            Taxable  
+        </div>
+        <div class="input-group col-sm-2">
+            <input type="checkbox" id="Taxable">
+        </div>
+            
+
+        </div>
+</div>
+
+<div class="form-horizontal row">
+    <div class="form-group col-sm-12">
+        <div class="col-sm-2">
+            Tax Code
+        </div>
+        <div class="input-group col-sm-2">
+            @Html.TextBoxFor(model => model.TaxCode, new { @class = "form-control input-sm", @id = "TaxCode" })
+            <div class="input-group-btn">
+                <a href="@Url.Action("TaxCode", "TransportSystemWaybillPoEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+            </div>
+            <div class="col-sm-1"></div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<hr />
+<div class="form-horizontal row spacer">
+    <div class="col-sm-10 text-left">
+        <div class="input-group-btn  ">
+            <a class="btn btn-sm btn-info" onclick="PostPurchaseOrder();" id="Post"><span class="">Post</span></a>
+        </div>
+    </div>
+    <div class="col-sm-2 text-right">
+        <div class="input-group-btn">
+            <a href="@Url.Action("AddPoLine", "TransportSystemWaybillPoEntry")" class="modal-link btn btn-sm btn-info " id="AddLine"><span class="">Add Line</span></a>
+        </div>
+        <div class="input-group-btn">
+            <a href="@Url.Action("CommentLine", "TransportSystemWaybillPoEntry")" class="modal-link btn btn-sm btn-info " id="AddLine"><span class="">Comment Line</span></a>
+        </div>
+    </div>
+
+</div>
+<div class="form-horizontal row spacer">
+
+</div>
+<div style="overflow: auto;height: 500px" class="col-lg-12">
+
+    <table id="tblPo" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>TrackId</th>
+                <th>Waybill</th>
+                <th>DispatchNote</th>
+                <th>DispatchNoteLine</th>
+                <th>Customer</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Province</th>
+                <th>Town</th>
+                <th>StockCode</th>
+                <th>DispatchQty</th>
+                <th>DispatchUom</th>
+                <th>LoadQty</th>
+                <th>LoadUom</th>
+                <th>Pallets</th>
+                <th>Weight</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody class=""></tbody>
+    </table>
+</div>
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+@Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/TransportSystem/WaybillPoEntry.js")">
+
+    </script>
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        input[type=checkbox] {
+            transform: scale(1.5);
+        }
+    </style>
+}

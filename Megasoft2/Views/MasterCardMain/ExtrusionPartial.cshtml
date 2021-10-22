@@ -1,0 +1,473 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+@{ Layout = null; }
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">WorkCentre</label>
+                <div class="col-sm-8">
+                    @if (ViewBag.ExtrusionWorkCentres != null)
+                    {
+                        @Html.DropDownListFor(n => n.Extrusion.WorkCentre, new SelectList(ViewBag.ExtrusionWorkCentres, "Value", "Text"), "Select Work Centre", new { @class = "form-control input-sm", style = "width:100%" })
+                        @Html.HiddenFor(m => m.Extrusion.WorkCentre)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Extrusion.WorkCentre, new { @class = "form-control input-xs" })
+                    }
+
+                    @Html.HiddenFor(model => model.Extrusion.Id)
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Micron</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.Micron, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">BUR</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.BUR, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Kg/Hour</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.KgPerHour, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover table-condensed" id="tblHeader">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Blend</th>
+                                    <th class="text-center">StockCode</th>
+                                    <th class="text-center">Layer %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A</td>
+                                    <td>@Html.TextBoxFor(model => model.Extrusion.BlendAStockCode, new { @class = "form-control input-xs" })</td>
+                                    <td>@Html.TextBoxFor(model => model.Extrusion.BlendAPerc, new { @class = "form-control input-xs" })</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>@Html.TextBoxFor(model => model.Extrusion.BlendBStockCode, new { @class = "form-control input-xs" })</td>
+                                    <td>@Html.TextBoxFor(model => model.Extrusion.BlendBPerc, new { @class = "form-control input-xs" })</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td>@Html.TextBoxFor(model => model.Extrusion.BlendCStockCode, new { @class = "form-control input-xs" })</td>
+                                    <td>@Html.TextBoxFor(model => model.Extrusion.BlendCPerc, new { @class = "form-control input-xs" })</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>*@
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Treatment</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.GenTreatment, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Dyne Value</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.DyneValue, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.Width, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">L.F.W</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.LayFlatWidth, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Total Mass</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.TotalMass, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Total Meters</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.TotalMeters, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Masterbatch</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.MasterBatch, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Rolls Up</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.RollsUp, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Mass of Roll</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.MassOfRolls, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No of Rolls</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.NoOfRolls, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Rolls Length</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.RollLength, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Core Wall</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.CoreWall, new { @class = "form-control input-xs" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Edge Trim</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.EdgeTrim, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Single Wind</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.SingleWind, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Slitting Code</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.ExtrSlittingCode, new { @class = "form-control input-xs" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Product Type</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Extrusion.ProductType, new SelectList(ViewBag.ProductTypeList, "Value", "Description"), new { @class = "form-control input-xs", style = "width:100%" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Product Sub Type</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Extrusion.ProductSubType1, new SelectList(ViewBag.ProductSubTypeList, "Value", "Description"), new { @class = "form-control input-xs", style = "width:100%" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Industry</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Extrusion.Industry, new SelectList(ViewBag.IndustryList, "Value", "Description"), new { @class = "form-control input-xs", style = "width:100%" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+<h4>Special Instructions</h4>
+
+@* ------------------------------------------------------------------------------------------------------------------------------------------------ *@
+
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">New Job</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.NewJob, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">High Clarity</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.HighClarity, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Slack Edge</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.NoSlackEdge, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                    @*@Html.TextBoxFor(model => model.Extrusion.NoSlackEdge, new { @class = "form-control input-xs", @readonly = "readonly" })*@
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Gels</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.NoGels, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Gauge Tolerance</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.GauageTolerance, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Shrink Ratio M/D</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.ShrinkRatioMD, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Shrink Ratio T/D</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.ShrinkRatioTD, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Low Tension</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.LowTension, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Supply Printing Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.SupplyPrintingWidth, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Trim on Extruder</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.TrimOnExtruder, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Meltfracture</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.NoMeltfracture, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Die Lines</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.NoDieLines, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">COF Results TRD/TRD</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.COFResultsTRD, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">COF Results CLR/CLR</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Extrusion.COFResultsCLR, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Edge Weave</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Extrusion.EdgeWeave, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                    @*@Html.TextBoxFor(model => model.Extrusion.EdgeWeave, new { @class = "form-control input-xs" })*@
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

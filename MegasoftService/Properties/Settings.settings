@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MegasoftService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SysproUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ADMIN</Value>
+    </Setting>
+    <Setting Name="SysproPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ADMIN</Value>
+    </Setting>
+    <Setting Name="CompanyId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Y</Value>
+    </Setting>
+    <Setting Name="CompanyPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WcfAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">net.tcp://localhost:20000/SYSPROWCFService/Rest</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

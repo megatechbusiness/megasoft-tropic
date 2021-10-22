@@ -1,0 +1,152 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "MasterCard", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel-group" id="accordion">
+        <div id="MasterCardMain">
+            <fieldset>
+                <div class="form-horizontal row spacer mycontent-top">
+
+                    <div class="col-md-12">
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Customer</label>
+                                <div class=" col-sm-6">
+                                    @Html.TextBoxFor(model => model.Header.Customer, new { @class = "form-control input-xs" })
+                                    @Html.ValidationMessageFor(mode => Model.Header.Customer, null, new { @class = "alert-danger" })
+                                </div>
+                                <a href="@Url.Action("CustomerSearch", "MasterCardMain")" class="btn btn-xs btn-info  modal-link searchbox " id="btnCustomer"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                <button class="btn btn-xs btn-primary" id="btnLoad" type="submit" aria-label="Left Align" name="action:Load" value="Load">
+                                    <span class="fa fa-arrow-circle-right" aria-hidden="true"> </span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblComp" width="100%">
+                                        <thead>
+                                            <tr>
+                                                @*<th>
+            Id
+        </th>*@
+                                                <th>
+                                                    Stock Code
+                                                </th>
+                                                <th>
+                                                    Product Description
+                                                </th>
+                                                <th>
+                                                    Date Created
+                                                </th>
+                                                <th>
+                                                    Print Description
+                                                </th>
+
+                                                <th>
+                                                    Multimedia
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                if (Model.Multimedia != null)
+                                                {
+                                                    for (int i = 0; i < Model.Multimedia.Count; i++)
+                                                    {
+                                            <tr class="nr">
+                                                @*<td>
+            @Model.Multimedia[i].Id
+        </td>*@
+                                                <td>
+                                                    @Model.Multimedia[i].StockCode
+                                                </td>
+                                                <td>
+                                                    @Model.Multimedia[i].ProductDescription
+                                                </td>
+                                                <td>
+                                                    @Convert.ToDateTime(@Model.Multimedia[i].DateSaved).ToString("yyyy-MM-dd")
+                                                </td>
+                                                <td>
+                                                    @Model.Multimedia[i].PrintDescription
+                                                </td>
+
+                                                <td>
+                                                    @if (!string.IsNullOrWhiteSpace(Model.Multimedia[i].MultiMediaFilePath))
+                                                    {
+                                                        @*<a href="@Model.Multimedia[i].MultiMediaFilePath" target="_blank" class="btn btn-default btn-sm">
+                    <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> File </span></span>
+                </a>*@
+                                                        @*<a href="@Model.Multimedia[i].MultiMediaFilePath" target="_blank" class="btn btn-default btn-sm">
+                    <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> File</span></span>
+                </a>*@
+                                                        <button class="btn btn-xs btn-primary" onclick='GetClientReport("@Model.Multimedia[i].Customer", "@Model.Multimedia[i].StockCode")' type="button" aria-label="Left Align">
+                                                            <span class="fa fa-file-pdf-o" aria-hidden="true"> File </span>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("FileUpload", "MasterCardArtwork", new {Customer=Model.Header.Customer, StockCode=Model.Multimedia[i].StockCode })" class="btn btn-xs btn-success"><span class="fa fa-upload" aria-hidden="true"> Upload</span></a>
+                                                        @*<a href="~/MasterCardArtwork/FileUpload"><input type="button" class="btn btn-primary" value="Import Doc" /></a>*@
+                                                    }
+
+                                                </td>
+
+                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+}
+
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTable/dataTables.min.css")" />
+
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function GetClientReport(Customer, StockCode) {
+            //alert(Id);
+            window.open("MasterCardMultimediaViewer/GetReport?Customer=" + Customer + "&StockCode=" + StockCode, "_blank");
+        }
+
+        $(document).ready(function () {
+            var table = $('#tblComp').DataTable({
+                dom: 'Bfrtip',
+                paging: false,
+                "rowReorder": true,
+                "ordering": true,
+                //"scrollY": 200,
+                //"scrollX": true,
+                order: [[1, 'asc']],
+                buttons: [
+                    'excelHtml5'
+                ],
+                "orderClasses": false
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,142 @@
+﻿@model Megasoft2.ViewModel.TransportSystemWaybillEntryViewModel
+@{
+    ViewBag.Title = "WaybillScanCapture";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;font-size:xx-small;">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="errordiv" class="col-xs-10" style="font-size:x-small">
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="kanbandisplay" class="col-xs-10" style="font-size:x-small">
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row">
+            <div class="control-label col-xs-7" style="text-align:left;">
+                <h4>Waybill Entry</h4>
+            </div>
+            <div class="col-xs-4 text-right">
+                <a href="#" class="btn btn-success btn-sm" id="btnNew">
+                    <span class="fa fa-plus-circle" aria-hidden="true" title="New"> New Track Id</span>
+                </a>
+            </div>
+        </div>
+        <hr />
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-4" style="text-align:left;">
+                <h4>Track Id</h4>
+            </div>
+            <div class="input-group col-xs-7">
+                @Html.TextBoxFor(model => model.TrackId, new { @class = "form-control input-sm" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("TrackIdSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnTransporter"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    <button type="button" class="btn btn-info btn-sm" id="btnLoad">
+                        <span class="fa fa-arrow-circle-o-right"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-4" style="text-align:left;">
+                <h4>Transporter</h4>
+            </div>
+            <div class="input-group col-xs-7">
+                @Html.TextBoxFor(model => model.Transporter, new { @class = "form-control input-sm", @id = "txtTransporter", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("TransporterSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnTransporter"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-4" style="text-align:left;">
+                <h4>Reg. No.</h4>
+            </div>
+            <div class="input-group col-xs-7">
+                @Html.TextBoxFor(model => model.RegNo, new { @class = "form-control input-sm", @id = "VehicleReg", @style = "text-transform:uppercase" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("VehicleRegSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnVehilceReg"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-4" style="text-align:left;">
+                <h4>Driver</h4>
+            </div>
+            <div class="input-group col-xs-7">
+                @Html.TextBoxFor(model => model.Driver, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-horizontal row">
+            <div class="control-label col-xs-7" style="text-align:left;">
+
+            </div>
+            <div class="col-xs-4 text-right">
+                <a href="#" class="btn btn-success btn-sm" id="btnAddLine">
+                    <span class="fa fa-tasks" aria-hidden="true" title="New"> Add Waybill</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="col-xs-11 text-center">
+                <div class="table-responsive">
+                    <div class="">
+                        <table id="example" class="table table-hover table-condensed table-responsive table-bordered table-striped tablegrid display nowrap" width="100%">
+                            <thead style="font-size:x-small">
+                                <tr>
+                                    <th>Waybill</th>
+                                    <th>DispatchNote</th>
+                                    <th>Line</th>
+                                    <th>Customer</th>
+                                    <th>Province</th>
+                                    <th>Town</th>
+                                    <th>StockCode</th>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</fieldset>
+
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTable/dataTables.min.css")" />
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<script type="text/javascript">
+
+
+
+
+    $(document).ready(function () {
+        var table = $('#example').DataTable({
+            paging: false,
+            "rowReorder": false,
+            "ordering": false,
+            "scrollY": 400,
+            "scrollX": true,
+            "searching": false,
+            "orderClasses": false
+        });
+    });
+</script>

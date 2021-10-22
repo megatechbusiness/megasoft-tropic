@@ -1,0 +1,130 @@
+﻿@model Megasoft2.ViewModel.PeriodControlViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Period Control Setup</h2><hr />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmCreate" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+<fieldset>
+    <div class="form-horizontal row">
+        <div class="col-sm-4">
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Fin Year
+                    </div>
+                    <div class="editor-field input-sm col-sm-6">
+                        @Html.TextBoxFor(model => model.FinYear, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="editor-field input-sm col-sm-2">
+                        <button type="submit" class="btn btn-primary btn-sm" name="action:Load" id="Load">
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <table id="tblRoles" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Fin Year
+                                    </th>
+                                    <th>
+                                        Fin Month
+                                    </th>
+                                    <th>
+                                        Start Date
+                                    </th>
+                                    <th>
+                                        End Date
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(Model.Periods != null)
+                                {
+                                    for (int i = 0; i < Model.Periods.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Periods[i].FinYear, new { @class = "form-control input-sm", @readonly="readonly" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Periods[i].FinMonth, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Periods[i].StartDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Periods[i].EndDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Current Fin Year
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.CurrentYear, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Current Fin Month
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.CurrentMonth, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="col-sm-3 text-right">
+            <button type="submit" class="btn btn-primary btn-sm" name="action:Save" id="save" >
+                <i class="fa fa-save"></i> Save
+            </button>
+        </div>
+        </div>
+</fieldset>
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+
+        $(".datepicker").datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            orientation: "top",
+            autoclose: true
+        });
+    </script>
+}

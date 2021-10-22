@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Adr_LoggingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Adr_DBLog_Analogs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dt" Type="datetime" />
+          <Property Name="Tagname" Type="varchar" MaxLength="80" />
+          <Property Name="Value" Type="float" />
+          <Property Name="Quality" Type="int" />
+        </EntityType>
+        <Function Name="sp_GetTankLevels" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Guid" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Tagname" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="GetTemperature" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="sp_GetTankMovements" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntryGuid" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Tagname" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <EntityContainer Name="Adr_LoggingModelStoreContainer">
+          <EntitySet Name="Adr_DBLog_Analogs" EntityType="Self.Adr_DBLog_Analogs" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Adr_LoggingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Adr_LoggingEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_GetTankLevels" ReturnType="Collection(Adr_LoggingModel.sp_GetTankLevels_Result)">
+            <Parameter Name="Guid" Mode="In" Type="Guid" />
+            <Parameter Name="Tagname" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="GetTemperature" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetTankMovements" ReturnType="Collection(Adr_LoggingModel.sp_GetTankMovements_Result)">
+            <Parameter Name="EntryGuid" Mode="In" Type="Guid" />
+            <Parameter Name="Tagname" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="Adr_DBLog_Analogs" EntityType="Adr_LoggingModel.Adr_DBLog_Analogs" />
+        </EntityContainer>
+        <ComplexType Name="sp_GetTankLevels_Result">
+          <Property Type="Guid" Name="GUID" Nullable="true" />
+          <Property Type="String" Name="Tagname" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FromDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="StartValue" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="EndValue" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="DateTime" Name="TrnDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="strMessage" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="FromTemperature" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="ToTemperature" Nullable="false" Precision="18" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_GetTankMovements_Result">
+          <Property Type="String" Name="Tagname" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FromDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="Receipt" Nullable="true" />
+          <Property Type="Double" Name="Delivery" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Adr_DBLog_Analogs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dt" Type="DateTime" Precision="3" />
+          <Property Name="Tagname" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="Double" />
+          <Property Name="Quality" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Adr_LoggingModelStoreContainer" CdmEntityContainer="Adr_LoggingEntities">
+          <FunctionImportMapping FunctionImportName="sp_GetTankLevels" FunctionName="Adr_LoggingModel.Store.sp_GetTankLevels">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Adr_LoggingModel.sp_GetTankLevels_Result">
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="Tagname" ColumnName="Tagname" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="StartValue" ColumnName="StartValue" />
+                <ScalarProperty Name="EndValue" ColumnName="EndValue" />
+                <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
+                <ScalarProperty Name="strMessage" ColumnName="strMessage" />
+                <ScalarProperty Name="FromTemperature" ColumnName="FromTemperature" />
+                <ScalarProperty Name="ToTemperature" ColumnName="ToTemperature" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetTankMovements" FunctionName="Adr_LoggingModel.Store.sp_GetTankMovements">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Adr_LoggingModel.sp_GetTankMovements_Result">
+                <ScalarProperty Name="Tagname" ColumnName="Tagname" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="Receipt" ColumnName="Receipt" />
+                <ScalarProperty Name="Delivery" ColumnName="Delivery" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Adr_DBLog_Analogs">
+            <EntityTypeMapping TypeName="Adr_LoggingModel.Adr_DBLog_Analogs">
+              <MappingFragment StoreEntitySet="Adr_DBLog_Analogs">
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Tagname" ColumnName="Tagname" />
+                <ScalarProperty Name="dt" ColumnName="dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

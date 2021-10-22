@@ -1,0 +1,90 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Requisition List
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                @*<div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtRequisitionSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>*@
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="RequisitionResults" class="table-responsive">
+                            <table id="RequisitionSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>ReqNo</th><th>SupplierName</th><th>Customer</th><th>PrintDescription</th><th>Colors</th><th>ChangedPlates</th><th>PlateCategory</th></tr></thead>
+                            <tbody id="data">
+
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+    @Scripts.Render("~/Content/DataTable/datatables.js")
+
+<script type="text/javascript">
+    function GetRequisitions()
+    {
+    //    $.getJSON('../StereoSystemAddStereo/RequisitionList?FilterText=' + $('#txtRequisitionSearch').val(), function (data) {
+    //        var items = '<table id="RequisitionSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>ReqNo</th><th>SupplierName</th><th>Customer</th><th>PrintDescription</th><th>Colors</th><th>ChangedPlates</th><th>PlateCategory</th></tr>';
+    //        $.each(data, function (i, x) {
+    //            items += "<tr class='nr' id=" + x.ReqNo + "  data-dismiss='modal'><td><a href=#>" + x.ReqNo + "</a></td><td>" + x.SupplierReference + "</td><td>" + x.Customer + "</td><td>" + x.PrintDescription + "</td><td>" + x.NumberColours + "</td><td>" + x.ChangePlate + "</td><td>" + x.PlateCategory + "</td></tr>";
+    //        });
+    //        items += "</table>";
+    //        $('#RequisitionResults').html(items);
+    //        //alert(items);
+    //    });
+    var table = $("#RequisitionSearch tbody");
+ 
+    $.ajax({
+        url: "@Url.Action("RequisitionList","StereoSystemAddStereo",new { FilterText = " " })",
+        method: "GET",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            table.empty();
+            $.each(data, function (a, b) {
+                table.append("<tr class='nr' id=" + b.ReqNo + "  data-dismiss='modal'><td><a href=#>" + b.ReqNo + "</a></td>" +
+                    "<td>"+b.SupplierReference+"</td>"+
+                    "<td>" + b.Customer + "</td>" +
+                    "<td>" + b.PrintDescription + "</td>" +
+                    "<td>" + b.NumberColours + "</td>" +
+                    "<td>" + b.ChangePlate + "</td>" +
+                    "<td>" + b.PlateCategory + "</td></tr>");
+            });
+ 
+            $("#RequisitionSearch").DataTable();
+        }
+    });
+    }
+
+    $(document).ready(function () {
+        GetRequisitions();
+        $('#RequisitionResults').on("click", ".nr", function () {          
+            var rCode = $(this).attr('id');
+            //do something with id
+            $('#ReqNo').val(rCode);
+           // alert($('#ReqNo').val());
+            window.setTimeout(function () {
+            }, 500);
+        });
+
+
+    });
+</script>

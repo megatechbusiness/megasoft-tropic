@@ -1,0 +1,96 @@
+﻿@model Megasoft2.ViewModel.TransportSystemPvJournalViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h4 style="font-weight:bold;" class="text-center">Transport System - Provisional Journal</h4><hr />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmTransportMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                GL Year
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Year, new { @class = "form-control input-sm" })                    
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                GL Month
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Month, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Reference
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Reference, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-12">
+            <div class="form-group" id="Detail" >
+
+                <table class="tblDetail table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblDetail" style="table-layout:fixed;">
+                    <thead class="style1" tabindex="-1">
+                        <tr>                            
+                            <th>
+                                Gl Code
+                            </th>
+                            <th class="text-right">
+                                Amount
+                            </th>
+                            
+                        </tr>
+
+                    </thead>
+                    <tbody class="datarow">
+                        @if (Model != null)
+                        {
+                            if (Model.Detail != null)
+                            {
+                                for (int i = 0; i < Model.Detail.Count; i++)
+                                {
+
+                                    <tr class="nr">
+                                        
+                                        <td>
+                                            @Model.Detail[i].GLCode
+                                            @Html.HiddenFor(model => Model.Detail[i].GLCode)
+                                        </td>
+                                        <td class="text-right">
+                                            @Html.TextBoxFor(model => Model.Detail[i].Amount, new { @class = "form-control input-xs text-right" })
+                                        </td>
+                                        
+                                    </tr>
+
+
+                                }
+                                
+                                <tr><th class="text-right">Total</th><td class="text-right">@string.Format("{0:##,###,##0.00}", Model.Detail.Sum(a => a.Amount))</td></tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}

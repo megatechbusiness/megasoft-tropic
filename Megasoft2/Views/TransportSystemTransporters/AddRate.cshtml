@@ -1,0 +1,147 @@
+﻿@model Megasoft2.ViewModel.TransportSystemTransportersViewModel
+
+@using (Html.BeginForm("AddRate", "TransportSystemTransporters", FormMethod.Post, new { @id = "TransporteRateForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">Create Transporter</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Transporter Rates</a></li>
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("RateIndex", "TransportSystemTransporters") + "'");">
+                <i class="fa fa-group"></i> Transporter Rates
+            </button>
+            <button type="submit" value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+                                @if (Model.Rates != null)
+                                {
+
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Supplier</label>
+                                            <div class="col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.Rates.Transporter, new { @class = "form-control input-sm", @id = "txtSupplier", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Rate Code
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.Rates.RateCode, new { @class = "form-control input-sm", @readonly = "readonly", @id = "txtRateCode" })
+                                                    @Html.ValidationMessageFor(model => model.Rates.RateCode)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Supplier</label>
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-10">
+                                                    @Html.TextBoxFor(model => model.Rates.Transporter, new { @class = "form-control input-sm", @id = "txtSupplier", @readonly = "readonly" })
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("SupplierSearch", "TransportSystemTransporters")" class="btn btn-sm btn-info  modal-link searchbox " id="supplierbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                                </div>
+                                                @*<a href="@Url.Action("SupplierSearch", "TransportSystemTransporters")" class="btn btn-xs btn-default modal-link searchbox" id="supplierbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">RateCode</label>
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-10">
+                                                    @Html.TextBoxFor(model => model.Rates.RateCode, new { @class = "form-control input-sm", @id = "txtRateCode", @readonly = "readonly" })
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("RateCodeSearch", "TransportSystemTransporters")" class="btn btn-sm btn-info  modal-link searchbox " id="ratecodebtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                                </div>
+                                                @*<a href="@Url.Action("SupplierSearch", "TransportSystemTransporters")" class="btn btn-xs btn-default modal-link searchbox" id="supplierbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Rate
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.Rates.Rate, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Rates.Rate)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+        <div id="errordiv">
+
+        </div>
+
+    </div>
+
+
+
+}
+<style type="text/css">
+
+</style>
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+
+                function ShowErrorDiv() {
+
+                    $('#errordiv').addClass("alert alert-danger");
+
+                }
+
+                $(function () {
+
+                    $("#TransporteRateForm").submit(function (e) {
+                        showprogressbar();
+                    });
+
+                });
+
+</script>

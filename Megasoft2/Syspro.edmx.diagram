@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c47cdefd50ec48e0ae7b729106e76e20" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="SysproModel.AdmTax" Width="1.5" PointX="0.75" PointY="61.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.ApBranch" Width="1.5" PointX="3" PointY="101.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.ApSupplier" Width="1.5" PointX="5.25" PointY="86.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.GenMaster" Width="1.5" PointX="3" PointY="58.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.InvMaster" Width="1.5" PointX="6" PointY="50.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.InvMaster_" Width="1.5" PointX="5.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtBranchSite" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtBranchSiteDept" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtEnetSetting" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtInvBranch" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtInvMaster" Width="1.5" PointX="4.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtProductClass" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtPurchaseOrderAnalysisCat" Width="1.5" PointX="13.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionComment" Width="1.5" PointX="13.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionEmailLog" Width="1.5" PointX="15.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionSetting" Width="1.5" PointX="2.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionStatu" Width="1.5" PointX="4.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.PorMasterDetail" Width="1.5" PointX="12.75" PointY="70.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.PorMasterHdr" Width="1.5" PointX="10.5" PointY="95.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SysproModel.WipMaster" Width="1.5" PointX="15.75" PointY="69.25" IsExpanded="true" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_GenMaster_AdmTax" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvMaster_AdmTax" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_AdmTax" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_ApSupplier_ApBranch" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvMaster_ApSupplier" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterHdr_ApSupplier" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_InvMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_WipMaster_InvMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_PorMasterHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_WipMaster" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SysproModel.InvWarehouse" Width="1.5" PointX="10.5" PointY="68.125" />
+        <EntityTypeShape EntityType="SysproModel.InvWhControl" Width="1.5" PointX="8.25" PointY="91.875" />
+        <EntityTypeShape EntityType="SysproModel.LotDetail" Width="1.5" PointX="18.75" PointY="77" />
+        <EntityTypeShape EntityType="SysproModel.SalArea" Width="1.5" PointX="3" PointY="97.625" />
+        <EntityTypeShape EntityType="SysproModel.SalBranch" Width="1.5" PointX="6" PointY="112.625" />
+        <EntityTypeShape EntityType="SysproModel.SalSalesperson" Width="1.5" PointX="8.25" PointY="113.25" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_SalArea_AdmTax" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_ApSupplier_SalArea" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvWarehouse_ApSupplier" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvWarehouse_InvMaster" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_LotDetail_InvMaster" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvWarehouse_InvWhControl" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_LotDetail_InvWarehouse" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_InvWarehouse" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_WipMaster_InvWarehouse" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvWhControl_SalArea" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_InvWhControl_SalBranch" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_LotDetail_InvWhControl" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_InvWhControl" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterHdr_InvWhControl" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_WipMaster_InvWhControl" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_SalSalesperson_SalBranch" />
+        <EntityTypeShape EntityType="SysproModel.InvWarehouse_" Width="1.5" PointX="17.75" PointY="14.75" />
+        <EntityTypeShape EntityType="SysproModel.TblArTerm" Width="1.5" PointX="17.75" PointY="17.75" />
+        <EntityTypeShape EntityType="SysproModel.TblCurrency" Width="1.5" PointX="3" PointY="91.875" />
+        <EntityTypeShape EntityType="SysproModel.TblCustomerClass" Width="1.5" PointX="10.75" PointY="18.75" />
+        <EntityTypeShape EntityType="SysproModel.TblSoBuyingGroup" Width="1.5" PointX="12.75" PointY="18.75" />
+        <EntityTypeShape EntityType="SysproModel.TblSoShipInst" Width="1.5" PointX="19.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.TblSoType" Width="1.5" PointX="4.75" PointY="19.75" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_ApSupplier_TblCurrency" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterHdr_TblCurrency" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionAudit" Width="1.5" PointX="12.375" PointY="9.75" />
+        <EntityTypeShape EntityType="SysproModel.mtGrnInvoiceAudit" Width="1.5" PointX="20.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SysproModel.mtBuyerStatsFilter" Width="1.5" PointX="20.375" PointY="10.75" />
+        <EntityTypeShape EntityType="SysproModel.TblSoStdCom" Width="1.5" PointX="20.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SysproModel.mtSupplierContact" Width="1.5" PointX="16.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SysproModel.mtReason" Width="1.5" PointX="12.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SysproModel.mtInvContractPricing" Width="1.5" PointX="9.75" PointY="14.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionDeletedLine" Width="1.5" PointX="9.75" PointY="21.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionDeletedQuote" Width="1.5" PointX="11.75" PointY="21.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionQuote" Width="1.5" PointX="13.75" PointY="21.75" />
+        <EntityTypeShape EntityType="SysproModel.mtSupplierContractPrice" Width="1.5" PointX="22.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.AdmFormData" Width="1.5" PointX="3" PointY="22.25" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionHeader" Width="1.5" PointX="20.375" PointY="14.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionTextLine" Width="1.5" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionDetail" Width="1.5" PointX="22.375" PointY="12.75" />
+        <AssociationConnector Association="SysproModel.FK_mtRequisitionDetail_mtRequisitionDetail" />
+        <EntityTypeShape EntityType="SysproModel.AdmFormList" Width="1.5" PointX="0.75" PointY="16" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_AdmFormData_AdmFormList" />
+        <EntityTypeShape EntityType="SysproModel.mtPeriodControl" Width="1.5" PointX="16.375" PointY="11.75" />
+        <EntityTypeShape EntityType="SysproModel.AdmFormControl" Width="1.5" PointX="3" PointY="26.25" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_AdmFormControl_AdmFormList" />
+        <EntityTypeShape EntityType="SysproModel.vwApSupplier" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.AdmFormValidation" Width="1.5" PointX="3" PointY="9" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_AdmFormValidation_AdmFormList" />
+        <EntityTypeShape EntityType="SysproModel.mtGrnDetail" Width="1.5" PointX="5.375" PointY="22.75" />
+        <EntityTypeShape EntityType="SysproModel.mtBeeSupplierAudit" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="SysproModel.mtBeeEmailLog" Width="1.5" PointX="22.375" PointY="7.75" />
+        <EntityTypeShape EntityType="SysproModel.mtBeePreference" Width="1.5" PointX="3.375" PointY="5.75" />
+        <EntityTypeShape EntityType="SysproModel.mtBranch" Width="1.5" PointX="22.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SysproModel.ApSupplier_" Width="1.5" PointX="16.375" PointY="22.75" />
+        <EntityTypeShape EntityType="SysproModel.CusGenMaster_" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.mtDepartment" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.mtApSupplier" Width="1.5" PointX="5.375" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

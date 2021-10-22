@@ -1,0 +1,187 @@
+﻿@model Megasoft2.mtTankMaster
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Create New Tank
+            </a>
+        </h4>
+    </div>
+
+    
+
+    @using (Ajax.BeginForm("Create", new AjaxOptions()
+{
+    OnSuccess = "ShowErrorDiv",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "errordiv"
+
+}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Tank
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Tank, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Tank)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Description
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Tag Name
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Tagname, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Uom
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Uom, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Uom)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Uom Description
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.UomDescription, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.UomDescription)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Temperature Tag Name
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.TemperatureTagname, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Tank Capacity
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.TankCapacity, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.TankCapacity)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Tank Type
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.DropDownListFor(model => model.TankType, new SelectList(ViewBag.TankType, "Value", "Text"), new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Product
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Product, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Product)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Standard Density - 20&#8451;
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.StandardDensity, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.StandardDensity)
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errordiv">
+
+                </div>
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    }
+</div>
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+<script type="text/javascript">
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+
+
+
+        //$('#save-btn').click(function () {
+        //    $('#modal-container').modal('hide');
+        //});
+
+
+    });
+</script>

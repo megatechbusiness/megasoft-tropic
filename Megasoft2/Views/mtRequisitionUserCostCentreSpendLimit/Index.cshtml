@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Megasoft2.mtReqUserCostCentreSpendLimit>
+@{
+    ViewBag.Title = "Branch";
+}
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary(true)
+    </div>
+}
+<fieldset>
+    <div class="bs-example">
+        <div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp&nbsp
+                    <div class="btn-group btn-breadcrumb">
+                        <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                        <a href="@Url.Action("Index", "mtRequisitionUserCostCentreSpendLimit")" class="btn btn-default">Request User Cost Centre Spend Limit</a>
+
+
+                    </div>
+
+                    <div class="pull-right">
+
+                        <div class="col-lg-6 text-right">
+                            <a href="@Url.Action("Create", "mtRequisitionUserCostCentreSpendLimit")" class="btn btn-default btn-sm">
+                                <span class="fa fa-plus-circle" aria-hidden="true" title="New"> New</span>
+                            </a>
+                        </div>
+                        &nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                User Name
+                                            </th>
+                                            <th>
+                                                Cost Centre
+                                            </th>
+                                            <th>
+                                                Spend Limit
+                                            </th>
+                                            <th>
+                                                Currency
+                                            </th>
+                                            <th>
+                                                Local Currency
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td>
+                                                        <a href="@Url.Action("Create", "mtRequisitionUserCostCentreSpendLimit", new { Username = item.Username})">@item.Username</a>
+                                                    </td>
+                                                    <td>
+                                                        @item.CostCentre
+                                                    </td>
+                                                    <td>
+                                                        @item.SpendLimit
+                                                    </td>
+                                                    <td>
+                                                        @item.Currency
+                                                    </td>
+                                                    <td>
+                                                        @item.LocalCurrency
+                                                    </td>
+                                                    <td>
+                                                        <a href="@Url.Action("Delete", "mtRequisitionUserCostCentreSpendLimit", new { CostCentre = item.CostCentre })" class="btn btn-danger btn-xs">
+                                                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                            }
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+    @Scripts.Render("~/Content/DataTable/datatables.js")
+
+    <script type="text/javascript">
+        $("#tblStock").DataTable({
+            "ordering": true,
+            "iDisplayLength": 100,
+            "fixedHeader": true,
+            "responsive": true,
+            "paging": true,
+            "searching": true,
+            "scrollY": "350px",
+            "sScrollX": "100%",
+            "scrollCollapse": true
+        });
+    </script>
+}
+
+
+@*mtReqUserCostCentreSpendLimit*@

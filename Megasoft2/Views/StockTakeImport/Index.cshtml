@@ -1,0 +1,224 @@
+﻿@model Megasoft2.ViewModel.StockTakeImport
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Stock Take Import</h4><hr />
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Warehouse
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                                    @Html.ValidationMessageFor(model => model.Warehouse)
+                                </div>
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Method
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.DropDownListFor(model => model.Increase, new SelectList(ViewBag.Increase, "Text", "Value"), new { @id = "ddlIncrease", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                                    @Html.ValidationMessageFor(model => model.Increase)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Reference
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.Reference, new { @class = "form-control input-xs" })
+                                    @Html.ValidationMessageFor(model => model.Reference)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+
+                                <div class="col-md-6 col-xs-6" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:Index" value="Index">
+                                        <i class="fa fa-arrow-right"> Load</i>
+                                    </button>
+                                </div>
+                                <div class="col-md-6 col-xs-6 text-right">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnPost" value="PostStockTake" name="action:PostStockTake">
+                                        <i class="fa fa-save"> Post</i>
+                                    </button>
+
+                                    &nbsp;&nbsp;&nbsp;
+
+                                    <button type="submit" class="btn btn-danger btn-sm" id="btnPurge" value="PurgeData" name="action:PurgeData">
+                                        <i class="fa fa-trash-o"> Purge</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-12 col-xs-12" style="text-align:left;">
+                                    <input type="text" id="txtSearch" placeholder="search" class="form-control input-sm" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLines">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>
+                                                Warehouse
+                                            </th>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Desc
+                                            </th>
+                                            <th>
+                                                Lot
+                                            </th>
+                                            <th>
+                                                Bin
+                                            </th>
+                                            <th>
+                                                Quantity
+                                            </th>
+                                            <th>
+                                                Date Scanned
+                                            </th>
+                                            <th>
+                                                Username
+                                            </th>
+                                            <th></th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.Detail != null)
+                                            {
+                                                for (int i = 0; i < Model.Detail.Count; i++)
+                                                {
+
+                                                    <tr class="nr">
+                                                        <td>
+                                                            @Model.Detail[i].ID
+                                                            @Html.HiddenFor(model => Model.Detail[i].ID)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Warehouse
+                                                            @Html.HiddenFor(model => Model.Detail[i].ID)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].StockCode
+                                                            @Html.HiddenFor(model => Model.Detail[i].StockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Description
+                                                            @Html.HiddenFor(model => Model.Detail[i].Description)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Lot
+                                                            @Html.HiddenFor(model => Model.Detail[i].Lot)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Bin
+                                                            @Html.HiddenFor(model => Model.Detail[i].Bin)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Quantity
+                                                            @Html.HiddenFor(model => Model.Detail[i].Quantity)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].CaptureDate
+                                                            @Html.HiddenFor(model => Model.Detail[i].CaptureDate)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Username
+                                                            @Html.HiddenFor(model => Model.Detail[i].Username)
+                                                        </td>
+
+                                                        <td>
+                                                            <a href="@Url.Action("DeleteItem", "StockTakeImport", new { ItemId = @Model.Detail[i].ID, Warehouse = @Model.Warehouse, Increase = @Model.Increase })" class="btn btn-default btn-xs">
+                                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+
+
+                                                }
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <style type="text/css">
+        .table-striped tbody tr.highlight td {
+            background-color: red;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#frmIndex").submit(function (e) {
+                showprogressbar();
+            });
+
+            $('#btnPurge').on('click', function (e) {
+                if (confirm('Only Purge when starting a new stock take. All scanned items will be deleted for selected warehouse. Are you sure you want to purge?')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+
+            $('#txtSearch').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#tblLines .nr');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+        });
+    </script>
+}

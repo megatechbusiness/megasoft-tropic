@@ -1,0 +1,226 @@
+﻿@model Megasoft2.ViewModel.SupplierContractPriceViewModel
+@{
+    ViewBag.Title = "ContractsXref";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmContract" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "SupplierContractPricing")" class="btn btn-default">New Contracts - Supplier Listing</a>
+
+
+                        </div>
+
+                        <div class="pull-right">
+
+                            <div class="col-lg-6 text-right">
+                                <button type="submit" class="btn btn-success btn-sm pull-right" id="btnPost" value="PostContractsXref" name="action:PostContractsXref">
+                                    <i class="fa fa-save"> Post</i>
+                                </button>
+                            </div>
+                            &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="form-horizontal row">
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Supplier
+                                </div>
+                                <div class="form-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Contract
+                                </div>
+                                <div class="form-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.Contract, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Start Date
+                                </div>
+                                <div class="form-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.StartDate, new { @class = "datepicker inline-datepicker form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Expiry Date
+                                </div>
+                                <div class="form-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "datepicker inline-datepicker form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+
+                                <div class="col-md-12 col-xs-12" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadXRef" value="LoadXRef">
+                                        <i class="fa fa-arrow-right"> Load</i>
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="form-group" id="ContractResults" style="overflow: auto;height: 600px">
+
+                                <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+                                    <thead class="style1" tabindex="-1">
+                                        <tr>
+                                            <th style="width:150px">
+                                                StockCode
+                                            </th>
+                                            <th style="width:300px">
+                                                Description
+                                            </th>
+                                            <th style="width:100px">
+                                                Stock Uom
+                                            </th>
+                                            <th style="width:150px">
+                                                Price
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.SupplierListing != null)
+                                            {
+                                                for (int i = 0; i < Model.SupplierListing.Count; i++)
+                                                {
+
+                                                    <tr class="nr">
+
+                                                        <td>
+                                                            @Model.SupplierListing[i].StockCode
+                                                            @Html.HiddenFor(model => Model.SupplierListing[i].StockCode)
+                                                            @Html.HiddenFor(model => Model.SupplierListing[i].Supplier)
+                                                        </td>
+                                                        <td>
+                                                            @Model.SupplierListing[i].Description
+                                                            <input type="hidden" class="rowid" value="@i" />
+                                                        </td>
+                                                        <td>
+                                                            @Model.SupplierListing[i].StockUom
+                                                            @Html.HiddenFor(model => Model.SupplierListing[i].StockUom)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => Model.SupplierListing[i].Price, new { @class = "form-control input-xs" })
+                                                        </td>
+
+                                                    </tr>
+
+
+                                                }
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+@Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+@section Scripts {
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+        $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+
+        function LoadInitGrid() {
+            //Load dummy table to initiate table scrolling fixed header and height
+            $('.Header tbody').empty();
+            for (var i = 0; i < 80; i++) {
+                $('.Header tbody').append("<tr class='nr'><td colspan='18'></td></tr>");
+            }
+            UltimateScrollingTable('Header', 500, 1000, 1);
+            $('.Header tbody').empty();
+        }
+
+        $(document).ready(function () {
+
+
+            $("#frmContract").submit(function (e) {
+                showprogressbar();
+            });
+
+
+            //function created to tab out of table when tab pressed on last column of price.
+            $('#Header').on('keydown', 'input', function (e) {
+                var keyCode = e.keyCode;
+                if (keyCode !== 9) return;
+
+                var tr = $(this).closest('tr');
+                var rowid = $(tr).find('td:eq(1)').find('input[type=hidden]').val();
+                var rows = document.getElementById('Header').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+                if (rowid == rows - 1) {
+                    $('#Customer').focus();
+                }
+            });
+
+            UltimateScrollingTable('Header', 500, 1000, 1);
+
+
+            document.getElementById("btnLoad").addEventListener("click", function (event) {
+
+                if (confirm('Are you sure?') == true) {
+                    return true;
+                }
+                else {
+                    event.preventDefault();
+                    return false;
+                }
+
+            });
+
+        });
+    </script>
+}

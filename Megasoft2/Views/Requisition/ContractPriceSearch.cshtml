@@ -1,0 +1,79 @@
+﻿<div class="bs-example">
+    <div class="panel panel-yellow">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                Stock Codes
+                <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="modal-body">
+            <div id="ContractsDiv">
+                <table id="tblContracts" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                    <thead><tr><th>Supplier</th><th>StockCode</th><th>Contract</th><th>Price Ref.</th><th>Price</th><th>Uom</th><th>Start Date</th><th>End Date</th></tr></thead>
+                    <tbody id="data"></tbody>
+                </table>
+            </div>
+            <form role="form">
+                <div class="form-group">
+
+                </div>
+                <button type="button" class="closeModal3 btn btn-danger btn-sm" id="btnReview">
+                    <i class="fa fa-close"> Close</i>
+                </button>
+            </form>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+
+<script type="text/javascript">
+    function SearchContracts() {
+
+        var table = $("#tblContracts tbody");
+
+        $.ajax({
+            url: "@Url.Action("ContractPriceList", "Requisition")?StockCode=" + $('#Line_StockCode').val() + "&Supplier=" + $('#Line_Supplier').val(),
+            method: "GET",
+            xhrFields: {
+                withCredentials: true,
+                ordering: false,
+                iDisplayLength: 20,
+                fixedHeader: true,
+                scrollY: 500,
+                responsive: true
+            },
+            success: function (data) {
+                table.empty();
+
+                $.each(data, function (a, ord) {
+                    table.append("<tr class='_stk' id=" + ord.Supplier + "><td><a href=#>" + ord.Supplier + "</a></td> <td>" + ord.StockCode + "</td> <td>" + ord.Contract + "</td><td>" + ord.PriceReference + "</td><td>" + ord.PurchasePrice + "</td><td>" + ord.PriceUom + "</td><td>" + ord.PriceStartDate + "</td><td>" + ord.PriceExpiryDate + "</td></tr >");
+                });
+
+                $("#tblContracts").DataTable();
+            }
+
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        $('#ContractsDiv').html('<table id="tblContracts" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>Supplier</th><th>StockCode</th><th>Contract</th><th>Price Ref.</th><th>Price</th><th>Uom</th><th>Start Date</th><th>End Date</th></tr></thead><tbody id="data"></tbody></table>');
+
+        SearchContracts();
+
+
+        $('#ContractsDiv').on("click", "._stk", function () {
+            var rCode = $(this).attr('id');
+            $('#txtPrice').val($('td', this).eq(4).text());
+
+            $('.closeModal3').trigger("click");
+        });
+    });
+</script>

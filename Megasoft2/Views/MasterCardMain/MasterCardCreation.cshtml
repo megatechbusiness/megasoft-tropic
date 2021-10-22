@@ -1,0 +1,157 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <div class="form-horizontal row spacer">
+                    <div class="col-md-3">
+                        <div class="input-group">
+
+                            @if (ViewBag.ValidId != null)
+                            {
+                                if (ViewBag.ValidId == true)
+                                {
+                                    <span class="input-group-btn">
+                                        <button href="" disabled="disabled" class="btn btn-default " type="button" aria-label="Left Align">
+                                            <span class="fa fa-search" aria-hidden="true"> </span>
+                                        </button>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Header.Id, new { @class = "form-control text-right", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;", @ReadOnly = "readonly" })
+                                }
+                                else
+                                {
+                                    <span class="input-group-btn">
+                                        <button href="@Url.Action("BrowseMasterCards", "MasterCardMain")" class="btn btn-default   modal-link searchbox " type="button" aria-label="Left Align">
+                                            <span class="fa fa-search" aria-hidden="true"> </span>
+                                        </button>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Header.Id, new { @class = "form-control text-right", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                }
+                            }
+                            else
+                            {
+                                <span class="input-group-btn">
+                                    <button href="@Url.Action("BrowseMasterCards", "MasterCardMain")" class="btn btn-default   modal-link searchbox " type="button" aria-label="Left Align">
+                                        <span class="fa fa-search" aria-hidden="true"> </span>
+                                    </button>
+                                </span>
+                                @Html.TextBoxFor(model => model.Header.Id, new { @class = "form-control text-right", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                            }
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="btnLoadMasterCardData" type="submit" aria-label="Left Align" name="action:LoadMasterCardData" value="LoadMasterCardData">
+                                    <span class="fa fa-arrow-circle-right" aria-hidden="true"> </span>
+                                </button>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <span class="input-group-btn col-md-1">
+                            <button type="submit" class="btn btn-default" href="@Url.Action("Index", "MasterCardCreation")">
+                                <i class="fa fa-refresh" title="Refresh" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="col-sm-4">
+                        <center><h4>Master Card Creation</h4></center>
+                    </div>
+                    <div class="text-right">
+                        <div class="">
+                            <button class="btn btn-primary" id="btnSaveDepartmentStockCodes" type="submit" aria-label="Left Align" name="action:SaveMasterCardStockCodes" value="SaveMasterCardStockCodes">
+                                <span class="fa fa-save" aria-hidden="true">Save </span>
+                            </button>
+                            <button href="@Url.Action("StockCodeCreationIndex", "MasterCardMain")" class="btn btn-success" type="submit" aria-label="Left Align" name="action:StockCodeSetup" value="StockCodeSetup">
+                                <span class="fa fa-arrow-right" aria-hidden="true">Next </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- List group -->
+
+            <div class="well-lg  col-sm-7 ">
+                <div class="" id="Detail">
+                    <table class="tblDetail table table-hover table-striped  table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                        <thead class="style1" tabindex="-1">
+                            <tr>
+                                <th colspan="2" class="text-center">
+                                    @Html.DisplayFor(modelItem => Model.StockCode)
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="">
+                                    Department
+                                </th>
+                                <th style="">
+                                    Stock Code
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Departments != null)
+                                {
+                                    for (int i = 0; i < Model.Departments.Count; i++)
+                                    {
+                            <tr class="nr">
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Departments[i].Department)
+                                    @Html.HiddenFor(model => Model.Departments[i].Department)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => modelItem.Departments[i].StockCode, new { @class = "form-control input-sm" })
+                                    @Html.HiddenFor(model => model.Departments[i].StockCode)
+                                </td>
+                            </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>         
+    </div>
+
+}
+<style>
+    .card-small {
+        height: 100%;
+    }
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
+    
+
+</style>
+@*<link href="~/Content/DataTable/datatables.css" rel="stylesheet">*@
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+@Scripts.Render("~/Scripts/jquery-2.1.3.min.js")
+@*@Scripts.Render("~/Content/DataTable/datatables.js")*@
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+<script type="text/javascript">
+    $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+    $(function () {
+
+
+    });
+</script>

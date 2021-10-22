@@ -1,0 +1,26 @@
+^XA
+^PON
+^FX
+^CF0,40
+^FO70,50^FDDEMO FOR MEGATECH^FS
+^CF0,30
+^FO550,70^FD<<DATE>>^FS
+^CF0,40
+^FO70,100^GB700,1,3^FS
+
+^FX
+^CFA,30
+^FO70,120^FDPo/Line: <<PoLine>>^FS
+^FO70,160^FDSupplier: <<Supplier>>^FS
+^FO70,200^FDStockCode: <<StockCode>>^FS
+^FO70,240^FDDesc: <<Desc>>^FS
+^FO70,280^FDReel No: <<ReelNo>>^FS
+^FO70,320^FDSup-Code: <<SupCode>>^FS
+^FO70,360^FDMass: <<Mass>>^FS
+^FO70,400^FDMtr: <<Mtr>>^FS
+^CFA,15
+^FO70,440^GB700,1,3^FS
+^FO500,500^GB250,250,3^FS
+^FO550,540^BQ,2,5^FDQA,<<Barcode>>^FS
+^PQ<<NoOfLabels>>
+^XZ

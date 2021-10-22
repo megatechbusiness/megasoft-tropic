@@ -1,0 +1,174 @@
+﻿@model IEnumerable<Megasoft2.sp_GetAuditTrail_Result>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-lg-12">
+            <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+        </div>
+
+
+        <div style="overflow: auto;height: 700px" class="col-lg-12">
+            <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+                <thead class="style1">
+                    <tr>
+                        <th style="width:100px" class="nowrap">
+                            Requisition
+                        </th>
+                        <th style="width:150px" class="nowrap">
+                            Purchase Order
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            Grn
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            Line
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            TrnType
+                        </th>
+                        <th style="width:200px" class="nowrap">
+                            Program
+                        </th>
+                        <th style="width:150px" class="nowrap">
+                            KeyField
+                        </th>
+                        <th style="width:200px" class="nowrap">
+                            Old Value
+                        </th>
+                        <th style="width:200px" class="nowrap">
+                            New Value
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            Username
+                        </th>
+                        <th style="width:300px" class="nowrap">
+                            TrnDate
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.Requisition)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.PurchaseOrder)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Grn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Line)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.TrnType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Program)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.KeyField)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.OldValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.NewValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.TrnDate)
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+    <div class="panel-body">
+        <div style="overflow: auto;height: 400px">
+            <div class="col-lg-12" id="Results">
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        .table-striped tbody tr.highlight td {
+            background-color: red;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+
+        function LoadAudit()
+        {
+            $(".Header > tbody").empty();
+            $.getJSON('../RequisitionAuditTrail/GetAudit?FilterText=' + $('#txtSearch').val(), function (data) {
+                //alert(data);
+                //var items = '<table id="Header" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr class="nowrap"><th>Requisition</th><th>RequisitionDate</th><th>Requisitioner</th><th>Notes</th><th>Branch</th><th>Site</th><th>DueDate</th><th>ToAddress1</th><th>ToAddress2</th><th>ToAddress3</th><th>ToAddress4</th><th>ToAddress5</th><th>Emergency</th><th>EmergencyReason</th><th>Completed</th><th>CompletedDate</th><th>Accepted</th><th>AcceptedDate</th><th>QuoteReceived</th><th>QuoteOverride</th><th>QuoteOverrideReason</th><th>Authorised</th><th>AuthorisedDate</th><th>AuthorisedBy</th><th>JobDescription</th><th>SpecialInstructions</th><th>ItemsDescription</th><th>PurchaseOrder</th><th>Status</th></tr>';
+                $.each(data, function (i, AU) {
+                    
+                    $('.Header tbody').append("<tr class='nr'><td>" + AU.Requisition + "</td><td>" +
+                            AU.PurchaseOrder + "</td><td>" + AU.Grn + "</td><td>" +
+                            AU.Line + "</td><td>" + AU.TrnType + "</td><td>" +
+                            AU.Program + "</td><td>" + AU.KeyField +
+                            "</td><td>" + AU.OldValue +
+                            "</td><td>" + AU.NewValue +
+                            "</td><td>" + AU.Username +
+                            "</td><td>" + AU.TrnDate +
+                            "</td></tr>");
+                });
+
+            });
+        }
+
+
+
+        $(document).ready(function () {
+            
+
+            $('#txtSearch').keyup(function () {
+                LoadAudit();
+            });
+
+            UltimateScrollingTable('Header', 700, 1800, 1);
+
+
+        });
+    </script>
+}
+
+
+
+
+

@@ -1,0 +1,22 @@
+<html>
+
+	<body>
+		<script src="http://localhost:8080/ebis/crviewer/crystalreportviewers/ViewerSeed.js"></script>
+		<script>
+			function success(instance) {
+				var reportSource = new SAP.CR.InProcReportSource("test/L3Rlc3RGb2xkZXIvdGVzdERvYw","true", "fr", "de");
+
+				instance.setReportSource(reportSource);
+				instance.setHasRefreshButton(true);
+			}
+
+			function fail(instance, ex) 
+			{
+				alert(ex);
+			}
+			var viewer = SAP.CR.Viewer.create("myViewer", "mycontainer", success, fail);
+		</script>
+
+		<div id="mycontainer"></div>
+	</body>
+</html>

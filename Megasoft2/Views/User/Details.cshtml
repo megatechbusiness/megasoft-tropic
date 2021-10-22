@@ -1,0 +1,57 @@
+﻿@model Megasoft2.mtUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>mtUser</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Username)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Username)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Password)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Password)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SysproUsername)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SysproUsername)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SysproPassword)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SysproPassword)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DefaultPrinter)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DefaultPrinter)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DefaultApplication)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DefaultApplication)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

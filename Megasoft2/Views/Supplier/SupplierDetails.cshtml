@@ -1,0 +1,152 @@
+﻿@model Megasoft2.ViewModel.SupplierViewModel
+@{
+    ViewBag.Title = "Supplier Details";
+}
+
+
+<h4 style="font-weight:bold;" class="text-center">Supplier Details</h4>
+<p style="text-align:right">
+    <button type="button" value="Suppliers" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("Index", "Supplier") + "'");">
+        <i class="fa fa-plus-square-o"></i> Suppliers
+    </button>
+</p>
+<div class="form-horizontal row">
+    <div class="form-group">
+        <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+    </div>
+</div>
+
+<div class="form-horizontal row">
+    <div style="overflow: auto;height: 300px" class="col-lg-12">
+        <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+            <thead class="style1">
+                <tr>
+                    <th style="width:100px" class="nowrap">
+                        Requisition
+                    </th>
+                    <th style="width:200px" class="nowrap">
+                        Grn
+                    </th>
+                    <th style="width:200px" class="nowrap">
+                        GrnDate
+                    </th>
+                    <th style="width:200px" class="nowrap">
+                        Invoice
+                    </th>
+                    <th style="width:200px" class="nowrap">
+                        InvoiceDate
+                    </th>
+                    <th style="width:200px" class="nowrap">
+                        Total
+                    </th>
+                    <th style="width:200px" class="nowrap">
+                        PurchaseOrder
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="datarow">
+                @if (Model != null)
+                {
+                    if (Model.GrnSupplier != null)
+                    {
+
+                        for (int i = 0; i < Model.GrnSupplier.Count; i++)
+                        {
+
+                            <tr class="nr">
+                                <td>
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].Requisition)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].Requisition)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].Grn)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].Grn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].GrnDate)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].GrnDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].Invoice)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].Invoice)
+                                </td>
+                                <td class="text-nowrap">
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].InvoiceDate)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].InvoiceDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].Total)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].Total)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.GrnSupplier[i].PurchaseOrder)
+                                    @Html.HiddenFor(model => model.GrnSupplier[i].PurchaseOrder)
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="form-horizontal row">
+    <div style="overflow: auto;height: 400px">
+        <div class="col-lg-12" id="Results">
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+@Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtSearch').keyup(function () {
+            var Supplier = "@Model.GetSupplier.ToString()";
+            $.getJSON('../Supplier/SupplierPurchaseOrderHistory?FilterText=' + $('#txtSearch').val() + '&supplier=' + Supplier.replace("&", "%26"), function (data) {
+                
+                $.each(data, function (i, PO) {
+
+                    $('.Header tbody').append("<tr class='nr nowrap'><td>" + PO.Requisition + "</td><td>" +                            
+                            PO.Grn + "</td><td>" + PO.GrnDate.toString() + "</td><td>" +
+                            PO.Invoice + "</td><td>" + PO.InvoiceDate + "</td><td>" +                            
+                            PO.Total + "</td><td>" +
+                            PO.PurchaseOrder + "</td></tr>");
+                });
+                
+            });
+        });
+
+
+        $('#Header').on("click", ".nr", function () {
+            //alert($('#txtSearchStockCode').val());
+            var Requisition = $(this).find('td:eq(0)').text().trim();
+            $.getJSON('../Supplier/SupplierPurchaseOrderDetail?Requisition=' + Requisition, function (data) {
+                var items = '<table id="Detail" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr class="nowrap"><th>Requisition</th><th>GlCode</th><th>StockCode</th><th>Grn</th><th>GrnDate</th><th>Invoice</th><th>InvoiceDate</th><th>StockDescription</th><th>QtyUom</th><th>QtyReceived</th><th>Price</th><th>PurchaseOrder</th></tr>';
+                $.each(data, function (i, PO) {
+
+                    items += "<tr class='nr nowrap'><td>" + PO.Requisition + "</td><td>" +
+                            PO.GlCode + "</td><td>" + PO.StockCode + "</td><td>" +
+                            PO.Grn + "</td><td>" + PO.GrnDate.toString() + "</td><td>" +
+                            PO.Invoice + "</td><td>" + PO.InvoiceDate + "</td><td>" +
+                            PO.StockDescription + "</td><td>" + PO.QtyUom + "</td><td>" +
+                            PO.QtyReceived + "</td><td>" + PO.Price + "</td><td>" +
+                            PO.PurchaseOrder + "</td></tr>";
+                });
+                items += "</table>";
+                $('#Results').html(items);
+                //alert(items);
+            });
+
+
+        });
+
+        UltimateScrollingTable('Header', 400, 1500, 1);
+    });
+</script>
+
+

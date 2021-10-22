@@ -1,0 +1,224 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Index  - This is the Home View</h2>
+    <p>@(HttpContext.Current.User.Identity.Name) - This is for Authorized user </p>*@
+
+<div class="panel panel-default bootcards-summary">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">Dashboard</h3>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            @if (ViewBag.isAdmin == true)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-binoculars"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].OpenReq))
+                            @(Html.HiddenFor(model => model.Status[0].OpenReq))
+                        </p>
+                        <h1>Requisitions Open</h1>
+                    </a>
+                </div>
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="RequisitionPosting/Index">
+                        <i class="fa fa-3x fa-clipboard"></i>
+                        <p style="font-size:20px">
+                            @ViewBag.PostError
+                        </p>
+                        <h1>Posting Errors</h1>
+                    </a>
+                </div>
+            }
+
+            @if (ViewBag.isInvoicer == true)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="RequisitionInvoiceAuthorisation/Index">
+                        <i class="fa fa-3x fa-book"></i>
+                        <p style="font-size:20px">
+                            @ViewBag.Invoices
+                        </p>
+                        <h1>Invoices Ready for Review</h1>
+                    </a>
+                </div>
+            }
+
+            @if (ViewBag.isInvMatching == true)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="RequisitionInvoiceMatch/Index">
+                        <i class="fa fa-3x fa-paperclip"></i>
+                        <p style="font-size:20px">
+                            @ViewBag.InvMatch
+                        </p>
+                        <h1>Grn Ready for Matching</h1>
+                    </a>
+                </div>
+
+            }
+
+            @if (ViewBag.Req == true && ViewBag.Buyer == false)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-binoculars"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].OpenReq))
+                            @(Html.HiddenFor(model => model.Status[0].OpenReq))
+                        </p>
+                        <h1>Requisitions Open</h1>
+                    </a>
+                </div>
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-clock-o"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].AwaitingAuthorization))
+                            @(Html.HiddenFor(model => model.Status[0].AwaitingAuthorization))
+                        </p>
+                        <h1>Requisitions Awaiting Authorisation</h1>
+                    </a>
+                </div>
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-ticket"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].AwaitingBuyer))
+                            @(Html.HiddenFor(model => model.Status[0].AwaitingBuyer))
+                        </p>
+                        <h1> Requisitions Accepted</h1>
+                    </a>
+                </div>
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-check"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].PoReady))
+                            @(Html.HiddenFor(model => model.Status[0].PoReady))
+                        </p>
+                        <h1>Authorised</h1>
+                    </a>
+                </div>
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-mortar-board"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].Error))
+                            @(Html.HiddenFor(model => model.Status[0].Error))
+                        </p>
+                        <h1>Quotes Received</h1>
+                    </a>
+                </div>
+
+            }
+
+            @if (ViewBag.Buyer == true && ViewBag.Req == false)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-money"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].AwaitingBuyer))
+                            @(Html.HiddenFor(model => model.Status[0].AwaitingBuyer))
+                        </p>
+                        <h1>Requisitions Awaiting Buyer</h1>
+                    </a>
+                </div>
+
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-check"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].PoReady))
+                            @(Html.HiddenFor(model => model.Status[0].PoReady))
+                        </p>
+                        <h1>Requisitions Authorised</h1>
+                    </a>
+                </div>
+            }
+            @if (ViewBag.Authorizer == true)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="Requisition/Index">
+                        <i class="fa fa-3x fa-clock-o"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].AwaitingAuthorization))
+                            @(Html.HiddenFor(model => model.Status[0].AwaitingAuthorization))
+                        </p>
+                        <h1>Awaiting Authorisation</h1>
+                    </a>
+                </div>
+
+            }
+
+            @if (ViewBag.isGrn == true)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="RequisitionGrn/Index">
+                        <i class="fa fa-3x fa-bookmark-o"></i>
+                        <p style="font-size:20px">@ViewBag.Grn</p>
+                        <h1>Outstanding Grn</h1>
+                    </a>
+                </div>
+            }
+
+            @if (ViewBag.isPostManager == true && ViewBag.isAdmin == false)
+            {
+                <div class="col-xs-11 col-sm-4">
+                    <a class="bootcards-summary-item" href="RequisitionPosting/Index">
+                        <i class="fa fa-3x fa-bookmark-o"></i>
+                        <p style="font-size:20px">
+                            @(Html.DisplayFor(model => model.Status[0].Error))
+                            @(Html.HiddenFor(model => model.Status[0].Error))
+                        </p>
+                        <h1>Posting Errors</h1>
+                    </a>
+                </div>
+            }
+
+
+        </div>
+    </div>
+    <div class="panel-footer">
+    </div>
+</div>
+
+
+
+
+@section Scripts
+    {
+    <!-- Bootcards CSS for desktop: -->
+    <link rel="stylesheet" href="~/Content/bootstrap-cards/css/desktop.css">
+    <script  src="@Url.Content("~/Content/Bootstrap/js/jquery.js")"></script>
+    <style type="text/css">
+        body {
+            padding-top: 0;
+        }
+
+        .bootcards-summary-item {
+            background: #EBF4FA;
+            display: block;
+            border-radius: 4px;
+            padding: 25px 10px;
+            text-align: center;
+            position: relative;
+            height: 180px;
+        }
+
+        .bootcards-summary .panel-body {
+            padding: 7px 20px;
+        }
+    </style>
+
+
+}
+

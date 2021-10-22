@@ -1,0 +1,277 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">WorkCentre</label>
+                <div class="col-sm-8">
+                    @if (ViewBag.SlittingWorkCentres != null)
+                    {
+                        @Html.DropDownListFor(n => n.Slitting.WorkCentre, new SelectList(ViewBag.SlittingWorkCentres, "Value", "Text"), "Select Work Centre", new { @class = "form-control input-sm", style = "width:100%" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Slitting.WorkCentre, new { @class = "form-control input-xs" })
+                    }
+                    @Html.HiddenFor(model => model.Slitting.Id)
+                    @Html.HiddenFor(m => m.Slitting.WorkCentre)
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Slit Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.SlitWidth, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Unwind No.</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Slitting.UnWindNo, new { @class = "form-control input-xs" })
+                    </div>
+
+                </div>
+            </div>*@
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.Tolerance, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Kg/Reel</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.KgPerReel, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Unwind No.</label>
+                <div class=" col-sm-6">
+                    @Html.TextBoxFor(model => model.Slitting.UnWindNo, new { @class = "form-control input-xs", @readonly = "readonly" })
+                </div>
+                <a href="@Url.Action("UnwindDirectionPartial", "MasterCardMain")" class="btn btn-xs btn-info  modal-link searchbox " id="btnUnWind"><span class="fa fa-search" aria-hidden="true"> </span></a>
+            </div>
+
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Meters/Reel</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.MetersPerReel, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Rolls Up</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.RollsUp, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No. of Rolls</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Slitting.NumberOfRolls, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Low Tension</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Slitting.LowTension, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Special Instructions</label>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(model => model.Slitting.SpecialInstructions, 5, 40, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Step</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.ToleranceOnStep, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Core Id.</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.CoreId, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Core Wall</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.CoreWall, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Reel OD Min</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.ReelODMin, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Reel OD Max</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.ReelODMax, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Joins per Reel</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.JoinsPerReel, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Flush & Even Winding</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Slitting.FlushEvenWinding, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Misprints</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Slitting.NoMisprints, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Edge Weave</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Slitting.ToleranceOnWedgeWeave, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Image Width</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Slitting.PrintImageWidth, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Image Length</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Slitting.PrintImageLength, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>*@
+
+
+
+    </div>
+</div>

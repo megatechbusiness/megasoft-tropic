@@ -1,0 +1,78 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" id="btnCloseUnWind" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Unwind Directions
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="container">
+            <div class="row imagetiles">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/1.png" id="1" class="img-responsive">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <img src="~/Images/UNWIND/2.png" id="2" class="img-responsive">
+                    </div>
+                </div>
+            <div class="row imagetiles">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/3.png" id="3" class="img-responsive">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/4.png" id="4" class="img-responsive">
+                </div>
+
+            </div>
+            <div class="row imagetiles">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/5.png" id="5" class="img-responsive">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/6.png" id="6" class="img-responsive">
+                </div>
+
+            </div>
+            <div class="row imagetiles">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/7.png" id="7" class="img-responsive">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <img src="~/Images/UNWIND/8.png" id="8" class="img-responsive">
+                </div>
+
+            </div>
+            </div>
+    </div>
+</div>
+<style>
+    div.imagetiles div.col-lg-3.col-md-3.col-sm-3.col-xs-6 {
+        padding: 5px;
+    }
+
+    img:hover {
+        filter: brightness(50%);
+    }
+</style>
+<script type="text/javascript">
+    
+
+    $(document).ready(function () {
+        $(".img-responsive").on("click", function () {
+            var id = $(this).attr("id");
+            $('#Slitting_UnWindNo').val(id);
+            //alert(id);
+            window.setTimeout(function () {
+            }, 500);
+            $('#btnCloseUnWind').click();
+
+        });
+    });
+</script>

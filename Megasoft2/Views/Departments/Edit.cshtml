@@ -1,0 +1,145 @@
+﻿@model Megasoft2.mtBranchSiteDept
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<div class="panel panel-primary" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Department Details
+            </a>
+        </h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Branch
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Branch)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Site
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Site, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Site)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Department
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Department, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Department)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Department Name
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.DepartmentName, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.DepartmentName)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Telephone
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Telephone)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Fax
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Fax)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Email
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-md-6  col-xs-12">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
+
+    <a href="@Url.Action("Index", "Branch")" class="btn btn-primary">
+        <span class="fa fa-backward" aria-hidden="true" title="Branches"> Branches</span>
+    </a>
+
+    <a href="@Url.Action("Index", "Sites", new { Branch = Model.Branch })" class="btn btn-info">
+        <span class="fa fa-backward" aria-hidden="true" title="Branches"> Sites</span>
+    </a>
+    <a href="@Url.Action("Index", "Departments", new { Branch = Model.Branch, Site = Model.Site })" class="btn btn-default">
+        <span class="fa fa-cog" aria-hidden="true" title="Sites"> Departments</span>
+    </a>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

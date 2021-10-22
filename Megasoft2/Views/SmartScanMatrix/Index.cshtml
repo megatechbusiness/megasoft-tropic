@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Megasoft2.mtSmartScanMatrix>
+
+@{
+    ViewBag.Title = "TransporterIndex";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Smart Scan</h4><hr />
+
+<p>
+    <a href="@Url.Action("Create", "SmartScanMatrix", new { SmartId = Guid.Empty })" class="btn btn-warning">
+        <span class="fa fa-file-o" aria-hidden="true" title="Add New Smart Scan Id"> Create</span>
+    </a>
+    <a href="@Url.Action("Index", "SmartScanMatrix")" class="btn btn-default">
+        <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
+    </a>
+</p>
+<div class="form-group">
+    <div class="col-sm-12">
+        <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+
+    </div>
+
+    <hr />
+    <div class="col-sm-14">
+        <table class="tblSmartScan table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblSmartScan" style="table-layout:fixed;">
+            <thead class="style1">
+                <tr class="nowrap">
+                    <th style="width:75px"></th>
+                    <th style="width:200px">
+                        Company
+                    </th>
+                    <th style="width:200px">
+                        Username
+                    </th>
+                    <th style="width:200px">
+                        TrnType
+                    </th>
+                    <th style="width:200px">
+                        Source Warehouse
+                    </th>
+                    <th style="width:200px">
+                        Source Bin
+                    </th>
+                    <th style="width:200px">
+                        Destination Warehouse
+                    </th>
+                    <th style="width:200px">
+                        Destination Bin
+                    </th>
+
+                </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr class="nr">
+                        <td>
+                            <a href="@Url.Action("Create", "SmartScanMatrix", new { SmartId=item.SmartId })" class="btn btn-primary btn-xs">
+                                <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></span>
+                            </a>
+                            <a href="@Url.Action("Delete", "SmartScanMatrix", new { SmartId = item.SmartId })" class="btn btn-danger btn-xs" type="submit" value="Delete"  id="btnLoad" name="action:Delete">
+                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Company)
+                            @Html.HiddenFor(model => item.Company)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Username)
+                            @Html.HiddenFor(model => item.Username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.TrnType)
+                            @Html.HiddenFor(model => item.TrnType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.SourceWarehouse)
+                            @Html.HiddenFor(model => item.SourceWarehouse)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.SourceBin)
+                            @Html.HiddenFor(model => item.SourceBin)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DestWarehouse)
+                            @Html.HiddenFor(model => item.DestWarehouse)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DestBin)
+                            @Html.HiddenFor(model => item.DestBin)
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+
+
+    <script type="text/javascript">
+
+
+
+    $(function () {
+
+        $('#txtSearch').focus();
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblSmartScan .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        UltimateScrollingTable('tblSmartScan', 700, 1500, 1);
+    });
+    </script>
+}
+
+

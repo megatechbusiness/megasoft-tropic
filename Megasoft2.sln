@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megasoft2", "Megasoft2\Megasoft2.csproj", "{1FBCEF7F-F689-48F0-A7E5-42D59CFC4A94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MegasoftService", "MegasoftService\MegasoftService.csproj", "{7D36562F-A36A-43B2-B6C5-421348EF1952}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MegasoftEdiService", "MegasoftEdiService\MegasoftEdiService.csproj", "{9B7C7F4E-5513-46FB-8461-886F479B72CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MegasoftDelayedPostingService", "MegasoftDelayedPostingService\MegasoftDelayedPostingService.csproj", "{6148C1F4-71EE-4310-BA31-6A08C1850F8B}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://mega-tech.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Megasoft2\\Megasoft2.csproj
+		SccProjectName1 = Megasoft2
+		SccLocalPath1 = Megasoft2
+		SccProjectUniqueName2 = MegasoftDelayedPostingService\\MegasoftDelayedPostingService.csproj
+		SccProjectName2 = MegasoftDelayedPostingService
+		SccLocalPath2 = MegasoftDelayedPostingService
+		SccProjectUniqueName3 = MegasoftEdiService\\MegasoftEdiService.csproj
+		SccProjectName3 = MegasoftEdiService
+		SccLocalPath3 = MegasoftEdiService
+		SccProjectUniqueName4 = MegasoftService\\MegasoftService.csproj
+		SccProjectName4 = MegasoftService
+		SccLocalPath4 = MegasoftService
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FBCEF7F-F689-48F0-A7E5-42D59CFC4A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FBCEF7F-F689-48F0-A7E5-42D59CFC4A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FBCEF7F-F689-48F0-A7E5-42D59CFC4A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FBCEF7F-F689-48F0-A7E5-42D59CFC4A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D36562F-A36A-43B2-B6C5-421348EF1952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D36562F-A36A-43B2-B6C5-421348EF1952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D36562F-A36A-43B2-B6C5-421348EF1952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D36562F-A36A-43B2-B6C5-421348EF1952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7C7F4E-5513-46FB-8461-886F479B72CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7C7F4E-5513-46FB-8461-886F479B72CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7C7F4E-5513-46FB-8461-886F479B72CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7C7F4E-5513-46FB-8461-886F479B72CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6148C1F4-71EE-4310-BA31-6A08C1850F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6148C1F4-71EE-4310-BA31-6A08C1850F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6148C1F4-71EE-4310-BA31-6A08C1850F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6148C1F4-71EE-4310-BA31-6A08C1850F8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

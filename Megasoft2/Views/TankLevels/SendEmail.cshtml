@@ -1,0 +1,115 @@
+﻿@model Megasoft2.Models.Mail
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Email - @Html.LabelFor(model => model.Program, @Model.Program)
+            </a>
+        </h4>
+    </div>
+@using (Ajax.BeginForm("SendEmail", new { Program = @Model.Program }, new AjaxOptions()
+{
+    OnSuccess = "ShowErrorDiv",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "errordiv",
+    OnBegin = "showprogressbar",
+    OnComplete = "hideprogressbar",
+    OnFailure = "hideprogressbar"
+
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            To
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.To, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.To)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Subject
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Subject)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Message
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextAreaFor(model => model.Body, 5, 55, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Body)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="alert alert-info">
+                    <p>The Stock Sheet and Blend Sheet Reports will be attached to the sent email.</p>
+                </div>
+
+                <div id="errordiv">
+
+                </div>
+
+                <div class="form-horizontal row">                                        
+                    <div class="form-group">
+                        <div class="col-sm-6 text-left">
+                            <button id="btnApply" type="submit"
+                                    class="btn btn-primary">
+                                Apply
+                            </button>
+
+                            
+                        </div>
+                        <div class="col-sm-6 text-right" >
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+}
+</div>
+
+<script type="text/javascript">
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+
+
+
+        //$('#save-btn').click(function () {
+        //    $('#modal-container').modal('hide');
+        //});
+
+
+    });
+</script>

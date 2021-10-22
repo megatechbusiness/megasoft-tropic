@@ -1,0 +1,137 @@
+﻿@model Megasoft2.ViewModel.LabourPostViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmLabourPostControl" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+        <div class="panel panel-primary well">
+            <h4 style="font-weight:bold;" class="text-center">Labour Post Control </h4><hr />
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp&nbsp
+                    <div class="btn-group btn-breadcrumb">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                        <a href="@Url.Action("LabourPostControl","LabourPost")" class="btn btn-default">Labour Post Control</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" id="errordiv" hidden="hidden">
+                <label ID="lblError" Text=""></label>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal row">
+                    <div style="overflow:auto">
+                        
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <button type="submit"  class="btn btn-default hbutton btn-sm pull-right auth" id="btnPost" name="action:SaveGrid" value="SaveGrid">
+                        <i>Save</i>
+                    </button>
+                    <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-2">
+                            Date
+                        </div>
+                        <div class="col-sm-5">
+                            <div class='input-group date' id='datetimepicker1'>
+                                @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                               
+                                <span class="input-group-addon input-sm">
+                                    <span class="fa fa-calendar fa-lg"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadGrid" value="LoadGrid">
+                                <span class="fa fa-arrow-right"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <table class="tblDetail table table-hover table-striped myTableStyle table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                        <thead class="style1" tabindex="-1">
+                            <tr>
+                                <th style="width:100px">
+                                    Open / Closed
+                                </th>
+                                <th>
+                                    Cost Centre
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.CostCentres != null)
+                                {
+                                    for (int i = 0; i < Model.CostCentres.Count; i++)
+                                    {
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.CheckBoxFor(modelItem => Model.CostCentres[i].Status, new { @class = "big-checkbox" })
+                                                @Html.HiddenFor(model => Model.CostCentres[i].Status)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.CostCentres[i].CostCentre)
+                                                @Html.HiddenFor(model => Model.CostCentres[i].CostCentre)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <style type="text/css">
+        .myTableStyle {
+            height: 400px;
+            width: 400px;
+        }
+
+        .big-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+            $('#btnLoad').on("click", function () {
+                if ($('#Date').val() === "") {
+                    alert("Please select a date");
+                    return false;
+                    
+                }
+            });
+            $('#btnPost').on("click", function () {
+                var tablelength = $('#tblDetail tbody tr').length;
+                if (tablelength === 0 ) {
+                    alert("Please load screen.");
+                    return false;
+
+                }
+            });
+            $('#Date').on("change", function () {
+                $('#tblDetail tbody').empty();
+            });
+
+            $("#frmLabourPostControl").submit(function (e) {
+                showprogressbar();
+            });
+
+
+        });
+    </script>
+}

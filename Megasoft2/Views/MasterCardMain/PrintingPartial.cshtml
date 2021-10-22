@@ -1,0 +1,355 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">WorkCentre</label>
+                <div class="col-sm-8">
+                    @if (ViewBag.PrintingWorkCentres != null)
+                    {
+                        @Html.DropDownListFor(n => n.Printing.WorkCentre, new SelectList(ViewBag.PrintingWorkCentres, "Value", "Text"), "Select Work Centre", new { @class = "form-control input-sm", style = "width:100%" })
+                        @Html.HiddenFor(m => m.Printing.WorkCentre)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Printing.WorkCentre, new { @class = "form-control input-xs" })
+                    }
+                    @Html.HiddenFor(model => model.Printing.Id)
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No. of Colours - Front</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.NumberColoursFront, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No. of Colours - Back</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.NumberColoursReverse, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Micron.</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Printing.Micron, new { @class = "form-control input-xs" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        <div class="form-horizontal row spacer ">
+            <div class="col-md-12 col-xs-12 ">
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Coulors Added: </label> <div id="CoulorCount" class="col-sm-1 control-label input-xs-label"></div>
+                <button class="btn btn-primary btn-xs pull-right" type="button" id="ShowPrintingColours" onclick="GetPrintingColours();" aria-label="Left Align">
+                    <span class="fa fa-plus" aria-hidden="true"> Add Colour</span>
+                </button>
+                @*<div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover table-condensed" id="tblHeader">
+                            <thead>
+                                <tr>
+                                    <th colspan="4">
+
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">Pantone Colour</th>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">Pantone Colour</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>*@
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Image Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.PrintImageWidth, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Image Length</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.PrintImageLength, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Clear Area</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.ClearArea, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Special Instructions</label>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(model => model.Printing.SpecialInstructions, 5, 40, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Surface</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Printing.Surface, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Reverse</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Printing.Reverse, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Cylinder (cm)</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.CylinderCM, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Number Around</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.NumberAround, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Pitch or Step</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.PitchOrStep, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Number Accross</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.NumberAccross, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Barcode</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.Barcode, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Barcode Colour</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.BarcodeColour, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Meters Per Reel</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.MetersPerReel, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Total Meters</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.TotalMeters, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Total Kgs</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.TotalKgs, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Kg/Reel</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.KgPerReel, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Parev</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Printing.Parev, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                    @*@Html.TextBoxFor(model => model.Printing.Parev, new { @class = "form-control input-xs" })*@
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Halaal</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Printing.Halaal, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                    @*@Html.TextBoxFor(model => model.Printing.Halaal, new { @class = "form-control input-xs" })*@
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Reg. Number</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.RegNumber, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@*//Printing Colors Modal*@
+<div class="modal fade in" id="PrintingColoursModal" role="dialog">
+    <div class="modal-dialog" style="width: 100%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Colours</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal row spacer">
+                    <div hidden="hidden" class="alert alert-danger fade in">
+
+                    </div>
+                    <div class="col-md-8 col-xs-8">
+
+                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Colour.</label>
+                        <div class="col-sm-8">
+                            <input id="PrintColour" class="form-control input-xs" />
+                        </div>
+                    </div>
+                    <a class="btn btn-xs btn-info " id="btnSaveColour"><span class="fa fa-save" aria-hidden="true" onclick="SavePrintingColours();"> </span></a>
+                </div>
+                <div class="form-horizontal row spacer">
+                    <div class="">
+                        <div id="PrintingColoursResults" class="table-responsive">
+                            <table id="PrintingColoursSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                <thead><tr><th>Colour</th><th></th></tr></thead>
+                                <tbody id="data"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

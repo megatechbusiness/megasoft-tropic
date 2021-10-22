@@ -1,0 +1,2225 @@
+﻿@model Megasoft2.ViewModel.MaterCardMaintenanceViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center">Maintenance</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmIndex" }))
+{
+
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    @ViewBag.message
+    <div class="panel-group" id="accordion">
+        <div id="MasterCardMain">
+            <fieldset>
+                <div class="form-horizontal row spacer">
+                    <div class="col-md-3">
+                        <div class="input-group">
+
+                            <span class="input-group-btn">
+                                <button href="@Url.Action("BrowseStockCode", "MasterCardMaintenance")" class="btn btn-default   modal-link searchbox " type="button" aria-label="Left Align">
+                                    <span class="fa fa-search" aria-hidden="true"> </span>
+                                </button>
+                            </span>
+                            @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control text-right" })
+
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="btnGetMasterCardDetails" type="submit" aria-label="Left Align" name="action:GetMasterCardDetails" value="GetMasterCardDetails">
+                                    <span class="fa fa-arrow-circle-right" aria-hidden="true"> </span>
+                                </button>
+                                @Html.HiddenFor(model => model.Id, new { @class = "form-control text-right", @readonly = "readonly" })
+
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="@Url.Action("Index", "MasterCardMaintenance")" class="btn btn-default">
+                            <span class="fa fa-refresh" aria-hidden="true"> </span>
+                        </a>
+                    </div>
+                    @*<span class="input-group-btn col-md-1">
+                            <button type="submit" class="btn btn-default" href="@Url.Action("Index", "MasterCardStockCodeBomSetup")">
+                                <i class="fa fa-refresh" title="Refresh" aria-hidden="true"></i>
+                            </button>
+
+                        </span>*@
+
+                    <div class="text-right">
+                        <button class="btn btn-primary" id="btnSave" type="submit" aria-label="Left Align" name="action:Index" value="Index">
+                            <span class="fa fa-save" aria-hidden="true"> </span>
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="submit" class="btn btn-success btn-sm" id="btnReview" name="action:Review" value="Review">
+                            <i class="fa fa-list"> Review</i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="form-horizontal row spacer">
+                    <div class="col-md-12">
+                        <div class="bs-example">
+                            <div class="panel panel-primary">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading" style="max-height: 52px;">
+                                    Structure and Routing
+                                </div>
+                                <div class="panel-body">
+                                    <div class="modal-body">
+                                        <div id="errordiv">
+
+                                        </div>
+                                        <ul class="nav nav-tabs">
+                                            <li id="navDet" class="tab active  in">
+                                                <a data-toggle="tab" href="#stockcodeDetails" id="tabDet">
+                                                    Stock Code Details
+                                                </a>
+                                            </li>
+                                            <li id="navWarehouse" class="tab">
+                                                <a data-toggle="tab" href="#Warehouse" id="tabWarehouses">
+                                                    Additional Warehouses
+                                                </a>
+                                            </li>
+                                            <li id="navExtrusion" class="tab">
+                                                <a data-toggle="tab" href="#Extrusion" id="tabExtr">
+                                                    Extrusion
+                                                </a>
+                                            </li>
+                                            <li id="navPrinting" class="tab">
+                                                <a data-toggle="tab" href="#Printing" id="tabPrint">
+                                                    Printing
+                                                </a>
+                                            </li>
+
+
+
+                                            <li id="navPrinting" class="tab">
+                                                <a data-toggle="tab" href="#Slitting" id="tabPrint">
+                                                    Slitting
+                                                </a>
+                                            </li>
+
+                                            <li id="navPrinting" class="tab">
+                                                <a data-toggle="tab" href="#Bagging" id="tabPrint">
+                                                    Bagging
+                                                </a>
+                                            </li>
+
+                                            <li id="navNotes" class="tab">
+                                                <a data-toggle="tab" href="#Notes" id="tabNotes">
+                                                    Notes
+                                                </a>
+                                            </li>
+
+                                            <li id="navBomComponents" class="tab">
+                                                <a data-toggle="tab" href="#BomComponents" id="tabBomComponents">
+                                                    Bom
+                                                </a>
+                                            </li>
+
+                                            <li id="navAttachments" class="tab">
+                                                <a data-toggle="tab" href="#Attachments" id="tabAttachments">
+                                                    Attachments
+                                                </a>
+                                            </li>
+
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <!-- Spec section -->
+                                            <div id="stockcodeDetails" class="tab-pane fade in active">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7> Stock Code</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.StockCode, new { @class = "form-control input-xs" })
+                                                                    @Html.HiddenFor(model => model.stockCodeUpdate.Id)
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Stock Description </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.Description, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Long Desc</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.LongDesc, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7> Product Class</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @if (ViewBag.ProductClassList != null)
+                                                                    {
+                                                                        @Html.DropDownListFor(n => n.stockCodeUpdate.ProductClass, new SelectList(ViewBag.ProductClassList, "Value", "Description"), "Select Product Class", new { @class = "form-control input-xs", style = "width:100%" })
+                                                                        @Html.HiddenFor(m => m.stockCodeUpdate.ProductClass)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(model => model.stockCodeUpdate.ProductClass, new { @class = "form-control input-xs" })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Warehouse To Use</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @if (ViewBag.WarehouseList != null)
+                                                                    {
+                                                                        @Html.DropDownListFor(n => n.stockCodeUpdate.WarehouseToUse, new SelectList(ViewBag.WarehouseList, "Value", "Description"), "Select Warehouse To Use", new { @class = "form-control input-xs", style = "width:100%" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(model => model.stockCodeUpdate.WarehouseToUse, new { @class = "form-control input-xs" })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            @*<div class="col-sm-4">
+                                                                    <div class="col-sm-5">
+                                                                        <h7>Additional Warehouses </h7>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        @if (ViewBag.WarehouseList != null)
+                                                                        {
+                                                                            @Html.DropDownListFor(n => n.AddWarehouse, new SelectList(ViewBag.WarehouseList, "Value", "Description"), new { @class = "form-control input-sm select2-multiselect-checkbox", style = "width:100%", multiple = "multiple" })
+                                                                            @Html.HiddenFor(m => m.AddWarehouse)
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.AddWarehouse, new { @class = "form-control input-xs " })
+                                                                        }
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Stock Uom </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @if (ViewBag.StockUomList != null)
+                                                                    {
+                                                                        @Html.DropDownListFor(n => n.stockCodeUpdate.StockUom, new SelectList(ViewBag.StockUomList, "Value", "Description"), "Select Stock Uom", new { @class = "form-control input-xs", style = "width:100%" })
+                                                                        @Html.HiddenFor(m => m.stockCodeUpdate.StockUom)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(model => model.stockCodeUpdate.StockUom, new { @class = "form-control input-xs" })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Mass </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.Mass, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Alternate UOM </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @if (ViewBag.StockUomList != null)
+                                                                    {
+                                                                        @Html.DropDownListFor(n => n.stockCodeUpdate.AlternateUom, new SelectList(ViewBag.StockUomList, "Value", "Description"), "Select Alternate Uom", new { @class = "form-control input-xs", style = "width:100%" })
+                                                                        @Html.HiddenFor(m => m.stockCodeUpdate.AlternateUom)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(model => model.stockCodeUpdate.AlternateUom, new { @class = "form-control input-xs" })
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Decimals </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.Decimals, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7> Conv. Fact</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.ConvFactAltUom, new { @class = "form-control input-xs" })
+                                                                    @Html.HiddenFor(model => model.stockCodeUpdate.PriceCategory)
+                                                                    @Html.HiddenFor(model => model.stockCodeUpdate.ListPriceCode)
+                                                                    @Html.HiddenFor(model => model.stockCodeUpdate.PriceMethod)
+                                                                    @Html.HiddenFor(model => model.stockCodeUpdate.TaxCode)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.GenSlit)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.GenInkCost1000)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.GenPalletWrapRoll)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.GenPalletRolls)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.PrintCoverageF)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.PrintCoverageB)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.ExtrCoreWeight)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.PrintPitch)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.SlitInterleaved)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.SlitEyemarkSize)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.SlitHolePunchSize)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.Inkd)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.PrintRepeat)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NewManufacturingCo)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.OldManufacturingCo)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NewInksSolventsCos)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.OldInksSolventsCos)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NewAdhesivesGlueCo)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.OldAdhesivesGlueCo)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NewConsumablesCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.OldConsumablesCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NewTransportCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.OldTransportCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NewOtherCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.OldOtherCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.InkSystem)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.RawMaterialCode)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.GenInkCostKg)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.ApprovedInkCode)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.SuppCurrInkCost)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.PressReturn)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.BoxColour)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.NoCalc)
+                                                                    @Html.HiddenFor(model => model.FormUpdate.AltName)
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Part Category </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(n => n.stockCodeUpdate.PartCategory, new List<SelectListItem>{
+                                                                    new SelectListItem{ Text="Made - In", Value = "M" },
+                                                                    new SelectListItem{ Text="Bought Out", Value = "B" },
+                                                                    new SelectListItem{ Text="Phantom", Value = "G" }}, new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Mult / Div </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(n => n.stockCodeUpdate.MulDiv, new List<SelectListItem>{
+                                                                                            new SelectListItem{ Text="Multiply", Value = "M" },
+                                                                                            new SelectListItem{ Text="Divide", Value = "D" }}, new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Job Classification</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @if (ViewBag.JobClassList != null)
+                                                                    {
+                                                                        @Html.DropDownListFor(n => n.stockCodeUpdate.JobClassification, new SelectList(ViewBag.JobClassList, "Value", "Description"), "Select Job Class", new { @class = "form-control input-xs", style = "width:100%" })
+                                                                        @Html.HiddenFor(m => m.stockCodeUpdate.JobClassification)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(model => model.stockCodeUpdate.JobClassification, new { @class = "form-control input-xs" })
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Other UOM </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @if (ViewBag.StockUomList != null)
+                                                                    {
+                                                                        @Html.DropDownListFor(n => n.stockCodeUpdate.OtherUom, new SelectList(ViewBag.StockUomList, "Value", "Description"), "Select OtherUom Uom", new { @class = "form-control input-xs", style = "width:100%" })
+                                                                        @Html.HiddenFor(m => m.stockCodeUpdate.OtherUom)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(model => model.stockCodeUpdate.OtherUom, new { @class = "form-control input-xs" })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7> Conv Fact</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.stockCodeUpdate.ConvFactOthUom, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Mult / Div </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(n => n.stockCodeUpdate.ConvMulDiv, new List<SelectListItem>{
+                                                                      new SelectListItem{ Text="Multiply", Value = "M" },
+                                                                      new SelectListItem{ Text="Divide", Value = "D" }}, new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Traceable </h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(n => n.stockCodeUpdate.Traceable, new List<SelectListItem>{
+                                                                                            new SelectListItem{ Text="Yes", Value = "T" },
+                                                                                            new SelectListItem{ Text="No", Value = "N" }}, new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                            <div id="Warehouse" class="tab-pane fade">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
+                                                        <table id="tblWh" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                                            <thead class="style1">
+                                                                <tr>
+                                                                    <th>
+                                                                        Warehouse
+                                                                    </th>
+                                                                    <th>
+                                                                        Description
+                                                                    </th>
+                                                                    <th>
+                                                                        Allowed
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="datarow">
+                                                                @if (Model != null)
+                                                                {
+                                                                    if (Model.warehouseUpdate_Result != null)
+                                                                    {
+                                                                        for (int i = 0; i < Model.warehouseUpdate_Result.Count; i++)
+                                                                        {
+
+                                                                            <tr class="nr">
+                                                                                <td>
+                                                                                    @Html.DisplayFor(model => model.warehouseUpdate_Result[i].Warehouse)
+                                                                                    @Html.HiddenFor(model => model.warehouseUpdate_Result[i].Warehouse)
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.DisplayFor(model => model.warehouseUpdate_Result[i].Description)
+                                                                                    @Html.HiddenFor(model => model.warehouseUpdate_Result[i].Description)
+                                                                                </td>
+                                                                                @if (Model.warehouseUpdate_Result[i].Allowed == true)
+                                                                                {
+                                                                                    <td class="rowc">
+                                                                                        @Html.CheckBoxFor(model => model.warehouseUpdate_Result[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                                                    </td>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <td class="rowc">
+                                                                                        @Html.CheckBoxFor(model => model.warehouseUpdate_Result[i].Allowed, new { @class = "case", @name = "case" })
+                                                                                    </td>
+                                                                                }
+                                                                            </tr>
+
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- Extrusion section -->
+                                            <div id="Extrusion" class="tab-pane fade">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Invoice Dim</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.InvoiceDim, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            @*<div class="col-sm-4">
+                                                                    <div class="col-sm-5">
+                                                                        <h7>BarCode</h7>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextBoxFor(model => model.CustomForms.BarCode, new { @class = "form-control input-xs" })
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Gen : Width</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.GenWidth, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Gen : Length</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.GenLength, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Blow Up Ratio</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.GenLayFlatWidthSiz, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Gen : Micron</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.GenMicron, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Gen : Treatment</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.GenTreatment, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Gen : Dyne Value</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.GenDyneValue, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr : Rolls up</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrRollsUp, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr : Kg Per Roll</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrKgPerRoll, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr : Metres Per Roll</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrMetresPerRoll, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr : L F Width Size</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrLFWidthSize, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr : Double Wind</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrDoubleWind, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr: Core Wall</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrCoreWall, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Extr: Slitting Code</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrSlittingCode, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Material Cost</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.MaterialCost, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Label Micron</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.LabelMicron, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>SHRINK RATIO M/D</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.MD, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>SHRINK RATIO T/D</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.TD, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>COF RESULTS TRD/TRD</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.CofFF, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>COF RESULTS CLR/CLR</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.CofFS, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Ext Width</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ExtrSlitWidth, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Product Type</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(model => model.FormUpdate.ProductType, new SelectList(ViewBag.ProductTypeList, "Value", "Description"), new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Product Sub Type1</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(model => model.FormUpdate.ProductSubType1, new SelectList(ViewBag.ProductSubTypeList, "Value", "Description"), new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Industry</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.DropDownListFor(model => model.FormUpdate.Industry, new SelectList(ViewBag.IndustryList, "Value", "Description"), new { @class = "form-control input-xs", style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Printing section -->
+                                            <div id="Printing" class="tab-pane fade">
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Print Front</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintPrintFront, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Print Back</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintPrintBack, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Step Size</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintStepSize, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Cylinder Size</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintCylinderSize, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Around</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintAround, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Across</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintAcross, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print : Line Print</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintLinePrint, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Actual Ink Cost</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ActualInkCost, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                @*<div class="col-sm-5">
+                                                                        <h7>Print: Pitch</h7>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextBoxFor(model => model.CustomForms.PrintPitch, new { @class = "form-control input-xs" })
+                                                                    </div>*@
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print: M/Reel</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintMReel, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print Lay Flat Width:</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintLayFlatWidth, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Print: Final Unwind</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PrintFinalUnwind, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>BarCode</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BarCode, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                @*<div class="col-sm-5">
+                                                                        <h7>Print: Repeat:</h7>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextBoxFor(model => model.CustomForms.PrintRepeat, new { @class = "form-control input-xs" })
+                                                                    </div>*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*<div class="form-horizontal row">
+                                                        <div class="container">
+                                                            <div class="row spacer">
+                                                                <div class="col-sm-4">
+                                                                    <div class="col-sm-5">
+                                                                        <h7>Approved Ink Code</h7>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextBoxFor(model => model.CustomForms.ApprovedInkCode, new { @class = "form-control input-xs" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="col-sm-5">
+                                                                        <h7>Supplier Current Ink Cost</h7>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextBoxFor(model => model.CustomForms.SuppCurrInkCost, new { @class = "form-control input-xs" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+
+                                            <div id="Slitting" class="tab-pane fade">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit : Sheet Slits</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitSheetSlits, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit : Rolls Up</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitRollsUp, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit: Width</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitWidth, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit: Tolerance</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitTolerance, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit: Kg Reel</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitKgReel, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit: Core I.D</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitCoreID, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit: Reel OD min</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitReelOdMin, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Slit: Reel OD Max</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SlitReelOdMax, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="Bagging" class="tab-pane fade">
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Width Size</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagWidthSize, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag:Seal</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagSeal, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Length Size</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagLengthSize, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Top Gusset</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagTopGusset, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Bottom Gusset</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagBottomGusset, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Right Gusset</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagRightGusset, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Left Gusset</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagLeftGusset, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Lip Size</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagLipSize, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Header Seal</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagHeaderSeal, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Seal Type</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagSealType, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Per Pack</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagPerPack, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag : Per Bale</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagPerBale, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag: Units/Bundle</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagUnitsBundle, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag: Bundles/Parcel</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagBundlesParcel, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag: Bag Units/Parcel</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagBagUnitsParcel, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Spine Seal</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.SpineSeal, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>GRAMS</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.Grams, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Bag: Opening</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.BagOpening, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Handle</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.Handle, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Punch Holes</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.PunchHoles, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Wicket:</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.Wicket, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Perforation:</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.Perforation, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="col-sm-5">
+                                                                    <h7>Reel OD:</h7>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    @Html.TextBoxFor(model => model.FormUpdate.ReelOd, new { @class = "form-control input-xs" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="Notes" class="tab-pane fade">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-8">
+                                                                <div class="col-sm-2">
+                                                                    <h7>Sales Order Add Text</h7>
+                                                                </div>
+                                                                <div class="col-sm-10">
+                                                                    @Html.TextAreaFor(model => model.stockCodeUpdate.SalesOrderAddText, new { @class = "form-control", @rows = "10" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="col-sm-8">
+                                                                <div class="col-sm-2">
+                                                                    <h7>Job Narrations</h7>
+                                                                </div>
+                                                                <div class="col-sm-10">
+                                                                    @Html.TextAreaFor(model => model.stockCodeUpdate.JobNarrations, new { @class = "form-control", @rows = "10" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="BomComponents" class="tab-pane fade">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+                                                            <div class="form-horizontal row spacer">
+                                                                <div class="col-md-6 col-xs-6">
+
+                                                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">StockCode</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text" id="bomStockCode" readonly="readonly" class="form-control input-xs" />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-horizontal row spacer">
+                                                                <div class="col-md-6 col-xs-6">
+
+                                                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Description</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text" id="bomDescription" readonly="readonly" class="form-control input-xs" />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-horizontal row spacer">
+                                                                <div class="col-md-6 col-xs-6">
+
+                                                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Long Description</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text" id="bomLongDesc" readonly="readonly" class="form-control input-xs" />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-horizontal row spacer">
+                                                                <div class="col-md-4 col-xs-4">
+                                                                    <div id="tree">
+                                                                        @* Content will be populated by jsTree *@
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 col-xs-8">
+                                                                    <div class="form-horizontal row spacer">
+                                                                        <div class="col-md-12 col-xs-12">
+                                                                            <a href="@Url.Action("BomOperation", "MasterCardMaintenance")" class="modal-link btn btn-default btn-sm" id="btnAddOperation">
+                                                                                <i class="fa fa-plus fa-lg"></i>
+                                                                            </a>
+                                                                            @*<a href="@Url.Action("BomCopyOperation", "MasterCardStockCodeBomSetup")" class="modal-link btn btn-default btn-sm" id="btnCopyOperation">
+                                                                                    <i class="fa fa-copy fa-lg"></i>
+                                                                                </a>*@
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-hover table-condensed table-responsive table-bordered " id="tblOper">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th>
+                                                                                                Operation
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                StockCode
+                                                                                            </th>
+                                                                                            <th>WorkCentre</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody></tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-horizontal row spacer">
+                                                                        <div class="col-md-12 col-xs-12" id="AddStockCodeModal">
+                                                                            <div id="ComponentButtons">
+                                                                                <a href="@Url.Action("BomComponent", "MasterCardMaintenance")" class="modal-link btn btn-default btn-sm" id="btnAddComponent">
+                                                                                    <i class="fa fa-plus fa-lg"></i>
+                                                                                </a>
+                                                                                @*<a href="@Url.Action("BomCopyComponent", "MasterCardMaintenance")" class="modal-link btn btn-default btn-sm" id="btnCopyComponent">
+                                                                                        <i class="fa fa-copy fa-lg"></i>
+                                                                                    </a>*@
+                                                                                @*<a href="@Url.Action("StockCodeCreationModal", new { MasterCardId = Model.Id, MainCode = "Y" })" class="pull-right modal-link btn btn-primary btn-sm" id="btnAddStockCode">
+                                                                                        <i class="fa fa-file-text-o fa-lg"></i>
+                                                                                    </a>*@
+                                                                            </div>
+
+
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-hover table-condensed table-responsive table-bordered" id="tblComp">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th>
+                                                                                                Parent Part
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                Component
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                Sequence
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                Qty Per
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                %
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                Scrap Qty
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                Scrap Percentage
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody></tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div id="Attachments" class="tab-pane fade">
+                                                <div class="form-horizontal row">
+                                                    <div class="container">
+                                                        <div class="row spacer">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-horizontal row spacer-xs" id="Browse">
+
+                                                            <label class="col-md-2">
+                                                                <span class="btn btn-primary btn-sm">
+                                                                    Attachment 1 <input type="file" style="display: none;" multiple="multiple" name="FileUpload" accept="application/pdf , image/jpeg">
+                                                                </span>
+                                                            </label>
+                                                            <label class="col-md-2">
+
+                                                                <span class="btn btn-primary btn-sm">
+                                                                    Attachment 2 <input type="file" style="display: none;" multiple="multiple" name="FileUpload" accept="application/pdf, image/jpeg">
+                                                                </span>
+
+                                                            </label>
+                                                            <label class="col-md-2">
+
+                                                                <span class="btn btn-primary btn-sm">
+                                                                    Attachment 3 <input type="file" style="display: none;" multiple="multiple" name="FileUpload" accept="application/pdf, image/jpeg">
+                                                                </span>
+
+                                                            </label>
+                                                            <label class="col-md-2">
+
+                                                                <span class="btn btn-primary btn-sm">
+                                                                    Attachment 4 <input type="file" style="display: none;" multiple="multiple" name="FileUpload" accept="application/pdf, image/jpeg">
+                                                                </span>
+
+                                                            </label>
+                                                            <label class="col-md-3">
+
+                                                                <span class="btn btn-primary btn-sm">
+                                                                    Attachment 5 <input type="file" style="display: none;" multiple="multiple" name="FileUpload" accept="application/pdf,  image/jpeg">
+                                                                </span>
+
+                                                            </label>
+
+                                                            <div class="col-lg-12">
+                                                                @*Grid goes here*@
+                                                                <div class="table-responsive text-centre">
+                                                                    <table class="table table-hover table-striped  table-condensed table-responsive table-bordered display nowrap" id="tblLines">
+                                                                        <thead>
+                                                                            <tr class="nowrap">
+                                                                                <th>File Name</th>
+                                                                                <th>Stock Code</th>
+                                                                                <th>Line</th>
+                                                                                <th> </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody class="datarow">
+                                                                            @if (Model != null)
+                                                                            {
+                                                                                if (Model.AttachmentList != null)
+                                                                                {
+                                                                                    for (int i = 0; i < Model.AttachmentList.Count(); i++)
+                                                                                    {
+
+                                                                                        <tr class="nr nowrap">
+                                                                                            <td>
+                                                                                                @Html.DisplayFor(model => Model.AttachmentList[i].FileName)
+                                                                                                @Html.HiddenFor(model => Model.AttachmentList[i].FileName)
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.DisplayFor(model => Model.AttachmentList[i].StockCode)
+                                                                                                @Html.HiddenFor(model => Model.AttachmentList[i].StockCode)
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.DisplayFor(model => Model.AttachmentList[i].Line)
+                                                                                                @Html.HiddenFor(model => Model.AttachmentList[i].Line)
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <a href="@Url.Action("ViewPdf", "MasterCardMaintenance", new {StockCode=Model.AttachmentList[i].StockCode, Line=Model.AttachmentList[i].Line })" target="_blank" class="btn btn-xs btn-success"><span class="fa fa-upload" aria-hidden="true"> View</span></a>
+                                                                                                <a href="@Url.Action("DeleteFile","MasterCardMaintenance", new {AuditId=Model.AttachmentList[i].AuditId, StockCode = Model.AttachmentList[i].StockCode, Line = Model.AttachmentList[i].Line })" class="btn btn-xs btn-danger"><span class="fa fa-trash" aria-hidden="true"> Delete </span></a>
+                                                                                            </td>
+
+
+
+                                                                                        </tr>
+                                                                                    }
+
+                                                                                }
+
+
+                                                                            }
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+
+                                        </div><!-- /.modal-content -->
+                                        @*</div>*@<!-- /.modal-dialog -->
+                                        <!--Modal for search Stock Codes-->
+                                        @*<div class="modal" id="searchAddStock" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="panel panel-green">
+                                                        <!-- Default panel contents -->
+                                                        <div class="panel-heading" style="max-height: 52px;">
+                                                            <div class="row">
+                                                                Copy From Stock Code
+                                                                <button type="button" class="closeModal5 close">&times;</button>
+                                                                &nbsp;&nbsp;
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div id="StockCodesDiv">
+                                                                <table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                                                    <thead><tr><th>Stock Code</th><th>Description</th><th>Uom</th></tr></thead>
+                                                                    <tbody id="data"></tbody>
+                                                                </table>
+                                                            </div>
+                                                            <form role="form">
+                                                                <div class="form-group">
+
+                                                                </div>
+                                                                <button type="button" class="closeModal3 btn btn-danger btn-sm" id="btnReview">
+                                                                    <i class="fa fa-close"> Close</i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>*@
+
+
+
+                                        <!--Modal for copy Stock Codes-->
+                                        <div class="modal" id="searchCopyStock" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="panel panel-green">
+                                                    <!-- Default panel contents -->
+                                                    <div class="panel-heading" style="max-height: 52px;">
+                                                        <div class="row">
+                                                            Copy Stock Codes
+                                                            <button type="button" class="closeModal7 close">&times;</button>
+                                                            &nbsp;&nbsp;
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div id="CopyStockCodesDiv">
+                                                            <table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                                                <thead><tr><th>Stock Code</th><th>Description</th><th>Uom</th></tr></thead>
+                                                                <tbody id="data"></tbody>
+                                                            </table>
+                                                        </div>
+                                                        <form role="form">
+                                                            <div class="form-group">
+
+                                                            </div>
+                                                            <button type="button" class="closeModal3 btn btn-danger btn-sm" id="btnReview">
+                                                                <i class="fa fa-close"> Close</i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+}
+
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="~/Content/bootstrap-treeview/bootstrap-treeview.min.css" rel="stylesheet" />
+
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/DataTable/datatables.js")
+    <script type="text/javascript">
+    $('.closeModal5').click(function () {
+        $('#searchAddStock').modal('toggle');
+    });
+
+    $('.closeModal7').click(function () {
+        $('#searchCopyStock').modal('toggle');
+    });
+    function ShowErrorDiv(result) {
+        $('#errordiv').addClass("alert alert-danger");
+        $('#errordiv').html(result);
+    }
+
+    //function PostFailure(result) {
+    //    alert("1");
+    //}
+
+    function SearchStock() {
+
+        var table = $("#tblStock tbody");
+
+        $.ajax({
+            url: "@Url.Action("StockCodeList", "MasterCardMaintenance")",
+            method: "GET",
+            xhrFields: {
+                withCredentials: true,
+                ordering: false,
+                iDisplayLength: 20,
+                fixedHeader: true,
+                scrollY: 500,
+                responsive: true
+            },
+            success: function (data) {
+                table.empty();
+
+                $.each(data, function (a, ord) {
+                    table.append("<tr class='_stk' id=" + ord.MStockCode + "><td><a href=#>" + ord.MStockCode + "</a></td> <td>" + ord.MStockDes + "</td> <td>" + ord.MStockingUom + "</td></tr >");
+                });
+
+                $("#tblStock").DataTable();
+            }
+
+        });
+    }
+
+    $(function () {
+        $('#btnCopyExtrusion').on('click', function () {
+            $.getJSON('@Url.Action("GetMastercardCustomForm", "MasterCardStockCodeBomSetup")?MasterCardId=' + $('#Id').val(), function (data) {
+                $.each(data, function (i, MC) {
+                    $("#CustomForms_InvoiceDim").val(MC.InvoiceDim);
+                    $("#CustomForms_GenWidth").val(MC.GenWidth);
+                    $("#CustomForms_GenLength").val(MC.GenLength);
+                    $("#CustomForms_GenLayFlatWidthSiz").val(MC.GenLayFlatWidthSiz);
+                    $("#CustomForms_GenMicron").val(MC.GenMicron);
+                    $("#CustomForms_BarCode").val(MC.Barcode);
+                    $("#CustomForms_ExtrLFWidthSize").val(MC.ExtrLFWidthSize);
+                    $("#CustomForms_GenDyneValue").val(MC.GenDyneValue);
+                    $("#CustomForms_ExtrRollsUp").val(MC.ExtrRollsUp);
+                    $("#CustomForms_ExtrKgPerRoll").val(MC.ExtrKgPerRoll);
+                    $("#CustomForms_ExtrMetresPerRoll").val(MC.ExtrMetresPerRoll);
+                    $("#CustomForms_ExtrCoreWall").val(MC.ExtrCoreWall);
+                    $("#CustomForms_MD").val(MC.MD);
+                    $("#CustomForms_TD").val(MC.TD);
+                    $("#CustomForms_CofFS").val(MC.CofFS);
+                    $("#CustomForms_CofFF").val(MC.CofFF);
+                    $("#CustomForms_ExtrSlitWidth").val(MC.ExtrSlitWidth);
+                    $("#CustomForms_PrintPrintFront").val(MC.PrintPrintFront);
+                    $("#CustomForms_PrintPrintBack").val(MC.PrintPrintBack);
+                    $("#CustomForms_PrintStepSize").val(MC.PrintStepSize);
+                    $("#CustomForms_PrintCylinderSize").val(MC.PrintCylinderSize);
+                    $("#CustomForms_PrintAround").val(MC.PrintAround);
+                    $("#CustomForms_PrintAcross").val(MC.PrintAcross);
+                    $("#CustomForms_PrintMReel").val(MC.PrintMReel);
+                    $("#CustomForms_BagWidthSize").val(MC.BagWidthSize);
+                    $("#CustomForms_BagLengthSize").val(MC.BagLengthSize);
+                    $("#CustomForms_BagTopGusset").val(MC.BagTopGusset);
+                    $("#CustomForms_BagBottomGusset").val(MC.BagBottomGusset);
+                    $("#CustomForms_BagLeftGusset").val(MC.BagLeftGusset);
+                    $("#CustomForms_BagRightGusset").val(MC.BagRightGusset);
+                    $("#CustomForms_BagLipSize").val(MC.BagLipSize);
+                    $("#CustomForms_BagHeaderSeal").val(MC.BagHeaderSeal);
+                    $("#CustomForms_BagSealType").val(MC.BagSealType);
+                    $("#CustomForms_BagPerPack").val(MC.BagPerPack);
+                    $("#CustomForms_BagPerBale").val(MC.BagPerBale);
+                    $("#CustomForms_SlitWidth").val(MC.SlitWidth);
+                    $("#CustomForms_SlitTolerance").val(MC.SlitTolerance);
+                    $("#CustomForms_SlitKgReel").val(MC.SlitKgReel);
+                    $("#CustomForms_SlitCoreID").val(MC.SlitCoreID);
+                    $("#CustomForms_SlitCoreWall").val(MC.SlitCoreWall);
+                    $("#CustomForms_SlitReelOdMin").val(MC.SlitReelOdMin);
+                    $("#CustomForms_SlitReelOdMax").val(MC.SlitReelOdMax);
+                    $("#CustomForms_ExtrSlittingCode").val(MC.ExtrSlittingCode);
+                    $("#CustomForms_ProductType").val(MC.ProductType);
+                    $("#CustomForms_ProductSubType1").val(MC.ProductSubType1);
+
+                    $("#CustomForms_Industry").val(MC.Industry);
+                    $("#CustomForms_GenTreatment").val(MC.GenTreatment);
+                    $("#CustomForms_PrintLayFlatWidth").val(MC.PrintLayFlatWidth);
+                    $("#CustomForms_PrintFinalUnwind").val(MC.PrintFinalUnwind);
+                });
+            });
+        });
+
+
+        $('#btnCopyStockSearch').click(function () {
+            $('#CopyStockCodesDiv').html('<table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>Stock Code</th><th>Description</th><th>Uom</th></tr></thead><tbody id="data"></tbody></table>');
+            SearchStock();
+        });
+
+        $('#CopyStockCodesDiv').on("click", "._stk", function () {
+            var rCode = $(this).attr('id');
+
+            //Copy StockCode and Custom Form Data From Selected StockCode
+
+            $.getJSON('MasterCardMaintenance/GetCopyStockCodeData?StockCode=' + rCode, function (data) {
+                $.each(data, function (i, MC) {
+
+                    $("#stkobj_Description").val(MC.Description);
+                    $("#stkobj_LongDesc").val(MC.LongDesc);
+                    $("#stkobj_StockUom").val(MC.StockUom);
+                    $("#stkobj_AlternateUom").val(MC.AlternateUom);
+                    $("#stkobj_OtherUom").val(MC.OtherUom);
+                    $("#stkobj_ConvFactAltUom").val(MC.ConvFactAltUom);
+                    $("#stkobj_ConvMulDiv").val(MC.ConvMulDiv);
+                    $("#stkobj_ConvFactOthUom").val(MC.ConvFactOthUom);
+                    $("#stkobj_MulDiv").val(MC.MulDiv);
+                    $("#stkobj_Mass").val(MC.Mass);
+                    $("#stkobj_Decimals").val(MC.Decimals);
+                    $("#stkobj_PartCategory").val(MC.PartCategory);
+                    $("#stkobj_WarehouseToUse").val(MC.WarehouseToUse);
+                    $("#stkobj_JobClassification").val(MC.JobClassification);
+                    $("#stkobj_ProductClass").val(MC.ProductClass);
+                    $("#stkobj_SalesOrderAddText").val(MC.SalesOrderAddText);
+                    $("#stkobj_JobNarrations").val(MC.JobNarrations);
+
+                    $("#CustomForms_InvoiceDim").val(MC.InvoiceDim);
+                    $("#CustomForms_GenWidth").val(MC.GenWidth);
+                    $("#CustomForms_GenLength").val(MC.GenLength);
+                    $("#CustomForms_GenLayFlatWidthSiz").val(MC.GenLayFlatWidthSiz);
+                    $("#CustomForms_GenMicron").val(MC.GenMicron);
+                    $("#CustomForms_BarCode").val(MC.Barcode);
+                    $("#CustomForms_ExtrLFWidthSize").val(MC.ExtrLFWidthSize);
+                    $("#CustomForms_GenDyneValue").val(MC.GenDyneValue);
+                    $("#CustomForms_ExtrRollsUp").val(MC.ExtrRollsUp);
+                    $("#CustomForms_ExtrKgPerRoll").val(MC.ExtrKgPerRoll);
+                    $("#CustomForms_ExtrMetresPerRoll").val(MC.ExtrMetresPerRoll);
+                    $("#CustomForms_ExtrCoreWall").val(MC.ExtrCoreWall);
+                    $("#CustomForms_MD").val(MC.MD);
+                    $("#CustomForms_TD").val(MC.TD);
+                    $("#CustomForms_CofFS").val(MC.CofFS);
+                    $("#CustomForms_CofFF").val(MC.CofFF);
+                    $("#CustomForms_ExtrSlitWidth").val(MC.ExtrSlitWidth);
+                    $("#CustomForms_PrintPrintFront").val(MC.PrintPrintFront);
+                    $("#CustomForms_PrintPrintBack").val(MC.PrintPrintBack);
+                    $("#CustomForms_PrintStepSize").val(MC.PrintStepSize);
+                    $("#CustomForms_PrintCylinderSize").val(MC.PrintCylinderSize);
+                    $("#CustomForms_PrintAround").val(MC.PrintAround);
+                    $("#CustomForms_PrintAcross").val(MC.PrintAcross);
+                    $("#CustomForms_PrintMReel").val(MC.PrintMReel);
+                    $("#CustomForms_BagWidthSize").val(MC.BagWidthSize);
+                    $("#CustomForms_BagLengthSize").val(MC.BagLengthSize);
+                    $("#CustomForms_BagTopGusset").val(MC.BagTopGusset);
+                    $("#CustomForms_BagBottomGusset").val(MC.BagBottomGusset);
+                    $("#CustomForms_BagLeftGusset").val(MC.BagLeftGusset);
+                    $("#CustomForms_BagRightGusset").val(MC.BagRightGusset);
+                    $("#CustomForms_BagLipSize").val(MC.BagLipSize);
+                    $("#CustomForms_BagHeaderSeal").val(MC.BagHeaderSeal);
+                    $("#CustomForms_BagSealType").val(MC.BagSealType);
+                    $("#CustomForms_BagPerPack").val(MC.BagPerPack);
+                    $("#CustomForms_BagPerBale").val(MC.BagPerBale);
+                    $("#CustomForms_SlitWidth").val(MC.SlitWidth);
+                    $("#CustomForms_SlitTolerance").val(MC.SlitTolerance);
+                    $("#CustomForms_SlitKgReel").val(MC.SlitKgReel);
+                    $("#CustomForms_SlitCoreID").val(MC.SlitCoreID);
+                    $("#CustomForms_SlitCoreWall").val(MC.SlitCoreWall);
+                    $("#CustomForms_SlitReelOdMin").val(MC.SlitReelOdMin);
+                    $("#CustomForms_SlitReelOdMax").val(MC.SlitReelOdMax);
+                    $("#CustomForms_ExtrSlittingCode").val(MC.ExtrSlittingCode);
+                    $("#CustomForms_ProductType").val(MC.ProductType);
+                    $("#CustomForms_ProductSubType1").val(MC.ProductSubType1);
+                    $("#CustomForms_Industry").val(MC.Industry);
+                    $("#CustomForms_GenTreatment").val(MC.GenTreatment);
+                    $("#CustomForms_PrintLayFlatWidth").val(MC.PrintLayFlatWidth);
+                    $("#CustomForms_PrintFinalUnwind").val(MC.PrintFinalUnwind);
+                });
+            });
+
+            $('#searchStock').modal('toggle');
+        });
+
+
+        $("#AddWarehouse").select2({
+            width: '100%',
+            placeholder: " ",
+            allowClear: true,
+            closeOnSelect: true
+        });
+
+
+        @*window.setTimeout(function () {
+           // var Warehouse = "'" + "@ViewBag.Test".replace(/\,/g, "','") + "'";
+            $('#AddWarehouse').val(@Model.AddWarehouse).trigger('change');
+           // alert(Warehouse);
+        }, 500);*@
+
+
+
+
+
+
+        $('#btnPostStockCode').click(function () {
+            //showprogressbar();
+        });
+    });
+
+     $("#tblOps").DataTable({
+        "ordering": false,
+        "fixedHeader": true,
+        "responsive": true,
+        "paging": false,
+        "searching": false,
+        "info": false
+
+    });
+
+    $("#tblComp").DataTable({
+        "ordering": false,
+        "fixedHeader": true,
+        "responsive": true,
+        "paging": false,
+        "searching": false,
+        "info": false
+    });
+
+
+    function GetTree() {
+        //alert("@ViewBag.MainCode");
+
+        if ($("#StockCode").val() != "") {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetTreeData", "MasterCardMaintenance")',
+                data: { StockCode: $('#StockCode').val() },
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        $('#tree').treeview({
+                            data: data,
+                            enableLinks: true,
+                            showBorder: true,
+                            bordercolor: 'Green',
+                            onNodeSelected: function (event, data) {
+                               LoadComponents(data.Component);
+                               LoadOperations(data.Component);
+                                //Change the Href Parameters based on the component selected.
+                                var url = $('#btnAddComponent').attr("href");
+                                url = "MasterCardMaintenance/BomComponent?Id=" + $('#Id').val() + "&ParentPart=" + data.Component.replace(/ /g, '%20') + "&Mode=Add";
+                                $("#btnAddComponent").attr("href", url);
+
+                                //Change the Href Parameters based on the component selected.
+                                var url = $('#btnAddOperation').attr("href");
+                                url = "MasterCardMaintenance/BomOperation?Id=" + $('#Id').val() + "&StockCode=" + data.Component.replace(/ /g, '%20') + "&Mode=Add";
+                                $("#btnAddOperation").attr("href", url);
+
+                                GetDescription(data.Component);
+
+                            }
+                        });
+
+                        LoadComponents($("#StockCode").val());
+                        LoadOperations($("#StockCode").val());
+
+                        $('#tree ul:first li:first').click();
+
+
+                    }
+                }
+            });
+        }
+    }
+
+
+
+    function LoadComponents(ParentPart) {
+        var table = $("#tblComp tbody");
+        var Id = $('#Id').val();
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetParentComponents", "MasterCardMaintenance")',
+                data: { ParentPart: ParentPart, Id: Id},
+                dataType: 'json',
+            success: function (data) {
+                table.empty();
+                $.each(data, function (b, a) {
+                    var rowcolor = "";
+                    if (a.ActionType == "A") {
+                        rowcolor = "#5cb85c";
+                    }
+                    else if (a.ActionType == "C") {
+                        rowcolor = "orange";
+                    }
+                    else if (a.ActionType == "D") {
+                        rowcolor = "#d43f3a";
+                    }
+                    table.append("<tr class='nr' style='background-color:" + rowcolor + "'><td class='nowrap'><input type='hidden' value='" + a.BomExists + "'></input><a href='MasterCardMaintenance/BomComponent?Id=" + $('#Id').val() + "&ParentPart=" + encodeURIComponent(a.ParentPart) + "&Mode=Change&Component=" + encodeURIComponent(a.Component) + "&SequenceNum=" + a.SequenceNum + "' class='btn btn-default btn-xs modal-link' tabindex='-1'><span class='fa fa-briefcase' aria-hidden='true' title='Change Line' tabindex='-1'></span></a> <a href='MasterCardMaintenance/BomComponent?Id=" + $('#Id').val() + "&ParentPart=" + encodeURIComponent(a.ParentPart) + "&Mode=Delete&Component=" + encodeURIComponent(a.Component) + "&SequenceNum=" + a.SequenceNum + "' class='btn btn-danger btn-xs modal-link' tabindex='-1'><span class='fa fa-trash' aria-hidden='true' title='Delete Component' tabindex='-1'></span></a> </td><td>" +
+                            a.ParentPart + "</td><td>" + a.Component + "<input type='hidden' value='" + a.Route + "' /></td><td>" + a.SequenceNum + "</td><td>" + a.QtyPer + "</td><td>" + a.LayerPerc + "</td><td>" + a.ScrapQty + "</td><td>" + a.ScrapPerc + "</td></tr>");
+
+                });
+              }
+            });
+    }
+
+    function LoadOperations(ParentPart) {
+        var table = $("#tblOper tbody");
+        var Id = $('#Id').val();
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetStockCodeOperations", "MasterCardMaintenance")',
+            data: { ParentPart: ParentPart, Id: Id },
+                dataType: 'json',
+                success: function (data) {
+                table.empty();
+                    $.each(data, function (b, a) {
+                        var rowcolor = "";
+                        if (a.ActionType == "A") {
+                            rowcolor = "#5cb85c";
+                        }
+                        else if (a.ActionType == "C") {
+                            rowcolor = "orange";
+                        }
+                        else if (a.ActionType == "D") {
+                            rowcolor = "#d43f3a";
+                        }
+                        table.append("<tr class='nr' style='background-color:" + rowcolor + "'><td><a href='MasterCardMaintenance/BomOperation?Id=" + $('#Id').val() + "&StockCode=" + encodeURIComponent(a.StockCode) + "&Mode=Change&Operation=" + a.Operation + "' class='btn btn-default btn-xs modal-link' tabindex='-1'><span class='fa fa-briefcase' aria-hidden='true' title='Change Line' tabindex='-1'></span></a> <a href='MasterCardMaintenance/BomOperation?Id=" + $('#Id').val() + "&StockCode=" + encodeURIComponent(a.StockCode) + "&Mode=Delete&Operation=" + a.Operation + "' class='btn btn-danger btn-xs modal-link' tabindex='-1'><span class='fa fa-trash' aria-hidden='true' title='Delete Operation' tabindex='-1'></span></a></td><td>" +
+                            a.Operation + "</td><td>" + a.StockCode + "<input type='hidden' value='" + a.Route + "' /></td><td>" + a.WorkCentre + "</td></tr>");
+                });
+
+                }
+            });
+
+    }
+
+        function GetDescription(StockCode) {
+
+        $('#bomStockCode').val("");
+        $('#bomDescription').val("");
+        $('#bomLongDesc').val("");
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetSelectedStockCodeDesc", "MasterCardMaintenance")',
+                data: { StockCode : StockCode },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (b, a) {
+                        $('#bomStockCode').val(a.StockCode);
+                        $('#bomDescription').val(a.Description);
+                        $('#bomLongDesc').val(a.LongDesc);
+                       });
+
+                }
+            });
+
+    }
+
+    $(function () {
+        GetTree();
+
+        $('#tblComp').on("click", ".delComp", function () {
+
+            var $row = $(this).closest("tr");
+            var ParentPart = $(this).closest("tr").find('td:eq(1)').text();
+            var Component = $(this).closest("tr").find('td:eq(2)').text();
+            var Route = $(this).closest("tr").find('td:eq(2)').find('input[type=hidden]').val();
+            var Sequence = $(this).closest("tr").find('td:eq(3)').text();
+            var mydata = [];
+
+            var myObject = new Object();
+            myObject.Id = $('#Id').val();
+            myObject.ParentPart = ParentPart;
+            myObject.Component = Component;
+            myObject.Route = Route;
+            myObject.SequenceNum = Sequence;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "MasterCardMaintenance/DeleteComponent",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                alert(response);
+                GetTree();
+                LoadComponents($("#StockCode").val());
+            }
+
+            function OnErrorCall(response) {
+                alert(response);
+            }
+
+        });
+
+
+
+        $('#tblOper').on("click", ".delOper", function () {
+
+            var $row = $(this).closest("tr");
+            var StockCode = $(this).closest("tr").find('td:eq(2)').text();
+            var Operation = $(this).closest("tr").find('td:eq(1)').text();
+            var Route = $(this).closest("tr").find('td:eq(2)').find('input[type=hidden]').val();
+
+            var mydata = [];
+
+            var myObject = new Object();
+            myObject.Id = $('#Id').val();
+            myObject.StockCode = StockCode;
+            myObject.Operation = Operation;
+            myObject.Route = Route;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "MasterCardMaintenance/DeleteOperation",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                alert(response);
+                GetTree();
+            }
+
+            function OnErrorCall(response) {
+                alert(response);
+            }
+
+        });
+
+        $("#frmIndex").submit(function (e) {
+                showprogressbar();
+        });
+
+
+
+    });
+
+
+
+    </script>
+}

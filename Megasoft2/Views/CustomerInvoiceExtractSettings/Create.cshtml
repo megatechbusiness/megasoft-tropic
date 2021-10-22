@@ -1,0 +1,233 @@
+﻿@model Megasoft2.mtInvoiceExtractSetting
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="bs-example">
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("Create", "CustomerInvoiceExtractSettings")" class="btn btn-default">Settings</a>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSettings" }))
+        {
+            @Html.AntiForgeryToken()
+            if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger fade in">
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+
+            <div class="panel-body">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+
+
+
+                    <div class="well well-lg">
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+
+
+                                    <div class="col-sm-6 selectContainer">
+                                        @Html.DropDownListFor(model => model.CustomerClass, new SelectList(ViewBag.CustomerClassList, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-2 selectContainer text-left">
+                                        <button type="submit" class="btn btn-default btn-sm" name="action:LoadClass" value="LoadClass">
+                                            <i class="fa fa-arrow-circle-right fa-lg" title="Load" aria-hidden="true"></i>
+                                            <span class="sr-only">Load</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-4 selectContainer text-right">
+                                        <button type="submit" class="btn btn-default btn-sm" name="action:SaveSetting" value="SaveSetting">
+                                            <i class="fa fa-save fa-lg" title="Save" aria-hidden="true"></i>
+                                            <span class="sr-only">Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+
+                                        Local File Path
+                                        @Html.TextBoxFor(model => model.OutputFilePath, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        SFTP Url
+                                        @Html.TextBoxFor(model => model.SFTPUrl, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        SFTP Username
+                                        @Html.TextBoxFor(model => model.SFTPUsername, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    @*<div class="col-sm-3">
+
+                                        SFTP Username
+                                        @Html.TextBoxFor(model => model.SFTPPassword, new { @class = "form-control input-sm" })
+
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+
+                                        SFTP Password
+                                        @Html.TextBoxFor(model => model.SFTPPassword, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        SFTP Folder
+                                        @Html.TextBoxFor(model => model.SFTPFolder, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        SFTP Port
+                                        @Html.TextBoxFor(model => model.SFTPPort, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Service Interval (Minutes)
+                                        @Html.TextBoxFor(model => model.ServiceIntervalMin, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+
+                                    <div class="col-sm-3 selectContainer">
+                                        Schedule Mode
+                                        @Html.DropDownListFor(model => model.ServiceScheduleMode, new SelectList(ViewBag.Mode, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Schedule Run Time (HH:mm)
+                                        @Html.TextBoxFor(model => model.ServiceRunTime, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Weekly Mode Day
+                                        @Html.DropDownListFor(model => model.ServiceWeeklyDay, new SelectList(ViewBag.Days, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+
+                                    <div class="col-sm-3">
+
+                                        Monthly Mode Date
+                                        @Html.DropDownListFor(model => model.ServiceMonthlyDate, new SelectList(ViewBag.Dates, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 selectContainer">
+                                        Schedule Active
+                                        @Html.DropDownListFor(model => model.ServiceActive, new SelectList(ViewBag.YesNo, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Last Run Date
+                                        @Html.TextBoxFor(model => model.LastRunDate, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Api Extract Uri
+                                        @Html.TextBoxFor(model => model.ApiExtractUri, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Ssh Host Key Fingerprint
+                                        @Html.TextBoxFor(model => model.SshHostKeyFingerprint, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+
+                                        Ssh Private Key Path
+                                        @Html.TextBoxFor(model => model.SshPrivateKeyPath, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        From Email
+                                        @Html.TextBoxFor(model => model.FromEmail, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        To Email
+                                        @Html.TextBoxFor(model => model.ToEmail, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        }
+                    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

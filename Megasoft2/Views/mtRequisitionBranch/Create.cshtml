@@ -1,0 +1,85 @@
+﻿@model Megasoft2.mtReqBranch
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "SalesPricingImport", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "mtRequisitionBranch")" class="btn btn-default">Branches</a>
+
+                        </div>
+
+                        <div class="col-lg-8 pull-right">
+                            <div class="col-lg-7">
+
+                            </div>
+                            <div class="col-lg-3 text-right">
+                            </div>
+                            <div class="col-lg-2 text-right">
+
+                                <button type="submit" class="btn btn-success btn-sm" id="btnSave">
+                                    <i class="fa fa-save"> Save</i>
+                                </button>
+                            </div>
+                            &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel-body">
+                    <div class="col-lg-12">
+
+                        <div class="form-horizontal row">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Branch</label>
+                                <div class="col-sm-4">
+                                    @if (Model == null)
+                                    {
+                                        @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm" })
+                                    }
+                                    else
+                                    {
+                                        if (string.IsNullOrWhiteSpace(Model.Branch))
+                                        {
+                                            @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        }
+                                    }
+
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Description</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+}

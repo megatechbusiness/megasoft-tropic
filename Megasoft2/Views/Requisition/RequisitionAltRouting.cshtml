@@ -1,0 +1,69 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "Requisition" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="bs-example">
+        <div class="panel panel-yellow">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    Routing
+                    <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                    &nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="StockCodesDiv">
+
+                </div>
+                <div class="form-group">
+                    <div class="form-horizontal row spacer">
+                        <label class="col-md-3 control-label input-sm-label" style="text-align:left;">Requisition</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.Requisition, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <div class="form-horizontal row spacer">
+
+                        <label class="col-md-3 control-label input-sm-label" style="text-align:left;">Route To:</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.RouteTo, new SelectList(ViewBag.RouteToList, "UserCode", "Name"), new { @class = "form-control input-sm" })
+                        </div>
+
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <div class="form-horizontal row spacer">
+                        <label class="col-md-3 control-label input-sm-label" style="text-align:left;">Route Note</label>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.RouteNote, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success btn-sm" name="action:RequisitionAltRouting" id="btnPost">
+                            <i class="fa fa-save"></i> Route
+                        </button>
+                    </div>
+                    <div class="col-md-3"></div>
+
+                </div>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+}

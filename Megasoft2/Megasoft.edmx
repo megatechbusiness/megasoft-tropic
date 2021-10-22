@@ -1,0 +1,1737 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MegasoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="mtBuyerRequisitioner">
+          <Key>
+            <PropertyRef Name="Buyer" />
+            <PropertyRef Name="Requisitioner" />
+          </Key>
+          <Property Name="Buyer" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Requisitioner" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtDelayedPostingWarehouse">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtDistributionSetup">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="SalesContractPricingServiceActive" Type="bit" Nullable="false" />
+          <Property Name="SalesContractPricingImportFilePath" Type="varchar" MaxLength="500" />
+          <Property Name="SalesContractPricingNotificationLetterPath" Type="varchar" MaxLength="500" />
+          <Property Name="SalesContractPricingDoSalesOrderUpdate" Type="bit" Nullable="false" />
+          <Property Name="DateLastUpdated" Type="datetime" />
+          <Property Name="UserLastUpdated" Type="varchar" MaxLength="50" />
+          <Property Name="SalesOrderPackagingRequired" Type="bit" Nullable="false" />
+          <Property Name="SalesOrderNumberOfCharacters" Type="int" />
+          <Property Name="RequisitionSystemActive" Type="bit" Nullable="false" />
+          <Property Name="RequisitionFromEmailAddress" Type="varchar" MaxLength="200" />
+          <Property Name="RequisitionLocalCurrency" Type="varchar" MaxLength="10" />
+          <Property Name="RequisitionNotificationLimit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RequisitionNotificationCurrency" Type="varchar" MaxLength="10" />
+          <Property Name="RequisitionNotificationExchangeRate" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="RequisitionNotificationEmailAddress" Type="varchar" MaxLength="500" />
+          <Property Name="ViewUrlAddress" Type="varchar" MaxLength="250" />
+          <Property Name="ReqAPIAddress" Type="varchar" MaxLength="250" />
+          <Property Name="ReqAutoApprovalContractPricing" Type="bit" />
+          <Property Name="ReqAutoApprovalUserCode" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="mtLabelPrinter">
+          <Key>
+            <PropertyRef Name="PrinterName" />
+          </Key>
+          <Property Name="PrinterName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PrinterPath" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtOpBranchAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Operator" />
+            <PropertyRef Name="Branch" />
+            <PropertyRef Name="Site" />
+            <PropertyRef Name="Department" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Operator" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Branch" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Site" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Department" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Allowed" Type="bit" />
+        </EntityType>
+        <EntityType Name="mtOpFunction">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Program" />
+            <PropertyRef Name="ProgramFunction" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Program" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProgramFunction" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtProgramFunction">
+          <Key>
+            <PropertyRef Name="Program" />
+            <PropertyRef Name="ProgramFunction" />
+          </Key>
+          <Property Name="Program" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProgramFunction" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="MenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtReqCostCentre">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="CostCentre" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="CostCentre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtReqRoutingTracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MegasoftGuid" Type="uniqueidentifier" />
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Requisition" Type="varchar" MaxLength="20" />
+          <Property Name="Originator" Type="varchar" MaxLength="20" />
+          <Property Name="RoutedTo" Type="nchar" MaxLength="10" />
+          <Property Name="DateRouted" Type="datetime" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="RouteNote" Type="varchar" MaxLength="500" />
+          <Property Name="GuidActive" Type="varchar" MaxLength="1" />
+          <Property Name="NoOfApprovals" Type="int" />
+          <Property Name="Approved" Type="varchar" MaxLength="1" />
+          <Property Name="DateApproved" Type="datetime" />
+          <Property Name="ProcessApiRequest" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="mtReqUserCostCentreSpendLimit">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="CostCentre" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CostCentre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SpendLimit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Currency" Type="varchar" MaxLength="3" />
+          <Property Name="LocalCurrency" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="mtRole">
+          <Key>
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtRoleFunction">
+          <Key>
+            <PropertyRef Name="Role" />
+            <PropertyRef Name="ProgramFunction" />
+          </Key>
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProgramFunction" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtSmartScanMatrix">
+          <Key>
+            <PropertyRef Name="SmartId" />
+          </Key>
+          <Property Name="SmartId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Company" Type="varchar" MaxLength="1" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="TrnType" Type="int" />
+          <Property Name="SourceWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="SourceBin" Type="varchar" MaxLength="20" />
+          <Property Name="DestWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="DestBin" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="mtSmartScanType">
+          <Key>
+            <PropertyRef Name="TrnType" />
+          </Key>
+          <Property Name="TrnType" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="ActionUrl" Type="varchar" MaxLength="100" />
+          <Property Name="Controller" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="mtSysproAdmin">
+          <Key>
+            <PropertyRef Name="Company" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="DatabaseName" Type="varchar" MaxLength="50" />
+          <Property Name="CompanyPassword" Type="varchar" MaxLength="50" />
+          <Property Name="FriendlyName" Type="varchar" MaxLength="100" />
+          <Property Name="FriendlyCompanyCode" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="mtSystemSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UseRoles" Type="bit" />
+          <Property Name="SmtpHost" Type="varchar" MaxLength="100" />
+          <Property Name="SmtpPort" Type="int" />
+          <Property Name="FromAddress" Type="varchar" MaxLength="100" />
+          <Property Name="ReportExportPath" Type="varchar" MaxLength="200" />
+          <Property Name="ScadaServiceIntervalMin" Type="int" />
+          <Property Name="MegasoftServiceIntervalMin" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Dashboard" Type="bit" Nullable="false" />
+          <Property Name="BranchAccess" Type="bit" Nullable="false" />
+          <Property Name="GlAuthorisation" Type="bit" Nullable="false" />
+          <Property Name="ProductClassLimit" Type="bit" Nullable="false" />
+          <Property Name="SmartScan" Type="bit" Nullable="false" />
+          <Property Name="ScaleAccess" Type="bit" Nullable="false" />
+          <Property Name="WarehouseAccess" Type="bit" Nullable="false" />
+          <Property Name="PrinterAccess" Type="bit" Nullable="false" />
+          <Property Name="DepartmentAccess" Type="bit" Nullable="false" />
+          <Property Name="ReportAccess" Type="bit" Nullable="false" />
+          <Property Name="MegasoftServiceUser" Type="varchar" MaxLength="50" />
+          <Property Name="MegasoftServicePassword" Type="varchar" MaxLength="200" />
+          <Property Name="FromAddressPassword" Type="varchar" MaxLength="200" />
+          <Property Name="LocalCurrency" Type="varchar" MaxLength="4" />
+          <Property Name="EmailEnableSsl" Type="bit" />
+        </EntityType>
+        <EntityType Name="mtTankLevelStaging">
+          <Key>
+            <PropertyRef Name="GUID" />
+            <PropertyRef Name="EntryNo" />
+            <PropertyRef Name="Tank" />
+            <PropertyRef Name="TankType" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntryNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tank" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Tagname" Type="varchar" MaxLength="50" />
+          <Property Name="TankType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="StartVolumePerc" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="EndVolumePerc" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="StartVolumeTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndVolumeTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartVolumeST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndVolumeST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartVolumeRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndVolumeRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="TankCapacity" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="FromTemperature" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ToTemperature" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartDensityST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndDensityST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartDensityTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndDensityTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartDensityRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndDensityRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartLitresST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndLitresST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartLitresTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndLitresTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartLitresRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndLitresRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="BlendNo" Type="varchar" MaxLength="20" />
+          <Property Name="StartMassST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndMassST" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartMassTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndMassTT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="StartMassRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EndMassRT" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="ReportingTemperature" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SGMethod" Type="varchar" MaxLength="50" />
+          <Property Name="Product" Type="varchar" MaxLength="100" />
+          <Property Name="TrnDate" Type="datetime" />
+          <Property Name="strMessage" Type="varchar" MaxLength="200" />
+          <Property Name="Operator" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtTankMaster">
+          <Key>
+            <PropertyRef Name="Tank" />
+          </Key>
+          <Property Name="Tank" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Tagname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Uom" Type="varchar" MaxLength="10" />
+          <Property Name="UomDescription" Type="varchar" MaxLength="50" />
+          <Property Name="TemperatureTagname" Type="varchar" MaxLength="50" />
+          <Property Name="TankCapacity" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="TankType" Type="varchar" MaxLength="50" />
+          <Property Name="Product" Type="varchar" MaxLength="100" />
+          <Property Name="StandardDensity" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="DateLastUpdated" Type="datetime" />
+          <Property Name="Operator" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtTankMovementStaging">
+          <Key>
+            <PropertyRef Name="GUID" />
+            <PropertyRef Name="Tank" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Tank" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Tagname" Type="varchar" MaxLength="50" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="Receipt" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Delivery" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Operator" Type="varchar" MaxLength="50" />
+          <Property Name="TrnDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="mtTankProductHistory">
+          <Key>
+            <PropertyRef Name="Tank" />
+            <PropertyRef Name="Product" />
+            <PropertyRef Name="DateUpdated" />
+          </Key>
+          <Property Name="Tank" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Product" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+          <Property Name="Operator" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtUser">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="SysproUsername" Type="varchar" MaxLength="50" />
+          <Property Name="SysproPassword" Type="varchar" MaxLength="50" />
+          <Property Name="DefaultPrinter" Type="varchar" MaxLength="200" />
+          <Property Name="DefaultApplication" Type="varchar" MaxLength="200" />
+          <Property Name="ReqPrefix" Type="varchar" MaxLength="4" />
+          <Property Name="LastReqNo" Type="int" />
+          <Property Name="Administrator" Type="bit" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="200" />
+          <Property Name="AuthorizationLimit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" />
+          <Property Name="BranchManager" Type="bit" Nullable="false" />
+          <Property Name="ForcePasswordReset" Type="bit" Nullable="false" />
+          <Property Name="IsBuyer" Type="bit" Nullable="false" />
+          <Property Name="IsRequisitioner" Type="bit" Nullable="false" />
+          <Property Name="Picker" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserBuyerStats">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Buyer" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Buyer" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserCompany">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Company" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserDepartment">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="CostCentre" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CostCentre" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserGlCodeAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="GlCode" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GlCode" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserPreference">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InvoicingSupplierStartIndex" Type="varchar" MaxLength="1" />
+          <Property Name="InvoicingSupplierEndIndex" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="mtUserPrinterAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="PrinterName" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PrinterName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserProductClassLimit">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="ProductClass" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductClass" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Limit" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="mtUserReportAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Program" />
+            <PropertyRef Name="Report" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Program" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Report" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserRole">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserScaleAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="ScaleModelId" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ScaleModelId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserWarehouse">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Function Name="sp_DeleteDelayedPostingWarehouse" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteUserDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteUserPrinters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteUserReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteUserScales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteUserSecurityAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteUserWarehouse" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetOpFunctionAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetOpFunctionMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetRoleAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Role" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetSmartScanGuidDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SmartId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetUserCompanies" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetUserPrinters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SaveDepartmentAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Department" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SavePrinterAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="PrinterName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SaveReportAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Program" Type="varchar" Mode="In" />
+          <Parameter Name="Report" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SaveScaleAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="ScaleModelId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="MegasoftModelStoreContainer">
+          <EntitySet Name="mtBuyerRequisitioner" EntityType="Self.mtBuyerRequisitioner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtDelayedPostingWarehouse" EntityType="Self.mtDelayedPostingWarehouse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtDistributionSetup" EntityType="Self.mtDistributionSetup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtLabelPrinter" EntityType="Self.mtLabelPrinter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtOpBranchAccess" EntityType="Self.mtOpBranchAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtOpFunction" EntityType="Self.mtOpFunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtProgramFunction" EntityType="Self.mtProgramFunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtReqCostCentre" EntityType="Self.mtReqCostCentre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtReqRoutingTracking" EntityType="Self.mtReqRoutingTracking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtReqUserCostCentreSpendLimit" EntityType="Self.mtReqUserCostCentreSpendLimit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtRole" EntityType="Self.mtRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtRoleFunction" EntityType="Self.mtRoleFunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtSmartScanMatrix" EntityType="Self.mtSmartScanMatrix" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtSmartScanType" EntityType="Self.mtSmartScanType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtSysproAdmin" EntityType="Self.mtSysproAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtSystemSettings" EntityType="Self.mtSystemSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtTankLevelStaging" EntityType="Self.mtTankLevelStaging" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtTankMaster" EntityType="Self.mtTankMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtTankMovementStaging" EntityType="Self.mtTankMovementStaging" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtTankProductHistory" EntityType="Self.mtTankProductHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUser" EntityType="Self.mtUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserBuyerStats" EntityType="Self.mtUserBuyerStats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserCompany" EntityType="Self.mtUserCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserDepartment" EntityType="Self.mtUserDepartment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserGlCodeAccess" EntityType="Self.mtUserGlCodeAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserPreference" EntityType="Self.mtUserPreference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserPrinterAccess" EntityType="Self.mtUserPrinterAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserProductClassLimit" EntityType="Self.mtUserProductClassLimit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserReportAccess" EntityType="Self.mtUserReportAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserRole" EntityType="Self.mtUserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserScaleAccess" EntityType="Self.mtUserScaleAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtUserWarehouse" EntityType="Self.mtUserWarehouse" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MegasoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="mtRole">
+          <Key>
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtRoleFunction">
+          <Key>
+            <PropertyRef Name="Role" />
+            <PropertyRef Name="ProgramFunction" />
+          </Key>
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProgramFunction" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserRole">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MegasoftEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="mtRoles" EntityType="Self.mtRole" />
+          <EntitySet Name="mtRoleFunctions" EntityType="Self.mtRoleFunction" />
+          <EntitySet Name="mtUserRoles" EntityType="Self.mtUserRole" />
+          <FunctionImport Name="sp_GetRoleAccess" ReturnType="Collection(MegasoftModel.sp_GetRoleAccess_Result)">
+          <Parameter Name="Role" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetUserRole" ReturnType="Collection(MegasoftModel.sp_GetUserRole_Result)">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtUserCompanies" EntityType="MegasoftModel.mtUserCompany" />
+          <FunctionImport Name="sp_GetUserCompanies" ReturnType="Collection(MegasoftModel.sp_GetUserCompanies_Result)">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtTankMasters" EntityType="MegasoftModel.mtTankMaster" />
+          <EntitySet Name="mtTankMovementStagings" EntityType="MegasoftModel.mtTankMovementStaging" />
+          <EntitySet Name="mtTankProductHistories" EntityType="MegasoftModel.mtTankProductHistory" />
+          <FunctionImport Name="sp_UpdateBlendMassAndDensity">
+          <Parameter Name="GUID" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <EntitySet Name="mtTankLevelStagings" EntityType="MegasoftModel.mtTankLevelStaging" />
+          <EntitySet Name="mtOpBranchAccesses" EntityType="MegasoftModel.mtOpBranchAccess" />
+          <FunctionImport Name="sp_GetOpFunctionAccess" ReturnType="Collection(MegasoftModel.sp_GetOpFunctionAccess_Result)">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtUserGlCodeAccesses" EntityType="MegasoftModel.mtUserGlCodeAccess" />
+          <EntitySet Name="mtUserProductClassLimits" EntityType="MegasoftModel.mtUserProductClassLimit" />
+          <FunctionImport Name="sp_DeleteUserGlCodeAccess">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserBranchAccess">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserSecurityAccess">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserSpendLimits">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserBuyerStats">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetUserBuyerStats" ReturnType="Collection(MegasoftModel.sp_GetUserBuyerStats_Result)">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetBuyerRequisitionerLink" ReturnType="Collection(MegasoftModel.sp_GetBuyerRequisitionerLink_Result)">
+          <Parameter Name="Buyer" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteBuyerRequisitionerLink">
+          <Parameter Name="Buyer" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserWarehouse">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtUserWarehouses" EntityType="MegasoftModel.mtUserWarehouse" />
+          <FunctionImport Name="sp_UpdateInvoicingPreference" ReturnType="Collection(MegasoftModel.sp_UpdateInvoicingPreference_Result)">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="StartIndex" Mode="In" Type="String" />
+            <Parameter Name="EndIndex" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtSmartScanTypes" EntityType="MegasoftModel.mtSmartScanType" />
+          <EntitySet Name="mtSmartScanMatrices" EntityType="MegasoftModel.mtSmartScanMatrix" />
+          <EntitySet Name="mtDelayedPostingWarehouses" EntityType="MegasoftModel.mtDelayedPostingWarehouse" />
+          <FunctionImport Name="sp_DeleteDelayedPostingWarehouse">
+          <Parameter Name="Company" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtUserPrinterAccesses" EntityType="MegasoftModel.mtUserPrinterAccess" />
+          <FunctionImport Name="sp_GetUserPrinters" ReturnType="Collection(MegasoftModel.sp_GetUserPrinters_Result)">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserPrinters">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SavePrinterAccess">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="PrinterName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SaveScaleAccess">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="ScaleModelId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteUserScales">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtUserScaleAccesses" EntityType="MegasoftModel.mtUserScaleAccess" />
+          <EntitySet Name="mtUserDepartments" EntityType="MegasoftModel.mtUserDepartment" />
+          <FunctionImport Name="sp_DeleteUserDepartment">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SaveDepartmentAccess">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Department" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtUsers" EntityType="MegasoftModel.mtUser" />
+          <EntitySet Name="mtUserReportAccesses" EntityType="MegasoftModel.mtUserReportAccess" />
+          <FunctionImport Name="sp_DeleteUserReport">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SaveReportAccess">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Program" Mode="In" Type="String" />
+            <Parameter Name="Report" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtOpFunctions" EntityType="MegasoftModel.mtOpFunction" />
+          <EntitySet Name="mtSystemSettings" EntityType="MegasoftModel.mtSystemSetting" />
+          <FunctionImport Name="sp_GetSmartScanGuidDetail" ReturnType="Collection(MegasoftModel.sp_GetSmartScanGuidDetail_Result1)">
+          <Parameter Name="SmartId" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtProgramFunctions" EntityType="MegasoftModel.mtProgramFunction" />
+          <EntitySet Name="mtUserPreferences" EntityType="MegasoftModel.mtUserPreference" />
+          <EntitySet Name="mtBuyerRequisitioners" EntityType="MegasoftModel.mtBuyerRequisitioner" />
+          <EntitySet Name="mtUserBuyerStats" EntityType="MegasoftModel.mtUserBuyerStat" />
+          <EntitySet Name="mtSysproAdmins" EntityType="MegasoftModel.mtSysproAdmin" />
+          <FunctionImport Name="sp_GetOpFunctionMenu" ReturnType="Collection(MegasoftModel.sp_GetOpFunctionMenu_Result)">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtReqCostCentres" EntityType="MegasoftModel.mtReqCostCentre" />
+          <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
+          <EntitySet Name="mtLabelPrinters" EntityType="MegasoftModel.mtLabelPrinter" />
+          <EntitySet Name="mtReqRoutingTrackings" EntityType="MegasoftModel.mtReqRoutingTracking" />
+          <EntitySet Name="mtReqUserCostCentreSpendLimits" EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" />
+        </EntityContainer>
+        <ComplexType Name="sp_GetRoleAccess_Result">
+          <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Program" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ProgramFunction" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="HasAccess" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_GetUserRole_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HasAccess" Nullable="false" MaxLength="5" />
+        </ComplexType>
+        <EntityType Name="mtUserCompany">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Company" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_GetUserCompanies_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Company" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="DatabaseName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HasAccess" Nullable="false" MaxLength="5" />
+        </ComplexType>
+        <EntityType Name="mtTankMaster">
+          <Key>
+            <PropertyRef Name="Tank" />
+          </Key>
+          <Property Name="Tank" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tagname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="UomDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TemperatureTagname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TankCapacity" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="TankType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StandardDensity" Type="Decimal" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityType Name="mtTankMovementStaging">
+          <Key>
+            <PropertyRef Name="GUID" />
+            <PropertyRef Name="Tank" />
+          </Key>
+          <Property Name="GUID" Type="Guid" Nullable="false" />
+          <Property Name="Tank" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tagname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="Receipt" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Delivery" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TrnDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="mtTankProductHistory">
+          <Key>
+            <PropertyRef Name="Tank" />
+            <PropertyRef Name="Product" />
+            <PropertyRef Name="DateUpdated" />
+          </Key>
+          <Property Name="Tank" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtTankLevelStaging">
+          <Key>
+            <PropertyRef Name="GUID" />
+            <PropertyRef Name="EntryNo" />
+            <PropertyRef Name="Tank" />
+            <PropertyRef Name="TankType" />
+          </Key>
+          <Property Name="GUID" Type="Guid" Nullable="false" />
+          <Property Name="EntryNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tank" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tagname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TankType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="StartVolumePerc" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EndVolumePerc" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StartVolumeTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndVolumeTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartVolumeST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndVolumeST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartVolumeRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndVolumeRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="TankCapacity" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="FromTemperature" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="ToTemperature" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartDensityST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndDensityST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartDensityTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndDensityTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartDensityRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndDensityRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartLitresST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndLitresST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartLitresTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndLitresTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartLitresRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndLitresRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="BlendNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StartMassST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndMassST" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartMassTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndMassTT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="StartMassRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EndMassRT" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="ReportingTemperature" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SGMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TrnDate" Type="DateTime" Precision="3" />
+          <Property Name="strMessage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtOpBranchAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Operator" />
+            <PropertyRef Name="Branch" />
+            <PropertyRef Name="Site" />
+            <PropertyRef Name="Department" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Branch" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Site" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Department" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Allowed" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="sp_GetOpFunctionAccess_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Program" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ProgramFunction" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="HasAccess" Nullable="false" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="mtUserGlCodeAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="GlCode" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GlCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtUserProductClassLimit">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="ProductClass" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductClass" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Limit" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <ComplexType Name="sp_GetUserBuyerStats_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Buyer" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="HasAccess" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_GetBuyerRequisitionerLink_Result">
+          <Property Type="String" Name="Buyer" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Requisitioner" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="HasAccess" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="mtUserWarehouse">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_UpdateInvoicingPreference_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Company" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="InvoicingSupplierStartIndex" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="InvoicingSupplierEndIndex" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="mtSmartScanType">
+          <Key>
+            <PropertyRef Name="TrnType" />
+          </Key>
+          <Property Name="TrnType" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActionUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtSmartScanMatrix">
+          <Key>
+            <PropertyRef Name="SmartId" />
+          </Key>
+          <Property Name="SmartId" Type="Guid" Nullable="false" />
+          <Property Name="Company" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TrnType" Type="Int32" />
+          <Property Name="SourceWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SourceBin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DestWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DestBin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtDelayedPostingWarehouse">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_GetSmartScanGuidDetail_Result">
+          <Property Type="Guid" Name="SmartId" Nullable="false" />
+          <Property Type="String" Name="Company" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TrnType" Nullable="true" />
+          <Property Type="String" Name="SourceWarehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="SourceBin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="DestWarehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DestBin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActionUrl" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Controller" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DatabaseName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="mtUserPrinterAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="PrinterName" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PrinterName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_GetUserPrinters_Result">
+          <Property Type="String" Name="PrinterName" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Allowed" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="mtUserScaleAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="ScaleModelId" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ScaleModelId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserDepartment">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="CostCentre" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CostCentre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtUser">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SysproUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SysproPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultPrinter" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultApplication" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ReqPrefix" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="LastReqNo" Type="Int32" />
+          <Property Name="Administrator" Type="Boolean" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorizationLimit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchManager" Type="Boolean" Nullable="false" />
+          <Property Name="ForcePasswordReset" Type="Boolean" Nullable="false" />
+          <Property Name="IsBuyer" Type="Boolean" Nullable="false" />
+          <Property Name="IsRequisitioner" Type="Boolean" Nullable="false" />
+          <Property Name="Picker" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtUserReportAccess">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Program" />
+            <PropertyRef Name="Report" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Program" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Report" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtOpFunction">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Program" />
+            <PropertyRef Name="ProgramFunction" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Program" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProgramFunction" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtSystemSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UseRoles" Type="Boolean" />
+          <Property Name="SmtpHost" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPort" Type="Int32" />
+          <Property Name="FromAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ReportExportPath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ScadaServiceIntervalMin" Type="Int32" />
+          <Property Name="MegasoftServiceIntervalMin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Dashboard" Type="Boolean" Nullable="false" />
+          <Property Name="BranchAccess" Type="Boolean" Nullable="false" />
+          <Property Name="GlAuthorisation" Type="Boolean" Nullable="false" />
+          <Property Name="ProductClassLimit" Type="Boolean" Nullable="false" />
+          <Property Name="SmartScan" Type="Boolean" Nullable="false" />
+          <Property Name="ScaleAccess" Type="Boolean" Nullable="false" />
+          <Property Name="WarehouseAccess" Type="Boolean" Nullable="false" />
+          <Property Name="PrinterAccess" Type="Boolean" Nullable="false" />
+          <Property Name="DepartmentAccess" Type="Boolean" Nullable="false" />
+          <Property Name="ReportAccess" Type="Boolean" Nullable="false" />
+          <Property Name="FromAddressPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MegasoftServiceUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MegasoftServicePassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LocalCurrency" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="EmailEnableSsl" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="sp_GetSmartScanGuidDetail_Result1">
+          <Property Type="Guid" Name="SmartId" Nullable="false" />
+          <Property Type="String" Name="Company" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TrnType" Nullable="true" />
+          <Property Type="String" Name="SourceWarehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="SourceBin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="DestWarehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DestBin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActionUrl" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Controller" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DatabaseName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="mtProgramFunction">
+          <Key>
+            <PropertyRef Name="Program" />
+            <PropertyRef Name="ProgramFunction" />
+          </Key>
+          <Property Name="Program" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProgramFunction" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="mtUserPreference">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InvoicingSupplierStartIndex" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="InvoicingSupplierEndIndex" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtBuyerRequisitioner">
+          <Key>
+            <PropertyRef Name="Buyer" />
+            <PropertyRef Name="Requisitioner" />
+          </Key>
+          <Property Name="Buyer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Requisitioner" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtUserBuyerStat">
+          <Key>
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Buyer" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Buyer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtSysproAdmin">
+          <Key>
+            <PropertyRef Name="Company" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="DatabaseName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FriendlyName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FriendlyCompanyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_GetOpFunctionMenu_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Program" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ProgramFunction" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="HasAccess" Nullable="true" />
+          <Property Type="String" Name="Menu" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SubMenu" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="IconClass" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Controller" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ControllerView" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MenuSequence" Nullable="true" />
+          <Property Type="Int32" Name="SubMenuSequence" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="mtReqCostCentre">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="CostCentre" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="CostCentre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtDistributionSetup">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="SalesContractPricingServiceActive" Type="Boolean" Nullable="false" />
+          <Property Name="SalesContractPricingImportFilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SalesContractPricingNotificationLetterPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SalesContractPricingDoSalesOrderUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="UserLastUpdated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SalesOrderPackagingRequired" Type="Boolean" Nullable="false" />
+          <Property Name="SalesOrderNumberOfCharacters" Type="Int32" />
+          <Property Name="RequisitionSystemActive" Type="Boolean" Nullable="false" />
+          <Property Name="RequisitionFromEmailAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RequisitionLocalCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RequisitionNotificationLimit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RequisitionNotificationCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RequisitionNotificationExchangeRate" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="RequisitionNotificationEmailAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ViewUrlAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ReqAPIAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ReqAutoApprovalContractPricing" Type="Boolean" />
+          <Property Name="ReqAutoApprovalUserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtLabelPrinter">
+          <Key>
+            <PropertyRef Name="PrinterName" />
+          </Key>
+          <Property Name="PrinterName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PrinterPath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtReqRoutingTracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MegasoftGuid" Type="Guid" />
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Requisition" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Originator" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoutedTo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DateRouted" Type="DateTime" Precision="3" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RouteNote" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GuidActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfApprovals" Type="Int32" />
+          <Property Name="Approved" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DateApproved" Type="DateTime" Precision="3" />
+          <Property Name="ProcessApiRequest" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtReqUserCostCentreSpendLimit">
+          <Key>
+            <PropertyRef Name="Company" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="CostCentre" />
+          </Key>
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CostCentre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SpendLimit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="LocalCurrency" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MegasoftModelStoreContainer" CdmEntityContainer="MegasoftEntities">
+          <EntitySetMapping Name="mtRoles">
+            <EntityTypeMapping TypeName="MegasoftModel.mtRole">
+              <MappingFragment StoreEntitySet="mtRole">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtRoleFunctions">
+            <EntityTypeMapping TypeName="MegasoftModel.mtRoleFunction">
+              <MappingFragment StoreEntitySet="mtRoleFunction">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="ProgramFunction" ColumnName="ProgramFunction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtUserRoles">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserRole">
+              <MappingFragment StoreEntitySet="mtUserRole">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRoleAccess" FunctionName="MegasoftModel.Store.sp_GetRoleAccess">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetRoleAccess_Result">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="ProgramFunction" ColumnName="ProgramFunction" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUserRole" FunctionName="MegasoftModel.Store.sp_GetUserRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetUserRole_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtUserCompanies">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserCompany">
+              <MappingFragment StoreEntitySet="mtUserCompany">
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUserCompanies" FunctionName="MegasoftModel.Store.sp_GetUserCompanies">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetUserCompanies_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="DatabaseName" ColumnName="DatabaseName" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtTankMasters">
+            <EntityTypeMapping TypeName="MegasoftModel.mtTankMaster">
+              <MappingFragment StoreEntitySet="mtTankMaster">
+                <ScalarProperty Name="StandardDensity" ColumnName="StandardDensity" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="TankType" ColumnName="TankType" />
+                <ScalarProperty Name="TankCapacity" ColumnName="TankCapacity" />
+                <ScalarProperty Name="TemperatureTagname" ColumnName="TemperatureTagname" />
+                <ScalarProperty Name="UomDescription" ColumnName="UomDescription" />
+                <ScalarProperty Name="Uom" ColumnName="Uom" />
+                <ScalarProperty Name="Tagname" ColumnName="Tagname" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Tank" ColumnName="Tank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtTankMovementStagings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtTankMovementStaging">
+              <MappingFragment StoreEntitySet="mtTankMovementStaging">
+                <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Delivery" ColumnName="Delivery" />
+                <ScalarProperty Name="Receipt" ColumnName="Receipt" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="Tagname" ColumnName="Tagname" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Tank" ColumnName="Tank" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtTankProductHistories">
+            <EntityTypeMapping TypeName="MegasoftModel.mtTankProductHistory">
+              <MappingFragment StoreEntitySet="mtTankProductHistory">
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Tank" ColumnName="Tank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtTankLevelStagings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtTankLevelStaging">
+              <MappingFragment StoreEntitySet="mtTankLevelStaging">
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="strMessage" ColumnName="strMessage" />
+                <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="SGMethod" ColumnName="SGMethod" />
+                <ScalarProperty Name="ReportingTemperature" ColumnName="ReportingTemperature" />
+                <ScalarProperty Name="EndMassRT" ColumnName="EndMassRT" />
+                <ScalarProperty Name="StartMassRT" ColumnName="StartMassRT" />
+                <ScalarProperty Name="EndMassTT" ColumnName="EndMassTT" />
+                <ScalarProperty Name="StartMassTT" ColumnName="StartMassTT" />
+                <ScalarProperty Name="EndMassST" ColumnName="EndMassST" />
+                <ScalarProperty Name="StartMassST" ColumnName="StartMassST" />
+                <ScalarProperty Name="BlendNo" ColumnName="BlendNo" />
+                <ScalarProperty Name="EndLitresRT" ColumnName="EndLitresRT" />
+                <ScalarProperty Name="StartLitresRT" ColumnName="StartLitresRT" />
+                <ScalarProperty Name="EndLitresTT" ColumnName="EndLitresTT" />
+                <ScalarProperty Name="StartLitresTT" ColumnName="StartLitresTT" />
+                <ScalarProperty Name="EndLitresST" ColumnName="EndLitresST" />
+                <ScalarProperty Name="StartLitresST" ColumnName="StartLitresST" />
+                <ScalarProperty Name="EndDensityRT" ColumnName="EndDensityRT" />
+                <ScalarProperty Name="StartDensityRT" ColumnName="StartDensityRT" />
+                <ScalarProperty Name="EndDensityTT" ColumnName="EndDensityTT" />
+                <ScalarProperty Name="StartDensityTT" ColumnName="StartDensityTT" />
+                <ScalarProperty Name="EndDensityST" ColumnName="EndDensityST" />
+                <ScalarProperty Name="StartDensityST" ColumnName="StartDensityST" />
+                <ScalarProperty Name="ToTemperature" ColumnName="ToTemperature" />
+                <ScalarProperty Name="FromTemperature" ColumnName="FromTemperature" />
+                <ScalarProperty Name="TankCapacity" ColumnName="TankCapacity" />
+                <ScalarProperty Name="EndVolumeRT" ColumnName="EndVolumeRT" />
+                <ScalarProperty Name="StartVolumeRT" ColumnName="StartVolumeRT" />
+                <ScalarProperty Name="EndVolumeST" ColumnName="EndVolumeST" />
+                <ScalarProperty Name="StartVolumeST" ColumnName="StartVolumeST" />
+                <ScalarProperty Name="EndVolumeTT" ColumnName="EndVolumeTT" />
+                <ScalarProperty Name="StartVolumeTT" ColumnName="StartVolumeTT" />
+                <ScalarProperty Name="EndVolumePerc" ColumnName="EndVolumePerc" />
+                <ScalarProperty Name="StartVolumePerc" ColumnName="StartVolumePerc" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="TankType" ColumnName="TankType" />
+                <ScalarProperty Name="Tagname" ColumnName="Tagname" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Tank" ColumnName="Tank" />
+                <ScalarProperty Name="EntryNo" ColumnName="EntryNo" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtOpBranchAccesses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtOpBranchAccess">
+              <MappingFragment StoreEntitySet="mtOpBranchAccess">
+                <ScalarProperty Name="Allowed" ColumnName="Allowed" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetOpFunctionAccess" FunctionName="MegasoftModel.Store.sp_GetOpFunctionAccess">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetOpFunctionAccess_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="ProgramFunction" ColumnName="ProgramFunction" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtUserGlCodeAccesses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserGlCodeAccess">
+              <MappingFragment StoreEntitySet="mtUserGlCodeAccess">
+                <ScalarProperty Name="GlCode" ColumnName="GlCode" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtUserProductClassLimits">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserProductClassLimit">
+              <MappingFragment StoreEntitySet="mtUserProductClassLimit">
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_DeleteUserSecurityAccess" FunctionName="MegasoftModel.Store.sp_DeleteUserSecurityAccess" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteUserWarehouse" FunctionName="MegasoftModel.Store.sp_DeleteUserWarehouse" />
+          <EntitySetMapping Name="mtUserWarehouses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserWarehouse">
+              <MappingFragment StoreEntitySet="mtUserWarehouse">
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtSmartScanTypes">
+            <EntityTypeMapping TypeName="MegasoftModel.mtSmartScanType">
+              <MappingFragment StoreEntitySet="mtSmartScanType">
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="ActionUrl" ColumnName="ActionUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TrnType" ColumnName="TrnType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtSmartScanMatrices">
+            <EntityTypeMapping TypeName="MegasoftModel.mtSmartScanMatrix">
+              <MappingFragment StoreEntitySet="mtSmartScanMatrix">
+                <ScalarProperty Name="DestBin" ColumnName="DestBin" />
+                <ScalarProperty Name="DestWarehouse" ColumnName="DestWarehouse" />
+                <ScalarProperty Name="SourceBin" ColumnName="SourceBin" />
+                <ScalarProperty Name="SourceWarehouse" ColumnName="SourceWarehouse" />
+                <ScalarProperty Name="TrnType" ColumnName="TrnType" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="SmartId" ColumnName="SmartId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtDelayedPostingWarehouses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtDelayedPostingWarehouse">
+              <MappingFragment StoreEntitySet="mtDelayedPostingWarehouse">
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_DeleteDelayedPostingWarehouse" FunctionName="MegasoftModel.Store.sp_DeleteDelayedPostingWarehouse" />
+          <EntitySetMapping Name="mtUserPrinterAccesses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserPrinterAccess">
+              <MappingFragment StoreEntitySet="mtUserPrinterAccess">
+                <ScalarProperty Name="PrinterName" ColumnName="PrinterName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUserPrinters" FunctionName="MegasoftModel.Store.sp_GetUserPrinters">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetUserPrinters_Result">
+                <ScalarProperty Name="PrinterName" ColumnName="PrinterName" />
+                <ScalarProperty Name="Allowed" ColumnName="Allowed" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_DeleteUserPrinters" FunctionName="MegasoftModel.Store.sp_DeleteUserPrinters" />
+          <FunctionImportMapping FunctionImportName="sp_SavePrinterAccess" FunctionName="MegasoftModel.Store.sp_SavePrinterAccess" />
+          <FunctionImportMapping FunctionImportName="sp_SaveScaleAccess" FunctionName="MegasoftModel.Store.sp_SaveScaleAccess" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteUserScales" FunctionName="MegasoftModel.Store.sp_DeleteUserScales" />
+          <EntitySetMapping Name="mtUserScaleAccesses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserScaleAccess">
+              <MappingFragment StoreEntitySet="mtUserScaleAccess">
+                <ScalarProperty Name="ScaleModelId" ColumnName="ScaleModelId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtUserDepartments">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserDepartment">
+              <MappingFragment StoreEntitySet="mtUserDepartment">
+                <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_DeleteUserDepartment" FunctionName="MegasoftModel.Store.sp_DeleteUserDepartment" />
+          <FunctionImportMapping FunctionImportName="sp_SaveDepartmentAccess" FunctionName="MegasoftModel.Store.sp_SaveDepartmentAccess" />
+          <EntitySetMapping Name="mtUsers">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUser">
+              <MappingFragment StoreEntitySet="mtUser">
+                <ScalarProperty Name="Picker" ColumnName="Picker" />
+                <ScalarProperty Name="IsRequisitioner" ColumnName="IsRequisitioner" />
+                <ScalarProperty Name="IsBuyer" ColumnName="IsBuyer" />
+                <ScalarProperty Name="ForcePasswordReset" ColumnName="ForcePasswordReset" />
+                <ScalarProperty Name="BranchManager" ColumnName="BranchManager" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="AuthorizationLimit" ColumnName="AuthorizationLimit" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Administrator" ColumnName="Administrator" />
+                <ScalarProperty Name="LastReqNo" ColumnName="LastReqNo" />
+                <ScalarProperty Name="ReqPrefix" ColumnName="ReqPrefix" />
+                <ScalarProperty Name="DefaultApplication" ColumnName="DefaultApplication" />
+                <ScalarProperty Name="DefaultPrinter" ColumnName="DefaultPrinter" />
+                <ScalarProperty Name="SysproPassword" ColumnName="SysproPassword" />
+                <ScalarProperty Name="SysproUsername" ColumnName="SysproUsername" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtUserReportAccesses">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserReportAccess">
+              <MappingFragment StoreEntitySet="mtUserReportAccess">
+                <ScalarProperty Name="Report" ColumnName="Report" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_DeleteUserReport" FunctionName="MegasoftModel.Store.sp_DeleteUserReport" />
+          <FunctionImportMapping FunctionImportName="sp_SaveReportAccess" FunctionName="MegasoftModel.Store.sp_SaveReportAccess" />
+          <EntitySetMapping Name="mtOpFunctions">
+            <EntityTypeMapping TypeName="MegasoftModel.mtOpFunction">
+              <MappingFragment StoreEntitySet="mtOpFunction">
+                <ScalarProperty Name="ProgramFunction" ColumnName="ProgramFunction" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtSystemSettings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtSystemSetting">
+              <MappingFragment StoreEntitySet="mtSystemSettings">
+                <ScalarProperty Name="EmailEnableSsl" ColumnName="EmailEnableSsl" />
+                <ScalarProperty Name="LocalCurrency" ColumnName="LocalCurrency" />
+                <ScalarProperty Name="MegasoftServicePassword" ColumnName="MegasoftServicePassword" />
+                <ScalarProperty Name="MegasoftServiceUser" ColumnName="MegasoftServiceUser" />
+                <ScalarProperty Name="FromAddressPassword" ColumnName="FromAddressPassword" />
+                <ScalarProperty Name="ReportAccess" ColumnName="ReportAccess" />
+                <ScalarProperty Name="DepartmentAccess" ColumnName="DepartmentAccess" />
+                <ScalarProperty Name="PrinterAccess" ColumnName="PrinterAccess" />
+                <ScalarProperty Name="WarehouseAccess" ColumnName="WarehouseAccess" />
+                <ScalarProperty Name="ScaleAccess" ColumnName="ScaleAccess" />
+                <ScalarProperty Name="SmartScan" ColumnName="SmartScan" />
+                <ScalarProperty Name="ProductClassLimit" ColumnName="ProductClassLimit" />
+                <ScalarProperty Name="GlAuthorisation" ColumnName="GlAuthorisation" />
+                <ScalarProperty Name="BranchAccess" ColumnName="BranchAccess" />
+                <ScalarProperty Name="Dashboard" ColumnName="Dashboard" />
+                <ScalarProperty Name="MegasoftServiceIntervalMin" ColumnName="MegasoftServiceIntervalMin" />
+                <ScalarProperty Name="ScadaServiceIntervalMin" ColumnName="ScadaServiceIntervalMin" />
+                <ScalarProperty Name="ReportExportPath" ColumnName="ReportExportPath" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
+                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
+                <ScalarProperty Name="UseRoles" ColumnName="UseRoles" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetSmartScanGuidDetail" FunctionName="MegasoftModel.Store.sp_GetSmartScanGuidDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetSmartScanGuidDetail_Result1">
+                <ScalarProperty Name="SmartId" ColumnName="SmartId" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="TrnType" ColumnName="TrnType" />
+                <ScalarProperty Name="SourceWarehouse" ColumnName="SourceWarehouse" />
+                <ScalarProperty Name="SourceBin" ColumnName="SourceBin" />
+                <ScalarProperty Name="DestWarehouse" ColumnName="DestWarehouse" />
+                <ScalarProperty Name="DestBin" ColumnName="DestBin" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ActionUrl" ColumnName="ActionUrl" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="DatabaseName" ColumnName="DatabaseName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtProgramFunctions">
+            <EntityTypeMapping TypeName="MegasoftModel.mtProgramFunction">
+              <MappingFragment StoreEntitySet="mtProgramFunction">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProgramFunction" ColumnName="ProgramFunction" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtUserPreferences">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserPreference">
+              <MappingFragment StoreEntitySet="mtUserPreference">
+                <ScalarProperty Name="InvoicingSupplierEndIndex" ColumnName="InvoicingSupplierEndIndex" />
+                <ScalarProperty Name="InvoicingSupplierStartIndex" ColumnName="InvoicingSupplierStartIndex" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtBuyerRequisitioners">
+            <EntityTypeMapping TypeName="MegasoftModel.mtBuyerRequisitioner">
+              <MappingFragment StoreEntitySet="mtBuyerRequisitioner">
+                <ScalarProperty Name="Requisitioner" ColumnName="Requisitioner" />
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtUserBuyerStats">
+            <EntityTypeMapping TypeName="MegasoftModel.mtUserBuyerStat">
+              <MappingFragment StoreEntitySet="mtUserBuyerStats">
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtSysproAdmins">
+            <EntityTypeMapping TypeName="MegasoftModel.mtSysproAdmin">
+              <MappingFragment StoreEntitySet="mtSysproAdmin">
+                <ScalarProperty Name="FriendlyCompanyCode" ColumnName="FriendlyCompanyCode" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="CompanyPassword" ColumnName="CompanyPassword" />
+                <ScalarProperty Name="DatabaseName" ColumnName="DatabaseName" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetOpFunctionMenu" FunctionName="MegasoftModel.Store.sp_GetOpFunctionMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MegasoftModel.sp_GetOpFunctionMenu_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="ProgramFunction" ColumnName="ProgramFunction" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="SubMenu" ColumnName="SubMenu" />
+                <ScalarProperty Name="IconClass" ColumnName="IconClass" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="ControllerView" ColumnName="ControllerView" />
+                <ScalarProperty Name="MenuSequence" ColumnName="MenuSequence" />
+                <ScalarProperty Name="SubMenuSequence" ColumnName="SubMenuSequence" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtReqCostCentres">
+            <EntityTypeMapping TypeName="MegasoftModel.mtReqCostCentre">
+              <MappingFragment StoreEntitySet="mtReqCostCentre">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtDistributionSetups">
+            <EntityTypeMapping TypeName="MegasoftModel.mtDistributionSetup">
+              <MappingFragment StoreEntitySet="mtDistributionSetup">
+                <ScalarProperty Name="ReqAutoApprovalUserCode" ColumnName="ReqAutoApprovalUserCode" />
+                <ScalarProperty Name="ReqAutoApprovalContractPricing" ColumnName="ReqAutoApprovalContractPricing" />
+                <ScalarProperty Name="ReqAPIAddress" ColumnName="ReqAPIAddress" />
+                <ScalarProperty Name="ViewUrlAddress" ColumnName="ViewUrlAddress" />
+                <ScalarProperty Name="RequisitionNotificationEmailAddress" ColumnName="RequisitionNotificationEmailAddress" />
+                <ScalarProperty Name="RequisitionNotificationExchangeRate" ColumnName="RequisitionNotificationExchangeRate" />
+                <ScalarProperty Name="RequisitionNotificationCurrency" ColumnName="RequisitionNotificationCurrency" />
+                <ScalarProperty Name="RequisitionNotificationLimit" ColumnName="RequisitionNotificationLimit" />
+                <ScalarProperty Name="RequisitionLocalCurrency" ColumnName="RequisitionLocalCurrency" />
+                <ScalarProperty Name="RequisitionFromEmailAddress" ColumnName="RequisitionFromEmailAddress" />
+                <ScalarProperty Name="RequisitionSystemActive" ColumnName="RequisitionSystemActive" />
+                <ScalarProperty Name="SalesOrderNumberOfCharacters" ColumnName="SalesOrderNumberOfCharacters" />
+                <ScalarProperty Name="SalesOrderPackagingRequired" ColumnName="SalesOrderPackagingRequired" />
+                <ScalarProperty Name="UserLastUpdated" ColumnName="UserLastUpdated" />
+                <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+                <ScalarProperty Name="SalesContractPricingDoSalesOrderUpdate" ColumnName="SalesContractPricingDoSalesOrderUpdate" />
+                <ScalarProperty Name="SalesContractPricingNotificationLetterPath" ColumnName="SalesContractPricingNotificationLetterPath" />
+                <ScalarProperty Name="SalesContractPricingImportFilePath" ColumnName="SalesContractPricingImportFilePath" />
+                <ScalarProperty Name="SalesContractPricingServiceActive" ColumnName="SalesContractPricingServiceActive" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtLabelPrinters">
+            <EntityTypeMapping TypeName="MegasoftModel.mtLabelPrinter">
+              <MappingFragment StoreEntitySet="mtLabelPrinter">
+                <ScalarProperty Name="PrinterPath" ColumnName="PrinterPath" />
+                <ScalarProperty Name="PrinterName" ColumnName="PrinterName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtReqRoutingTrackings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtReqRoutingTracking">
+              <MappingFragment StoreEntitySet="mtReqRoutingTracking">
+                <ScalarProperty Name="ProcessApiRequest" ColumnName="ProcessApiRequest" />
+                <ScalarProperty Name="DateApproved" ColumnName="DateApproved" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="NoOfApprovals" ColumnName="NoOfApprovals" />
+                <ScalarProperty Name="GuidActive" ColumnName="GuidActive" />
+                <ScalarProperty Name="RouteNote" ColumnName="RouteNote" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateRouted" ColumnName="DateRouted" />
+                <ScalarProperty Name="RoutedTo" ColumnName="RoutedTo" />
+                <ScalarProperty Name="Originator" ColumnName="Originator" />
+                <ScalarProperty Name="Requisition" ColumnName="Requisition" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="MegasoftGuid" ColumnName="MegasoftGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtReqUserCostCentreSpendLimits">
+            <EntityTypeMapping TypeName="MegasoftModel.mtReqUserCostCentreSpendLimit">
+              <MappingFragment StoreEntitySet="mtReqUserCostCentreSpendLimit">
+                <ScalarProperty Name="LocalCurrency" ColumnName="LocalCurrency" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="SpendLimit" ColumnName="SpendLimit" />
+                <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

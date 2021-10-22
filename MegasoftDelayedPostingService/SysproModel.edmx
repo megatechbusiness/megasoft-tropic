@@ -1,0 +1,1834 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SysproModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="InvMaster">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LongDesc" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AlternateKey1" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AlternateKey2" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EccUser" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StockUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AlternateUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OtherUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ConvFactAltUom" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ConvMulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ConvFactOthUom" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="MulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Mass" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Volume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Decimals" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="PriceCategory" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PriceMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Supplier" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CycleCount" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ProductClass" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TaxCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="OtherTaxCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="ListPriceCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SerialMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="InterfaceFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="KitType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LowLevelCode" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="Buyer" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Planner" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TraceableType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="MpsFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BulkIssueFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AbcClass" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StockMovementReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ClearingFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SupercessionDate" Type="datetime" />
+          <Property Name="AbcAnalysisReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AbcCostingReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CostUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MinPricePct" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="LabourCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MaterialCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="FixOverhead" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="VariableOverhead" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="PartCategory" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DrawOfficeNum" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="WarehouseToUse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="BuyingRule" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SpecificGravity" Type="decimal" Precision="6" Scale="4" Nullable="false" />
+          <Property Name="ImplosionNum" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="Ebq" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ComponentCount" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="FixTimePeriod" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="PanSize" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="DockToStock" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="OutputMassFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="Version" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Release" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="DemandTimeFence" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="MakeToOrderFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ManufLeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="GrossReqRule" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PercentageYield" Type="decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="AbcPreProd" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcManufacturing" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcSales" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcCumPreProd" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcCumManuf" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="WipCtlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="ResourceCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="GstTaxCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="PrcInclGst" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SerEntryAtSale" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StpSelection" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField1" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserField2" Type="decimal" Precision="17" Scale="5" Nullable="false" />
+          <Property Name="UserField3" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField4" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField5" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TariffCode" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="SupplementaryUnit" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="EbqPan" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StdLandedCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="LctRequired" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StdLctRoute" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="IssMultLotsFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="InclInStrValid" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StdLabCostsBill" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="PhantomIfComp" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CountryOfOrigin" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="StockOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StockOnHoldReason" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="EccFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StockAndAltUm" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AltUnitChar" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="JobsOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="JobHoldAllocs" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PurchOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SalesOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="MaintOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BatchBill" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BlanketPoExists" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CallOffBpoExists" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DistWarehouseToUse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobClassification" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SubContractCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DateStkAdded" Type="datetime" />
+          <Property Name="InspectionFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SerialPrefix" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="SerialSuffix" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ReturnableItem" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ProductGroup" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PriceType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Basis" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ManualCostFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ManufactureUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ConvFactMuM" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ManMulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LookAheadWin" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="LoadingFactor" Type="decimal" Precision="9" Scale="3" Nullable="false" />
+          <Property Name="SupplUnitCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="StorageSecurity" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StorageHazard" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StorageCondition" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ProductShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="InternalShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="AltMethodFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AltSisoFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AltReductionFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="WithTaxExpenseType" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtInvDelayedPosting">
+          <Key>
+            <PropertyRef Name="TrnId" />
+          </Key>
+          <Property Name="TrnId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovementType" Type="varchar" MaxLength="20" />
+          <Property Name="FromWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="FromBin" Type="varchar" MaxLength="20" />
+          <Property Name="ToWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="ToBin" Type="varchar" MaxLength="20" />
+          <Property Name="StockCode" Type="varchar" MaxLength="30" />
+          <Property Name="Lot" Type="varchar" MaxLength="50" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Journal" Type="varchar" MaxLength="30" />
+          <Property Name="GtrReference" Type="varchar" MaxLength="20" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="TrnDate" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="mtPalletControl">
+          <Key>
+            <PropertyRef Name="PalletNo" />
+          </Key>
+          <Property Name="PalletNo" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Job" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="PalletSeq" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="1" />
+          <Property Name="ScaleId" Type="int" />
+        </EntityType>
+        <EntityType Name="mtProductionLabels">
+          <Key>
+            <PropertyRef Name="Job" />
+            <PropertyRef Name="BatchId" />
+          </Key>
+          <Property Name="Job" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="BatchId" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="BatchSequence" Type="int" />
+          <Property Name="GrossQty" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NetQty" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="DatePrinted" Type="datetime" />
+          <Property Name="LabelPrinted" Type="varchar" MaxLength="1" />
+          <Property Name="ReprintCount" Type="int" />
+          <Property Name="LabelReceipted" Type="varchar" MaxLength="1" />
+          <Property Name="Journal" Type="varchar" MaxLength="30" />
+          <Property Name="ReceiptedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ReceiptDate" Type="datetime" />
+          <Property Name="Customer" Type="varchar" MaxLength="15" />
+          <Property Name="Supervisor" Type="varchar" MaxLength="20" />
+          <Property Name="Operator" Type="varchar" MaxLength="20" />
+          <Property Name="Packer" Type="varchar" MaxLength="20" />
+          <Property Name="QC1" Type="varchar" MaxLength="20" />
+          <Property Name="WorkCentre" Type="varchar" MaxLength="20" />
+          <Property Name="PalletNo" Type="varchar" MaxLength="40" />
+          <Property Name="Scanned" Type="varchar" MaxLength="1" />
+          <Property Name="ScannedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ScanDate" Type="datetime" />
+          <Property Name="Core" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Tare" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Reference" Type="varchar" MaxLength="100" />
+          <Property Name="PreviousWorkCentre" Type="varchar" MaxLength="20" />
+          <Property Name="Department" Type="varchar" MaxLength="20" />
+          <Property Name="ScaleModelId" Type="int" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="mtReportAutomation">
+          <Key>
+            <PropertyRef Name="Report" />
+          </Key>
+          <Property Name="Report" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ServiceScheduleMode" Type="varchar" MaxLength="10" />
+          <Property Name="ServiceRunTime" Type="time" Precision="7" />
+          <Property Name="ServiceWeeklyDay" Type="varchar" MaxLength="10" />
+          <Property Name="ServiceMonthlyDate" Type="int" />
+          <Property Name="ServiceActive" Type="varchar" MaxLength="1" />
+          <Property Name="LastRunDate" Type="datetime" />
+          <Property Name="ServiceIntervalMin" Type="int" />
+          <Property Name="ToEmail" Type="varchar" MaxLength="500" />
+          <Property Name="ReportPath" Type="varchar" MaxLength="200" />
+          <Property Name="Title" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="mtWhseManSettings">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="int" Nullable="false" />
+          <Property Name="TransferInScanItem" Type="bit" Nullable="false" />
+          <Property Name="ShortagesAllowedForKits" Type="bit" Nullable="false" />
+          <Property Name="LabelDateFormat" Type="varchar" MaxLength="6" />
+          <Property Name="JobLabelAddField1" Type="bit" Nullable="false" />
+          <Property Name="PalletNoReq" Type="bit" Nullable="false" />
+          <Property Name="DefaultPalletNo" Type="varchar" MaxLength="5" />
+          <Property Name="PostLabour" Type="bit" Nullable="false" />
+          <Property Name="PostMaterialIssue" Type="bit" Nullable="false" />
+          <Property Name="JobReceiptTolerance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="SalesReleaseAutoAllocation" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WipMaster">
+          <Key>
+            <PropertyRef Name="Job" />
+          </Key>
+          <Property Name="Job" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="JobDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="JobClassification" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="MasterJob" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Priority" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="StockDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Customer" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="JobTenderDate" Type="datetime" />
+          <Property Name="JobDeliveryDate" Type="datetime" />
+          <Property Name="JobStartDate" Type="datetime" />
+          <Property Name="ActCompleteDate" Type="datetime" />
+          <Property Name="Complete" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SeqCheckReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DateCalcMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ExpLabour" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="ExpMaterial" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="QtyToMake" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyManufactured" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Source" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="EstSourceNum" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="NextDetailLine" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="PctCompleteFlag" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="PrtFactDoc1" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PrtFactDoc2" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PrtFactDoc3" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PrtFactDoc4" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SellingPrice" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AddLabPct" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="AddMatPct" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="ProfitPct" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="SalesOrder" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MaterialBilled" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabourBilled" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="NextOpForAll" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="HighestOpPosted" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="TotalQtyScrapped" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ConfirmedFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="HoldFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="JobCreatedStruc" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LstOrderCreated" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TraceableType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NxtLinePartBook" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Route" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="WipCtlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Decimals" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="SalesOrderLine" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="MatCostToDate1" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="MatCostToDate2" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="MatCostToDate3" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabCostToDate1" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabCostToDate2" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabCostToDate3" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="HrsBookToDate1" Type="decimal" Precision="14" Scale="6" Nullable="false" />
+          <Property Name="HrsBookToDate2" Type="decimal" Precision="14" Scale="6" Nullable="false" />
+          <Property Name="HrsBookToDate3" Type="decimal" Precision="14" Scale="6" Nullable="false" />
+          <Property Name="MatValueIssues1" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="MatValueIssues2" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="MatValueIssues3" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabValueIssues1" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabValueIssues2" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="LabValueIssues3" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="NarrationNum" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="ReqPlnFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DateJobLstUpd" Type="datetime" />
+          <Property Name="TimeJobLstUpd" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="HierarchyFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NextLineHier" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="EstTrailLoad" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="OrdEntSource" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Version" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Release" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="AllocationLine" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="PurgeJob" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="HierarchyJob" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MrpFromJob" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MrpToJob" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OrigDueDate" Type="datetime" />
+          <Property Name="GrossFlg" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GrossQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ExpLabCurrent" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="ExpMatCurrent" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="ReservedLotSerFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NotionalPart" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CoProductCostMet" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CoProductCostVal" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CoProductType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CapexCode" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CapexLine" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="UomFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ConvFactUom" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ConvMulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ScheduleFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SchStartDate" Type="datetime" />
+          <Property Name="SchStartTime" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="SchEndDate" Type="datetime" />
+          <Property Name="SchEndTime" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="QtyToMakeEnt" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyManufacturedEnt" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="TotQtyScrappedEnt" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="GrossQtyEnt" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="ProductCode" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="LibraryCode" Type="char" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TheOUTDOORSCompany0.dbo.vw_InvWhControl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_InvWhControl">
+          <Key>
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="MtdTrnsVar" />
+            <PropertyRef Name="NextTicketNo" />
+            <PropertyRef Name="StockTakeFlag" />
+            <PropertyRef Name="WhLdgCtlAcc" />
+            <PropertyRef Name="WhVarLdg" />
+            <PropertyRef Name="TrnMonth" />
+            <PropertyRef Name="TrnYear" />
+            <PropertyRef Name="GrnLdgAcc" />
+            <PropertyRef Name="DeliveryAddr1" />
+            <PropertyRef Name="DeliveryAddr2" />
+            <PropertyRef Name="DeliveryAddr3" />
+            <PropertyRef Name="DeliveryAddr3Loc" />
+            <PropertyRef Name="DeliveryAddr4" />
+            <PropertyRef Name="DeliveryAddr5" />
+            <PropertyRef Name="PostalCode" />
+            <PropertyRef Name="DeliveryGpsLat" />
+            <PropertyRef Name="DeliveryGpsLong" />
+            <PropertyRef Name="NegStockAllow" />
+            <PropertyRef Name="GtrCtlAccl" />
+            <PropertyRef Name="GtrPrefix" />
+            <PropertyRef Name="GtrNextNo" />
+            <PropertyRef Name="Branch" />
+            <PropertyRef Name="Area" />
+            <PropertyRef Name="FaxContact" />
+            <PropertyRef Name="Fax" />
+            <PropertyRef Name="FaxDocIwsFlag" />
+            <PropertyRef Name="GitAdjAcc" />
+            <PropertyRef Name="WhForComp" />
+            <PropertyRef Name="Route" />
+            <PropertyRef Name="InclPlanning" />
+            <PropertyRef Name="UseMultipleBins" />
+            <PropertyRef Name="CostingMethod" />
+            <PropertyRef Name="UseFifoBuckets" />
+            <PropertyRef Name="PoPrefix" />
+            <PropertyRef Name="PoNextNumber" />
+            <PropertyRef Name="GrnPrefix" />
+            <PropertyRef Name="GrnNextNumber" />
+            <PropertyRef Name="WipInspectGlCode" />
+            <PropertyRef Name="Nationality" />
+            <PropertyRef Name="SoDefaultDoc" />
+            <PropertyRef Name="RouteCode" />
+            <PropertyRef Name="RouteDistance" />
+            <PropertyRef Name="WipControlGlCode" />
+            <PropertyRef Name="WipVarCtlGlCode" />
+            <PropertyRef Name="WipAutoVarGlCode" />
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="RollParentGl" />
+            <PropertyRef Name="WmsActive" />
+            <PropertyRef Name="PickLeadHours" />
+            <PropertyRef Name="StockTakeUpdate" />
+            <PropertyRef Name="NonStockedGl" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="CountyZip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="LanguageCode" />
+            <PropertyRef Name="ShippingLocation" />
+            <PropertyRef Name="DeliveryTerms" />
+          </Key>
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MtdTrnsVar" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="NextTicketNo" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="StockTakeFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="WhLdgCtlAcc" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WhVarLdg" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="TrnMonth" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="TrnYear" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="GrnLdgAcc" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="DeliveryAddr1" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr2" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr3" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr3Loc" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr4" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr5" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DeliveryGpsLat" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="DeliveryGpsLong" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="NegStockAllow" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GtrCtlAccl" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="GtrPrefix" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="GtrNextNo" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="Branch" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Area" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FaxContact" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fax" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FaxDocIwsFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GitAdjAcc" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WhForComp" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Route" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="InclPlanning" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UseMultipleBins" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CostingMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UseFifoBuckets" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PoPrefix" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PoNextNumber" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="GrnPrefix" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="GrnNextNumber" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="WipInspectGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Nationality" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="SoDefaultDoc" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="RouteCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="RouteDistance" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="WipControlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WipVarCtlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WipAutoVarGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="SiteId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RollParentGl" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WmsActive" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PickLeadHours" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="StockTakeUpdate" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NonStockedGl" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="CountyZip" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="City" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ShippingLocation" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DeliveryTerms" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <Association Name="Syspro_FK_WipMaster_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="WipMaster" Type="Self.WipMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="WipMaster">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_BaggingCheckCustomForm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Lot" Type="varchar" Mode="In" />
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_BaggingSaveCustomForm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Lot" Type="varchar" Mode="In" />
+          <Parameter Name="Pallet" Type="varchar" Mode="In" />
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_BaggingUpdateCustomForm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Lot" Type="varchar" Mode="In" />
+          <Parameter Name="Pallet" Type="varchar" Mode="In" />
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetAutoDepleteLots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StockCode" Type="varchar" Mode="In" />
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_GetDelayedPostingData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetDelayedPostingProductionPallets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetKitLabourToIssue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_GetKitMaterialToIssue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_GetProductionJobDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SaveInvTransfer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MovementType" Type="varchar" Mode="In" />
+          <Parameter Name="FromWarehouse" Type="varchar" Mode="In" />
+          <Parameter Name="FromBin" Type="varchar" Mode="In" />
+          <Parameter Name="ToWarehouse" Type="varchar" Mode="In" />
+          <Parameter Name="ToBin" Type="varchar" Mode="In" />
+          <Parameter Name="StockCode" Type="varchar" Mode="In" />
+          <Parameter Name="ReelNo" Type="varchar" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" />
+          <Parameter Name="Journal" Type="varchar" Mode="In" />
+          <Parameter Name="GtrReference" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateLabelReceipted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+          <Parameter Name="PalletNo" Type="varchar" Mode="In" />
+          <Parameter Name="Receipted" Type="varchar" Mode="In" />
+          <Parameter Name="Journal" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="SysproModelStoreContainer">
+          <EntitySet Name="InvMaster" EntityType="Self.InvMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtInvDelayedPosting" EntityType="Self.mtInvDelayedPosting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtPalletControl" EntityType="Self.mtPalletControl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtProductionLabels" EntityType="Self.mtProductionLabels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtReportAutomation" EntityType="Self.mtReportAutomation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtWhseManSettings" EntityType="Self.mtWhseManSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WipMaster" EntityType="Self.WipMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_InvWhControl" EntityType="Self.vw_InvWhControl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_InvWhControl].[Warehouse] AS [Warehouse], 
+    [vw_InvWhControl].[Description] AS [Description], 
+    [vw_InvWhControl].[MtdTrnsVar] AS [MtdTrnsVar], 
+    [vw_InvWhControl].[NextTicketNo] AS [NextTicketNo], 
+    [vw_InvWhControl].[StockTakeFlag] AS [StockTakeFlag], 
+    [vw_InvWhControl].[WhLdgCtlAcc] AS [WhLdgCtlAcc], 
+    [vw_InvWhControl].[WhVarLdg] AS [WhVarLdg], 
+    [vw_InvWhControl].[TrnMonth] AS [TrnMonth], 
+    [vw_InvWhControl].[TrnYear] AS [TrnYear], 
+    [vw_InvWhControl].[GrnLdgAcc] AS [GrnLdgAcc], 
+    [vw_InvWhControl].[DeliveryAddr1] AS [DeliveryAddr1], 
+    [vw_InvWhControl].[DeliveryAddr2] AS [DeliveryAddr2], 
+    [vw_InvWhControl].[DeliveryAddr3] AS [DeliveryAddr3], 
+    [vw_InvWhControl].[DeliveryAddr3Loc] AS [DeliveryAddr3Loc], 
+    [vw_InvWhControl].[DeliveryAddr4] AS [DeliveryAddr4], 
+    [vw_InvWhControl].[DeliveryAddr5] AS [DeliveryAddr5], 
+    [vw_InvWhControl].[PostalCode] AS [PostalCode], 
+    [vw_InvWhControl].[DeliveryGpsLat] AS [DeliveryGpsLat], 
+    [vw_InvWhControl].[DeliveryGpsLong] AS [DeliveryGpsLong], 
+    [vw_InvWhControl].[NegStockAllow] AS [NegStockAllow], 
+    [vw_InvWhControl].[GtrCtlAccl] AS [GtrCtlAccl], 
+    [vw_InvWhControl].[GtrPrefix] AS [GtrPrefix], 
+    [vw_InvWhControl].[GtrNextNo] AS [GtrNextNo], 
+    [vw_InvWhControl].[Branch] AS [Branch], 
+    [vw_InvWhControl].[Area] AS [Area], 
+    [vw_InvWhControl].[FaxContact] AS [FaxContact], 
+    [vw_InvWhControl].[Fax] AS [Fax], 
+    [vw_InvWhControl].[FaxDocIwsFlag] AS [FaxDocIwsFlag], 
+    [vw_InvWhControl].[GitAdjAcc] AS [GitAdjAcc], 
+    [vw_InvWhControl].[WhForComp] AS [WhForComp], 
+    [vw_InvWhControl].[Route] AS [Route], 
+    [vw_InvWhControl].[InclPlanning] AS [InclPlanning], 
+    [vw_InvWhControl].[UseMultipleBins] AS [UseMultipleBins], 
+    [vw_InvWhControl].[CostingMethod] AS [CostingMethod], 
+    [vw_InvWhControl].[UseFifoBuckets] AS [UseFifoBuckets], 
+    [vw_InvWhControl].[PoPrefix] AS [PoPrefix], 
+    [vw_InvWhControl].[PoNextNumber] AS [PoNextNumber], 
+    [vw_InvWhControl].[GrnPrefix] AS [GrnPrefix], 
+    [vw_InvWhControl].[GrnNextNumber] AS [GrnNextNumber], 
+    [vw_InvWhControl].[WipInspectGlCode] AS [WipInspectGlCode], 
+    [vw_InvWhControl].[Nationality] AS [Nationality], 
+    [vw_InvWhControl].[SoDefaultDoc] AS [SoDefaultDoc], 
+    [vw_InvWhControl].[RouteCode] AS [RouteCode], 
+    [vw_InvWhControl].[RouteDistance] AS [RouteDistance], 
+    [vw_InvWhControl].[WipControlGlCode] AS [WipControlGlCode], 
+    [vw_InvWhControl].[WipVarCtlGlCode] AS [WipVarCtlGlCode], 
+    [vw_InvWhControl].[WipAutoVarGlCode] AS [WipAutoVarGlCode], 
+    [vw_InvWhControl].[SiteId] AS [SiteId], 
+    [vw_InvWhControl].[RollParentGl] AS [RollParentGl], 
+    [vw_InvWhControl].[WmsActive] AS [WmsActive], 
+    [vw_InvWhControl].[PickLeadHours] AS [PickLeadHours], 
+    [vw_InvWhControl].[StockTakeUpdate] AS [StockTakeUpdate], 
+    [vw_InvWhControl].[NonStockedGl] AS [NonStockedGl], 
+    [vw_InvWhControl].[State] AS [State], 
+    [vw_InvWhControl].[CountyZip] AS [CountyZip], 
+    [vw_InvWhControl].[City] AS [City], 
+    [vw_InvWhControl].[LanguageCode] AS [LanguageCode], 
+    [vw_InvWhControl].[ShippingLocation] AS [ShippingLocation], 
+    [vw_InvWhControl].[DeliveryTerms] AS [DeliveryTerms]
+    FROM [dbo].[vw_InvWhControl] AS [vw_InvWhControl]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="Syspro_FK_WipMaster_InvMaster" Association="Self.Syspro_FK_WipMaster_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMaster" />
+            <End Role="WipMaster" EntitySet="WipMaster" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SysproModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SysproEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_GetDelayedPostingData" ReturnType="Collection(SysproModel.sp_GetDelayedPostingData_Result)">
+          <Parameter Name="Company" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="InvMasters" EntityType="SysproModel.InvMaster" />
+          <FunctionImport Name="sp_SaveInvTransfer">
+            <Parameter Name="MovementType" Mode="In" Type="String" />
+            <Parameter Name="FromWarehouse" Mode="In" Type="String" />
+            <Parameter Name="FromBin" Mode="In" Type="String" />
+            <Parameter Name="ToWarehouse" Mode="In" Type="String" />
+            <Parameter Name="ToBin" Mode="In" Type="String" />
+            <Parameter Name="StockCode" Mode="In" Type="String" />
+            <Parameter Name="ReelNo" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="Journal" Mode="In" Type="String" />
+            <Parameter Name="GtrReference" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtInvDelayedPostings" EntityType="SysproModel.mtInvDelayedPosting" />
+          <EntitySet Name="vw_InvWhControl" EntityType="SysproModel.vw_InvWhControl" />
+          <EntitySet Name="WipMasters" EntityType="SysproModel.WipMaster" />
+          <AssociationSet Name="Syspro_FK_WipMaster_InvMaster" Association="SysproModel.Syspro_FK_WipMaster_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMasters" />
+            <End Role="WipMaster" EntitySet="WipMasters" />
+          </AssociationSet>
+          <FunctionImport Name="sp_BaggingCheckCustomForm" ReturnType="Collection(SysproModel.sp_BaggingCheckCustomForm_Result)">
+            <Parameter Name="Lot" Mode="In" Type="String" />
+            <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_BaggingSaveCustomForm">
+            <Parameter Name="Lot" Mode="In" Type="String" />
+            <Parameter Name="Pallet" Mode="In" Type="String" />
+            <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_BaggingUpdateCustomForm">
+            <Parameter Name="Lot" Mode="In" Type="String" />
+            <Parameter Name="Pallet" Mode="In" Type="String" />
+            <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetDelayedPostingProductionPallets" ReturnType="Collection(SysproModel.sp_GetDelayedPostingProductionPallets_Result)">
+          <Parameter Name="Company" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtWhseManSettings" EntityType="SysproModel.mtWhseManSetting" />
+          <FunctionImport Name="sp_GetKitLabourToIssue" ReturnType="Collection(SysproModel.sp_GetKitLabourToIssue_Result)">
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetKitMaterialToIssue" ReturnType="Collection(SysproModel.sp_GetKitMaterialToIssue_Result)">
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="mtPalletControls" EntityType="SysproModel.mtPalletControl" />
+          <FunctionImport Name="sp_GetProductionJobDetails" ReturnType="Collection(SysproModel.sp_GetProductionJobDetails_Result)">
+          <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateLabelReceipted">
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="PalletNo" Mode="In" Type="String" />
+            <Parameter Name="Receipted" Mode="In" Type="String" />
+            <Parameter Name="Journal" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAutoDepleteLots" ReturnType="Collection(SysproModel.sp_GetAutoDepleteLots_Result)">
+            <Parameter Name="StockCode" Mode="In" Type="String" />
+            <Parameter Name="Warehouse" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="mtProductionLabels" EntityType="SysproModel.mtProductionLabel" />
+          <EntitySet Name="mtReportAutomations" EntityType="SysproModel.mtReportAutomation" />
+        </EntityContainer>
+        <ComplexType Name="sp_GetDelayedPostingData_Result">
+          <Property Type="Int32" Name="TrnId" Nullable="false" />
+          <Property Type="String" Name="MovementType" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FromWarehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FromBin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ToWarehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ToBin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="StockCode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Lot" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="String" Name="Journal" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="GtrReference" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="TrnDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Status" Nullable="true" />
+          <Property Type="String" Name="Company" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Warehouse" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="InvMaster">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LongDesc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AlternateKey1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AlternateKey2" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EccUser" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StockUom" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AlternateUom" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OtherUom" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ConvFactAltUom" Type="Decimal" Nullable="false" Precision="12" Scale="6" />
+          <Property Name="ConvMulDiv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ConvFactOthUom" Type="Decimal" Nullable="false" Precision="12" Scale="6" />
+          <Property Name="MulDiv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Mass" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Volume" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Decimals" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="PriceCategory" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PriceMethod" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Supplier" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CycleCount" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="ProductClass" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TaxCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="OtherTaxCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="ListPriceCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SerialMethod" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="InterfaceFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="KitType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LowLevelCode" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="Buyer" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Planner" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TraceableType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="MpsFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BulkIssueFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AbcClass" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LeadTime" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="StockMovementReq" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ClearingFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SupercessionDate" Type="DateTime" Precision="3" />
+          <Property Name="AbcAnalysisReq" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AbcCostingReq" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CostUom" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MinPricePct" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="LabourCost" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="MaterialCost" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="FixOverhead" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="VariableOverhead" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="PartCategory" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DrawOfficeNum" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="WarehouseToUse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BuyingRule" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SpecificGravity" Type="Decimal" Nullable="false" Precision="6" Scale="4" />
+          <Property Name="ImplosionNum" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="Ebq" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="ComponentCount" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="FixTimePeriod" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="PanSize" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="DockToStock" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="OutputMassFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ShelfLife" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Release" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="DemandTimeFence" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="MakeToOrderFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ManufLeadTime" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="GrossReqRule" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PercentageYield" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
+          <Property Name="AbcPreProd" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="AbcManufacturing" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="AbcSales" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="AbcCumPreProd" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="AbcCumManuf" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="WipCtlGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="ResourceCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="GstTaxCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="PrcInclGst" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SerEntryAtSale" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StpSelection" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UserField1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UserField2" Type="Decimal" Nullable="false" Precision="17" Scale="5" />
+          <Property Name="UserField3" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UserField4" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UserField5" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TariffCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SupplementaryUnit" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EbqPan" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StdLandedCost" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="LctRequired" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StdLctRoute" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="IssMultLotsFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="InclInStrValid" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StdLabCostsBill" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="PhantomIfComp" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CountryOfOrigin" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="StockOnHold" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StockOnHoldReason" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="EccFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StockAndAltUm" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AltUnitChar" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="JobsOnHold" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="JobHoldAllocs" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PurchOnHold" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SalesOnHold" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="MaintOnHold" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BatchBill" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BlanketPoExists" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CallOffBpoExists" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DistWarehouseToUse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="JobClassification" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SubContractCost" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="DateStkAdded" Type="DateTime" Precision="3" />
+          <Property Name="InspectionFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SerialPrefix" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="SerialSuffix" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnableItem" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ProductGroup" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PriceType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Basis" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ManualCostFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ManufactureUom" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ConvFactMuM" Type="Decimal" Nullable="false" Precision="12" Scale="6" />
+          <Property Name="ManMulDiv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LookAheadWin" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="LoadingFactor" Type="Decimal" Nullable="false" Precision="9" Scale="3" />
+          <Property Name="SupplUnitCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="StorageSecurity" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StorageHazard" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StorageCondition" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ProductShelfLife" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="InternalShelfLife" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="AltMethodFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AltSisoFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AltReductionFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="WithTaxExpenseType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="WipMasters" Relationship="SysproModel.Syspro_FK_WipMaster_InvMaster" FromRole="InvMaster" ToRole="WipMaster" />
+        </EntityType>
+        <EntityType Name="mtInvDelayedPosting">
+          <Key>
+            <PropertyRef Name="TrnId" />
+          </Key>
+          <Property Name="TrnId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovementType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FromWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FromBin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ToWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ToBin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Lot" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Journal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="GtrReference" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TrnDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_InvWhControl">
+          <Key>
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="MtdTrnsVar" />
+            <PropertyRef Name="NextTicketNo" />
+            <PropertyRef Name="StockTakeFlag" />
+            <PropertyRef Name="WhLdgCtlAcc" />
+            <PropertyRef Name="WhVarLdg" />
+            <PropertyRef Name="TrnMonth" />
+            <PropertyRef Name="TrnYear" />
+            <PropertyRef Name="GrnLdgAcc" />
+            <PropertyRef Name="DeliveryAddr1" />
+            <PropertyRef Name="DeliveryAddr2" />
+            <PropertyRef Name="DeliveryAddr3" />
+            <PropertyRef Name="DeliveryAddr3Loc" />
+            <PropertyRef Name="DeliveryAddr4" />
+            <PropertyRef Name="DeliveryAddr5" />
+            <PropertyRef Name="PostalCode" />
+            <PropertyRef Name="DeliveryGpsLat" />
+            <PropertyRef Name="DeliveryGpsLong" />
+            <PropertyRef Name="NegStockAllow" />
+            <PropertyRef Name="GtrCtlAccl" />
+            <PropertyRef Name="GtrPrefix" />
+            <PropertyRef Name="GtrNextNo" />
+            <PropertyRef Name="Branch" />
+            <PropertyRef Name="Area" />
+            <PropertyRef Name="FaxContact" />
+            <PropertyRef Name="Fax" />
+            <PropertyRef Name="FaxDocIwsFlag" />
+            <PropertyRef Name="GitAdjAcc" />
+            <PropertyRef Name="WhForComp" />
+            <PropertyRef Name="Route" />
+            <PropertyRef Name="InclPlanning" />
+            <PropertyRef Name="UseMultipleBins" />
+            <PropertyRef Name="CostingMethod" />
+            <PropertyRef Name="UseFifoBuckets" />
+            <PropertyRef Name="PoPrefix" />
+            <PropertyRef Name="PoNextNumber" />
+            <PropertyRef Name="GrnPrefix" />
+            <PropertyRef Name="GrnNextNumber" />
+            <PropertyRef Name="WipInspectGlCode" />
+            <PropertyRef Name="Nationality" />
+            <PropertyRef Name="SoDefaultDoc" />
+            <PropertyRef Name="RouteCode" />
+            <PropertyRef Name="RouteDistance" />
+            <PropertyRef Name="WipControlGlCode" />
+            <PropertyRef Name="WipVarCtlGlCode" />
+            <PropertyRef Name="WipAutoVarGlCode" />
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="RollParentGl" />
+            <PropertyRef Name="WmsActive" />
+            <PropertyRef Name="PickLeadHours" />
+            <PropertyRef Name="StockTakeUpdate" />
+            <PropertyRef Name="NonStockedGl" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="CountyZip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="LanguageCode" />
+            <PropertyRef Name="ShippingLocation" />
+            <PropertyRef Name="DeliveryTerms" />
+          </Key>
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MtdTrnsVar" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="NextTicketNo" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="StockTakeFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="WhLdgCtlAcc" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WhVarLdg" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="TrnMonth" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="TrnYear" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="GrnLdgAcc" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr1" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr2" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr3" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr3Loc" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr4" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr5" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryGpsLat" Type="Decimal" Nullable="false" Precision="8" Scale="6" />
+          <Property Name="DeliveryGpsLong" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <Property Name="NegStockAllow" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GtrCtlAccl" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="GtrPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GtrNextNo" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="Branch" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Area" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FaxContact" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FaxDocIwsFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GitAdjAcc" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WhForComp" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Route" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="InclPlanning" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UseMultipleBins" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CostingMethod" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UseFifoBuckets" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PoPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PoNextNumber" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="GrnPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GrnNextNumber" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="WipInspectGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Nationality" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="SoDefaultDoc" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="RouteCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RouteDistance" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="WipControlGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WipVarCtlGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WipAutoVarGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="SiteId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RollParentGl" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WmsActive" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PickLeadHours" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="StockTakeUpdate" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NonStockedGl" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="CountyZip" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ShippingLocation" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTerms" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WipMaster">
+          <Key>
+            <PropertyRef Name="Job" />
+          </Key>
+          <Property Name="Job" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="JobDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JobClassification" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="JobType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="MasterJob" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Priority" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="StockDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Customer" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JobTenderDate" Type="DateTime" Precision="3" />
+          <Property Name="JobDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="JobStartDate" Type="DateTime" Precision="3" />
+          <Property Name="ActCompleteDate" Type="DateTime" Precision="3" />
+          <Property Name="Complete" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SeqCheckReq" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DateCalcMethod" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ExpLabour" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="ExpMaterial" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="QtyToMake" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="QtyManufactured" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EstSourceNum" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NextDetailLine" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="PctCompleteFlag" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="PrtFactDoc1" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PrtFactDoc2" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PrtFactDoc3" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PrtFactDoc4" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SellingPrice" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="AddLabPct" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="AddMatPct" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="ProfitPct" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MaterialBilled" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabourBilled" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="NextOpForAll" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="HighestOpPosted" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="TotalQtyScrapped" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="ConfirmedFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="HoldFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="JobCreatedStruc" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LstOrderCreated" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TraceableType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NxtLinePartBook" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="Route" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="WipCtlGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Decimals" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="SalesOrderLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="MatCostToDate1" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="MatCostToDate2" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="MatCostToDate3" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabCostToDate1" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabCostToDate2" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabCostToDate3" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="HrsBookToDate1" Type="Decimal" Nullable="false" Precision="14" Scale="6" />
+          <Property Name="HrsBookToDate2" Type="Decimal" Nullable="false" Precision="14" Scale="6" />
+          <Property Name="HrsBookToDate3" Type="Decimal" Nullable="false" Precision="14" Scale="6" />
+          <Property Name="MatValueIssues1" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="MatValueIssues2" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="MatValueIssues3" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabValueIssues1" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabValueIssues2" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="LabValueIssues3" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="NarrationNum" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="ReqPlnFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DateJobLstUpd" Type="DateTime" Precision="3" />
+          <Property Name="TimeJobLstUpd" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="HierarchyFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NextLineHier" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="EstTrailLoad" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="OrdEntSource" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Release" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="AllocationLine" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="PurgeJob" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="HierarchyJob" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MrpFromJob" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MrpToJob" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OrigDueDate" Type="DateTime" Precision="3" />
+          <Property Name="GrossFlg" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GrossQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="ExpLabCurrent" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="ExpMatCurrent" Type="Decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="ReservedLotSerFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NotionalPart" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CoProductCostMet" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CoProductCostVal" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CoProductType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CapexCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CapexLine" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="UomFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ConvFactUom" Type="Decimal" Nullable="false" Precision="12" Scale="6" />
+          <Property Name="ConvMulDiv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ScheduleFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SchStartDate" Type="DateTime" Precision="3" />
+          <Property Name="SchStartTime" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="SchEndDate" Type="DateTime" Precision="3" />
+          <Property Name="SchEndTime" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="QtyToMakeEnt" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="QtyManufacturedEnt" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="TotQtyScrappedEnt" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="GrossQtyEnt" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LibraryCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="InvMaster" Relationship="SysproModel.Syspro_FK_WipMaster_InvMaster" FromRole="WipMaster" ToRole="InvMaster" />
+        </EntityType>
+        <Association Name="Syspro_FK_WipMaster_InvMaster">
+          <End Type="SysproModel.InvMaster" Role="InvMaster" Multiplicity="1" />
+          <End Type="SysproModel.WipMaster" Role="WipMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="WipMaster">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_BaggingCheckCustomForm_Result">
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="PalletId" Nullable="true" MaxLength="40" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="true" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="sp_GetDelayedPostingProductionPallets_Result">
+          <Property Type="String" Name="PalletNo" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <EntityType Name="mtWhseManSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="Int32" Nullable="false" />
+          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
+          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
+          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
+          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
+          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
+          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="sp_GetKitLabourToIssue_Result">
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="Operation" Nullable="true" Precision="5" Scale="0" />
+          <Property Type="String" Name="WorkCentre" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="RequiredSetupTime" Nullable="true" Precision="15" Scale="6" />
+          <Property Type="Decimal" Name="RunTimeToPost" Nullable="true" Precision="23" Scale="6" />
+          <Property Type="Decimal" Name="ProductionRunTime" Nullable="true" Precision="20" Scale="5" />
+          <Property Type="Decimal" Name="RunTimeIssued" Nullable="true" Precision="14" Scale="6" />
+          <Property Type="Decimal" Name="ProdQty" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="QtyManufactured" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="IExpUnitRunTim" Nullable="true" Precision="14" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_GetKitMaterialToIssue_Result">
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Warehouse" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="StockCode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Line" Nullable="true" MaxLength="2" />
+          <Property Type="Decimal" Name="ProdQty" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="QtyOnHand" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="MaterialToPost" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="177" />
+          <Property Type="Decimal" Name="UnitQtyReqd" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="ScrapQuantity" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="QtyIssued" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="String" Name="TraceableType" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="mtPalletControl">
+          <Key>
+            <PropertyRef Name="PalletNo" />
+          </Key>
+          <Property Name="PalletNo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Job" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PalletSeq" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ScaleId" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="sp_GetProductionJobDetails_Result">
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Customer" Nullable="true" MaxLength="66" />
+          <Property Type="String" Name="JobDescription" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="StockDescription" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Reference" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="BagSpecs" Nullable="true" MaxLength="126" />
+          <Property Type="String" Name="BailQty" Nullable="true" MaxLength="306" />
+          <Property Type="String" Name="Operator" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Packer" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="QC1" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="QC2" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Supervisor" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="QtyToMake" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="QtyManufactured" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="QtyOutstanding" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="String" Name="BatchQty" Nullable="true" MaxLength="306" />
+          <Property Type="Decimal" Name="ProductionQty" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="NoOfLabels" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="StockUom" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAutoDepleteLots_Result">
+          <Property Type="String" Name="StockCode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Lot" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="QtyOnHand" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="Allocated" Nullable="true" Precision="18" Scale="6" />
+        </ComplexType>
+        <EntityType Name="mtProductionLabel">
+          <Key>
+            <PropertyRef Name="Job" />
+            <PropertyRef Name="BatchId" />
+          </Key>
+          <Property Name="Job" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BatchId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="BatchSequence" Type="Int32" />
+          <Property Name="GrossQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NetQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DatePrinted" Type="DateTime" Precision="3" />
+          <Property Name="LabelPrinted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ReprintCount" Type="Int32" />
+          <Property Name="LabelReceipted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Journal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiptedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiptDate" Type="DateTime" Precision="3" />
+          <Property Name="Customer" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Supervisor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Packer" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="QC1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PalletNo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Scanned" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ScannedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ScanDate" Type="DateTime" Precision="3" />
+          <Property Name="Core" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Tare" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PreviousWorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Department" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ScaleModelId" Type="Int32" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtReportAutomation">
+          <Key>
+            <PropertyRef Name="Report" />
+          </Key>
+          <Property Name="Report" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceScheduleMode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceRunTime" Type="Time" Precision="7" />
+          <Property Name="ServiceWeeklyDay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceMonthlyDate" Type="Int32" />
+          <Property Name="ServiceActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LastRunDate" Type="DateTime" Precision="3" />
+          <Property Name="ServiceIntervalMin" Type="Int32" />
+          <Property Name="ToEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ReportPath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SysproModelStoreContainer" CdmEntityContainer="SysproEntities">
+          <FunctionImportMapping FunctionImportName="sp_GetDelayedPostingData" FunctionName="SysproModel.Store.sp_GetDelayedPostingData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_GetDelayedPostingData_Result">
+                <ScalarProperty Name="TrnId" ColumnName="TrnId" />
+                <ScalarProperty Name="MovementType" ColumnName="MovementType" />
+                <ScalarProperty Name="FromWarehouse" ColumnName="FromWarehouse" />
+                <ScalarProperty Name="FromBin" ColumnName="FromBin" />
+                <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+                <ScalarProperty Name="ToBin" ColumnName="ToBin" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Journal" ColumnName="Journal" />
+                <ScalarProperty Name="GtrReference" ColumnName="GtrReference" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="InvMasters">
+            <EntityTypeMapping TypeName="SysproModel.InvMaster">
+              <MappingFragment StoreEntitySet="InvMaster">
+                <ScalarProperty Name="WithTaxExpenseType" ColumnName="WithTaxExpenseType" />
+                <ScalarProperty Name="AltReductionFlag" ColumnName="AltReductionFlag" />
+                <ScalarProperty Name="AltSisoFlag" ColumnName="AltSisoFlag" />
+                <ScalarProperty Name="AltMethodFlag" ColumnName="AltMethodFlag" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="InternalShelfLife" ColumnName="InternalShelfLife" />
+                <ScalarProperty Name="ProductShelfLife" ColumnName="ProductShelfLife" />
+                <ScalarProperty Name="StorageCondition" ColumnName="StorageCondition" />
+                <ScalarProperty Name="StorageHazard" ColumnName="StorageHazard" />
+                <ScalarProperty Name="StorageSecurity" ColumnName="StorageSecurity" />
+                <ScalarProperty Name="SupplUnitCode" ColumnName="SupplUnitCode" />
+                <ScalarProperty Name="LoadingFactor" ColumnName="LoadingFactor" />
+                <ScalarProperty Name="LookAheadWin" ColumnName="LookAheadWin" />
+                <ScalarProperty Name="ManMulDiv" ColumnName="ManMulDiv" />
+                <ScalarProperty Name="ConvFactMuM" ColumnName="ConvFactMuM" />
+                <ScalarProperty Name="ManufactureUom" ColumnName="ManufactureUom" />
+                <ScalarProperty Name="ManualCostFlag" ColumnName="ManualCostFlag" />
+                <ScalarProperty Name="Basis" ColumnName="Basis" />
+                <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="ProductGroup" ColumnName="ProductGroup" />
+                <ScalarProperty Name="ReturnableItem" ColumnName="ReturnableItem" />
+                <ScalarProperty Name="SerialSuffix" ColumnName="SerialSuffix" />
+                <ScalarProperty Name="SerialPrefix" ColumnName="SerialPrefix" />
+                <ScalarProperty Name="InspectionFlag" ColumnName="InspectionFlag" />
+                <ScalarProperty Name="DateStkAdded" ColumnName="DateStkAdded" />
+                <ScalarProperty Name="SubContractCost" ColumnName="SubContractCost" />
+                <ScalarProperty Name="JobClassification" ColumnName="JobClassification" />
+                <ScalarProperty Name="DistWarehouseToUse" ColumnName="DistWarehouseToUse" />
+                <ScalarProperty Name="CallOffBpoExists" ColumnName="CallOffBpoExists" />
+                <ScalarProperty Name="BlanketPoExists" ColumnName="BlanketPoExists" />
+                <ScalarProperty Name="BatchBill" ColumnName="BatchBill" />
+                <ScalarProperty Name="MaintOnHold" ColumnName="MaintOnHold" />
+                <ScalarProperty Name="SalesOnHold" ColumnName="SalesOnHold" />
+                <ScalarProperty Name="PurchOnHold" ColumnName="PurchOnHold" />
+                <ScalarProperty Name="JobHoldAllocs" ColumnName="JobHoldAllocs" />
+                <ScalarProperty Name="JobsOnHold" ColumnName="JobsOnHold" />
+                <ScalarProperty Name="AltUnitChar" ColumnName="AltUnitChar" />
+                <ScalarProperty Name="StockAndAltUm" ColumnName="StockAndAltUm" />
+                <ScalarProperty Name="EccFlag" ColumnName="EccFlag" />
+                <ScalarProperty Name="StockOnHoldReason" ColumnName="StockOnHoldReason" />
+                <ScalarProperty Name="StockOnHold" ColumnName="StockOnHold" />
+                <ScalarProperty Name="CountryOfOrigin" ColumnName="CountryOfOrigin" />
+                <ScalarProperty Name="PhantomIfComp" ColumnName="PhantomIfComp" />
+                <ScalarProperty Name="StdLabCostsBill" ColumnName="StdLabCostsBill" />
+                <ScalarProperty Name="InclInStrValid" ColumnName="InclInStrValid" />
+                <ScalarProperty Name="IssMultLotsFlag" ColumnName="IssMultLotsFlag" />
+                <ScalarProperty Name="StdLctRoute" ColumnName="StdLctRoute" />
+                <ScalarProperty Name="LctRequired" ColumnName="LctRequired" />
+                <ScalarProperty Name="StdLandedCost" ColumnName="StdLandedCost" />
+                <ScalarProperty Name="EbqPan" ColumnName="EbqPan" />
+                <ScalarProperty Name="SupplementaryUnit" ColumnName="SupplementaryUnit" />
+                <ScalarProperty Name="TariffCode" ColumnName="TariffCode" />
+                <ScalarProperty Name="UserField5" ColumnName="UserField5" />
+                <ScalarProperty Name="UserField4" ColumnName="UserField4" />
+                <ScalarProperty Name="UserField3" ColumnName="UserField3" />
+                <ScalarProperty Name="UserField2" ColumnName="UserField2" />
+                <ScalarProperty Name="UserField1" ColumnName="UserField1" />
+                <ScalarProperty Name="StpSelection" ColumnName="StpSelection" />
+                <ScalarProperty Name="SerEntryAtSale" ColumnName="SerEntryAtSale" />
+                <ScalarProperty Name="PrcInclGst" ColumnName="PrcInclGst" />
+                <ScalarProperty Name="GstTaxCode" ColumnName="GstTaxCode" />
+                <ScalarProperty Name="ResourceCode" ColumnName="ResourceCode" />
+                <ScalarProperty Name="WipCtlGlCode" ColumnName="WipCtlGlCode" />
+                <ScalarProperty Name="AbcCumManuf" ColumnName="AbcCumManuf" />
+                <ScalarProperty Name="AbcCumPreProd" ColumnName="AbcCumPreProd" />
+                <ScalarProperty Name="AbcSales" ColumnName="AbcSales" />
+                <ScalarProperty Name="AbcManufacturing" ColumnName="AbcManufacturing" />
+                <ScalarProperty Name="AbcPreProd" ColumnName="AbcPreProd" />
+                <ScalarProperty Name="PercentageYield" ColumnName="PercentageYield" />
+                <ScalarProperty Name="GrossReqRule" ColumnName="GrossReqRule" />
+                <ScalarProperty Name="ManufLeadTime" ColumnName="ManufLeadTime" />
+                <ScalarProperty Name="MakeToOrderFlag" ColumnName="MakeToOrderFlag" />
+                <ScalarProperty Name="DemandTimeFence" ColumnName="DemandTimeFence" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ShelfLife" ColumnName="ShelfLife" />
+                <ScalarProperty Name="OutputMassFlag" ColumnName="OutputMassFlag" />
+                <ScalarProperty Name="DockToStock" ColumnName="DockToStock" />
+                <ScalarProperty Name="PanSize" ColumnName="PanSize" />
+                <ScalarProperty Name="FixTimePeriod" ColumnName="FixTimePeriod" />
+                <ScalarProperty Name="ComponentCount" ColumnName="ComponentCount" />
+                <ScalarProperty Name="Ebq" ColumnName="Ebq" />
+                <ScalarProperty Name="ImplosionNum" ColumnName="ImplosionNum" />
+                <ScalarProperty Name="SpecificGravity" ColumnName="SpecificGravity" />
+                <ScalarProperty Name="BuyingRule" ColumnName="BuyingRule" />
+                <ScalarProperty Name="WarehouseToUse" ColumnName="WarehouseToUse" />
+                <ScalarProperty Name="DrawOfficeNum" ColumnName="DrawOfficeNum" />
+                <ScalarProperty Name="PartCategory" ColumnName="PartCategory" />
+                <ScalarProperty Name="VariableOverhead" ColumnName="VariableOverhead" />
+                <ScalarProperty Name="FixOverhead" ColumnName="FixOverhead" />
+                <ScalarProperty Name="MaterialCost" ColumnName="MaterialCost" />
+                <ScalarProperty Name="LabourCost" ColumnName="LabourCost" />
+                <ScalarProperty Name="MinPricePct" ColumnName="MinPricePct" />
+                <ScalarProperty Name="CostUom" ColumnName="CostUom" />
+                <ScalarProperty Name="AbcCostingReq" ColumnName="AbcCostingReq" />
+                <ScalarProperty Name="AbcAnalysisReq" ColumnName="AbcAnalysisReq" />
+                <ScalarProperty Name="SupercessionDate" ColumnName="SupercessionDate" />
+                <ScalarProperty Name="ClearingFlag" ColumnName="ClearingFlag" />
+                <ScalarProperty Name="StockMovementReq" ColumnName="StockMovementReq" />
+                <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+                <ScalarProperty Name="AbcClass" ColumnName="AbcClass" />
+                <ScalarProperty Name="BulkIssueFlag" ColumnName="BulkIssueFlag" />
+                <ScalarProperty Name="MpsFlag" ColumnName="MpsFlag" />
+                <ScalarProperty Name="TraceableType" ColumnName="TraceableType" />
+                <ScalarProperty Name="Planner" ColumnName="Planner" />
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+                <ScalarProperty Name="LowLevelCode" ColumnName="LowLevelCode" />
+                <ScalarProperty Name="KitType" ColumnName="KitType" />
+                <ScalarProperty Name="InterfaceFlag" ColumnName="InterfaceFlag" />
+                <ScalarProperty Name="SerialMethod" ColumnName="SerialMethod" />
+                <ScalarProperty Name="ListPriceCode" ColumnName="ListPriceCode" />
+                <ScalarProperty Name="OtherTaxCode" ColumnName="OtherTaxCode" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
+                <ScalarProperty Name="CycleCount" ColumnName="CycleCount" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="PriceMethod" ColumnName="PriceMethod" />
+                <ScalarProperty Name="PriceCategory" ColumnName="PriceCategory" />
+                <ScalarProperty Name="Decimals" ColumnName="Decimals" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Mass" ColumnName="Mass" />
+                <ScalarProperty Name="MulDiv" ColumnName="MulDiv" />
+                <ScalarProperty Name="ConvFactOthUom" ColumnName="ConvFactOthUom" />
+                <ScalarProperty Name="ConvMulDiv" ColumnName="ConvMulDiv" />
+                <ScalarProperty Name="ConvFactAltUom" ColumnName="ConvFactAltUom" />
+                <ScalarProperty Name="OtherUom" ColumnName="OtherUom" />
+                <ScalarProperty Name="AlternateUom" ColumnName="AlternateUom" />
+                <ScalarProperty Name="StockUom" ColumnName="StockUom" />
+                <ScalarProperty Name="EccUser" ColumnName="EccUser" />
+                <ScalarProperty Name="AlternateKey2" ColumnName="AlternateKey2" />
+                <ScalarProperty Name="AlternateKey1" ColumnName="AlternateKey1" />
+                <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_SaveInvTransfer" FunctionName="SysproModel.Store.sp_SaveInvTransfer" />
+          <EntitySetMapping Name="mtInvDelayedPostings">
+            <EntityTypeMapping TypeName="SysproModel.mtInvDelayedPosting">
+              <MappingFragment StoreEntitySet="mtInvDelayedPosting">
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="GtrReference" ColumnName="GtrReference" />
+                <ScalarProperty Name="Journal" ColumnName="Journal" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="ToBin" ColumnName="ToBin" />
+                <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+                <ScalarProperty Name="FromBin" ColumnName="FromBin" />
+                <ScalarProperty Name="FromWarehouse" ColumnName="FromWarehouse" />
+                <ScalarProperty Name="MovementType" ColumnName="MovementType" />
+                <ScalarProperty Name="TrnId" ColumnName="TrnId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_InvWhControl">
+            <EntityTypeMapping TypeName="SysproModel.vw_InvWhControl">
+              <MappingFragment StoreEntitySet="vw_InvWhControl">
+                <ScalarProperty Name="DeliveryTerms" ColumnName="DeliveryTerms" />
+                <ScalarProperty Name="ShippingLocation" ColumnName="ShippingLocation" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountyZip" ColumnName="CountyZip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="NonStockedGl" ColumnName="NonStockedGl" />
+                <ScalarProperty Name="StockTakeUpdate" ColumnName="StockTakeUpdate" />
+                <ScalarProperty Name="PickLeadHours" ColumnName="PickLeadHours" />
+                <ScalarProperty Name="WmsActive" ColumnName="WmsActive" />
+                <ScalarProperty Name="RollParentGl" ColumnName="RollParentGl" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="WipAutoVarGlCode" ColumnName="WipAutoVarGlCode" />
+                <ScalarProperty Name="WipVarCtlGlCode" ColumnName="WipVarCtlGlCode" />
+                <ScalarProperty Name="WipControlGlCode" ColumnName="WipControlGlCode" />
+                <ScalarProperty Name="RouteDistance" ColumnName="RouteDistance" />
+                <ScalarProperty Name="RouteCode" ColumnName="RouteCode" />
+                <ScalarProperty Name="SoDefaultDoc" ColumnName="SoDefaultDoc" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="WipInspectGlCode" ColumnName="WipInspectGlCode" />
+                <ScalarProperty Name="GrnNextNumber" ColumnName="GrnNextNumber" />
+                <ScalarProperty Name="GrnPrefix" ColumnName="GrnPrefix" />
+                <ScalarProperty Name="PoNextNumber" ColumnName="PoNextNumber" />
+                <ScalarProperty Name="PoPrefix" ColumnName="PoPrefix" />
+                <ScalarProperty Name="UseFifoBuckets" ColumnName="UseFifoBuckets" />
+                <ScalarProperty Name="CostingMethod" ColumnName="CostingMethod" />
+                <ScalarProperty Name="UseMultipleBins" ColumnName="UseMultipleBins" />
+                <ScalarProperty Name="InclPlanning" ColumnName="InclPlanning" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="WhForComp" ColumnName="WhForComp" />
+                <ScalarProperty Name="GitAdjAcc" ColumnName="GitAdjAcc" />
+                <ScalarProperty Name="FaxDocIwsFlag" ColumnName="FaxDocIwsFlag" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="FaxContact" ColumnName="FaxContact" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="GtrNextNo" ColumnName="GtrNextNo" />
+                <ScalarProperty Name="GtrPrefix" ColumnName="GtrPrefix" />
+                <ScalarProperty Name="GtrCtlAccl" ColumnName="GtrCtlAccl" />
+                <ScalarProperty Name="NegStockAllow" ColumnName="NegStockAllow" />
+                <ScalarProperty Name="DeliveryGpsLong" ColumnName="DeliveryGpsLong" />
+                <ScalarProperty Name="DeliveryGpsLat" ColumnName="DeliveryGpsLat" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="DeliveryAddr5" ColumnName="DeliveryAddr5" />
+                <ScalarProperty Name="DeliveryAddr4" ColumnName="DeliveryAddr4" />
+                <ScalarProperty Name="DeliveryAddr3Loc" ColumnName="DeliveryAddr3Loc" />
+                <ScalarProperty Name="DeliveryAddr3" ColumnName="DeliveryAddr3" />
+                <ScalarProperty Name="DeliveryAddr2" ColumnName="DeliveryAddr2" />
+                <ScalarProperty Name="DeliveryAddr1" ColumnName="DeliveryAddr1" />
+                <ScalarProperty Name="GrnLdgAcc" ColumnName="GrnLdgAcc" />
+                <ScalarProperty Name="TrnYear" ColumnName="TrnYear" />
+                <ScalarProperty Name="TrnMonth" ColumnName="TrnMonth" />
+                <ScalarProperty Name="WhVarLdg" ColumnName="WhVarLdg" />
+                <ScalarProperty Name="WhLdgCtlAcc" ColumnName="WhLdgCtlAcc" />
+                <ScalarProperty Name="StockTakeFlag" ColumnName="StockTakeFlag" />
+                <ScalarProperty Name="NextTicketNo" ColumnName="NextTicketNo" />
+                <ScalarProperty Name="MtdTrnsVar" ColumnName="MtdTrnsVar" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WipMasters">
+            <EntityTypeMapping TypeName="SysproModel.WipMaster">
+              <MappingFragment StoreEntitySet="WipMaster">
+                <ScalarProperty Name="LibraryCode" ColumnName="LibraryCode" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="GrossQtyEnt" ColumnName="GrossQtyEnt" />
+                <ScalarProperty Name="TotQtyScrappedEnt" ColumnName="TotQtyScrappedEnt" />
+                <ScalarProperty Name="QtyManufacturedEnt" ColumnName="QtyManufacturedEnt" />
+                <ScalarProperty Name="QtyToMakeEnt" ColumnName="QtyToMakeEnt" />
+                <ScalarProperty Name="SchEndTime" ColumnName="SchEndTime" />
+                <ScalarProperty Name="SchEndDate" ColumnName="SchEndDate" />
+                <ScalarProperty Name="SchStartTime" ColumnName="SchStartTime" />
+                <ScalarProperty Name="SchStartDate" ColumnName="SchStartDate" />
+                <ScalarProperty Name="ScheduleFlag" ColumnName="ScheduleFlag" />
+                <ScalarProperty Name="ConvMulDiv" ColumnName="ConvMulDiv" />
+                <ScalarProperty Name="ConvFactUom" ColumnName="ConvFactUom" />
+                <ScalarProperty Name="UomFlag" ColumnName="UomFlag" />
+                <ScalarProperty Name="CapexLine" ColumnName="CapexLine" />
+                <ScalarProperty Name="CapexCode" ColumnName="CapexCode" />
+                <ScalarProperty Name="CoProductType" ColumnName="CoProductType" />
+                <ScalarProperty Name="CoProductCostVal" ColumnName="CoProductCostVal" />
+                <ScalarProperty Name="CoProductCostMet" ColumnName="CoProductCostMet" />
+                <ScalarProperty Name="NotionalPart" ColumnName="NotionalPart" />
+                <ScalarProperty Name="ReservedLotSerFlag" ColumnName="ReservedLotSerFlag" />
+                <ScalarProperty Name="ExpMatCurrent" ColumnName="ExpMatCurrent" />
+                <ScalarProperty Name="ExpLabCurrent" ColumnName="ExpLabCurrent" />
+                <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
+                <ScalarProperty Name="GrossFlg" ColumnName="GrossFlg" />
+                <ScalarProperty Name="OrigDueDate" ColumnName="OrigDueDate" />
+                <ScalarProperty Name="MrpToJob" ColumnName="MrpToJob" />
+                <ScalarProperty Name="MrpFromJob" ColumnName="MrpFromJob" />
+                <ScalarProperty Name="HierarchyJob" ColumnName="HierarchyJob" />
+                <ScalarProperty Name="PurgeJob" ColumnName="PurgeJob" />
+                <ScalarProperty Name="AllocationLine" ColumnName="AllocationLine" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="OrdEntSource" ColumnName="OrdEntSource" />
+                <ScalarProperty Name="EstTrailLoad" ColumnName="EstTrailLoad" />
+                <ScalarProperty Name="NextLineHier" ColumnName="NextLineHier" />
+                <ScalarProperty Name="HierarchyFlag" ColumnName="HierarchyFlag" />
+                <ScalarProperty Name="TimeJobLstUpd" ColumnName="TimeJobLstUpd" />
+                <ScalarProperty Name="DateJobLstUpd" ColumnName="DateJobLstUpd" />
+                <ScalarProperty Name="ReqPlnFlag" ColumnName="ReqPlnFlag" />
+                <ScalarProperty Name="NarrationNum" ColumnName="NarrationNum" />
+                <ScalarProperty Name="LabValueIssues3" ColumnName="LabValueIssues3" />
+                <ScalarProperty Name="LabValueIssues2" ColumnName="LabValueIssues2" />
+                <ScalarProperty Name="LabValueIssues1" ColumnName="LabValueIssues1" />
+                <ScalarProperty Name="MatValueIssues3" ColumnName="MatValueIssues3" />
+                <ScalarProperty Name="MatValueIssues2" ColumnName="MatValueIssues2" />
+                <ScalarProperty Name="MatValueIssues1" ColumnName="MatValueIssues1" />
+                <ScalarProperty Name="HrsBookToDate3" ColumnName="HrsBookToDate3" />
+                <ScalarProperty Name="HrsBookToDate2" ColumnName="HrsBookToDate2" />
+                <ScalarProperty Name="HrsBookToDate1" ColumnName="HrsBookToDate1" />
+                <ScalarProperty Name="LabCostToDate3" ColumnName="LabCostToDate3" />
+                <ScalarProperty Name="LabCostToDate2" ColumnName="LabCostToDate2" />
+                <ScalarProperty Name="LabCostToDate1" ColumnName="LabCostToDate1" />
+                <ScalarProperty Name="MatCostToDate3" ColumnName="MatCostToDate3" />
+                <ScalarProperty Name="MatCostToDate2" ColumnName="MatCostToDate2" />
+                <ScalarProperty Name="MatCostToDate1" ColumnName="MatCostToDate1" />
+                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
+                <ScalarProperty Name="Decimals" ColumnName="Decimals" />
+                <ScalarProperty Name="WipCtlGlCode" ColumnName="WipCtlGlCode" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="NxtLinePartBook" ColumnName="NxtLinePartBook" />
+                <ScalarProperty Name="TraceableType" ColumnName="TraceableType" />
+                <ScalarProperty Name="LstOrderCreated" ColumnName="LstOrderCreated" />
+                <ScalarProperty Name="JobCreatedStruc" ColumnName="JobCreatedStruc" />
+                <ScalarProperty Name="HoldFlag" ColumnName="HoldFlag" />
+                <ScalarProperty Name="ConfirmedFlag" ColumnName="ConfirmedFlag" />
+                <ScalarProperty Name="TotalQtyScrapped" ColumnName="TotalQtyScrapped" />
+                <ScalarProperty Name="HighestOpPosted" ColumnName="HighestOpPosted" />
+                <ScalarProperty Name="NextOpForAll" ColumnName="NextOpForAll" />
+                <ScalarProperty Name="LabourBilled" ColumnName="LabourBilled" />
+                <ScalarProperty Name="MaterialBilled" ColumnName="MaterialBilled" />
+                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="ProfitPct" ColumnName="ProfitPct" />
+                <ScalarProperty Name="AddMatPct" ColumnName="AddMatPct" />
+                <ScalarProperty Name="AddLabPct" ColumnName="AddLabPct" />
+                <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+                <ScalarProperty Name="PrtFactDoc4" ColumnName="PrtFactDoc4" />
+                <ScalarProperty Name="PrtFactDoc3" ColumnName="PrtFactDoc3" />
+                <ScalarProperty Name="PrtFactDoc2" ColumnName="PrtFactDoc2" />
+                <ScalarProperty Name="PrtFactDoc1" ColumnName="PrtFactDoc1" />
+                <ScalarProperty Name="PctCompleteFlag" ColumnName="PctCompleteFlag" />
+                <ScalarProperty Name="NextDetailLine" ColumnName="NextDetailLine" />
+                <ScalarProperty Name="EstSourceNum" ColumnName="EstSourceNum" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="QtyManufactured" ColumnName="QtyManufactured" />
+                <ScalarProperty Name="QtyToMake" ColumnName="QtyToMake" />
+                <ScalarProperty Name="ExpMaterial" ColumnName="ExpMaterial" />
+                <ScalarProperty Name="ExpLabour" ColumnName="ExpLabour" />
+                <ScalarProperty Name="DateCalcMethod" ColumnName="DateCalcMethod" />
+                <ScalarProperty Name="SeqCheckReq" ColumnName="SeqCheckReq" />
+                <ScalarProperty Name="Complete" ColumnName="Complete" />
+                <ScalarProperty Name="ActCompleteDate" ColumnName="ActCompleteDate" />
+                <ScalarProperty Name="JobStartDate" ColumnName="JobStartDate" />
+                <ScalarProperty Name="JobDeliveryDate" ColumnName="JobDeliveryDate" />
+                <ScalarProperty Name="JobTenderDate" ColumnName="JobTenderDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="StockDescription" ColumnName="StockDescription" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="MasterJob" ColumnName="MasterJob" />
+                <ScalarProperty Name="JobType" ColumnName="JobType" />
+                <ScalarProperty Name="JobClassification" ColumnName="JobClassification" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_BaggingCheckCustomForm" FunctionName="SysproModel.Store.sp_BaggingCheckCustomForm">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_BaggingCheckCustomForm_Result">
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="PalletId" ColumnName="PalletId" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_BaggingSaveCustomForm" FunctionName="SysproModel.Store.sp_BaggingSaveCustomForm" />
+          <FunctionImportMapping FunctionImportName="sp_BaggingUpdateCustomForm" FunctionName="SysproModel.Store.sp_BaggingUpdateCustomForm" />
+          <FunctionImportMapping FunctionImportName="sp_GetDelayedPostingProductionPallets" FunctionName="SysproModel.Store.sp_GetDelayedPostingProductionPallets">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_GetDelayedPostingProductionPallets_Result">
+                <ScalarProperty Name="PalletNo" ColumnName="PalletNo" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtWhseManSettings">
+            <EntityTypeMapping TypeName="SysproModel.mtWhseManSetting">
+              <MappingFragment StoreEntitySet="mtWhseManSettings">
+                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
+                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
+                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
+                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
+                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
+                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
+                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
+                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
+                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
+                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetKitLabourToIssue" FunctionName="SysproModel.Store.sp_GetKitLabourToIssue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_GetKitLabourToIssue_Result">
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="Operation" ColumnName="Operation" />
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="RequiredSetupTime" ColumnName="RequiredSetupTime" />
+                <ScalarProperty Name="RunTimeToPost" ColumnName="RunTimeToPost" />
+                <ScalarProperty Name="ProductionRunTime" ColumnName="ProductionRunTime" />
+                <ScalarProperty Name="RunTimeIssued" ColumnName="RunTimeIssued" />
+                <ScalarProperty Name="ProdQty" ColumnName="ProdQty" />
+                <ScalarProperty Name="QtyManufactured" ColumnName="QtyManufactured" />
+                <ScalarProperty Name="IExpUnitRunTim" ColumnName="IExpUnitRunTim" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetKitMaterialToIssue" FunctionName="SysproModel.Store.sp_GetKitMaterialToIssue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_GetKitMaterialToIssue_Result">
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Line" ColumnName="Line" />
+                <ScalarProperty Name="ProdQty" ColumnName="ProdQty" />
+                <ScalarProperty Name="QtyOnHand" ColumnName="QtyOnHand" />
+                <ScalarProperty Name="MaterialToPost" ColumnName="MaterialToPost" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="UnitQtyReqd" ColumnName="UnitQtyReqd" />
+                <ScalarProperty Name="ScrapQuantity" ColumnName="ScrapQuantity" />
+                <ScalarProperty Name="QtyIssued" ColumnName="QtyIssued" />
+                <ScalarProperty Name="TraceableType" ColumnName="TraceableType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtPalletControls">
+            <EntityTypeMapping TypeName="SysproModel.mtPalletControl">
+              <MappingFragment StoreEntitySet="mtPalletControl">
+                <ScalarProperty Name="ScaleId" ColumnName="ScaleId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PalletSeq" ColumnName="PalletSeq" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="PalletNo" ColumnName="PalletNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProductionJobDetails" FunctionName="SysproModel.Store.sp_GetProductionJobDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_GetProductionJobDetails_Result">
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="StockDescription" ColumnName="StockDescription" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="BagSpecs" ColumnName="BagSpecs" />
+                <ScalarProperty Name="BailQty" ColumnName="BailQty" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Packer" ColumnName="Packer" />
+                <ScalarProperty Name="QC1" ColumnName="QC1" />
+                <ScalarProperty Name="QC2" ColumnName="QC2" />
+                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
+                <ScalarProperty Name="QtyToMake" ColumnName="QtyToMake" />
+                <ScalarProperty Name="QtyManufactured" ColumnName="QtyManufactured" />
+                <ScalarProperty Name="QtyOutstanding" ColumnName="QtyOutstanding" />
+                <ScalarProperty Name="BatchQty" ColumnName="BatchQty" />
+                <ScalarProperty Name="ProductionQty" ColumnName="ProductionQty" />
+                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="StockUom" ColumnName="StockUom" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_UpdateLabelReceipted" FunctionName="SysproModel.Store.sp_UpdateLabelReceipted" />
+          <FunctionImportMapping FunctionImportName="sp_GetAutoDepleteLots" FunctionName="SysproModel.Store.sp_GetAutoDepleteLots">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SysproModel.sp_GetAutoDepleteLots_Result">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="QtyOnHand" ColumnName="QtyOnHand" />
+                <ScalarProperty Name="Allocated" ColumnName="Allocated" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtProductionLabels">
+            <EntityTypeMapping TypeName="SysproModel.mtProductionLabel">
+              <MappingFragment StoreEntitySet="mtProductionLabels">
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="ScaleModelId" ColumnName="ScaleModelId" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="PreviousWorkCentre" ColumnName="PreviousWorkCentre" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Tare" ColumnName="Tare" />
+                <ScalarProperty Name="Core" ColumnName="Core" />
+                <ScalarProperty Name="ScanDate" ColumnName="ScanDate" />
+                <ScalarProperty Name="ScannedBy" ColumnName="ScannedBy" />
+                <ScalarProperty Name="Scanned" ColumnName="Scanned" />
+                <ScalarProperty Name="PalletNo" ColumnName="PalletNo" />
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="QC1" ColumnName="QC1" />
+                <ScalarProperty Name="Packer" ColumnName="Packer" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
+                <ScalarProperty Name="ReceiptedBy" ColumnName="ReceiptedBy" />
+                <ScalarProperty Name="Journal" ColumnName="Journal" />
+                <ScalarProperty Name="LabelReceipted" ColumnName="LabelReceipted" />
+                <ScalarProperty Name="ReprintCount" ColumnName="ReprintCount" />
+                <ScalarProperty Name="LabelPrinted" ColumnName="LabelPrinted" />
+                <ScalarProperty Name="DatePrinted" ColumnName="DatePrinted" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
+                <ScalarProperty Name="NetQty" ColumnName="NetQty" />
+                <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
+                <ScalarProperty Name="BatchSequence" ColumnName="BatchSequence" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtReportAutomations">
+            <EntityTypeMapping TypeName="SysproModel.mtReportAutomation">
+              <MappingFragment StoreEntitySet="mtReportAutomation">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ReportPath" ColumnName="ReportPath" />
+                <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+                <ScalarProperty Name="ServiceIntervalMin" ColumnName="ServiceIntervalMin" />
+                <ScalarProperty Name="LastRunDate" ColumnName="LastRunDate" />
+                <ScalarProperty Name="ServiceActive" ColumnName="ServiceActive" />
+                <ScalarProperty Name="ServiceMonthlyDate" ColumnName="ServiceMonthlyDate" />
+                <ScalarProperty Name="ServiceWeeklyDay" ColumnName="ServiceWeeklyDay" />
+                <ScalarProperty Name="ServiceRunTime" ColumnName="ServiceRunTime" />
+                <ScalarProperty Name="ServiceScheduleMode" ColumnName="ServiceScheduleMode" />
+                <ScalarProperty Name="Report" ColumnName="Report" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,167 @@
+﻿@model Megasoft2.ViewModel.ScaleSystemViewModel
+@{
+
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Scale System - Scale Transfer</h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmScaleTransfer" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel panel-primary">
+
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("ScaleTransfer", "ScaleSystem")" class="btn btn-default">Scale Transfer</a>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-danger" id="errordiv" hidden="hidden">
+            <label ID="lblError" Text=""></label>
+        </div>
+
+        <div class="panel-body">
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <fieldset>
+                    <div class="well well-lg">
+                        <div class="form-horizontal row spacer-xs ">
+                            <div class="form-group row col-sm-12">
+                                <div>
+                                    <a href="@Url.Action("ScaleTransfer", "ScaleSystem")" class="btn btn-sm btn-default pull-left hbutton "><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+                                    <button type="submit" UseSubmitBehavior="false" class="btn btn-default hbutton btn-sm pull-right auth" id="btnPost" name="action:TransferScale" value="TransferScale">
+                                        <i>Transfer</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer-xs">
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Job
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                            </div>
+                            @if (ViewBag.Scale != null)
+                            {
+                                <div class="verticalLine col-sm-4">
+                                    <div class="form-group col-sm-6">
+                                        Current Scale
+                                    </div>
+                                    <div class="">
+                                        <div class="col-sm-5">
+                                            @Html.DropDownListFor(n => n.CurrScale, new SelectList(ViewBag.Scale, "Value", "Text"), new { @class = "form-control dropdown  input-sm", style = "width:100%" })
+                                        </div>
+                                        <button type="submit" class="btn btn-success btn-sm" id="btnLoadScaleTransferDetails" name="action:LoadScaleTransferDetails" value="LoadScaleTransferDetails">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="form-horizontal row spacer-xs">
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Pallet No
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.TextBoxFor(n => n.Pallet, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                            </div>
+                            <div class=" verticalLine col-sm-4">
+                                <div class="form-group col-sm-6">
+                                    Pallet Qty
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.TextBoxFor(n => n.Net, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        @if (ViewBag.Scale != null)
+                        {
+                        <div class="form-horizontal row spacer-xs">
+                            <div class="col-sm-6">
+
+                            </div>
+                            <div class="verticalLine col-sm-4">
+                                <div class=" form-group col-sm-6">
+                                    Destination Scale
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.DropDownListFor(n => n.DestScale, new SelectList(ViewBag.Scale, "Value", "Text"), new { @class = "form-control input-sm", style = "width:100%" })
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+  }
+<style type="text/css">
+    /*.verticalLine {
+        border-left: thin solid #898888;
+    }*/
+
+</style>
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnPost').on('click', function () {
+
+                //alert($('#CurrScale').val() +'==='+ $('#DestScale').val());
+                if ($('#CurrScale').val() === '') {
+                    alert('Please select current scale');
+                    return false;
+                }
+                if ($('#DestScale').val() === '') {
+                    alert('Please select destination scale');
+                    return false;
+                }
+                if ($('#CurrScale').val() === $('#DestScale').val()) {
+                    alert('Please change destination scale');
+                    return false;
+                }
+                if ($('#Pallet').val() === '') {
+                    alert('Please load current scale details to transfer');
+                    return false;
+                }
+            });
+            $('#btnLoadScaleTransferDetails').on('click', function () {
+                if ($('#Job').val() === '') {
+                    alert('Please enter job number');
+                    return false;
+                }   
+                if ($('#CurrScale').val() === '') {
+                    alert('Please select current scale');
+                    return false;
+                }          
+            });
+        });
+    </script>
+}
+

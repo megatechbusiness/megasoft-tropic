@@ -1,0 +1,182 @@
+﻿@model Megasoft2.ViewModel.PhysicalAdjustment
+@{
+    ViewBag.Title = "ExpireContracts";
+}
+
+
+<h4 style="font-weight:bold;" class="text-center">Inventory - Physical Adjustment</h4><hr />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmExpire" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="form-horizontal row">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Warehouse
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-sm", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Warehouse)
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Stock Code
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Adjustment Limit
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Limit, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Reference
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Reference, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-horizontal row">
+        <div class="form-group">
+
+            <div class="col-md-12 col-xs-12" style="text-align:left;">
+                <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadData" value="LoadData">
+                    <i class="fa fa-arrow-right"> Load</i>
+                </button>
+
+                <button type="submit" class="btn btn-success btn-sm pull-right" id="btnPost" value="PostAdjustment" name="action:PostAdjustment">
+                    <i class="fa fa-save"> Post</i>
+                </button>
+
+                @*<a href="#" class="btn btn-success btn-sm" onclick="PopupReport('StockTake')">
+                        <span class="fa fa-print" aria-hidden="true" title="Print Report"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Report</span></span>
+                    </a>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLines">
+                <thead>
+                    <tr>
+                        <th>
+                            Warehouse
+                        </th>
+                        <th>
+                            StockCode
+                        </th>
+                        <th>
+                            Bin
+                        </th>
+                        <th>
+                            Lot
+                        </th>
+                        <th>
+                            Qty. on Hand
+                        </th>
+                        <th>
+                            Adj. Qty.
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody class="datarow">
+                    @if (Model != null)
+                    {
+                        if (Model.Stock != null)
+                        {
+
+                            for (int i = 0; i < Model.Stock.Count; i++)
+                            {
+
+
+                                <tr class="nr">
+                                    <td>
+
+                                        @Html.DisplayFor(model => model.Stock[i].Warehouse)
+                                        @Html.HiddenFor(model => Model.Stock[i].Warehouse)
+                                    </td>
+                                    <td>
+
+                                        @Html.DisplayFor(model => model.Stock[i].StockCode)
+                                        @Html.HiddenFor(model => Model.Stock[i].StockCode)
+                                    </td>
+                                    <td>
+                                        @Model.Stock[i].Bin
+                                        @Html.HiddenFor(model => Model.Stock[i].Bin)
+                                    </td>
+                                    <td>
+                                        @Model.Stock[i].Lot
+                                        @Html.HiddenFor(model => Model.Stock[i].Lot)
+                                    </td>
+
+                                    <td>
+                                        @Model.Stock[i].QtyOnHand
+                                        @Html.HiddenFor(model => Model.Stock[i].QtyOnHand)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Stock[i].NewQty, new { @class = "form-control input-xs" })
+                                    </td>
+
+                                </tr>
+
+
+
+
+
+                            }
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+}
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnPost').on("click", function () {
+
+            if ($('#Reference').val() == "")
+            {
+                alert('Please enter a reference!');
+                return false;
+            }
+
+            var result = confirm("Zero values will be ignored. Are you sure you want to continue?");
+            if (result) {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        });
+    });
+</script>
+}

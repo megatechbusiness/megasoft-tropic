@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default bootcards-summary">
+
+    <div class="panel-heading">
+        <h4 class="panel-title">Megasoft Menu</h4>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","User")">
+                    <i class="fa fa-3x fa-users" style="color:black;"></i>
+
+                    <h4 style="margin-top:25px;color:black">Users</h4>
+                </a>
+            </div>
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","SysproAdmin")">
+                    <i class="fa fa-3x fa-database" style="color:black;"></i>
+
+                    <h4 style="margin-top:25px;color:black">Companies</h4>
+                </a>
+            </div>
+
+
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","LabelPrinter")">
+                    <i class="fa fa-3x fa-print" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Printers</h4>
+                </a>
+            </div>
+
+
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","WhseManPoLabel")">
+                    <i class="fa fa-3x fa-shopping-cart" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Purhcase Order Labelling</h4>
+                </a>
+            </div>
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","WhseManPoReceipt")">
+                    <i class="fa fa-3x fa-check-square-o" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Purchase Order Receipts</h4>
+                </a>
+            </div>
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","WhseManProductionLabel", new { Department="Bag"})">
+                    <i class="fa fa-3x fa-barcode" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Production Labelling</h4>
+                </a>
+            </div>
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","WhseManBatchReceipt")">
+                    <i class="fa fa-3x fa-mobile-phone" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Production Receipting</h4>
+                </a>
+            </div>
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","StockTakeCapture")">
+                    <i class="fa fa-3x fa-clipboard" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Stock Take (Scan)</h4>
+                </a>
+            </div>
+
+            <div class="col-xs-11 col-sm-3">
+                <a class="bootcards-summary-item" href="@Url.Action("Index","WarehouseTransfer")">
+                    <i class="fa fa-3x fa-arrows-h" style="color:black;"></i>
+                    <h4 style="margin-top:25px;color:black">Warehouse Transfers</h4>
+                </a>
+            </div>
+
+
+            @*<div class="col-xs-11 col-sm-3">
+            <a class="bootcards-summary-item" href="@Url.Action("Index","CustomerPricingDashBoard")">
+                <i class="fa fa-3x fa-line-chart" style="color:black;"></i>
+                <h4 style="margin-top:25px;color:black">Dashboard</h4>
+            </a>
+        </div>
+
+        <div class="col-xs-11 col-sm-3">
+            <a class="bootcards-summary-item" href="@Url.Action("Index","CustomerPricingSysproImport")">
+                <i class="fa fa-3x fa-upload" style="color:black;"></i>
+                <h4 style="margin-top:25px;color:black">Syspro Import</h4>
+            </a>
+        </div>*@
+
+        </div>
+    </div>
+    <div class="panel-footer">
+    </div>
+</div>
+
+
+
+
+@section Scripts
+    {
+    <!-- Bootcards CSS for desktop: -->
+    <link rel="stylesheet" href="~/Content/bootstrap-cards/css/desktop.css">
+
+    <style type="text/css">
+        body {
+            padding-top: 0;
+        }
+
+        .bootcards-summary-item {
+            /*background:;*/
+            display: block;
+            border-radius: 4px;
+            padding: 25px 10px;
+            text-align: center;
+            position: relative;
+            height: 180px;
+            color: #e2e9ef;
+            background: linear-gradient(#194477, lightblue);
+        }
+
+        .bootcards-summary .panel-body {
+            padding: 7px 20px;
+        }
+
+        .fa {
+            /*color: #f18830;*/
+        }
+    </style>
+
+
+}
+
+
+
+
+

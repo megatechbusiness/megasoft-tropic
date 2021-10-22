@@ -1,0 +1,38 @@
+﻿.tk{ /*Liquid Section*/
+    position:relative;
+    width:60%; 
+    height:230px;
+    padding-top:50px;
+    margin: 0 auto;
+    /*background:rgba(56,56,56,0.8);*/
+    background-color:orange;
+    border-radius: 100%/40px;
+    border-bottom:3px solid #fff;    
+    text-align:center;
+    z-index:1;
+    overflow:hidden;
+
+}
+.tk:after, .tk .green{
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:20%;
+    z-index:-1;
+}
+.tk .green{
+    /*background:rgba(128,128,128,0.99);*/
+    /*background-color:lightblue;*/
+    background:#EDEDED;
+    height:80%;
+    top:-2px;
+    border-radius:100%/40px;
+    border-bottom:3px solid #EDEDED;
+    border-top:#EDEDED;
+}
+.tk:after{
+    height:20%;
+    border:1px solid #000;
+    border-radius:100%; /*makes circle at top*/
+}

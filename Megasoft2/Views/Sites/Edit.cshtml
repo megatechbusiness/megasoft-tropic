@@ -1,0 +1,256 @@
+﻿@model Megasoft2.mtBranchSite
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<div class="panel panel-primary" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Site Details
+            </a>
+        </h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Branch
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Branch)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Site
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Site, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Site)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Site Name
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.SiteName)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Telephone
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Telephone)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Fax
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Fax)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-md-3 col-xs-12" style="text-align:left;">
+                            Email
+                        </div>
+                        <div class="editor-label col-md-9 col-xs-12">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Accrual Suspense Account
+                        </div>
+                        <div class="input-group add-on  col-sm-9">
+                            @Html.TextBoxFor(model => model.AccrualSuspenseAcc, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.AccrualSuspenseAcc)
+                            <div class="input-group-btn">
+                                <a href="@Url.Action("GlCodeSearch", "Sites", new { Branch = Model.Branch, Site = Model.Site })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search" style="pointer-events:none;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Ap Invoice Posting Branch
+                        </div>
+                        <div class="input-group add-on  col-sm-9">
+                            @Html.TextBoxFor(model => model.ApBranch, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.ApBranch)
+                            <div class="input-group-btn">
+                                <a href="@Url.Action("ApBranchSearch", "Sites")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search" style="pointer-events:none;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="text-align:left;">
+                            Physical Addr.
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PhysicalAddress1, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PhysicalAddress1)
+                        </div>
+                        <div class="control-label col-sm-2" style="text-align:left;">
+                            Postal Addr.
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PostalAddress1, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PostalAddress1)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PhysicalAddress2, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PhysicalAddress2)
+                        </div>
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PostalAddress2, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PostalAddress2)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PhysicalAddress3, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PhysicalAddress3)
+                        </div>
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PostalAddress3, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PostalAddress3)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PhysicalAddress4, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PhysicalAddress4)
+                        </div>
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PostalAddress4, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PostalAddress4)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PhysicalAddress5, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PhysicalAddress5)
+                        </div>
+                        <div class="control-label col-sm-2" style="text-align:left;">
+
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBoxFor(model => model.PostalAddress5, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PostalAddress5)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-md-6  col-xs-12">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
+
+    <a href="@Url.Action("Index", "Branch")" class="btn btn-primary">
+        <span class="fa fa-backward" aria-hidden="true" title="Branches"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Branches</span></span>
+    </a>
+
+    <a href="@Url.Action("Index", "Sites", new { Branch = Model.Branch })" class="btn btn-info">
+        <span class="fa fa-backward" aria-hidden="true" title="Branches"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Sites</span></span>
+    </a>
+    <a href="@Url.Action("Index", "Departments", new { Branch = Model.Branch, Site = Model.Site })" class="btn btn-default">
+        <span class="fa fa-cog" aria-hidden="true" title="Sites"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Departments</span></span>
+    </a>
+
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

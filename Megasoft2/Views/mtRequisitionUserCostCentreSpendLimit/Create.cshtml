@@ -1,0 +1,225 @@
+﻿@model Megasoft2.ViewModel.RequisitionSpendLimitViewModel
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "SalesPricingImport", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "mtRequisitionUserCostCentreSpendLimit")" class="btn btn-default">User Cost Centre Spend Limit</a>
+
+                        </div>
+
+                        <div class="col-lg-8 pull-right">
+                            <div class="col-lg-7">
+
+                            </div>
+                            <div class="col-lg-3 text-right">
+                            </div>
+                            <div class="col-lg-2 text-right">
+
+                                <button type="submit" class="btn btn-success btn-sm" id="btnSave">
+                                    <i class="fa fa-save"> Save</i>
+                                </button>
+                            </div>
+                            &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel-body">
+                    <div class="col-lg-12">
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Username</label>
+                                <div class="col-sm-4">
+                                    @if (Model != null)
+                                    {
+                                        if (Model.UserSpendLimit != null)
+                                        {
+                                            if (string.IsNullOrWhiteSpace(Model.UserSpendLimit.Username))
+                                            {
+                                                @Html.DropDownListFor(model => model.UserSpendLimit.Username, (IEnumerable<SelectListItem>)ViewBag.UserList, new { @class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.UserSpendLimit.Username, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(model => model.UserSpendLimit.Username, (IEnumerable<SelectListItem>)ViewBag.UserList, new { @class = "form-control input-sm" })
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.UserSpendLimit.Username, (IEnumerable<SelectListItem>)ViewBag.UserList, new { @class = "form-control input-sm" })
+                                    }
+
+
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">CostCentre</label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(model => model.UserSpendLimit.CostCentre, (IEnumerable<SelectListItem>)ViewBag.CostCentreList, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">SpendLimit</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.UserSpendLimit.SpendLimit, new { @class = "form-control input-sm" })
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Currency</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.UserSpendLimit.Currency, new { @class = "form-control input-sm" })
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Local Currency</label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(model => model.UserSpendLimit.LocalCurrency, (IEnumerable<SelectListItem>)ViewBag.LocalCurrencyList, new { @class = "form-control input-sm" })
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLimit">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Username
+                                                </th>
+                                                <th>
+                                                    CostCentre
+                                                </th>
+                                                <th>
+                                                    SpendLimit
+                                                <th>
+                                                    Currency
+                                                </th>
+                                                <th>
+                                                    LocalCurrency
+                                                </th>
+                                                <th>
+
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                if (Model.UserSpendLimitDetail != null)
+                                                {
+                                                    for (int i = 0; i < Model.UserSpendLimitDetail.Count; i++)
+                                                    {
+                                                        <tr>
+
+                                                            <td>
+
+                                                                @Html.HiddenFor(model => Model.UserSpendLimitDetail[i].Username)
+                                                                @Html.DisplayFor(model => Model.UserSpendLimitDetail[i].Username)
+                                                            </td>
+                                                            <td>
+                                                                @Html.HiddenFor(model => Model.UserSpendLimitDetail[i].CostCentre)
+                                                                @Html.DisplayFor(model => Model.UserSpendLimitDetail[i].CostCentre)
+                                                            </td>
+                                                            <td>
+                                                                @Html.HiddenFor(model => Model.UserSpendLimitDetail[i].SpendLimit)
+                                                                @Html.DisplayFor(model => Model.UserSpendLimitDetail[i].SpendLimit)
+                                                            </td>
+                                                            <td>
+                                                                @Html.HiddenFor(model => Model.UserSpendLimitDetail[i].Currency)
+                                                                @Html.DisplayFor(model => Model.UserSpendLimitDetail[i].Currency)
+                                                            </td>
+                                                            <td>
+                                                                @Html.HiddenFor(model => Model.UserSpendLimitDetail[i].LocalCurrency)
+                                                                @Html.DisplayFor(model => Model.UserSpendLimitDetail[i].LocalCurrency)
+                                                            </td>
+                                                            <td>
+                                                                <a href="@Url.Action("Delete", "mtRequisitionUserCostCentreSpendLimit", new { CostCentre = Model.UserSpendLimit.CostCentre })" class="btn btn-danger btn-xs">
+                                                                    <span class="fa fa-trash-o" aria-hidden="true" title="Delete User Cost Spend Limit"></span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </fieldset>
+}
+
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblLimit tbody tr').on('click', function () {
+                $('#UserSpendLimit_Username').val($('td', this).eq(0).text().trim());
+                $('#UserSpendLimit_CostCentre').val($('td', this).eq(1).text().trim());
+                $('#UserSpendLimit_SpendLimit').val($('td', this).eq(2).text().trim());
+                $('#UserSpendLimit_Currency').val($('td', this).eq(3).text().trim());
+                $('#UserSpendLimit_LocalCurrency').val($('td', this).eq(4).text().trim());
+
+            });
+
+        });
+    </script>
+
+
+
+
+
+}

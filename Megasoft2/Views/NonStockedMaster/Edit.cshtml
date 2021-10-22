@@ -1,0 +1,124 @@
+﻿@model Megasoft2.mtInvMaster
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>mtInvMaster</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StockCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.StockCode)
+            @Html.ValidationMessageFor(model => model.StockCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Uom)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Uom)
+            @Html.ValidationMessageFor(model => model.Uom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OnHold)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OnHold)
+            @Html.ValidationMessageFor(model => model.OnHold)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProductClass)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ProductClass)
+            @Html.ValidationMessageFor(model => model.ProductClass)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category1)
+            @Html.ValidationMessageFor(model => model.Category1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category2)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category2)
+            @Html.ValidationMessageFor(model => model.Category2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category3)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category3)
+            @Html.ValidationMessageFor(model => model.Category3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category4)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category4)
+            @Html.ValidationMessageFor(model => model.Category4)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Supplier)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Supplier)
+            @Html.ValidationMessageFor(model => model.Supplier)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContractExpiryDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ContractExpiryDate)
+            @Html.ValidationMessageFor(model => model.ContractExpiryDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContractPrice)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ContractPrice)
+            @Html.ValidationMessageFor(model => model.ContractPrice)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

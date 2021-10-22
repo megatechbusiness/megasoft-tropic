@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="762bb2e1066c4431a1934920c6305775" Name="Diagram1" ZoomLevel="21">
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvWarehouse" Width="1.5" PointX="6" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvWhBin" Width="1.5" PointX="3" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.LotDetail" Width="1.5" PointX="8.25" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtInvTransfer" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtPurchaseOrderNonMerchCost" Width="1.5" PointX="0.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStockLabelSequence" Width="1.5" PointX="5.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.PorMasterDetail" Width="1.5" PointX="8.25" PointY="43.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.PorMasterHdr" Width="1.5" PointX="3" PointY="60.125" IsExpanded="true" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_LotDetail_InvWarehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_InvWarehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_LotDetail_InvWhBin" ManuallyRouted="false" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_PorMasterHdr" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.WipMaster" Width="1.5" PointX="11.25" PointY="17.75" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipMaster_InvWarehouse" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_WipMaster" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.WipJobAllMat" Width="1.5" PointX="13.5" PointY="17.75" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipJobAllMat_InvWarehouse" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipJobAllMat_InvWhBin" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipJobAllMat_WipMaster" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvStockTake" Width="1.5" PointX="18.625" PointY="25" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvStockTake_InvWarehouse" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvStockTake_InvWhBin" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_LotDetail_InvStockTake" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipJobAllMat_InvStockTake" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.vw_InvWhControl" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtPalletAudit" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStockTakeCapture" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTransportWaybillHdr" Width="1.5" PointX="7.375" PointY="6.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.GrnDetail" Width="1.5" PointX="13.5" PointY="40.125" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_InvWarehouse" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_PorMasterHdr" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_WipMaster" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTransportSetting" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.AdmTax" Width="1.5" PointX="0.75" PointY="38.5" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_AdmTax" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_AdmTax" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtBankingDetail" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtInvoiceExtractSetting" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTransporterRate" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtInvDelayedPosting" Width="1.5" PointX="7.375" PointY="12.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtPurchaseOrderLabel" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoDetail" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSupplier" Width="1.5" PointX="9.375" PointY="13.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSetting" Width="1.5" PointX="13.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtPorDeliveryImport" Width="1.75" PointX="14.5" PointY="9.125" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormData" Width="1.5" PointX="16.375" PointY="16.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormControl" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTransporterRateCode" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.BomWorkCentre" Width="1.5" PointX="23.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoHdr" Width="1.5" PointX="22.625" PointY="22.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReportGroup" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTmpLotsToReverse" Width="1.5" PointX="3.625" PointY="22.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtScaleSetting" Width="1.5" PointX="11.375" PointY="11.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.GenControl" Width="1.5" PointX="19.625" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtWmsOrderMaster" Width="1.5" PointX="25.625" PointY="8.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtWmsOrderDetail" Width="1.5" PointX="25.375" PointY="13.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtWmsReason" Width="1.5" PointX="25.375" PointY="19.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtWmsDeletedItem" Width="1.5" PointX="25.375" PointY="22.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtPalletControl" Width="1.5" PointX="16.375" PointY="20.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtLabourPostControl" Width="1.5" PointX="27.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtShift" Width="1.5" PointX="27.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.PorMasterDetail_" Width="1.5" PointX="11.375" PointY="8.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardPrintingColour" Width="1.5" PointX="8.625" PointY="28.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.BomCostCentre" Width="1.5" PointX="21.375" PointY="35.125" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomWorkCentre_BomCostCentre" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardCustomer" Width="1.5" PointX="25.375" PointY="31.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardOther" Width="1.5" PointX="30.625" PointY="30.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabelsDeleted" Width="1.5" PointX="8.375" PointY="31.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReportAutomation" Width="1.5" PointX="19.375" PointY="30.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.BomRoute" Width="1.5" PointX="27.375" PointY="31.875" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipMaster_BomRoute" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.SalProductClassDe" Width="1.5" PointX="0.75" PointY="29" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.vwJobMatData" Width="1.5" PointX="35.625" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.vwJobSalesOrder" Width="1.5" PointX="35.625" PointY="3.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.VwSalesRegister" Width="1.5" PointX="35.625" PointY="10.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.VwSorContPrice" Width="1.5" PointX="35.625" PointY="16.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.vwWipJobLotCtl" Width="1.5" PointX="35.625" PointY="21.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.vwWipJobLot" Width="1.5" PointX="27.5" PointY="35.5" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.vwWipJobMatSpec" Width="1.5" PointX="36.625" PointY="24.75" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomCostCentre_SalProductClassDes" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomWorkCentre_SalProductClassDes" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_SalProductClassDes" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvStockTake_SalProductClassDes" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_SalProductClassDes" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvMaster" Width="1.5" PointX="16" PointY="37.75" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_AdmTax" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_SalProductClassDes" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvStockTake_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWarehouse_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_LotDetail_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipJobAllMat_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipMaster_InvMaster" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTransportCustomerEmailSetting" Width="1.5" PointX="0.75" PointY="23.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReportMaster" Width="2.25" PointX="15.375" PointY="5.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.PorMasterHdr_" Width="1.5" PointX="8.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardLamination" Width="1.5" PointX="29.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtNonStockMaster" Width="1.875" PointX="31.375" PointY="21.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" Width="1.5" PointX="16.75" PointY="31.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockUom" Width="1.5" PointX="0.75" PointY="26.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvWhControl" Width="1.5" PointX="29.625" PointY="38.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.WipJobClass" Width="1.5" PointX="13.75" PointY="52.375" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWhControl_BomRoute" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_WipJobClass" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvStockTake_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWarehouse_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWhBin_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_LotDetail_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterDetail_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterHdr_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipJobAllMat_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipMaster_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_WipMaster_WipJobClass" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvPrice" Width="1.5" PointX="18.25" PointY="51" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_InvPrice_1" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvPrice_InvMaster" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardBomStructure" Width="1.5" PointX="23.375" PointY="35.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardBagging" Width="1.5" PointX="27.375" PointY="21.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardSlitting" Width="1.5" PointX="31.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardWicketing" Width="1.5" PointX="31.375" PointY="7.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormValidation" Width="1.5" PointX="31.375" PointY="18.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardPrinting" Width="1.5" PointX="37.375" PointY="28.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCode" Width="1.5" PointX="18.375" PointY="34.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvNarrationHdr" Width="1.5" PointX="18.25" PointY="55.25" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvNarrationHdr_InvMaster" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardBomOperation" Width="1.5" PointX="28.375" PointY="8" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardExtrusion" Width="1.5" PointX="34.375" PointY="28.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeCustomForm" Width="1.5" PointX="36.375" PointY="36.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardHeader" Width="1.5" PointX="38.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.AdmMultimedia" Width="1.5" PointX="31.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtTransportWaybillDetail" Width="1.5" PointX="38.375" PointY="8.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtExpenseIssueMatrix" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtSorSchedulerComment" Width="1.5" PointX="0.75" PointY="34.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardArtwork" Width="2.125" PointX="30.375" PointY="35.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtSorScheduler" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStockLabel" Width="1.5" PointX="38.375" PointY="19" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtSupplierContractPricingColumnMapping" Width="1.5" PointX="25.375" PointY="38.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardBomOperationsUpdate" Width="1.5" PointX="38.375" PointY="36.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardBomStructureUpdate" Width="1.5" PointX="39.375" PointY="22.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeCustomFormUpdate" Width="1.5" PointX="32.375" PointY="39.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeUpdate" Width="1.5" PointX="39.375" PointY="27.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouseUpdate" Width="1.5" PointX="40.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.BomOperation" Width="1.5" PointX="40.625" PointY="37" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.BomStructure" Width="1.5" PointX="42.875" PointY="35.5" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvNarration" Width="1.5" PointX="24.5" PointY="52.25" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomOperations_BomRoute" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomOperations_BomWorkCentre" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomOperations_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomStructure_BomRoute" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_BomStructure_InvWhControl" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvNarration_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvNarration_InvNarrationHdr" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardUpdateAudit" Width="1.5" PointX="40.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtScale" Width="1.5" PointX="8.375" PointY="22.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqBranch" Width="1.5" PointX="40.375" PointY="8.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqBranchCostCentre" Width="1.5" PointX="40.375" PointY="11.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqCostCentre" Width="1.5" PointX="40.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqCostCentreProductClass" Width="1.5" PointX="40.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqProductClassGlCode" Width="1.5" PointX="10.375" PointY="41.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqPurchaseOrder" Width="1.5" PointX="41.375" PointY="20.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqRequisitionComment" Width="1.5" PointX="41.375" PointY="23.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqUserBranchCostCentre" Width="1.5" PointX="41.375" PointY="31.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtReqUserRouting" Width="1.5" PointX="42.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.InvBuyer" Width="1.5" PointX="42.375" PointY="6.875" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_InvBuyer" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterHdr_InvBuyer" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.ApSupplier" Width="1.5" PointX="44.375" PointY="2" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_ApSupplier" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_ApSupplier" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWarehouse_ApSupplier" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterHdr_ApSupplier" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtInvMasterImage" Width="1.5" PointX="23.375" PointY="42.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtSuppDeliveryLog" Width="1.5" PointX="18.375" PointY="42.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMegasoftAlert" Width="1.5" PointX="25.375" PointY="42.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.PorSupStkInfo" Width="1.5" PointX="46.625" PointY="32.125" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorSupStkInfo_ApSupplier" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_GrnDetails_PorSupStkInfo" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvMaster_PorSupStkInfo" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorSupStkInfo_InvMaster" />
+        <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWarehouse_PorSupStkInfo" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardAttachment" Width="1.5" PointX="43.375" PointY="26.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtRequisitionDeletedLine" Width="1.5" PointX="43.375" PointY="29.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionPalletWeight" Width="1.5" PointX="0.75" PointY="45.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabel" Width="1.5" PointX="10.375" PointY="44.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtWhseManSetting" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

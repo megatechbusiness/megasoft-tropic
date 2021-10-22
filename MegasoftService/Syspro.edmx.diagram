@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3f27f4e961f74853b548827a31ebf6a0" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="SysproModel.AdmTax" Width="1.5" PointX="3.75" PointY="3.875" />
+        <EntityTypeShape EntityType="SysproModel.PorMasterDetail" Width="1.5" PointX="6" PointY="13.125" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_AdmTax" />
+        <EntityTypeShape EntityType="SysproModel.PrjProjHier" Width="1.5" PointX="3" PointY="10.875" />
+        <EntityTypeShape EntityType="SysproModel.WipJobAllMat" Width="1.5" PointX="3" PointY="15.25" />
+        <EntityTypeShape EntityType="SysproModel.WipMaster" Width="1.5" PointX="0.75" PointY="9.875" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PorMasterDetail_WipMaster" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_PrjProjHier_WipMaster" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_WipJobAllMat_WipMaster" />
+        <EntityTypeShape EntityType="SysproModel.mtBranchSite" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionSetting" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="SysproModel.ApSupplier" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.mtApSupplier" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionHeader" Width="1.5" PointX="14.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionTextLine" Width="1.5" PointX="14.375" PointY="15.75" />
+        <EntityTypeShape EntityType="SysproModel.mtGrnDetail" Width="1.5" PointX="8.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SysproModel.mtRequisitionDetail" Width="1.5" PointX="16.375" PointY="0.75" />
+        <AssociationConnector Association="SysproModel.FK_mtRequisitionDetail_mtRequisitionDetail" />
+        <EntityTypeShape EntityType="SysproModel.GenMaster" Width="1.5" PointX="6" PointY="2" />
+        <AssociationConnector Association="SysproModel.Syspro_FK_GenMaster_AdmTax" />
+        <EntityTypeShape EntityType="SysproModel.CusGenMaster_" Width="1.5" PointX="16.375" PointY="7.75" />
+        <EntityTypeShape EntityType="SysproModel.mtTmpPoToCancel" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

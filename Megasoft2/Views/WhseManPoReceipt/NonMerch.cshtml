@@ -1,0 +1,238 @@
+﻿@model Megasoft2.Models.LabelPrintPoLine
+@{
+    ViewBag.Title = "NonMerch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+
+        <h4 class="panel-title">
+
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Non-Merchandise Costs
+            </a>
+        </h4>
+    </div>
+    <a href="@Url.Action("Index", "WhseManPoReceipt", new { PurchaseOrder = Model.PurchaseOrder })" class="btn btn-default btn-sm">
+        <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back to P/O"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Back</span></span>
+    </a>
+    <div class="panel-body">
+        <fieldset>
+            <div class="col-lg-12 col-sm-12">
+                <div id="errordiv">
+
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Non-merchandise Cost
+                            @Html.HiddenFor(model => model.PurchaseOrder)
+                            @Html.HiddenFor(model => model.Line)
+                        </div>
+                        <div class="editor-field input-sm col-sm-6">
+                            @*<input type="text" id="NonMerchCost" class="form-control input-sm" />*@
+                        </div>
+                        <div class="editor-field input-sm col-sm-2 text-right">
+                            <button type="button" value="Save" class="btn btn-info btn-sm" id="btnSaveNonMerch">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblNonMerch">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Supplier</th>
+                                    <th>GL Code</th>
+                                    <th>Amount</th>
+                                    <th><a href='#' class='AddLine btn btn-default btn-xs' tabindex='0' id="AddNonMerch"><span class='fa fa-plus' aria-hidden='true' title='Add Line'></span></a></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function LoadNonMerch() {
+
+            $('#tblNonMerch tbody').empty();
+            var PurchaseOrder = $('#PurchaseOrder').val();
+            var Line = $('#Line').val();
+            $.getJSON('../WhseManPoLabel/GetNonMerchData?PurchaseOrder=' + PurchaseOrder + '&Line=' + Line, function (data) {
+                var r = 0;
+                //alert(data);
+                $.each(data, function (i, Po) {
+                    $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value='" + Po.Reference + "'/>" +
+                    "</td><td><div class='input-group add-on'>" +
+                                "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value='" + Po.Supplier + "'/>" +
+                                "<div class='input-group-btn'>" +
+                                    "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                "</div>" +
+                              "</div>" +
+                    "</td><td><div class='input-group add-on'>" +
+                                "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + Po.GlCode + "'/>" +
+                                "<div class='input-group-btn'>" +
+                                    "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                "</div>" +
+                              "</div>" +
+                    "</td><td><input type='text' class='tabkey form-control input-sm' value='" + Po.Amount + "'/>" +
+                    "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='0'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+
+                    r++;
+                });
+
+                r++;
+                //Add new blank row
+
+                $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value=''/>" +
+                    "</td><td><div class='input-group add-on'>" +
+                            "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value=''/>" +
+                            "<div class='input-group-btn'>" +
+                                "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                            "</div>" +
+                          "</div>" +
+                "</td><td><div class='input-group add-on'>" +
+                            "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + "@Model.GrnSuspense" + "'/>" +
+                            "<div class='input-group-btn'>" +
+                                "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                            "</div>" +
+                          "</div>" +
+                    "</td><td><input type='text' class='tabkey form-control input-sm' value=''/>" +
+                    "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabIndex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+
+
+
+
+            });
+
+
+        }
+
+
+        $(function () {
+            LoadNonMerch();
+
+
+            $(document).on('keydown change', '#tblNonMerch tr input:text.tabkey', function (e) {
+
+                var keyCode = e.keyCode || e.which;
+
+                if (keyCode == 9) {
+                    var r = $('#tblNonMerch tr').length;
+                    //Add new blank row
+                    $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value='' />" +
+                            "</td><td><div class='input-group add-on'>" +
+                                    "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value=''/>" +
+                                    "<div class='input-group-btn'>" +
+                                        "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                    "</div>" +
+                                  "</div>" +
+                        "</td><td><div class='input-group add-on'>" +
+                                    "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + "@Model.GrnSuspense" + "'/>" +
+                                    "<div class='input-group-btn'>" +
+                                        "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                    "</div>" +
+                                  "</div>" +
+                            "</td><td><input type='text' class='tabkey form-control input-sm' value=''/>" +
+                            "</td><td><a href='#' class='ref_" + r + " delLine btn btn-danger btn-xs' tabIndex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+                }
+            });
+
+
+            $('#btnSaveNonMerch').on('click', function (e) {
+                //e.preventDefault();
+
+                var PurchaseOrder = $('#PurchaseOrder').val();
+                var Line = $('#Line').val();
+                var mydata = [];
+                $("#tblNonMerch > tbody > tr ").each(function (i, el) {
+
+                    var myObject = new Object();
+                    var $tds = $(this).find('td')
+                    var Reference = $tds.eq(0).find("input[type='text']").val();
+                    var Supplier = $tds.eq(1).find("input[type='text']").val();
+                    var GlCode = $tds.eq(2).find("input[type='text']").val();
+                    var Amount = $tds.eq(3).find("input[type='text']").val();
+
+                    if (Reference != "") {
+                        myObject.PurchaseOrder = PurchaseOrder;
+                        myObject.Line = Line;
+                        myObject.Reference = Reference;
+                        myObject.Supplier = Supplier;
+                        myObject.GlCode = GlCode;
+                        myObject.Amount = Amount;
+                        mydata.push(myObject);
+                    }
+
+
+
+                });
+
+
+
+
+                var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+                var exportdata = myString;
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "../WhseManPoLabel/SaveNonMerchCost",
+                    data: exportdata,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: OnErrorCall
+                });
+
+                function OnSuccess(response) {
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                }
+
+                function OnErrorCall(response) {
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                }
+            });
+
+            $('#tblNonMerch').on("click", ".delLine", function () {
+                $(this).parent().parent().remove();
+            });
+
+            $('#AddNonMerch').on('click', function (e) {
+                var r = $('#tblNonMerch tr').length;
+                //Add new blank row
+                $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value='' />" +
+                        "</td><td><div class='input-group add-on'>" +
+                                "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value=''/>" +
+                                "<div class='input-group-btn'>" +
+                                    "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                "</div>" +
+                              "</div>" +
+                    "</td><td><div class='input-group add-on'>" +
+                                "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + "@Model.GrnSuspense" + "'/>" +
+                                "<div class='input-group-btn'>" +
+                                    "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                "</div>" +
+                              "</div>" +
+                        "</td><td><input type='text' class='tabkey form-control input-sm' value=''/>" +
+                        "</td><td><a href='#' class='ref_" + r + " delLine btn btn-danger btn-xs' tabIndex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+            });
+        });
+    </script>

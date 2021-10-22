@@ -1,0 +1,126 @@
+﻿@model Megasoft2.mtTransporter
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Transporters
+            </a>
+        </h4>
+    </div>
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="panel-body">
+            <fieldset>
+                <div class="col-sm-6">
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Supplier</label>
+                            <div class="col-sm-4">
+
+                                @Html.TextBoxFor(model => model.Transporter, new { @class = "form-control input-sm", @id = "txtSupplier", @readonly = "readonly" })
+                                <a href="@Url.Action("SupplierSearch", "TransportSystemTransporters")" class="searchbox modal-link fa fa-search" id="supplierbtn"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Vehicle Reg
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(model => model.VehicleReg, new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.VehicleReg)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Link Registration 1
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(model => model.LinkReg1, new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.LinkReg1)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Link Registration 2
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(model => model.LinkReg2, new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.LinkReg2)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Link Registration 3
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(model => model.LinkReg3, new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.LinkReg3)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Driver
+                            </div>
+                            <div class="editor-field input-sm col-sm-8">
+                                @Html.TextBoxFor(model => model.Driver, new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.Driver)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">GL Code</label>
+                            <div class="col-sm-4">
+
+                                @Html.TextBoxFor(model => model.GLCode, new { @class = "form-control input-sm", @id = "txtGlCode", @readonly = "readonly" })
+                                <a href="@Url.Action("GlCodeSearch", "TransportSystemTransporters")" class="searchbox modal-link fa fa-search" id="glbtn"></a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </fieldset>
+        </div>
+    }
+
+
+
+</div>
+<script type="text/javascript">
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+   
+</script>
+

@@ -1,0 +1,84 @@
+﻿@model Megasoft2.Models.TankMovementsViewModel
+
+@{
+    ViewBag.Title = "TankMovement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+
+
+
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Movements</a></li>
+    <li class="pull-right">
+        <div>
+
+            <a href="@Url.Action("MovementsFilter", "TankLevels")" class="modal-link btn btn-success">
+                <span class="fa fa-filter" aria-hidden="true" title="Tank Options"> Tank Options</span>
+            </a>
+            <a href="#" class="btn btn-success" onclick="PopupReport('Movements')">
+                <span class="fa fa-print" aria-hidden="true" title="Movements Report"> Print Movements</span>
+            </a>
+            <a href="@Url.Action("SendEmail", "TankLevels", new { Program = "Movements" })" class="modal-link btn btn-success">
+                <span class="fa fa-envelope" aria-hidden="true" title="Email"> Email</span>
+            </a>
+
+        </div>
+    </li>
+</ul>
+
+<br />
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+        @if (Model != null)
+        {
+            if (Model.tankData != null)
+            {
+                <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                    <tr>
+                        <th>
+                            Tank
+                        </th>
+                        <th>
+                            Start Date
+                        </th>
+                        <th>
+                            End Date
+                        </th>
+                        <th>
+                            m³ Received
+                        </th>
+                        <th>
+                            m³ Delivered
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.tankData)
+                    {
+                        <tr>
+                            <td>@item.Tank</td>
+                            <td>@item.FromDate</td>
+                            <td>@item.ToDate</td>
+                            <td>@item.Receipt</td>
+                            <td>@item.Delivery</td>
+                        </tr>
+                    }
+                </table>
+            <input type="hidden" value="@Model.tankData.First().GUID" id="hdGuid" />
+            }
+        }
+       </div>
+    
+</div>
+<script type="text/javascript">
+    function PopupReport(Report) {
+        var entryGuid = $("#hdGuid").val();
+        window.open('../CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');// calling action
+    }
+</script>

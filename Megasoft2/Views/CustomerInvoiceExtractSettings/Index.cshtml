@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Megasoft2.mtInvoiceExtractSetting>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerClass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OutputFilePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SFTPUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SFTPUsername)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SFTPPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SFTPFolder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SFTPPort)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceScheduleMode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceRunTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceWeeklyDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceMonthlyDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastRunDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceIntervalMin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApiExtractUri)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerClass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OutputFilePath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SFTPUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SFTPUsername)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SFTPPassword)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SFTPFolder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SFTPPort)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceScheduleMode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceRunTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceWeeklyDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceMonthlyDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastRunDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceIntervalMin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApiExtractUri)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

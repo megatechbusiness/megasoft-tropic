@@ -1,0 +1,471 @@
+﻿@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmMain" }))
+{
+    <div class="well">
+        <h4 style="font-weight:bold;" class="text-center">Scheduler</h4><hr />
+
+        @Html.AntiForgeryToken()
+        @if (!Html.ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger fade in">
+                @Html.ValidationSummary(true)
+            </div>
+        }
+        <div>
+            <div>
+                <div>
+                    <input ID="hdUser" type="hidden" />
+                </div>
+                <div class="alert alert-danger" id="errordiv" hidden="hidden">
+                    <label ID="lblError" Text=""></label>
+                </div>
+
+                <br />
+
+                <div>
+                    @*<%--mygrid grdSchedule--%>*@
+                    <div class="form-inline">
+                        <div class="SetupContainer">
+                            <div>
+                                <select class="select input-sm" ID="ddlSchedCostCentre"></select>
+                                &nbsp&nbsp
+                                <select class="select input-sm" ID="ddlSchedWkCntre"></select>
+                                &nbsp&nbsp
+                                <a href="#" id="btnSaveSchedule" class="btn  btn-info btn-sm btn-success">
+                                    <span class="fa" aria-hidden="true" title="Save"> Save</span>
+                                </a>
+                                &nbsp&nbsp
+                                <a href="#" id="btnRefreshSchedule" class="btn btn-info btn-sm btn-success" onclick="LoadActiveSchedule();">
+                                    <span class="fa" aria-hidden="true" title="Refresh"> Refresh</span>
+                                </a>
+                                &nbsp&nbsp
+                                <a href="#" id="btnPrint" class="btn btn-info btn-sm btn-success" onclick="window.open('frmReportViewer?ReportType=Report&Report=ActiveSchedule', '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');">
+                                    <span class="fa" aria-hidden="true" title="Print"> Print</span>
+                                </a>
+                                &nbsp&nbsp
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <table id="grdSchedule" class="mygrid table table-hover table-striped table-condensed" RowStyle-Font-Size="XX-Small" HeaderStyle-Font-Size="X-Small" HeaderStyle-Font-Bold="true">
+                        <tbody>
+                            <tr>
+                                <th>SeqNo</th>
+                                <th>Customer</th>
+                                <th>Job</th>
+                                <th>StockCode</th>
+                                <th>Description</th>
+                                <th>MasterJob</th>
+                                <th>Mass</th>
+                                <th>QtyToMake</th>
+                                <th>QtyManufactured</th>
+                                <th>QtyToPlan</th>
+                                <th>Produced</th>
+                                <th>Balance</th>
+                                <th>Rolls</th>
+                                <th>Urgent</th>
+                                <th>OrderDate</th>
+                                <th>JobDeliveryDate</th>
+                                <th>WeeksOverdue</th>
+                                <th>ScheduleComplete</th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <div class="form-inline">
+                        <div class="SetupContainer">
+                            <div>
+                                <input ID="txtDelDate" class="datepicker datepicker-inline form-control" placeholder="Job Delivery Date">&nbsp&nbsp
+                                <select class="select input-sm" ID="ddlSrcWkCentre"></select>
+                                &nbsp&nbsp
+                                <select runat="server" class="select input-sm" ID="ddlSort">
+                                    <option>Sort By</option>
+                                    <option>Job Asc</option>
+                                    <option>Job Desc</option>
+                                    <option>Overdue Asc</option>
+                                    <option>Overdue Desc</option>
+                                </select>
+                                &nbsp&nbsp
+                                <input type="text" id="FilterTextBox" name="FilterTextBox" placeholder="Search" class="form-control input-sm pull-right" />
+                                &nbsp&nbsp
+                                <a href="#" id="btnLoad" class="btn btn-info btn-sm btn-success " onclick="LoadJobsToPlan();">
+                                    <span class="fa" aria-hidden="true" title="Refresh"> Refresh</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <table id="grdUnplanned" class="mygrid table table-hover table-striped table-condensed" RowStyle-Font-Size="XX-Small" HeaderStyle-Font-Size="X-Small" HeaderStyle-Font-Bold="true">
+                        <tbody>
+                            <tr>
+                                <th>SeqNo</th>
+                                <th>Customer</th>
+                                <th>Job</th>
+                                <th>StockCode</th>
+                                <th>Description</th>
+                                <th>MasterJob</th>
+                                <th>Mass</th>
+                                <th>QtyToMake</th>
+                                <th>QtyManufactured</th>
+                                <th>QtyToPlan</th>
+                                <th>Produced</th>
+                                <th>Balance</th>
+                                <th>Rolls</th>
+                                <th>Urgent</th>
+                                <th>OrderDate</th>
+                                <th>JobDeliveryDate</th>
+                                <th>WeeksOverdue</th>
+                                <th>ScheduleComplete</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style type="text/css">
+    grdSchedule td {
+        background-color: #FFCCCC;
+        color: black;
+        font-size: 10pt;
+        font-family: 'Century Gothic';
+        line-height: 200%;
+        cursor: pointer;
+        width: 100px;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    grdSchedule th {
+        background-color: #FF66CC;
+        color: White;
+        font-family: 'Century Gothic';
+        font-size: 10pt;
+        line-height: 200%;
+        width: 100px;
+    }
+
+    grdUnplanned td {
+        background-color: #99FFFF !important;
+        color: black;
+        font-family: 'Century Gothic';
+        font-size: 10pt;
+        line-height: 200%;
+        cursor: pointer;
+        width: 100px;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    grdUnplanned th {
+        background-color: #9999FF !important;
+        color: White;
+        font-family: 'Century Gothic';
+        font-size: 10pt;
+        line-height: 200%;
+        width: 100px;
+    }
+
+    .big-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+@section scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    <script src="~/Content/DragDrop/jquery-ui.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/DatePicker/bootstrap-datepicker.js")"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetDepartment();
+
+            $(".mygrid").sortable({
+                items: 'tr:not(tr:first-child)',
+                cursor: 'crosshair',
+                connectWith: '.mygrid',
+                axis: 'y',
+                dropOnEmpty: true,
+                receive: function (e, ui) {
+                    $(this).find("tbody").append(ui.item);
+                }
+            });
+
+            $("[id*=gvDest] tr:not(tr:first-child)").remove();
+
+            $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+
+            $('#btnSaveSchedule').on('click', function (e) {
+                e.preventDefault();
+                //alert("Test");
+                var mydata = [];
+                var Workcentre = $("#ddlSchedWkCntre :selected").text();
+                var AppUser = $("#hdUser").val();
+                $('#grdSchedule  tr:has(td)').each(function () {
+                    var myObject = new Object();
+                    var $tds = $(this).find('td')
+                    var Customer = $tds.eq(1).text();
+                    var Job = $tds.eq(2).text();
+                    var StockCode = $tds.eq(3).text();
+                    var QtyToMake = $tds.eq(7).text;
+                    var QtyToPlan = $(this).find("input[type='text']").val();
+                    var Produced = $tds.eq(10).text();
+                    var Balance = $tds.eq(11).text();
+                    var JobDeliveryDate = $tds.eq(15).text();
+                    var ScheduleComplete = $(this).find("input[type='checkbox']").is(":checked");
+                    myObject.AppUser = AppUser;
+                    myObject.Workcentre = Workcentre;
+                    myObject.Customer = Customer;
+                    myObject.Job = Job;
+                    myObject.StockCode = StockCode;
+                    myObject.QtyToMake = QtyToMake;
+                    myObject.QtyToPlan = QtyToPlan;
+                    myObject.Produced = Produced;
+                    myObject.Balance = Balance;
+                    myObject.JobDeliveryDate = JobDeliveryDate;
+                    myObject.ScheduleComplete = ScheduleComplete;
+
+                    mydata.push(myObject);
+
+                });
+
+                var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+                var exportdata = myString;
+                //alert(exportdata);
+                $.ajax({
+                    type: "POST",
+                    url: "../Scheduler/SaveSchedule",
+                    data: exportdata,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: OnErrorCall
+                });
+
+                function OnSuccess(response) {
+                    alert(response);
+                    LoadActiveSchedule();
+                }
+
+                function OnErrorCall(response) {
+                    alert(response);
+                }
+            });
+
+            //add index column with all content.
+            $("#grdUnplanned tr:has(td)").each(function () {
+                var t = $(this).text().toLowerCase(); //all row text
+                $("<td class='indexColumn'></td>")
+                    .hide().text(t).appendTo(this);
+            });//each tr
+
+            //$("#FilterTextBox").keyup(function () {
+            //    var s = $(this).val().toLowerCase().split(" ");
+            //    //show all rows.
+            //    $("#grdUnplanned tr:hidden").show();
+            //    $.each(s, function () {
+            //        $("#grdUnplanned tr:visible .indexColumn:not(:contains('"
+            //            + this + "'))").parent().hide();
+            //    });//each
+            //});//key up.
+
+            $('#ddlSchedCostCentre').on('change', function () {
+                GetWorkCentres()
+            });
+            $('#ddlSchedWkCntre').on('change', function () {
+                LoadActiveSchedule()
+            });
+            $('#ddlSrcWkCentre').on('change', function () {
+                LoadJobsToPlan()
+            });
+
+            $('#FilterTextBox').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#grdUnplanned  tr:has(td)');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+
+        });
+        function GetDepartment() {
+            $.ajax({
+                type: "POST",
+                url: "../Scheduler/GetDepartment",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: function () {
+                    alert(response);
+                }
+            });
+
+            function OnSuccess(response) {
+                if (response) {
+                    var ddlDepartment = $("#ddlSchedCostCentre");
+
+                    ddlDepartment.empty();
+                    $("#ddlSchedCostCentre").prepend("<option value='' selected='selected'>Select Department</option>");
+
+                    $.each(response, function () {
+                        //alert(this['Value'] + ' space ' + this['Text']);
+                        ddlDepartment.append($("<option></option>").val(this['Value'].trim()).html(this['Text']));
+                    });
+                }
+            }
+        }
+
+        function GetWorkCentres() {
+            //$("#formerror").hide();
+
+            var e = document.getElementById("ddlSchedCostCentre");
+            var Department = e.options[e.selectedIndex].value;
+
+            if (Department == "") {
+            }
+            else {
+                var myString = JSON.stringify({
+                    Department: Department
+                });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url: "../Scheduler/GetWorkCentres",
+                    contentType: "application/json; charset=utf-8",
+                    data: exportdata,
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+                function OnSuccess(response) {
+                    if (response) {
+                        var ddlSchedWorkCentre = $("#ddlSchedWkCntre");
+                        var ddlSrceWorkCentre = $("#ddlSrcWkCentre");
+
+                        ddlSchedWorkCentre.empty();
+                        ddlSrceWorkCentre.empty();
+                        $("#ddlSchedWkCntre").prepend("<option value='' selected='selected'>Select Work Centre</option>");
+                        $("#ddlSrcWkCentre").prepend("<option value='' selected='selected'>Select Work Centre</option>");
+
+                        $.each(response, function () {
+                            //alert(this['Value'] + ' space ' + this['Text']);
+                            ddlSchedWorkCentre.append($("<option></option>").val(this['Value'].trim()).html(this['Text']));
+                            ddlSrceWorkCentre.append($("<option></option>").val(this['Value'].trim()).html(this['Text']));
+                        });
+                    }
+                }
+            }
+        }
+
+        function LoadActiveSchedule() {
+            //$("#formerror").hide();
+
+            var e = document.getElementById("ddlSchedWkCntre");
+            var WorkCentre = e.options[e.selectedIndex].value;
+
+            if (WorkCentre == "") {
+            }
+            else {
+                var myString = JSON.stringify({
+                    WorkCentre: WorkCentre
+                });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url: "../Scheduler/LoadActiveSchedule",
+                    contentType: "application/json; charset=utf-8",
+                    data: exportdata,
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+                function OnSuccess(response) {
+                    if (response) {
+                        $("#grdSchedule tbody").find("tr:gt(0)").remove();
+                        $.each(response, function () {
+                            //alert(this['Job'] + ' space ' + this['Customer']);
+                            $('#grdSchedule tbody').append("<tr class='data''><td>" + this['SeqNo'] +
+                                "</td><td>" + this['Customer'] + "</td><td>" + this['Job'] + "</td><td>" + this['StockCode'] +
+                                "</td><td>" + this['Description'] + "</td><td>" + this['MasterJob'] + "</td><td align='right'>" + this['Mass'] +
+                                "</td><td align='right'>" + this['QtyToMake'] + "</td><td align='right'>" + this['QtyManufactured'] + "</td><td>" + "<input type='text' value='" + this['QtyToPlan'] + "' class='form-control input-sm text-right' />" +
+                                "</td><td align='right'>" + this['Produced'] + "</td><td align='right'>" + this['Balance'] + "</td><td align='right'>" + this['Rolls'] +
+                                "</td><td>" + this['Urgent'] + "</td><td align='right'>" + this['OrderDate'] + "</td><td align='right'>" + this['JobDeliveryDate'] + "</td>" + "<td align='right'>"
+                                + this['WeeksOverdue'] + "</td>" + "<td align='center'>" + "<input type='checkbox' id='chkDefSchedComplete' class='form-control input-sm big-checkbox chkbox '/>" + "</td>"
+                                + "</tr>"
+                            );
+                        });
+
+                    }
+                }
+            }
+        }
+
+        function LoadJobsToPlan() {
+            //$("#formerror").hide();
+
+            var e = document.getElementById("ddlSrcWkCentre");
+            var WorkCentre = e.options[e.selectedIndex].value;
+
+            var z = document.getElementById("ddlSchedCostCentre");
+            var Department = z.options[z.selectedIndex].value;
+
+            var q = document.getElementById("ddlSort");
+            var Sort = q.options[q.selectedIndex].value;
+
+            var Date = $('#txtDelDate').val();
+
+
+            if (WorkCentre == "") {
+            }
+            else {
+                var myString = JSON.stringify({
+                    CostCentre: Department,
+                    WorkCentre: WorkCentre,
+                    Date: Date,
+                    Sort: Sort
+                });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url: "../Scheduler/LoadJobsToPlan",
+                    contentType: "application/json; charset=utf-8",
+                    data: exportdata,
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+                function OnSuccess(response) {
+                    if (response) {
+                        $("#grdUnplanned tbody").find("tr:gt(0)").remove();
+                        $.each(response, function () {
+                            //alert(this['Job'] + ' space ' + this['Customer']);
+                            $('#grdUnplanned tbody').append("<tr class='data''><td>" + this['SeqNo'] +
+                                "</td><td>" + this['Customer'] + "</td><td>" + this['Job'] + "</td><td>" + this['StockCode'] +
+                                "</td><td>" + this['Description'] + "</td><td>" + this['MasterJob'] + "</td><td align='right'>" + this['Mass'] +
+                                "</td><td align='right'>" + this['QtyToMake'] + "</td><td align='right'>" + this['QtyManufactured'] + "</td><td>" + "<input type='text' value='" + this['QtyToPlan'] + "' class='form-control input-sm text-right' />" +
+                                "</td><td align='right'>" + this['Produced'] + "</td><td align='right'>" + this['Balance'] + "</td><td align='right'>" + this['Rolls'] +
+                                "</td><td>" + this['Urgent'] + "</td><td align='right'>" + this['OrderDate'] + "</td><td align='right'>" + this['JobDeliveryDate'] + "</td>" + "<td align='right'>"
+                                + this['WeeksOverdue'] + "</td>" + "<td align='center'>" + "<input type='checkbox' id='chkDefSchedComplete' class='form-control input-sm big-checkbox chkbox '/>" + "</td>" + "</tr>"
+                            );
+                        });
+                    }
+                }
+            }
+        }
+    </script>}

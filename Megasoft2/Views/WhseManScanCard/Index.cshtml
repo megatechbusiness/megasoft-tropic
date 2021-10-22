@@ -1,0 +1,210 @@
+﻿@model Megasoft2.ViewModel.PurchaseOrderLabel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 col-sm-12">
+
+    <div class="panel panel-primary modal-body" style="border-color:white;">
+
+        <div class="panel-heading">
+
+            <h4 class="panel-title">
+
+                <a data-toggle="collapse" data-target="#collapseOne"
+                   href="#collapseOne" class="collapsed">
+                    Scan Card Print
+                </a>
+            </h4>
+        </div>
+        <div class="panel-body">
+            @*<div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="col-md-1 col-xs-12" style="text-align:left;">
+                        <a href="@Url.Action("Index", "StockCodeBrowse")" class="modal-link btn btn-success btn-sm">
+                            <span class="fa fa-search" aria-hidden="true" title="Browse StockCode"> </span>
+                        </a>
+                    </div>
+                    <div class="editor-field col-md-4 col-xs-8" style="text-align:left;">
+                        <input type="text" class="form-control input-sm" id="txtStockCode" />
+                    </div>
+                    <div class="col-md-1 col-xs-2" style="text-align:left;">
+                        <button type="button" class="btn btn-success btn-sm" id="btnLoad" onclick="ValidateStockCode();">
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>*@
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Item
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        <input type="text" class="form-control input-sm" id="txtDispStockCode" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Description
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        <input type="text" class="form-control input-sm" id="txtDispDescription" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Barcode
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        <input type="text" class="form-control input-sm" id="txtBarcode" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        No. of Labels
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        <input type="text" class="form-control input-sm" id="txtNoOfLables" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-1" style="text-align:left;">
+                        Printer
+                    </div>
+                    <div class="col-sm-5">
+
+                        @Html.DropDownListFor(model => model.StockPrinter, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlStockPrinter", @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button type="button" value="Save" class="btn btn-default btn-sm" id="btnPrintStock">
+                            <i class="fa fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    function ValidateStockCode() {
+        showprogressbar();
+        var StockCode = $('#txtStockCode').val();
+        var mydata = [];
+        var myObject = new Object();
+        myObject.StockCode = StockCode;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManLabelReprint/ValidateStockCode",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccessCall,
+            failure: OnErrorCall
+        });
+
+        function OnSuccessCall(response) {
+            if (typeof response == 'object') {
+                $.each(response, function (i, PO) {
+
+                    $('#txtDispStockCode').val(PO.StockCode);
+                    $('#txtDispDescription').val(PO.Description);
+
+                });
+            }
+            else {
+                alert(response);
+                $('#txtDispStockCode').val("");
+                $('#txtDispDescription').val("");
+            }
+
+        }
+
+        function OnErrorCall(response) {
+            $('#printerrordiv').text(response);
+            $('#printerrordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+
+
+    $(function () {
+        $('#btnPrintStock').on('click', function (e) {
+
+            e.preventDefault();
+
+            var e = document.getElementById("ddlStockPrinter");
+            var Printer = e.options[e.selectedIndex].value;
+
+            var mydata = [];
+
+
+            var myObject = new Object();
+            var $tds = $(this).find('td')
+            txtDispDescription
+            var StockCode = $('#txtDispStockCode').val();
+            var Description = $('#txtDispDescription').val();
+            var Barcode = $('#txtBarcode').val();
+            var NoOfLables = $('#txtNoOfLables').val();
+
+
+
+
+            myObject.StockCode = StockCode;
+            myObject.Description = Description;
+            myObject.Printer = Printer;
+            myObject.NoOfLables = NoOfLables;
+            myObject.Barcode = Barcode;
+            mydata.push(myObject);
+
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "WhseManScanCard/PrintScanCard",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccessPoP,
+                failure: OnErrorPoP
+            });
+
+            function OnSuccessPoP(response) {
+                alert(response);
+
+            }
+
+            function OnErrorPoP(response) {
+                alert(response);
+
+            }
+        });
+    });
+</script>

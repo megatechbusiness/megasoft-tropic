@@ -1,0 +1,107 @@
+﻿@model Megasoft2.mtRole
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Role Description
+            </a>
+        </h4>
+    </div>
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    @using (Ajax.BeginForm("Edit", new AjaxOptions()
+{
+    OnSuccess = "ShowErrorDiv",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "errordiv"
+
+}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Role
+                        </div>
+                        <div class="editor-label col-sm-9">
+                            @Html.TextBoxFor(model => model.Role, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Role)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Description
+                        </div>
+                        <div class="editor-field col-sm-9">
+                            @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div id="errordiv">
+
+                </div>
+                <br />
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+    }
+
+
+</div>
+
+
+<script type="text/javascript">
+
+    function ShowErrorDiv()
+    {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+
+
+
+    //$('#save-btn').click(function () {
+    //    $('#modal-container').modal('hide');
+    //});
+
+
+});
+</script>

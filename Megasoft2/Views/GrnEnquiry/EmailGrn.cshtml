@@ -1,0 +1,109 @@
+﻿@model Megasoft2.Models.PurchaseOrderEmail
+@{
+    ViewBag.Title = "EmailGrn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <td colspan="3">
+                                    <a href="@Url.Action("Index", "GrnEnquiry", new { PurchaseOrder = @Model.PurchaseOrder })" class="btn btn-default">
+                                        <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back to Grn Enquiry"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Back to Grn</span></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Grn</th>
+                                <td>
+                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>From</th>
+                                <td>
+                                    @Html.TextBoxFor(model => model.FromEmail, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>To</th>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.ToEmail, new { @class = "form-control input-sm" })
+                                </td>
+                                <td>
+                                    <a href="@Model.AttachmentPath" target="_blank" class="btn btn-default btn-sm">
+                                        <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.FileName</span></span>
+                                    </a>
+                                    @Html.HiddenFor(model => model.AttachmentPath)
+                                    @Html.HiddenFor(model => model.FileName)
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <th>CC</th>
+                                <td>
+                                    @Html.TextBoxFor(model => model.CCEmail, new { @class = "form-control input-sm" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Subject</th>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-sm" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Message</th>
+                                <td colspan="2">
+                                    @Html.TextAreaFor(model => model.MessageBody, new { @class = "form-control input-sm", @rows = "3" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right">
+                                    <button type="submit" class="btn btn-default btn-sm" id="btnSend">
+                                        <i class="fa fa-envelope-square"></i> Send
+                                    </button>
+                                </td>
+                            </tr>
+                            </thead>
+</table>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+<style type="text/css">
+    .searchbox {
+        position: absolute;
+        z-index: 1000;
+        top: 30%;
+        right: 6%;
+    }
+
+
+
+    a.glyphicon-map-marker {
+        text-decoration: none !important;
+    }
+</style>

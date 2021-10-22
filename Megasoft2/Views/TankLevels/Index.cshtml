@@ -1,0 +1,503 @@
+﻿@model Megasoft2.Models.TankDataViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+
+
+
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Tanks</a></li>
+        <li><a data-toggle="tab" href="#data-sheet">Data Sheet</a></li>
+        <li class="pull-right">
+            <div>
+                
+                <a href="@Url.Action("TankFilter", "TankLevels")" class="modal-link btn btn-success">
+                    <span class="fa fa-filter" aria-hidden="true" title="Tank Options"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Tank Options</span></span>
+                </a>
+                <a href="#" class="btn btn-success" onclick="PopupReport('StockSheet')">
+                    <span class="fa fa-print" aria-hidden="true" title="Print Blend"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Print Blend</span></span>
+                </a>
+                <a href="@Url.Action("SendEmail", "TankLevels", new { Program = "Stock" })" class="modal-link btn btn-success">
+                    <span class="fa fa-envelope" aria-hidden="true" title="Email"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Email</span></span>
+                </a>
+                <a href="@Url.Action("Reprint", "TankLevels")" class="modal-link btn btn-success">
+                    <span class="fa fa-print" aria-hidden="true" title="Reprint"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Reprint</span></span>
+                </a>
+            </div>
+        </li>
+    </ul>
+
+    <br />
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            @if (Model != null)
+            {
+                if (Model.tankData != null)
+                {
+                    var totalRows = Model.tankData.Count;
+                    var i = 0;
+                    <div id="tanks">
+                        @foreach (var item in Model.tankData)
+                        {
+
+                            if (i % 2 == 0)
+                            {
+                                @Html.Raw("<div class='trow form-horizontal row'>");
+                            }
+
+
+                            if (item.TankType == "Feeder")
+                            {
+
+                                <div id="tankrow" class="thumbnail col-lg-6">
+                                    <div class="panel panel-primary modal-body" style="border-color:white;">
+                                        <div class="panel-heading" style="background-color:#cdcdcd;border-color:white;">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-target="#collapseOne"
+                                                   href="#collapseOne" class="collapsed">
+                                                    @item.Tank - @item.Product
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="level col-lg-6">
+                                        <div id="@item.Tank-@item.EntryNo-Before" class="tank tk" style="background-color:#7F7FFF;" data-amount="@item.StartVolumePerc"><div class="green"></div></div>
+                                    </div>
+                                    <div class="level col-lg-6">
+                                        <div id="@item.Tank-@item.EntryNo-After" class="tank tk" style="background-color:#7F7FFF;" data-amount="@item.EndVolumePerc"><div class="green"></div></div>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(item.strMessage))
+                                    {
+                                        <div class="col-lg-12"><div class="alert alert-danger fade in">@item.strMessage</div></div>
+                                    }
+                                    else
+                                    {
+                                        
+                                        <div class="col-lg-12">
+                                            <br />
+                                            <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                                <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <th>
+                                                        Before
+                                                    </th>
+                                                    <th>
+                                                        After
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date</td>
+                                                    <td>@item.FromDate.Value.ToString("dd-MM-yyyy")</td>
+                                                    <td>@item.ToDate.Value.ToString("dd-MM-yyyy")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Time</td>
+                                                    <td>@item.FromDate.Value.ToString("HH:mm")</td>
+                                                    <td>@item.ToDate.Value.ToString("HH:mm")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>m³</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartVolumeTT), 4)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndVolumeTT), 4)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&#8451;</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.FromTemperature), 2)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.ToTemperature), 2)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Density - TT</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartDensityTT), 4)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndDensityTT), 4)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Density - 20&#8451;</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartDensityST), 4)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndDensityST), 4)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>%</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartVolumePerc), 2)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndVolumePerc), 2)</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    }
+                                </div>
+
+
+                            }
+                            if (item.TankType == "Blend")
+                            {
+                                <div id="tankrow" class="thumbnail col-lg-6">
+                                    <div class="panel panel-primary modal-body" style="border-color:white;">
+                                        <div class="panel-heading" style="background-color:#cdcdcd;border-color:white;">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-target="#collapseOne"
+                                                   href="#collapseOne" class="collapsed">
+                                                    @item.Tank - @item.Product
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="level col-lg-6">
+                                        <div id="@item.Tank-@item.EntryNo-Before" class="tank tk" style="background-color:orange;" data-amount="@item.StartVolumePerc"><div class="green"></div></div>
+                                    </div>
+                                    <div class="level col-lg-6">
+                                        <div id="@item.Tank-@item.EntryNo-After" class="tank tk" style="background-color:orange;" data-amount="@item.EndVolumePerc"><div class="green"></div></div>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(item.strMessage))
+                                    {
+                                        <div class="col-lg-12"><div class="alert alert-danger fade in">@item.strMessage</div></div>
+                                    }
+                                    else
+                                    {
+
+                                        <div class="col-lg-12">
+                                            <br />
+                                            <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                                <tr>
+                                                    <th>
+
+                                                    </th>
+                                                    <th>
+                                                        Before
+                                                    </th>
+                                                    <th>
+                                                        After
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date</td>
+                                                    <td>@item.FromDate.Value.ToString("dd-MM-yyyy")</td>
+                                                    <td>@item.ToDate.Value.ToString("dd-MM-yyyy")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Time</td>
+                                                    <td>@item.FromDate.Value.ToString("HH:mm")</td>
+                                                    <td>@item.ToDate.Value.ToString("HH:mm")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>m³</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartVolumeTT), 4)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndVolumeTT), 4)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&#8451;</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.FromTemperature), 2)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.ToTemperature), 2)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Density - TT</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartDensityTT), 4)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndDensityTT), 4)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Density - 20&#8451;</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartDensityST), 4)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndDensityST), 4)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>%</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.StartVolumePerc), 2)</td>
+                                                    <td>@Math.Round(Convert.ToDouble(@item.EndVolumePerc), 2)</td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </div>
+                                    }
+                                </div>
+
+                            }
+
+                            if (i % 2 == 1 || i == totalRows - 1)
+                            {
+                                @Html.Raw("</div>&nbsp<br/>");
+                            }
+
+                            i++;
+                        }
+
+
+                    </div>
+                }
+
+            }
+        </div>
+
+
+
+        <div id="data-sheet" class="tab-pane fade">
+            <div>
+                @if (Model != null)
+                {
+                    if (Model.tankData != null)
+                    {
+                        <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+
+                                
+                                
+                            
+                                @{int numRows = Model.tankData.Count;}
+
+                                @*//Tank Labels Row*@
+                                <tr>
+                                    @for (int i = 0; i < numRows; i++)
+                                    {
+                                        if(i==0)
+                                        {
+                                            <th></th>
+                                        }
+                                        <th colspan="2" class="text-center">@Model.tankData[i].Tank - @Model.tankData[i].Product</th>
+                                    }
+                                </tr>
+                                @*//BEFORE - AFTER Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if(j==0)
+                                        {
+                                            <th></th>
+                                        }
+                                        <th class="text-center">BEFORE</th>
+                                        <th class="text-center">AFTER</th>
+                                    }
+                                </tr>
+                                @*//DATE Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>DATE</th>
+                                        }
+                                        <td class="text-center">@Model.tankData[j].FromDate.Value.ToString("dd-MM-yyyy")</td>
+                                        <td class="text-center">@Model.tankData[j].ToDate.Value.ToString("dd-MM-yyyy")</td>
+                                    }
+                                </tr>
+                                @*//TIME Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>TIME</th>
+                                        }
+                                        <td class="text-center">@Model.tankData[j].FromDate.Value.ToString("HH:mm")</td>
+                                        <td class="text-center">@Model.tankData[j].ToDate.Value.ToString("HH:mm")</td>
+                                    }
+                                </tr>
+                                @*//m³ Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>m³</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartVolumeTT), 4)</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartVolumeTT), 4)</td>
+                                    }
+                                </tr>
+                                @*//Temperature Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>&#8451;</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].FromTemperature), 2)</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].ToTemperature), 2)</td>
+                                    }
+                                </tr>
+                                @*//Standard Density Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Standard Density</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartDensityST),4)</td>      
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndDensityST),4)</td>                                  
+                                    }
+                                </tr>
+                                @*//Density @TT Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Density - TT</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartDensityTT), 4)</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndDensityTT), 4)</td>
+                                    }
+                                </tr>
+                               
+                                @*//VCF Row*@
+                                @*<tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>VCF</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].FromVCF), 4)</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].ToVCF), 4)</td>
+                                    }
+                                </tr>*@
+                                @*//Litres - 20 Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Litres - 20&#8451;</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartLitresST), 0).ToString("#,##0")</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndLitresST), 0).ToString("#,##0")</td>
+                                    }
+                                </tr>
+                                @*//Litres - TT Row*@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Litres - TT</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartLitresTT), 0).ToString("#,##0")</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndLitresTT), 0).ToString("#,##0")</td>
+                                    }
+                                </tr>
+
+                                @* //Metric Tons (Vac) *@
+
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Metric Tons (Vac)</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].StartMassST), 3)</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndMassST), 3)</td>
+                                    }
+                                </tr>
+                                
+                                @* //Metric Tons (Air) *@
+
+                                @*<tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Metric Tons (Air)</th>
+                                        }
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].FromMetricTonsAir), 2)</td>
+                                        <td class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].ToMetricTonsAir), 2)</td>
+                                    }
+                                </tr>*@
+                                
+                                @* Delta - Product *@
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th></th>
+                                        }
+                                        <th colspan="2" class="text-center">@Model.tankData[j].Product</th>
+                                        
+                                    }
+                                </tr>
+
+                                @* Delta - Litres - 20 *@
+
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Litres - 20&#8451;</th>
+                                        }
+                                        <td colspan="2" class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndLitresST - @Model.tankData[j].StartLitresST), 0).ToString("#,##0")</td>                                       
+                                    }
+                                </tr>
+
+                                @* Delta - Metric Tons (Vac) *@
+
+                                <tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Metric Tons (Vac)</th>
+                                        }
+                                        <td colspan="2" class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].EndMassST - @Model.tankData[j].StartMassST), 3)</td>
+                                    }
+                                </tr>
+
+                                @* Delta - Metric Tons (Air) *@
+
+                                @*<tr>
+                                    @for (int j = 0; j < numRows; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            <th>Metric Tons (Air)</th>
+                                        }
+                                        <td colspan="2" class="text-center">@Math.Round(Convert.ToDouble(@Model.tankData[j].ToMetricTonsAir - @Model.tankData[j].FromMetricTonsAir), 0)</td>
+                                    }
+                                </tr>*@
+
+
+
+                           
+                        </table>
+                    <input type="hidden" value="@Model.tankData.First().GUID" id="hdGuid"/>
+                    }
+
+                }
+            </div>
+        </div>
+        
+    </div>
+
+    <link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+
+    <link href="~/Content/TankLevels/tankLevelsUi.css" rel="stylesheet">
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/TankLevels/tankLevelsUi.js")
+
+
+    <script type="text/javascript">
+        function PopupReport(Report) {
+            var entryGuid = $("#hdGuid").val();
+            window.open('CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');// calling action
+        }
+    </script>
+
+
+

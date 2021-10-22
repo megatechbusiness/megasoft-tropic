@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Megasoft2.mtBranch>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<p>
+    <a href="@Url.Action("Create", "Branch")" class="modal-link btn btn-success">
+        <span class="fa fa-plus-square-o" aria-hidden="true" title="Add Branch"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Add Branch</span></span>
+    </a>
+</p>
+<table class="table table-hover table-striped table-condensed table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Branch)
+        </th>
+        <th>
+            Branch Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telephone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>       
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Branch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            
+            <td>
+                <a href="@Url.Action("Edit", "Branch", new { id = item.Branch })" class="btn btn-primary">
+                    <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Branch"></span>
+                </a>
+                <a href="@Url.Action("Delete", "Branch", new { id = item.Branch })" class="modal-link btn btn-danger">
+                    <span class="fa fa-trash-o" aria-hidden="true" title="Delete Branch"></span>
+                </a>         
+                <a href="@Url.Action("Index", "Sites", new { Branch = item.Branch })" class="btn btn-default">
+                    <span class="fa fa-cog" aria-hidden="true" title="Sites"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Sites</span></span>
+                </a>        
+            </td>
+        </tr>
+    }
+
+</table>

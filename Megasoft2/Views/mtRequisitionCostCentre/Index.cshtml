@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Megasoft2.mtReqCostCentre>
+@{
+    ViewBag.Title = "CostCentre";
+}
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary(true)
+    </div>
+}
+<fieldset>
+    <div class="bs-example">
+        <div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp&nbsp
+                    <div class="btn-group btn-breadcrumb">
+                        <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                        <a href="@Url.Action("Index", "mtRequisitionCostCentre")" class="btn btn-default">Cost Centre</a>
+
+
+                    </div>
+
+                    <div class="pull-right">
+
+                        <div class="col-lg-6 text-right">
+                            <a href="@Url.Action("Create", "mtRequisitionCostCentre")" class="btn btn-default btn-sm">
+                                <span class="fa fa-plus-circle" aria-hidden="true" title="New Requisition"> New</span>
+                            </a>
+                        </div>
+                        &nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>
+                                                Cost Centre
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td><a href="@Url.Action("Create", "mtRequisitionCostCentre", new { CostCentre = item.CostCentre })">@item.CostCentre</a></td>
+
+                                                    <td>
+                                                        @item.Description
+                                                    </td>
+                                                    <td>
+                                                        <a href="@Url.Action("Delete", "mtRequisitionCostCentre", new { CostCentre = item.CostCentre })" class="btn btn-danger btn-xs">
+                                                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete Requisition"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+</fieldset>

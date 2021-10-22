@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Reports";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Production Reports</h4><hr />
+<div class="form-horizontal row " style="display: flex; justify-content: center;">
+    <div class="form-group">
+        <div class="col-sm-12"></div>
+        <a href="#" class="btn btn-success" style="width:286px" onclick="PopupReport('Pallet')">
+            <span class="fa" aria-hidden="true" title="Pallet Report"> Pallet</span>
+        </a>
+    </div>
+</div>
+
+<div class="form-horizontal row"></div>
+
+<div class="form-horizontal row" style="display: flex; justify-content: center;">
+    <div class="form-group">
+        <div class="col-sm-12"></div>
+        <a href="#" class="btn btn-success" style="width:286px" onclick="PopupReport('PalletSummary')">
+            <span class="fa" aria-hidden="true" title="Pallet Summary Report">Pallet Summary</span>
+        </a>
+    </div>
+</div>
+
+<div class="form-horizontal row"></div>
+
+<div class="form-horizontal row" style="display: flex; justify-content: center;">
+    <div class="form-group">
+        <div class="col-sm-12"></div>
+        <a href="#" class="btn btn-success" style="width:286px" onclick="PopupReport('PalletInfo')">
+            <span class="fa" aria-hidden="true" title="Pallet Information">Pallet Information</span>
+        </a>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+          //  function PopupReport(Report) {
+            //     var entryGuid = "";
+             //   window.open('../CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');
+         //  }
+</script>

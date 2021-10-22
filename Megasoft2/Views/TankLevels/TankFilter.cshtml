@@ -1,0 +1,429 @@
+﻿@model Megasoft2.Models.TankDataViewModel
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Tank Selection
+            </a>
+        </h4>
+    </div>
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+    @using (Html.BeginForm("LoadDetails", "TankLevels", FormMethod.Post, new { @id = "formPost", }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Tank
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.DropDownList("ddlTank", new SelectList(ViewBag.Tanks, "Value", "Text"), new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Start
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            <div class='input-group date' id='datetimepicker1'>
+                                @Html.TextBox("txtFromDate", "", new { @class = "form-control input-sm", @id = "fromDate" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            <div class='input-group date' id='datetimepicker2'>
+                                @Html.TextBox("txtFromTime", "", new { @class = "form-control input-sm", @id = "fromTime" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="editor-field input-sm col-sm-2">
+                            @Html.TextBox("txtFromTemperature", "", new { @class = "form-control input-sm", @placeholder = "Temperature" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            End
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            <div class='input-group date' id='datetimepicker1'>
+                                @Html.TextBox("txtToDate", "", new { @class = "form-control input-sm", @id = "toDate" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            <div class='input-group date' id='datetimepicker2'>
+                                @Html.TextBox("txtToTime", "", new { @class = "form-control input-sm", @id = "toTime" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="editor-field input-sm col-sm-2">
+                            @Html.TextBox("txtToTemperature", "", new { @class = "form-control input-sm", @placeholder = "Temperature" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Tank Type
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.CheckBox("chkTankType", new { @class = "form-control input-sm", @id = "TankType", @data_toggle = "toggle", @data_size = "small", @data_on = "Blend", @data_off = "Feeder" })
+                        </div>
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Reporting Temp.
+                        </div>
+                        <div class="editor-field input-sm col-sm-2">
+                            @Html.TextBox("txtReportingTemp", "25", new { @class = "form-control input-sm", @id = "ReportingTemp" })
+                        </div>
+                        @*<div class="control-label col-sm-3" style="text-align:left;">
+                    Density Spec.
+                </div>
+                <div class="editor-field input-sm col-sm-2">
+                    @Html.TextBox("txtDensity", "", new { @class = "form-control input-sm", @id = "Density" })
+                </div>*@
+                    </div>
+                </div>
+
+                @*<div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Alum./Sil. Mg-Kg
+                        </div>
+                        <div class="editor-field input-sm col-sm-4">
+                            @Html.TextBox("txtAlum", "", new { @class = "form-control input-sm", @id = "Alum" })
+                        </div>
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Kinematic Viscosity
+                        </div>
+                        <div class="editor-field input-sm col-sm-2">
+                            @Html.TextBox("txtKinematic", "", new { @class = "form-control input-sm", @id = "Kinematic" })
+                        </div>
+                    </div>
+                </div>*@
+
+
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-12" style="text-align:right;">
+                            <button type="button" id="btnAdd" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="errordiv">
+
+                </div>
+
+
+
+                <div class="form-horizontal row">
+                    <table id="tablePost" class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Tank</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Before Temp.</th>
+                                <th>After Temp.</th>
+                                <th>Tank Type</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                if (Model.lstTankLevels != null)
+                                {
+                                    if (Model.lstTankLevels.Count > 0)
+                                    {
+                                        foreach (var item in Model.lstTankLevels)
+                                        {
+
+
+                                            <tr>
+
+                                                <td>
+                                                    @item.Tank.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.FromDate.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.ToDate.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.FromTemperature.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.ToTemperature.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.TankType.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="btndel btn btn-danger btn-xs">
+                                                        <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            SG Method
+                        </div>
+                        <div class="col-sm-9">
+                            <select id="sgmethod" class="form-control input-sm">
+                                <option value="Density Cup">Density Cup</option>
+                                <option value="Hydrometer">Hydrometer</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Blend No.
+                        </div>
+                        <div class="editor-field input-sm col-sm-7">
+                            @Html.TextBox("txtBlend", (string)ViewBag.BlendNo, new { @class = "form-control input-sm", @id = "BlendNo" })
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button id="btnApply" type="submit"
+                                    class="btn btn-primary">
+                                View
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    }
+</div>
+
+
+
+
+
+
+
+    @*@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")*@
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+
+    @Scripts.Render("~/Content/DateTimePicker/moment.min.js")
+    @Scripts.Render("~/Content/DateTimePicker/bootstrap-datetimepicker.js")
+    <script type="text/javascript">
+
+        function ShowErrorDiv() {
+
+            $('#errordiv').addClass("alert alert-danger");
+
+        }
+
+
+        $(function () {
+
+                     
+
+            $('#fromDate').datetimepicker({
+                format: 'L'
+            });
+          
+            $('#fromTime').datetimepicker({
+                format: 'LT'
+            });
+
+            $('#toDate').datetimepicker({
+                format: 'L'
+            });
+
+            $('#toTime').datetimepicker({
+                format: 'LT'
+            });
+
+            $("#btnAdd").on("click", function () {
+                
+                var Tank = $("#ddlTank").val();
+                var FromDate = $("#fromDate").val() + ' ' + $("#fromTime").val();
+                var ToDate = $("#toDate").val() + ' ' + $("#toTime").val();
+                var FromTemperature = $("#txtFromTemperature").val();
+                var ToTemperature = $("#txtToTemperature").val();
+                
+                
+               
+                var TankType;
+                
+                if ($('#TankType').prop('checked')) {
+                    TankType = "Blend";
+                }
+                else
+                {
+                    TankType = "Feeder";
+                }
+
+                if (Date.parse(ToDate) <= Date.parse(FromDate))
+                {
+                    alert("To date cannot be before or the same as From date!");
+                    return;
+                }
+
+                $("#tablePost > tbody").append("<tr data-Tank='" +
+                Tank + "' data-FromDate='" + FromDate + "' data-ToDate='" + ToDate + "' data-TankType='" + TankType + "'><td>" +
+                Tank + "</td><td>" + FromDate + "</td><td>" + ToDate + "</td><td>" + FromTemperature + "</td><td>" + ToTemperature + "</td><td>" + TankType + "</td>" +
+                "<td><a href='#' class='btndel btn btn-danger btn-xs'><span class='fa fa-trash-o' aria-hidden='true' title='Delete'></span></a></td></tr>");
+
+                $("#txtTemperature").val('');
+
+            });
+
+            $("#btnApply").on("click", function () {
+                var blend, feeder, MinDate, MaxDate, StartDate, EndDate, blendStart, blendEnd;
+                var hasBlend = false;
+                var hasFeeder = false;
+                var j = 1;
+                $("#tablePost > tbody > tr").each(function (i, el) {
+                    var $tds = $(this).find('td'),
+                    blend = $tds.eq(5).text().trim(),
+                    feeder = $tds.eq(5).text().trim(), 
+                    StartDate = $tds.eq(1).text().trim(),
+                    EndDate = $tds.eq(2).text().trim()
+
+                    if (j == 1)
+                    {
+                        MinDate = StartDate;
+                        MaxDate = EndDate;
+                    }
+
+                    if (blend == "Blend") {
+                        hasBlend = true;
+                        blendStart = StartDate;
+                        blendEnd = EndDate;
+                    }
+
+                    if (feeder == "Feeder") {
+                        hasFeeder = true;
+                        if (Date.parse(MinDate) < Date.parse(StartDate)) {
+                            MinDate = StartDate;
+                        }
+
+                        if (Date.parse(MaxDate) < Date.parse(EndDate)) {
+                            MaxDate = EndDate;
+                        }
+                    }
+
+                    
+                    j++;
+                });
+
+                if (hasBlend == false)
+                {
+                    alert('Please select a Blend tank first.');
+                    return false;
+                }
+                if (hasFeeder == false) {
+                    alert('Please select a Feeder tank first.');
+                    return false;
+                }
+
+                if (Date.parse(blendStart) > Date.parse(MinDate))
+                {
+                    alert('Blend tank start time must be earlier or equal to the start time of the earliest feeder tank!');
+                    return false;
+                }
+
+                if (Date.parse(blendEnd) < Date.parse(MaxDate)) {
+                    alert('Blend tank end time must be later or equal to the end time of the latest feeder tank!');
+                    return false;
+                }
+
+                var listName = "lstTankLevels";
+                
+                var qtd = 0;
+                var sgMethod = $('#sgmethod').val();
+
+                var Tank, FromDate, ToDate, FromTemperature, ToTemperature, TankType, BlendNo, Density, Alum, Kinematic, ReportingTemp;
+                $("#tablePost > tbody > tr").each(function (i, el) {
+
+                    var $tds = $(this).find('td'),
+                    Tank = $tds.eq(0).text().trim(),
+                    FromDate = $tds.eq(1).text().trim(),
+                    ToDate = $tds.eq(2).text().trim(),
+                    FromTemperature = $tds.eq(3).text().trim(),
+                    ToTemperature = $tds.eq(4).text().trim(),
+                    TankType = $tds.eq(5).text().trim(),
+                    BlendNo = $("#BlendNo").val(),
+                    ReportingTemp = $("#ReportingTemp").val()
+                    
+                    
+
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].Tank' value='"+Tank+"'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].FromDate' value='" + FromDate + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].ToDate' value='" + ToDate + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].FromTemperature' value='" + FromTemperature + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].ToTemperature' value='" + ToTemperature + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].TankType' value='" + TankType + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].SGMethod' value='" + sgMethod + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].BlendNo' value='" + BlendNo + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].ReportingTemperature' value='" + ReportingTemp + "'>");
+                    qtd += 1;
+                });
+            });
+
+            $("#tablePost").on("click",".btndel", function () {
+                
+                var tr = $(this).closest('tr');                
+                tr.fadeOut(400, function () {
+                    tr.remove();
+                });
+                
+            });
+
+        });
+
+    </script>
+    

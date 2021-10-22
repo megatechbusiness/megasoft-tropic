@@ -1,0 +1,15 @@
+﻿@model Megasoft2.ViewModel.MaterCardMaintenanceViewModel
+
+@{
+    ViewBag.Title = "ViewPdf";
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+    var src = Model.Image;
+    <img src="@Html.DisplayFor(model=>model.Image)" width="850" height="850" />
+}
+
+
+

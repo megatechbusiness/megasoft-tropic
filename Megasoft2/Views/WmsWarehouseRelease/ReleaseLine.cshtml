@@ -1,0 +1,353 @@
+﻿@model Megasoft2.ViewModel.WmsBackOrderReleaseViewModel
+@{
+    ViewBag.Title = "ReleaseLine";
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmReleaseLine" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Back Order Release</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-6" style="text-align:left;">
+                                    <a href="@Url.Action("Index", "WmsWarehouseRelease")" class="btn btn-default btn-xs">
+                                        <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back"> Back</span>
+                                    </a>
+                                </div>
+                                <div class="col-md-6" style="text-align:right;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad">
+                                        <i class="fa fa-save"> Release</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                WMS Id
+                                            </th>
+                                            <th>
+                                                Sales Order
+                                            </th>
+                                            <th>
+                                                Line
+                                            </th>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Warehouse
+                                            </th>
+                                            <th>
+                                                Uom
+                                            </th>
+                                            <th class="text-right">
+                                                Order Qty.
+                                            </th>
+                                            <th class="text-right">
+                                                Back Order Qty.
+                                            </th>
+                                            <th class="text-right">
+                                                Sales Release Qty.
+                                            </th>
+                                            <th class="text-right">
+                                                Allocated Qty.
+                                            </th>
+                                            <th>
+                                                Picker
+                                            </th>
+                                            <th>
+                                                Comment
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ReleaseItems != null)
+                                        {
+
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.WmsId)
+                                                    @Html.HiddenFor(model => model.WmsId)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.SalesOrder)
+                                                    @Html.HiddenFor(model => model.SalesOrder)
+
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.Line)
+                                                    @Html.HiddenFor(model => model.Line)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.MStockCode)
+                                                    @Html.HiddenFor(model => model.MStockCode)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.MStockDes)
+                                                    @Html.HiddenFor(model => model.MStockDes)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.MWarehouse)
+                                                    @Html.HiddenFor(model => model.MWarehouse)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.MStockingUom)
+                                                    @Html.HiddenFor(model => model.MStockingUom)
+                                                </td>
+                                                <td class="text-right">
+                                                    @Html.DisplayFor(model => model.MOrderQty)
+                                                    @Html.HiddenFor(model => model.MOrderQty)
+                                                </td>
+                                                <td class="text-right">
+                                                    @Html.DisplayFor(model => model.MBackOrderQty)
+                                                    @Html.HiddenFor(model => model.MBackOrderQty)
+                                                </td>
+                                                <td class="text-right">
+                                                    @Html.DisplayFor(model => model.SalesReleaseQty)
+                                                    @Html.HiddenFor(model => model.SalesReleaseQty)
+                                                </td>
+                                                <td class="text-right">
+                                                    <div id="txtTotal"></div>
+                                                </td>
+                                                <td>                                                    
+                                                    @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.Pickers, "Value", "Text"), new { @class = "form-control input-sm", style = "width:100%" })
+                                                    @Html.HiddenFor(model => model.Picker)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.Comment)
+                                                    @Html.HiddenFor(model => model.Comment)
+                                                </td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table id="tblItems" class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>
+                                                Pallet Id
+                                            </th>
+                                            <th>
+                                                Bin
+                                            </th>
+                                            <th>
+                                                Batch Id
+                                            </th>
+                                            <th class="text-right">
+                                                Qty On Hand
+                                            </th>
+                                            <th class="text-right"></th>
+                                            <th>
+                                                Picker
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ReleaseItems != null)
+                                        {
+                                            var PalletId = "";
+                                            int PalletNum = 0;
+                                            int PalletNumLess1 = 0;
+                                            int PreviousPallet = 0;
+                                            for (int i = 0; i < Model.ReleaseItems.Count(); i++)
+                                            {
+
+                                                <tr class="nr">
+
+                                                    <td class="">
+                                                        @if (PalletId != Model.ReleaseItems[i].PalletId)
+                                                        {
+                                                            PalletNum = PalletNum + 1;
+                                                            PalletNumLess1 = PalletNum - 1;
+                                                            PreviousPallet = PalletNumLess1 - 1;
+                                                            <input type="checkbox" class="allrow big-checkbox nextPallet" id="@Model.ReleaseItems[i].PalletId" />
+                                                            PalletId = Model.ReleaseItems[i].PalletId;
+                                                            @Html.DisplayFor(model => model.ReleaseItems[i].PalletId, new { @class = "theNextPallet" })
+
+                                                            <a href="#@PalletNum" class="scrollLink btn btn-primary btn-xs" id="@PalletNumLess1">
+                                                                <span class="fa fa-arrow-down" aria-hidden="true" title=''></span>
+                                                            </a>
+
+                                                            <a href="#@PreviousPallet" class="scrollLink btn btn-primary btn-xs">
+                                                                <span class="fa fa-arrow-up" aria-hidden="true" title=''></span>
+                                                            </a>
+                                                        }
+
+
+
+                                                        @Html.HiddenFor(model => model.ReleaseItems[i].PalletId)
+                                                        @Html.HiddenFor(model => model.ReleaseItems[i].TraceableType)
+                                                        @Html.HiddenFor(model => model.ReleaseItems[i].MStockCode)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.ReleaseItems[i].Bin)
+                                                        @Html.HiddenFor(model => model.ReleaseItems[i].Bin)
+
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.ReleaseItems[i].Lot)
+                                                        @Html.HiddenFor(model => model.ReleaseItems[i].Lot)
+
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @Html.TextBoxFor(model => model.ReleaseItems[i].QtyOnHand, "{0:n3}", new { @class = "text-right form-control input-sm tdtextbox" })
+                                                        @Html.HiddenFor(model => model.ReleaseItems[i].QtyOnHand)
+                                                    </td>
+                                                    <td class="singlerow text-right">
+                                                        @Html.CheckBoxFor(model => model.ReleaseItems[i].ReleaseItem, new { @checked = "checked", @class = "pull-right case big-checkbox form-control input-sm", @name = "case" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.DropDownListFor(model => model.ReleaseItems[i].Picker, new SelectList(ViewBag.Pickers, "Value", "Text"), new { @class = "detPicker form-control input-sm", style = "width:100%" })
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+<style type="text/css">
+    .big-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    .tdtextbox {
+        min-width: 100px;
+        height: 25px;
+    }
+</style>
+
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+<link href="~/Content/Notify/animate.css" rel="stylesheet" />
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+
+
+
+<script type="text/javascript">
+
+    function CalcTotal() {
+        var Total = 0;
+        $('#tblItems .nr').each(function (i, row) {
+
+            var $row = $(row);
+            if ($row.find('td:eq(4)').find('input[type=checkbox]').prop('checked') === true) {
+                Total += parseFloat($row.find('td:eq(3)').find('input[type=text]').val());
+            }
+        });
+
+        $('#txtTotal').html(Total);
+    }
+
+    
+    $("#tblItems").DataTable({
+        "ordering": false,
+        "iDisplayLength": 100,
+        "fixedHeader": true,
+        "scrollY": 500,
+        "responsive": true,
+        "paging": false,
+        "searching": false
+    });
+
+
+    $(document).ready(function () {
+
+        
+        CalcTotal();
+
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblItems .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#tblItems').on("click", ".nr .allrow", function () {
+           
+            var tr = $(this).closest('tr');
+            var _selected = $(tr).find('td:eq(0)').find('input[type=checkbox]').prop('checked');
+            var PalletId = $(tr).find('td:eq(0)').text().trim();
+
+            $('#tblItems .nr').each(function (i, row) {
+                var $row = $(row);
+
+                if ($row.find('td:eq(0)').find('input[type=hidden]').val() === PalletId) {
+                    if (_selected === true) {
+                        $row.find('td:eq(4)').find('input[type=checkbox]').prop('checked', true);
+                    }
+                    else if (_selected === false) {
+                        $row.find('td:eq(4)').find('input[type=checkbox]').prop('checked', false);
+                    }
+                }
+
+            });
+
+            CalcTotal();
+        });
+
+
+        $('#tblItems').on("click", ".nr .singlerow", function () {
+            CalcTotal();
+        });
+
+
+        $("#frmReleaseLine").submit(function (e) {
+            showprogressbar();
+        });
+
+
+        $("#Picker").change(function () {
+            $('#tblItems .nr').each(function (i, row) {
+                $(this).find('td:eq(5)').find('.detPicker').val($('#Picker').val());
+            });
+        });
+
+        
+    });
+</script>

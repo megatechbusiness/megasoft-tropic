@@ -1,0 +1,335 @@
+﻿@model Megasoft2.Models.BatchReceipt
+@{
+    ViewBag.Title = "Transfer Bail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmTransferBail" }))
+{
+    <fieldset>
+        <div class="form-group" style="margin-left:-20px;">
+            <div class="form-horizontal row spacer-xs" id="firstrow">
+
+                <div id="errordiv" class="col-xs-11">
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs">
+                <div class="col-xs-2 text-left">
+                    <a href="@Url.Action("TransferBail", "WhseManBatchReceipt")" class="btn btn-primary btn-lg">
+                        <span class="fa " aria-hidden="true" id="changer" title="New">New</span>
+                    </a>
+                </div>
+                <div class="col-xs-6 ">
+                    <div class=" col-xs-12">
+                        Pallet No: <label id="lblPalletNo"></label>
+                        @Html.HiddenFor(model => model.PalletNo)
+                    </div>
+                </div>
+                <div class="col-xs-3 text-left">
+                    <a href="#" class="btn btn-primary btn-lg" onclick=" ScanBailNo();" id="btnPost">
+                        <span class="fa fa-save" aria-hidden="true" title="Save"></span>
+                    </a>
+                </div>
+            </div>
+            <hr />
+            <div>
+                <div class="form-horizontal row spacer-xs">
+                    <div class="control-label col-xs-2" style="text-align:left;">
+                        Pallet:
+                    </div>
+                    <div class="editor-field col-xs-6">
+                        @Html.TextBoxFor(model => model.PalletNo, new { @class = "form-control input-lg", @id = "ScanPalletNo" })
+                        @Html.ValidationMessageFor(model => model.PalletNo)
+                    </div>
+                    <div class="col-xs-3 text-left">
+                        <a href="#" class="btn btn-success btn-lg" id="btnCheckPallet">
+                            <span class="fa fa-arrow-circle-o-right " aria-hidden="true" title="Check"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer-xs">
+                    <div class="control-label col-xs-2" style="text-align:left;">
+                        Bail:
+                    </div>
+                    <div class="editor-field col-xs-6">
+                        @Html.TextBoxFor(model => model.BailNo, new { @class = "form-control input-lg", @id = "BailNo", @style = "font-size:xx-small;" })
+                        @Html.ValidationMessageFor(model => model.BailNo)
+                    </div>
+                    <div class="col-xs-3 text-left">
+                        <a href="#" class="btn btn-success btn-lg" id="btnCheckBail">
+                            <span class="fa fa-arrow-circle-o-right " aria-hidden="true" title="Check"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer-xs">
+                    <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
+                    </div>
+                </div>
+                <hr />
+                <div class="form-horizontal row spacer-xs col-xs-11">
+                  <table class="table table-hover table-striped table-responsive table-bordered" id="tblLines">   
+                      <thead>
+                            <tr>
+                                <th>Bail</th>
+                                <th></th>
+                            </tr>
+                          </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            document.getElementById('ScanPalletNo').focus();
+        //change page title text
+        $('#megasoftTitle').text(' Megasoft - Transfer Bail');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+       $('#tblLines').on("click", ".delLine", function () {
+        $(this).closest("tr").remove();
+        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        $('#txtCount').html('Total:' + rows);
+    });
+        $('#btnCheckBail').on('click', function (e) {
+            AddReel(document.getElementById('BailNo').value);
+        });
+        $('#btnCheckPallet').on('click', function (e) {
+            ScanPalletNo();
+        });
+    });
+    function ScanPalletNo() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        var str = document.getElementById('ScanPalletNo').value;
+        //If Megasoft Barcode
+        if (str.indexOf("-") > 0) {
+
+            var mydata = [];
+            var myObject = new Object();
+
+            myObject.PalletNo = document.getElementById('ScanPalletNo').value;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ScanPalletNo","WhseManBatchReceipt")",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+               // alert(response);
+                if (response != "") {
+                    if (response.match("^Error")) {
+                        $('#errordiv').text(response);
+                        $('#errordiv').addClass("alert alert-danger");
+                        document.getElementById('ScanPalletNo').value = "";
+                        document.getElementById('BailNo').focus();
+                    }
+                    else {
+                        $("#PalletNo").val(response);
+                        $("#lblPalletNo").text(response);
+                        document.getElementById('BailNo').focus();
+
+                    }
+                }
+                else {
+                    document.getElementById('PalletNo').value = "";
+                    document.getElementById("PalletNo").focus();
+                }
+
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('ScanPalletNo').value = "";
+                    alert(response);
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('ScanPalletNo').focus();
+                }
+                else {
+                    document.getElementById("ScanPalletNo").focus();
+                }
+            }
+        }
+        else {
+
+            alert("Invalid Barcode");
+        }
+
+    }
+    function ScanBailNo() {
+         $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        if ($('#tblLines').length > 0) {
+
+             var mydata = [];
+                $("#tblLines > tbody > tr ").each(function (i, el) {
+                    var $tds = $(this).find('td')
+
+                    var Bail = $tds.eq(0).text();;
+                    var Values =Bail.split("-");
+                    var myObject = new Object();
+                    myObject.Job = Values[0];
+                    myObject.BailNo = Bail;
+                    myObject.PalletNo = document.getElementById('ScanPalletNo').value;
+                    mydata.push(myObject);
+
+                });
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url:  "@Url.Action("PostBailTransfer","WhseManBatchReceipt")",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+               // alert(response);
+                if (response != "") {
+                    if (response.match("^Error")) {
+                        $('#errordiv').text(response);
+                        $('#errordiv').addClass("alert alert-danger");
+                    }
+                    else {
+                        $("#ScanPalletNo").val("");
+                        $("#lblPalletNo").text("");
+                        document.getElementById('PalletNo').value="";
+                        document.getElementById('BailNo').value = "";
+                        $('#tblLines').empty();
+                        $('#errordiv').text(response);
+                        $('#errordiv').addClass("alert alert-danger");
+
+                    }
+
+                }
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('BailNo').value = "";
+                    alert(response);
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('BailNo').focus();
+                }
+                else {
+                    document.getElementById("BailNo").focus();
+                }
+            }
+        }
+        else {
+
+            alert("Please scan bail");
+        }
+
+    }
+
+        function AddReel(Bail) {
+            //alert("loading");
+         $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        var str = document.getElementById('BailNo').value;
+        //If Megasoft Barcode
+        if (str.indexOf("-") > 0) {
+
+            var mydata = [];
+            var myObject = new Object();
+
+            myObject.BailNo = document.getElementById('BailNo').value;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CheckBailNo","WhseManBatchReceipt")",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+               // alert(response);
+                if (response != "") {
+
+                        $('#errordiv').text(response);
+                        $('#errordiv').addClass("alert alert-danger");
+
+                }
+                else {
+                     var AddReel = true;
+
+                        $("#tblLines > tbody > tr ").each(function (i, el) {
+                            var $tds = $(this).find('td');
+                            var BailNo = $tds.eq(0).text();
+                            if (Bail == BailNo) {
+                                AddReel = false;
+                                alert("Bail " + Bail + " already scanned.");
+                                return;
+                            }
+                        });
+
+                        if (AddReel == true) {
+                            $('#tblLines tbody').append("<tr class='nr'><td>" + Bail +
+                                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+                        }
+                        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+                    $('#txtCount').html('Total:' + rows);
+
+                     document.getElementById('BailNo').value = "";
+                     document.getElementById('BailNo').focus();
+
+                }
+
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('ScanPalletNo').value = "";
+                    alert(response);
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('BailNo').focus();
+                }
+                else {
+                    document.getElementById("BailNo").focus();
+                }
+            }
+        }
+        else {
+
+            alert("Invalid Barcode");
+        }
+
+    }
+    </script>
+}

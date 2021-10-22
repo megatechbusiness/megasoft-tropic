@@ -1,0 +1,514 @@
+﻿@model Megasoft2.Models.BatchReceipt
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmProductionReturn" }))
+{
+
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="panel panel-default well">
+        <h4 class="text-center" style="font-weight:bold;">Production Return</h4><hr />
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#PalletTab">Pallet Return</a></li>
+            <li><a data-toggle="tab" href="#JobTab">Job Return</a></li>
+        </ul>
+        <div class="tab-content panel-body">
+
+            <div id="PalletTab" class="tab-pane fade in active">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <fieldset>
+
+                            <div class="panel-body">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+
+                                        <div class="form-horizontal row">
+                                            <div class="form-group">
+                                                <div class="col-md-6" style="text-align:left;">
+                                                    <a href="@Url.Action("ProductionReturns", "WhseManBatchReceipt")" class="btn btn-default btn-sm">
+                                                        <span class="fa" aria-hidden="true" title="">Refresh</span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-6" style="text-align:right;">
+                                                    <button type="submit" class="btn btn-success btn-sm" id="btnPost" name="action:PostReturnPallet" value="PostReturnPallet">
+                                                        <i class="fa fa-save">Return</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal row">
+                                            @if (ViewBag.LoadPallet == null)
+                                            {
+                                                <div class="form-group col-sm-3">
+                                                    <div class="form-group col-sm-4">
+                                                        Pallet No
+                                                    </div>
+                                                    <div class="input-group col-sm-8">
+                                                        @Html.TextBoxFor(model => model.PalletNo, new { @class = "form-control input-sm" })
+                                                        <div class="input-group-btn">
+                                                            <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadReturnPallet" value="LoadReturnPallet">
+                                                                <span class="fa fa-arrow-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-group col-sm-3">
+                                                    <div class="form-group col-sm-4">
+                                                        Pallet No
+                                                    </div>
+                                                    <div class="input-group col-sm-8">
+                                                        @Html.TextBoxFor(model => model.PalletNo, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                        <div class="input-group-btn">
+                                                            <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadReturnPallet" value="LoadReturnPallet" disabled>
+                                                                <span class="fa fa-arrow-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="form-group col-sm-4">
+                                                <div class="form-group col-sm-4">
+                                                    Stock Code
+                                                </div>
+                                                <div class="input-group col-sm-8">
+                                                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="form-group col-sm-4">
+                                                    Stock Description
+                                                </div>
+                                                <div class="input-group col-sm-8">
+                                                    @Html.TextBoxFor(model => model.StockDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-horizontal row">
+                                            <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+                                        </div>
+                                        <div class="form-horizontal row">
+                                            <div id="txtTotal" class="pull-right"></div>
+                                            <div class="table-responsive">
+                                                <table id="tblItems" class="table table-hover myTableStyle table-condensed table-responsive table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:70px">
+                                                                Select <input type="checkbox" class="chkall" />
+                                                            </th>
+                                                            <th>
+                                                                Batch Id
+                                                            </th>
+                                                            <th style="width:250px">
+                                                                Batch Qty
+                                                            </th>
+                                                            <th style="width:250px">
+                                                                Ship Qty
+                                                            </th>
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null)
+                                                        {
+                                                            if (Model.PalletDetails != null)
+                                                            {
+                                                                for (int i = 0; i < Model.PalletDetails.Count(); i++)
+                                                                {
+
+                                                                    <tr class="nr">
+                                                                        <td>
+                                                                            @Html.CheckBoxFor(model => model.PalletDetails[i].Selected, new { @class = "form-control input-sm big-checkbox chkbox " })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(model => model.PalletDetails[i].BatchId)
+                                                                            @Html.HiddenFor(model => model.PalletDetails[i].BatchId)
+                                                                            @Html.HiddenFor(model => model.PalletDetails[i].Job)
+                                                                            @Html.HiddenFor(model => model.PalletDetails[i].PalletNo)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBoxFor(model => model.PalletDetails[i].NetQty, new { @class = "form-control input-sm tdtextbox text-right" })
+                                                                            @Html.HiddenFor(model => model.PalletDetails[i].NetQty)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBoxFor(model => model.PalletDetails[i].QtyToShip, new { @class = "form-control input-sm tdtextbox text-right", @readonly = "readonly" })
+                                                                            @Html.HiddenFor(model => model.PalletDetails[i].QtyToShip)
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div id="JobTab" class="tab-pane fade">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <fieldset>
+
+                            <div class="panel-body">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+
+                                        <div class="form-horizontal row">
+                                            <div class="form-group">
+                                                <div class="col-md-6" style="text-align:left;">
+                                                    <a href="@Url.Action("ProductionReturns", "WhseManBatchReceipt")" class="btn btn-default btn-sm">
+                                                        <span class="fa" aria-hidden="true" title="">Refresh</span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-6" style="text-align:right;">
+                                                    <button type="submit" class="btn btn-success btn-sm" id="btnPostJobReturn" name="action:PostReturnJobPallet" value="PostReturnJobPallet">
+                                                        <i class="fa fa-save">Return</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal row">
+                                            @if (ViewBag.LoadJobPallet == null)
+                                            {
+                                                <div class="form-group col-sm-3">
+                                                    <div class="form-group col-sm-4">
+                                                        Job
+                                                    </div>
+                                                    <div class="input-group col-sm-8">
+                                                        @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm" })
+                                                        <div class="input-group-btn">
+                                                            <button type="submit" class="btn btn-info btn-sm" id="btnLoadJob" name="action:LoadReturnJobPallet" value="LoadReturnJobPallet">
+                                                                <span class="fa fa-arrow-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-group col-sm-3">
+                                                    <div class="form-group col-sm-4">
+                                                        Job
+                                                    </div>
+                                                    <div class="input-group col-sm-8">
+                                                        @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                        <div class="input-group-btn">
+                                                            <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadReturnJobPallet" value="LoadReturnJobPallet" disabled>
+                                                                <span class="fa fa-arrow-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="form-group col-sm-4">
+                                                <div class="form-group col-sm-4">
+                                                    Stock Code
+                                                </div>
+                                                <div class="input-group col-sm-8">
+                                                    @Html.TextBoxFor(model => model.JobStockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="form-group col-sm-4">
+                                                    Stock Description
+                                                </div>
+                                                <div class="input-group col-sm-8">
+                                                    @Html.TextBoxFor(model => model.JobStockDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-horizontal row">
+                                            <input type="text" id="txtJobSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+                                        </div>
+                                        <div class="form-horizontal row">
+                                            <div id="txtJobTotal" class="pull-right"></div>
+                                            <div class="table-responsive">
+                                                <table id="tblJobItems" class="table table-hover myJobTableStyle table-condensed table-responsive table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:70px">
+                                                                Select <input type="checkbox" class="Jobchkall" />
+                                                            </th>
+                                                            <th>
+                                                                Batch Id
+                                                            </th>
+                                                            <th style="width:250px">
+                                                                Batch Qty
+                                                            </th>
+                                                            <th style="width:250px">
+                                                                Ship Qty
+                                                            </th>
+                                                            <th style="">
+                                                                PalletNo.
+                                                            </th>
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null)
+                                                        {
+                                                            if (Model.JobPalletDetails != null)
+                                                            {
+                                                                for (int i = 0; i < Model.JobPalletDetails.Count(); i++)
+                                                                {
+
+                                                                    <tr class="nr">
+                                                                        <td>
+                                                                            @Html.CheckBoxFor(model => model.JobPalletDetails[i].Selected, new { @class = "form-control input-sm big-checkbox Jobchkbox " })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(model => model.JobPalletDetails[i].BatchId)
+                                                                            @Html.HiddenFor(model => model.JobPalletDetails[i].BatchId)
+                                                                            @Html.HiddenFor(model => model.JobPalletDetails[i].Job)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBoxFor(model => model.JobPalletDetails[i].NetQty, new { @class = "form-control input-sm tdtextbox text-right" })
+                                                                            @Html.HiddenFor(model => model.JobPalletDetails[i].NetQty)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBoxFor(model => model.JobPalletDetails[i].QtyToShip, new { @class = "form-control input-sm tdtextbox text-right", @readonly = "readonly" })
+                                                                            @Html.HiddenFor(model => model.JobPalletDetails[i].QtyToShip)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBoxFor(model => model.JobPalletDetails[i].PalletNo, new { @class = "form-control input-sm ", @readonly = "readonly" })
+                                                                            @Html.HiddenFor(model => model.JobPalletDetails[i].PalletNo)
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<style type="text/css">
+    .big-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    .myTableStyle {
+        width: 700px;
+    }
+
+    .myJobTableStyle {
+        width: 1000px;
+    }
+
+    .tdtextbox {
+        min-width: 100px;
+        height: 25px;
+    }
+</style>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    function CalcTotal() {
+        var Total = 0;
+        $('#tblItems .nr').each(function (i, row) {
+
+            var $row = $(row);
+            if ($row.find('td:eq(0)').find('input[type=checkbox]').prop('checked') === true) {
+                Total += parseFloat($row.find('td:eq(2)').find('input[type=text]').val());
+            }
+        });
+        $('#txtTotal').html("Total Quantity: " + Total.toFixed(2));
+    }
+
+    function JobCalcTotal() {
+        var Total = 0;
+        $('#tblJobItems .nr').each(function (i, row) {
+
+            var $row = $(row);
+            if ($row.find('td:eq(0)').find('input[type=checkbox]').prop('checked') === true) {
+                Total += parseFloat($row.find('td:eq(2)').find('input[type=text]').val());
+            }
+        });
+        $('#txtJobTotal').html("Total Quantity: " + Total.toFixed(2));
+    }
+
+    $(document).ready(function () {
+
+        $(".Jobchkall").click(function () {
+            $('.Jobchkbox').not(this).prop('checked', this.checked);
+            JobCalcTotal();
+        });
+
+        $(".Jobchkbox").click(function () {
+            JobCalcTotal();
+        });
+        $(".chkall").click(function () {
+            $('.chkbox ').not(this).prop('checked', this.checked);
+            CalcTotal();
+        });
+
+        $(".chkbox").click(function () {
+            CalcTotal();
+        });
+
+        $('#btnPostJobReturn').on('click', function () {
+            //alert("");
+            if ($('#Job').val() === "") {
+                alert('Please enter a Job No!');
+                return false;
+            }
+            var table = document.getElementById("tblJobItems");
+            var TableLength = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            if (TableLength === 0) {
+                alert("Please Load Job.");
+                return false;
+            }
+            var RowsCount = 0;
+            for (var i = 0, row; row = table.rows[i]; i++) {
+                //alert("loop");
+                var CheckBox = $('#tblJobItems tbody').find('tr:eq(' + i + ')').find('td:eq(0)').find('input[type=checkbox]').prop('checked');
+                //alert(CheckBox);
+
+                if (CheckBox === true) {
+                    RowsCount++;
+
+                    var BatchId = $('#tblJobItems tbody').find('tr:eq(' + i + ')').find('td:eq(1)').text().trim();
+                    var HiddenQty = $('#tblJobItems tbody').find('tr:eq(' + i + ')').find('td:eq(2)').find('input[type=hidden]').val();
+                    var TextBoxQty = $('#tblJobItems tbody').find('tr:eq(' + i + ')').find('td:eq(2)').find('input[type=text]').val();
+                    var TextBoxShipQty = $('#tblJobItems tbody').find('tr:eq(' + i + ')').find('td:eq(3)').find('input[type=text]').val();
+                    if (parseFloat(TextBoxQty) > parseFloat(HiddenQty)) {
+                        alert("Return quantity cannot be greater than lot quantity for Batch: " + BatchId);
+                        return false;
+                    }
+                    if (parseFloat(TextBoxQty) != 0 && parseFloat(TextBoxShipQty) > 0) {
+                        alert("Cannot reverse lot where quantity is in ship.Please zero ship quantity for Lot: " + BatchId);
+                        return false;
+                    }
+                }
+            }
+            if (RowsCount === 0) {
+                alert("No lines selected ");
+                return false;
+            }
+        });
+
+        $('#btnPost').on('click', function () {
+            //alert("");
+            if ($('#PalletNo').val() === "") {
+                alert('Please enter a Pallet No!');
+                return false;
+            }
+            var table = document.getElementById("tblItems");
+            var TableLength = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            if (TableLength === 0) {
+                alert("Please Load Pallet.");
+                return false;
+            }
+            var RowsCount = 0;
+            for (var i = 0, row; row = table.rows[i]; i++) {
+                //alert("loop");
+                var CheckBox = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(0)').find('input[type=checkbox]').prop('checked');
+                //alert(CheckBox);
+
+                if (CheckBox === true) {
+                    RowsCount++;
+
+                    var BatchId = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(1)').text().trim();
+                    var HiddenQty = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(2)').find('input[type=hidden]').val();
+                    var TextBoxQty = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(2)').find('input[type=text]').val();
+                    var TextBoxShipQty = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(3)').find('input[type=text]').val();
+                    if (parseFloat(TextBoxQty) > parseFloat(HiddenQty)) {
+                        alert("Return quantity cannot be greater than lot quantity for Batch: " + BatchId);
+                        return false;
+                    }
+                    if (parseFloat(TextBoxQty) != 0 && parseFloat(TextBoxShipQty) > 0) {
+                        alert("Cannot reverse lot where quantity is in ship.Please zero ship quantity for Lot: " + BatchId);
+                        return false;
+                    }
+                }
+            }
+            if (RowsCount === 0) {
+                alert("No lines selected ");
+                return false;
+            }
+        });
+
+
+        $('#btnLoadJob').on('click', function () {
+
+            if ($('#Job').val() === "") {
+                alert('Please enter a Job No!');
+                return false;
+            }
+        });
+        $('#txtJobSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblJobItems .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#btnLoad').on('click', function () {
+
+            if ($('#PalletNo').val() === "") {
+                alert('Please enter a Pallet No!');
+                return false;
+            }
+        });
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblItems .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        var table = document.getElementById("tblJobItems");
+        var TableLength = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        //alert(TableLength);
+        if (TableLength > 0) {
+            $('[href="#JobTab"]').tab('show')
+        }
+
+
+
+        $("#frmProductionReturn").submit(function (e) {
+            showprogressbar();
+        });
+    });
+</script>

@@ -1,0 +1,260 @@
+﻿@model Megasoft2.ViewModel.CustomerOrderScheduleViewModel
+
+
+<div class="bs-example">
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("ActiveSchedule", "CustomerOrderScheduler")" class="btn btn-default">Active Schedule</a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="col-md-12">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmInvoice" }))
+                {
+                    @Html.AntiForgeryToken()
+                    if (!Html.ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger fade in">
+                            @Html.ValidationSummary(true)
+                        </div>
+                    }
+
+                    <div class="">
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="">
+
+
+                                        <div class="col-sm-12 text-right">
+
+
+
+
+
+                                            <a href="@Url.Action("ExportSchedule", "CustomerOrderScheduler", new { Customer = "" })" id="btnComments" class="modal-link btn btn-default btn-sm text-right">
+                                                <span class="fa fa-file-excel-o" aria-hidden="true" title="Export"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <div class="">
+                                            <table id="example" class="table table-hover table-condensed table-responsive table-bordered tablegrid display nowrap" width="100%">
+                                                <thead style="font-size:x-small">
+                                                    <tr>
+                                                        <th>Customer</th>
+                                                        <th>Sales Order</th>
+                                                        <th>#</th>
+                                                        <th>Job</th>
+                                                        <th>Cust. Po.</th>
+                                                        <th>StockCode</th>
+                                                        <th>Desc.</th>
+                                                        <th>Size</th>
+                                                        <th>Uom</th>
+                                                        <th>Order Date</th>
+                                                        <th>Line Ship Date</th>
+                                                        <th>Cust. Request Date</th>
+                                                        <th>Order Qty.</th>
+                                                        <th>Delivered</th>
+                                                        <th>In Dispatch</th>
+                                                        <th>In Transit</th>
+                                                        <th>Qty Balance</th>
+                                                        <th>Mass Balance</th>
+                                                        <th>Dispatch Notes</th>
+                                                        <th>Stock Days</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="font-size:x-small">
+
+                                                    @if (Model != null)
+                                                    {
+                                                        if (Model.Planned != null)
+                                                        {
+                                                            for (int i = 0; i < Model.Planned.Count; i++)
+                                                            {
+                                                                var rowColour = "";
+                                                                if (i % 2 == 0)
+                                                                {
+                                                                    rowColour = "#31b0d5";
+                                                                }
+
+                                                                <tr style="color:black;background-color:@rowColour">
+                                                                    <td>
+                                                                        @Model.Planned[i].CustCode
+                                                                        @Html.HiddenFor(model => Model.Planned[i].Customer)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].SalesOrder
+                                                                        @Html.HiddenFor(model => Model.Planned[i].SalesOrder)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].SalesOrderLine
+                                                                        @Html.HiddenFor(model => Model.Planned[i].SalesOrderLine)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].Job
+                                                                        @Html.HiddenFor(model => Model.Planned[i].Job)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].CustomerPoNumber
+                                                                        @Html.HiddenFor(model => Model.Planned[i].CustomerPoNumber)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].MStockCode
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MStockCode)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].MStockDes
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MStockDes)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].Size
+                                                                        @Html.HiddenFor(model => Model.Planned[i].Size)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].MOrderUom
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MOrderUom)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].OrderDate
+                                                                        @Html.HiddenFor(model => Model.Planned[i].OrderDate)
+
+                                                                    <td>
+                                                                        @Model.Planned[i].MLineShipDate
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MLineShipDate)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].MCustRequestDat
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MCustRequestDat)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].MOrderQty
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MOrderQty)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].QtyDelivered
+                                                                        @Html.HiddenFor(model => Model.Planned[i].QtyDelivered)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].InDispatch
+                                                                        @Html.HiddenFor(model => Model.Planned[i].InDispatch)
+
+                                                                    <td>
+                                                                        @Model.Planned[i].InTransitQty
+                                                                        @Html.HiddenFor(model => Model.Planned[i].InTransitQty)
+
+                                                                    <td>
+                                                                        @Model.Planned[i].QtyBalance
+                                                                        @Html.HiddenFor(model => Model.Planned[i].QtyBalance)
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @Model.Planned[i].MassBalance
+                                                                        @Html.HiddenFor(model => Model.Planned[i].MassBalance)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Planned[i].DispatchNotes
+                                                                        @Html.HiddenFor(model => Model.Planned[i].DispatchNotes)
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(model => model.Planned[i].StockDays, new { @class = "form-control input-xs" })
+
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                </tbody>
+
+
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTable/dataTables.min.css")" />
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<style type="text/css">
+    /*table#example.dataTable tbody tr.over {
+        background-color: #ffa;
+    }
+
+        table#example.dataTable tbody tr.over > .sorting_1 {
+            background-color: #ffa;
+        }
+
+    table#example2.dataTable tbody tr.over {
+        background-color: #ffa;
+    }
+
+        table#example2.dataTable tbody tr.over > .sorting_1 {
+            background-color: #ffa;
+        }*/
+</style>
+
+<script type="text/javascript">
+
+
+
+
+    $(document).ready(function () {
+
+        $('#wrapper').addClass('toggled-2');
+
+        var table = $('#example').DataTable({
+            paging: false,
+            "rowReorder": false,
+            "ordering": false,
+            "scrollY": 400,
+            "scrollX": true,
+            "orderClasses": false
+        });
+    });
+</script>

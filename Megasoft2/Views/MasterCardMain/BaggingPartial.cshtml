@@ -1,0 +1,463 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">WorkCentre</label>
+                <div class="col-sm-8">
+                    @if (ViewBag.BaggingWorkCentres != null)
+                    {
+                        @Html.DropDownListFor(n => n.Bagging.WorkCentre, new SelectList(ViewBag.BaggingWorkCentres, "Value", "Text"), "Select Work Centre", new { @class = "form-control input-sm", style = "width:100%" })
+                        @Html.HiddenFor(m => m.Bagging.WorkCentre)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Bagging.WorkCentre, new { @class = "form-control input-xs" })
+                    }
+                    @Html.HiddenFor(model => model.Bagging.Id)
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Handle Type</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.HandleType, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Seal Type</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.SealType, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Top Seal</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Bagging.TopSeal, new { @class = "form-control input-xs" })
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bottom Seal</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Bagging.BottomSeal, new { @class = "form-control input-xs" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        @*<div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Width</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Bagging.Width, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+
+                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Length</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Bagging.Length, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                    </div>
+
+                </div>
+            </div>*@
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Left Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.LeftGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Rigth Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.RightGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Top Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.TopGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bottom Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.BottomGusset, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Lip</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.Lip, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Header Seal</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.HeaderSeal, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Qty. Per Pack</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.QuantityPerPack, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Qty. Per Bale</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.QuantityPerBale, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Kg/1000</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.KgPerThousand, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bag Size Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.BagSizeWidth, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Bag Size Length</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Printing.BagSizeLength, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Special Instructions</label>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(model => model.Bagging.SpecialInstructions, 5, 40, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Hot Melt</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.HotMelt, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Drop Test</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.DropTest, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Perforation Test</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.PerforationTest, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Lip</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceOnLip, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Leak Proof Test</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.LeakProofTest, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Print Central</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.PrintCentral, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Width</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceOnWidth, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Length</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceOnLength, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Left Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceOnLeftGusset, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Right Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceRightGusset, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Bottom Gusset</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceBottomGusset, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Tolerance on Header Seal</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.ToleranceOnHeaderSeal, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Star Punch</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.StarPunch, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Punch Holes</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Bagging.PunchHoles, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Oval Cut With Handle</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.OvalCutWithHandle, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">No Blocking Misprints</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.NoBlockingMisprints, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Panels Flush</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.PanelsFlush, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Strong Side Seals</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.StrongSideSeals, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Strong Spine Seal</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.StrongSpineSeal, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Strong Top/Bottom Seal</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Bagging.StrongTopBottomSeal, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,323 @@
+﻿@model Megasoft2.ViewModel.StereoSystemGrnViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Stereo System - Grn / AP </h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmStereoGrn" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="form-horizontal row spacer-xs ">
+        <div class="form-group col-sm-12">
+            <div>
+                <a href="@Url.Action("Index", "StereoSystemGrn")" class="btn btn-sm btn-default pull-left  "><span class="fa fa-plus-circle" aria-hidden="true"> Refresh</span></a>
+                <button type="submit" class="btn btn-default btn-sm pull-right" id="btnSave" name="action:Grn" value="btnSave">
+                    <i>Post</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        @if (!ViewBag.LoadPo)
+        {
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Purchase Order
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadPo" value="LoadPo">
+                            <span class="fa fa-arrow-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Purchase Order
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @readonly = "readonly" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadPo" value="LoadPo" disabled>
+                            <span class="fa fa-arrow-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Invoice
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Invoice, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Invoice Amount
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Invoice Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.InvoiceDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                @Html.HiddenFor(model => model.GrnAmountSelected)
+            </div>
+        </div>
+        </DIV>
+        <div class="col-lg-12">
+            <div class="form-horizontal row spacer">
+                <div class="col-md-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines">
+                            <thead class="style1">
+                                <tr class="nowrap">
+                                    <th>#</th>
+                                    <th>Line</th>
+                                    <th>StockCode</th>
+                                    <th>Descripton</th>
+                                    <th>OrderQty</th>
+                                    <th>Receipted Qty</th>
+                                    <th>Outstanding Qty</th>
+                                    <th>Grn Qty</th>                                    
+                                    <th>Width</th>
+                                    <th>Length</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.PoLine != null)
+                                {
+                                    for (int i = 0; i < Model.PoLine.Count(); i++)
+                                    {
+                                <tr class="nr">
+                                    <td>
+                                        @Html.CheckBoxFor(model => model.PoLine[i].Selected, new { @class = "form-control input-sm big-checkbox chkbox " })                                      
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.PoLine[i].Line)
+                                        @Html.HiddenFor(model => model.PoLine[i].Line)
+                                        
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => model.PoLine[i].MStockCode)
+                                        @Html.HiddenFor(model => model.PoLine[i].MStockCode)
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => model.PoLine[i].MStockDes)
+                                        @Html.HiddenFor(model => model.PoLine[i].MStockDes)
+                                    </td>
+
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => model.PoLine[i].MOrderQty)
+                                        @Html.HiddenFor(model => model.PoLine[i].MOrderQty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.PoLine[i].MReceivedQty)
+                                        @Html.HiddenFor(model => model.PoLine[i].MReceivedQty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.PoLine[i].QtyOutStanding)
+                                        @Html.HiddenFor(model => model.PoLine[i].QtyOutStanding)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.PoLine[i].GrnQty, new { @class = "form-control input-sm tdtextbox" })
+                                        @Html.HiddenFor(model => model.PoLine[i].PoAmount)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.PoLine[i].GrnWidth, new { @class = "form-control input-sm tdtextbox" })
+                                        @Html.HiddenFor(model => model.PoLine[i].PoWidth)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.PoLine[i].GrnLength, new { @class = "form-control input-sm tdtextbox" })
+                                        @Html.HiddenFor(model => model.PoLine[i].PoLength)
+                                    </td>
+
+                                </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        .hr {
+            padding: 0px;
+            margin: 0px;
+        }
+        .tdtextbox {
+            min-width: 150px;
+        }
+        .big-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+
+    </style>
+
+    @section Scripts {
+
+        @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+        @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+        <script type="text/javascript">
+                $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+                $(document).ready(function ()
+                {
+                    CalcTotal();
+
+                    $('#tblLines').on("click", ".chkbox", function () {
+                        CalcTotal();
+                    });
+                              
+                    $('#btnSave').on("click", function () {
+                        if ($('#PurchaseOrder').val() === "") {
+                            alert('Please enter a Purchase Order!');
+                            return false;
+                        }
+                       //alert($('#Invoice').val());
+                        if ($('#Invoice').val() === "") {
+                            alert('Please enter a Invoice!');
+                            return false;
+                        }
+                        if ($('#InvoiceAmount').val() === "") {
+                            alert('Please enter a Invoice amount!');
+                            return false;
+                        }
+                        if ($('#InvoiceDate').val() === "") {
+                            alert('Please select a invoice date!');
+                            return false;
+                        }   
+                    var table = document.getElementById("tblLines");
+                    if (table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length > 0)
+                    {
+                        var TableLength = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+                        var RowsCount = 0;
+                        for (var i = 0, row; row = table.rows[i]; i++) {
+
+                            var CheckBox = $('#tblLines tbody').find('tr:eq(' + i + ')').find('td:eq(0)').find('input[type=checkbox]').prop('checked');
+                            //alert(CheckBox);
+                            if (CheckBox === true)
+                            {
+                                    RowsCount++;
+                                    
+                                var line = document.getElementById("PoLine_" + i + "__Line").value;
+                              //  alert(line);
+                                    var grnqty = document.getElementById("PoLine_" + i + "__GrnQty").value;
+                                    var polength = document.getElementById("PoLine_" + i + "__PoLength").value;
+                                    var powidth = document.getElementById("PoLine_" + i + "__PoWidth").value;
+                                    var grnlength = parseFloat(document.getElementById("PoLine_" + i + "__GrnLength").value);
+                                    var grnwidth = parseFloat(document.getElementById("PoLine_" + i + "__GrnWidth").value);
+                                    if (isNaN(grnlength) ) { grnlength = 0; }
+                                if (isNaN(grnwidth)) { grnwidth = 0; }
+                                //return false;
+                                if (grnlength < polength)
+                                {
+                                        alert('Stereo Grn Length cannot be less than Po length line: ' + line);
+                                        return false;
+                                }
+                                if (grnwidth < powidth)
+                                {
+                                        alert('Stereo Grn Width cannot be less than Po width line: ' + line);
+                                        return false;
+                                }
+                                //alert(parseFloat(grnqty));
+                                if (parseFloat(grnqty) === 0 || isNaN(parseFloat(grnqty))) {
+                                    alert('Please enter a grn qty for line: ' + line);
+                                    return false;
+                                }
+                            }
+                        }    
+                        
+                        if (RowsCount === 0) {                           
+                            alert("No lines selected for grn");
+                            return false;
+                        } 
+                        if (RowsCount !== TableLength) {
+                            var result = confirm('Warning lines are outstanding. Do you want to continue?');
+                            if (result) {
+                                //alert(parseFloat($('#InvoiceAmount').val()) + '>' + parseFloat($('#GrnAmountSelected').val()));
+                            }
+                            else {
+                                return false;
+                            }
+                        }      
+                        if (parseFloat($('#InvoiceAmount').val()) > parseFloat($('#GrnAmountSelected').val())) {
+                            var check = confirm('Warning invoice value exceeds purchase order value. Do you want to continue?');
+                            if (check) {
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                        else if (parseFloat($('#InvoiceAmount').val()) < parseFloat($('#GrnAmountSelected').val())) {
+                            var check2 = confirm('Warning invoice value is less than purchase order value. Do you want to continue?');
+                            if (check2) {
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                        else return true;
+                    }                         
+                  });
+
+                    $("#frmStereoGrn").submit(function (e) {
+                        showprogressbar();
+                    });
+            });
+
+            function CalcTotal() {
+                var Total = 0;
+                $('#tblLines .nr').each(function (i, row) {
+                    var $row = $(row);
+                    if ($row.find('td:eq(0)').find('input[type=checkbox]').prop('checked') === true) {
+                        Total += parseFloat($row.find('td:eq(7)').find('input[type=hidden]').val());
+                    }
+                });
+                $('#InvoiceAmount').val(Total.toFixed(2));
+                $('#GrnAmountSelected').val(Total.toFixed(2));
+                //alert(Total);
+                //$('#txtTotal').html(Total);
+            }
+
+        </script>
+    }
+
+
+
+
+}

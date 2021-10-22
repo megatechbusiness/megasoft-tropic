@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Megasoft2.mtReportGroup>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Report Group Setup</h4><hr />
+
+<p>
+    <a href="@Url.Action("CreateReportGroup", "Report")" class="btn btn-warning">
+        <span class="fa fa-file-o" aria-hidden="true" title="Add New Report Group"> Add Report Group</span>
+    </a>
+    <a href="@Url.Action("ReportGroupSetup", "Report")" class="btn btn-default">
+        <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
+    </a>
+</p>
+<div class="form-group">
+    <div class="col-sm-12">
+        <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+
+    </div>
+
+    <hr />
+    <div class="col-sm-14">
+        <table class="tblReport table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblReport" style="table-layout:fixed;">
+            <thead class="style1">
+                <tr class="nowrap">
+
+                    <th style="width:250px">
+                        Group Id
+                    </th>
+                    <th style="width:200px">
+                        Group Name
+                    </th>
+                    <th style="width:100px"></th>
+                </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+
+                    <tr class="nr">
+                        <td>
+                            <a href="@Url.Action("CreateReportGroup", "Report", new { GroupId = item.GroupId})">@Html.DisplayFor(model => item.GroupId)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.GroupName)
+                            @Html.HiddenFor(model => item.GroupName)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("CreateReportGroup", "Report", new { GroupId = item.GroupId})" class="btn btn-primary btn-xs">
+                                <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Report Group Info"></span>
+                            </a>
+                            <a href="@Url.Action("DeleteReportGroup", "Report", new { GroupId = item.GroupId})" class="modal-link btn btn-danger btn-xs">
+                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Report Group"></span>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#txtSearch').focus();
+            $('#txtSearch').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#tblReport .nr');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+
+            UltimateScrollingTable('tblReport', 700, 1500, 1);
+        });
+    </script>
+}

@@ -1,0 +1,297 @@
+﻿@model Megasoft2.ViewModel.PalletAuditViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+        <fieldset>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <h4 class="text-center" style="font-weight:bold;">Pallet Audit Review</h4><hr />
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                        Warehouse
+                                    </div>
+                                    <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                        @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.WarehouseList, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                                        @Html.ValidationMessageFor(model => model.Warehouse)
+                                    </div>
+
+                                    <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                        StockCode
+                                    </div>
+                                    <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                        @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-xs" })
+                                        @Html.ValidationMessageFor(model => model.StockCode)
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+
+                                    <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                        Method
+                                    </div>
+                                    <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                        @Html.DropDownListFor(model => model.Increase, new SelectList(ViewBag.IncreaseList, "Text", "Value"), new { @id = "ddlIncrease", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                                        @Html.ValidationMessageFor(model => model.Increase)
+                                    </div>
+
+                                    <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                        Reference
+                                    </div>
+                                    <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                        @Html.TextBoxFor(model => model.Reference, new { @class = "form-control input-xs" })
+                                        @Html.ValidationMessageFor(model => model.Reference)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+
+                                    <div class="col-md-12 col-xs-12" style="text-align:left;">
+                                        <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadPalletAuditReview" value="LoadPalletAuditReview">
+                                            <i class="fa fa-arrow-right"> Load</i>
+                                        </button>
+
+                                        <button type="submit" class="btn btn-success btn-sm" id="btnSave" value="SavePalletAuditReview" name="action:SavePalletAuditReview">
+                                            <i class="fa fa-save"> Save</i>
+                                        </button>
+                                        &nbsp;
+                                        <button type="submit" class="btn btn-success btn-sm pull-right" id="btnPost" value="PostStockTake" name="action:PostStockTake">
+                                            <i class="fa fa-upload"> Post</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+
+                                    <div class="col-md-12 col-xs-12" style="text-align:left;">
+                                        <input type="text" class="form-control input-sm" placeholder="Search" id="txtSearch" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal row">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLines">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    StockCode
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Scan Whse.
+                                                    <input type="checkbox" id="allWhse" />
+                                                </th>
+                                                <th>
+                                                    Scan Bin
+                                                    <input type="checkbox" id="allBin" />
+                                                </th>
+                                                <th>
+                                                    Curr. Whse.
+                                                </th>
+                                                <th>
+                                                    Curr. Bin
+                                                </th>
+                                                <th>
+                                                    Lot
+                                                </th>
+                                                <th>
+                                                    Scan Qty.
+                                                </th>
+                                                <th>
+                                                    Curr. Whse. Qty.
+                                                </th>
+                                                <th>
+                                                    Scan Date
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody class="datarow">
+                                            @if (Model != null)
+                                            {
+                                                if (Model.Detail != null)
+                                                {
+                                                    var StockCode = "";
+                                                    var c = 0;
+                                                    var w = 0.00M;
+                                                    var o = 0.00M;
+                                                    var cs = 0;
+                                                    for (int i = 0; i < Model.Detail.Count; i++)
+                                                    {
+
+                                                        if (i == 0)
+                                                        {
+                                                            StockCode = Model.Detail[i].StockCode;
+                                                        }
+                                                        if (StockCode != Model.Detail[i].StockCode)
+                                                        {
+
+
+                                                            <tr class="nr"><th colspan="7" class="text-right" style="background-color:greenyellow; color:black;">Totals for StockCode : @StockCode</th><th class="totalrow text-right" style="background-color:greenyellow; color:black;">@string.Format("{0:### ###,###.00}", w)</th><th class="totalrow text-right" style="background-color:greenyellow; color:black;">@string.Format("{0:### ###,###.00}", o)</th><th class="totalrow text-right" style="background-color:greenyellow; color:black;">@cs / @c</th></tr>
+                                                            StockCode = Model.Detail[i].StockCode;
+                                                            c = 0;
+                                                            w = 0.00M;
+                                                            o = 0.00M;
+                                                            cs = 0;
+                                                        }
+
+                                                        c++;
+
+                                                        if (!string.IsNullOrEmpty(Model.Detail[i].ScanWhse))
+                                                        {
+                                                            cs++;
+                                                            w = w + (decimal)Model.Detail[i].Quantity;
+                                                        }
+
+                                                        o = o + (decimal)Model.Detail[i].CurrWhseQty;
+
+                                                        <tr class="nr">
+                                                            <td>
+                                                                @Model.Detail[i].StockCode
+                                                                @Html.HiddenFor(model => Model.Detail[i].StockCode)
+                                                            </td>
+                                                            <td>
+                                                                @Model.Detail[i].Description
+                                                                @Html.HiddenFor(model => Model.Detail[i].Description)
+                                                                <input type="checkbox" class="checkrow" />
+                                                            </td>
+                                                            <td class="scanwhse">
+                                                                @Html.TextBoxFor(model => model.Detail[i].ScanWhse, new { @class = "form-control input-xs", @tabindex = "1" })
+                                                            </td>
+                                                            <td class="scanbin">
+                                                                @Html.TextBoxFor(model => model.Detail[i].ScanBin, new { @class = "form-control input-xs", @tabindex = "2" })
+                                                            </td>
+                                                            <td class="whse">
+                                                                @Model.Detail[i].CurrWhse
+                                                                @Html.HiddenFor(model => Model.Detail[i].CurrWhse)
+                                                            </td>
+                                                            <td class="bin">
+                                                                @Model.Detail[i].CurrBin
+                                                                @Html.HiddenFor(model => Model.Detail[i].CurrBin)
+                                                            </td>
+                                                            <td>
+                                                                @Model.Detail[i].Lot
+                                                                @Html.HiddenFor(model => Model.Detail[i].Lot)
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(model => model.Detail[i].Quantity, new { @class = "form-control input-xs", @tabindex = "3" })
+                                                            </td>
+                                                            <td>
+                                                                @Model.Detail[i].CurrWhseQty
+                                                                @Html.HiddenFor(model => Model.Detail[i].CurrWhseQty)
+                                                            </td>
+                                                            <td>
+                                                                @Model.Detail[i].CaptureDate
+                                                                @Html.HiddenFor(model => Model.Detail[i].CaptureDate)
+                                                            </td>
+                                                        </tr>
+                                                        if (i == Model.Detail.Count - 1)
+                                                        {
+
+
+                                                            <tr class="nr"><th colspan="7" class="text-right" style="background-color:greenyellow; color:black;">Totals for StockCode : @StockCode</th><th class="totalrow text-right" style="background-color:greenyellow; color:black;">@string.Format("{0:### ###,###.00}", w)</th><th class="totalrow text-right" style="background-color:greenyellow; color:black;">@string.Format("{0:### ###,###.00}", o)</th><th class="totalrow text-right" style="background-color:greenyellow; color:black;">@cs / @c</th></tr>
+                                                            StockCode = Model.Detail[i].StockCode;
+                                                            c = 0;
+                                                            w = 0.00M;
+                                                            o = 0.00M;
+                                                            cs = 0;
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <style type="text/css">
+        .table-striped tbody tr.highlight td {
+            background-color: red;
+        }
+
+        .totalrow {
+            background-color: yellow;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#frmIndex").submit(function (e) {
+                showprogressbar();
+            });
+
+            $('#txtSearch').keyup(function () {
+                if ($(this).val().length > 2) {
+                    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                    var $rows = $('#tblLines .nr');
+                    $rows.show().filter(function () {
+                        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                        return !~text.indexOf(val);
+                    }).hide();
+                }                
+            });
+
+            $("#allWhse").click(function () {
+                $("#tblLines > tbody > tr.nr ").each(function () {      
+                    $(this).find('td.scanwhse').find("input[type=text]").val($(this).find('td.whse').text().trim());
+                });
+            });
+
+            $("#allBin").click(function () {
+                $("#tblLines > tbody > tr.nr ").each(function () {
+                    $(this).find('td.scanbin').find("input[type=text]").val($(this).find('td.bin').text().trim());
+                });
+            });
+
+
+            $('#tblLines > tbody.datarow > tr.nr ').on("click", ".checkrow", function () {
+                
+                var tr = $(this).closest('tr')
+                var _whse = $(tr).find('td.whse').text().trim();                
+                var _bin = $(tr).find('td.bin').text().trim();
+                $(tr).find('td:eq(2)').find('input[type=text]').val(_whse);
+                $(tr).find('td:eq(3)').find('input[type=text]').val(_bin);
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,388 @@
+﻿@model Megasoft2.ViewModel.ScaleSystemSetupViewModel
+
+@using (Html.BeginForm("Create", "ScaleSystemSetup", FormMethod.Post, new { @id = "ScaleSetupForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">Create Scale</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Scale Details</a></li>
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "ScaleSystemSetup") + "'");">
+                <i class="fa fa-group"></i> Scales
+            </button>
+            <button type="submit" id="btnSave" value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+                                @if (Model.Scale != null)
+                                {
+                                    if (Model.Scale.ScaleModelId > 0)
+                                    {
+
+                                        <div class="form-horizontal row">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Scale Model Id</label>
+                                                <div class="col-sm-8">
+                                                    <div class="col-sm-12">
+                                                        @Html.TextBoxFor(model => model.Scale.ScaleModelId, new { @class = "form-control input-sm", @id = "ScaleModelId", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            FriendlyName
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.FriendlyName, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.FriendlyName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Scale Model Name
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleModelName, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleModelName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Baud Rate
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.SerialBaudRate, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.SerialBaudRate)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Data Bits
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.SerialDataBits, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.SerialDataBits)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Handshake
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.SerialHandshake, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.SerialHandshake)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Parity
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.SerialParity, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.SerialParity)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Stop Bits
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.SerialStopBits, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.SerialStopBits)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Terminater
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.SerialTerminator, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.SerialTerminator)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial String Prefix
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleStringPrefix, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleStringPrefix)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Start Mass Ordinal
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleStartMassOrdinal, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleStartMassOrdinal)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Serial Mass Ordinal Length
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleMassOrdinalLength, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleMassOrdinalLength)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Scale Start Mass Decimal
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleStartMassDecimal, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleStartMassDecimal)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Scale Mass Decimal Length
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleMassDecimalLength, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleMassDecimalLength)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Scale Data Length
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.ScaleDataLength, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.ScaleDataLength)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Printer Name
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.DropDownListFor(model => model.Scale.PrinterName, new SelectList(ViewBag.Printer, "Value", "Text"), "", new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.PrinterName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Core
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.Core, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.Core)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Tare
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.Tare, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.Tare)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Transfer Warehouse
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.Scale.Warehouse, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Scale.Warehouse)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div id="errordiv">
+        </div>
+    </div>
+
+}
+<style type="text/css">
+</style>
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+    $('#btnSave').on("click", function () {
+
+        if ($('#Scale_FriendlyName').val() == "") {
+            alert('Please enter a friendly name!');
+            return false;
+        }
+        if ($('#Scale_ScaleModelName').val() == "") {
+            alert('Please enter a scale model name!');
+            return false;
+        }
+        if ($('#Scale_SerialBaudRate').val() == "") {
+            alert('Please enter a Baud Rate!');
+            return false;
+        }
+        if ($('#Scale_PrinterName').val() == "") {
+            alert('Please select a Printer!');
+            return false;
+        }
+        if ($('#Scale_SerialDataBits').val().length > 50) {
+            alert('Please enter Serial Data Bits!');
+            return false;
+        }
+        if ($('#Scale_SerialHandshake').val() == "") {
+            alert('Please enter Serial Handshake!');
+            return false;
+        }
+        if ($('#Scale_SerialParity').val() == "") {
+            alert('Please select enter parity!');
+            return false;
+        }
+        if ($('#Scale_SerialStopBits').val() == "") {
+            alert('Please enter stop bits!');
+            return false;
+        }
+
+        if ($('#Scale_SerialTerminator').val() == "") {
+            alert('Please enter Terminator!');
+            return false;
+        }
+        if ($('#Scale_ScaleStringPrefix').val() == "") {
+            alert('Please enter String Prefix!');
+            return false;
+        }
+        if ($('#Scale_ScaleStartMassOrdinal').val() == "") {
+            alert('Please enter Start Mass Ordinal!');
+            return false;
+        } if ($('#Scale_ScaleMassOrdinalLength').val() == "") {
+            alert('Please enter Mass Ordinal Length!');
+            return false;
+        } if ($('#Scale_ScaleStartMassDecimal').val() == "") {
+            alert('Please enter Start Mass Decimal!');
+            return false;
+        }
+        if ($('#Scale_ScaleMassDecimalLength').val() == "") {
+            alert('Please enter Mass Decimal Length!');
+            return false;
+        }
+
+        var result = confirm("Are you sure you want to Save?");
+        if (result) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    });
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+
+        $("#TransporterForm").submit(function (e) {
+            showprogressbar();
+        });
+
+    });
+</script>

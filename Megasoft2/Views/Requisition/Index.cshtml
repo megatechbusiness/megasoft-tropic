@@ -1,0 +1,232 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "Requisition" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "Requisition")" class="btn btn-default">Requisitions</a>
+
+
+                        </div>
+
+                        <div class="pull-right">
+
+                            <div class="col-lg-6 text-right">
+                                <a href="@Url.Action("Create", "Requisition")" class="btn btn-default btn-sm">
+                                    <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="form-horizontal row">
+                            <div class="row">
+                                <div class="form-horizontal row" style="font-size:14px;">
+                                    <div class="form-group">
+
+
+                                        <div class="col-sm-4">
+                                            <div class="control-label col-sm-12" style="text-align:center;">
+                                                <ul>
+                                                    <li style="border:solid; color:white; background-color:forestgreen;"><b> Urgent</b></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="control-label col-sm-12" style="text-align:center;">
+
+                                                <ul>
+                                                    <li style="border:solid; color:white; background-color:orange;"><b> Logged between 1-3 days (Age 1)</b></li>
+
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="control-label col-sm-12" style="text-align:center;">
+                                                <ul>
+                                                    <li style="border:solid; color:white; background-color:#ff2d2d;"><b>Logged more than 3 days (Age 2)</b></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                @*<p>
+                                    <ul>
+                                        <li style="color:forestgreen;">Green- Urgent</li>
+                                        <li style="color:orange;">Orange- Requisition Logged more 3 days ago but less than 5 days</li>
+                                        <li style="color:red;">Red- Requisition Logged more than 5 days ago</li>
+
+                                    </ul>
+                                </p>*@
+                                <div class="col-lg-12">
+                                    @*Grid goes here*@
+                                    <div class="table-responsive text-centre">
+                                        <table class="table table-hover  table-condensed table-responsive table-bordered display nowrap" id="tblLines">
+                                            <thead>
+                                                <tr class="nowrap">
+                                                    <th>Requisition</th>
+                                                    <th>Status</th>
+                                                    <th>Originator</th>
+                                                    <th>Holder</th>
+                                                    <th>Date Req. Raised</th>
+                                                    <th>Req. Value</th>
+                                                    <th>Branch</th>
+                                                    <th>Cost Centre</th>
+                                                    <th>Due Date</th>
+                                                    <th>Days Passed</th>
+                                                    <th>Days Passed Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="datarow">
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.ReqList != null)
+                                                    {
+                                                        for (int i = 0; i < Model.ReqList.Count(); i++)
+                                                        {
+                                                            var days = (Model.ReqList[i].DaysPassed);
+                                                            var rowColour = "";
+                                                            var Urgent = Model.ReqList[i].Urgent;
+
+                                                            if (days == 0 && Urgent == "N")
+                                                            {
+                                                                rowColour = "#ffffff";//white
+                                                                                      // Model.Status = " ";
+                                                            }
+                                                            else if (Urgent == "Y")
+                                                            {
+                                                                rowColour = "#008000";//green
+                                                                //Model.Status = "Urgent";
+                                                            }
+                                                            else if (days >= 1 && days <= 3)
+                                                            {
+                                                                rowColour = "#ffa500";//orange
+                                                                //Model.Status = "Awaiting Approval";
+                                                            }
+                                                            else if (days > 3)
+                                                            {
+                                                                rowColour = "#ff2d2d";//red
+                                                                                      // Model.Status = "Over Due";
+                                                            }
+
+                                                            if (rowColour== "#008000")
+                                                            {
+                                                                Model.ReqList[i].Urgent = "Urgent";
+                                                            }
+                                                            else if (rowColour == "#ffa500")
+                                                            {
+                                                                Model.ReqList[i].Urgent = "Age 1";
+                                                            }
+                                                            else if (rowColour == "#ff2d2d")
+                                                            {
+                                                                Model.ReqList[i].Urgent = "Age 2";
+                                                            }
+                                                            <tr class="nr nowrap" style="color:black;background-color:@rowColour">
+                                                                <td class="rowc">
+                                                                    <a href="@Url.Action("Create", new { Requisition = Model.ReqList[i].Requisition})">
+                                                                        @Html.DisplayFor(modelItem => Model.ReqList[i].Requisition)
+                                                                    </a>
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].Requisition)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].ReqnStatus)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].ReqnStatus)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].Originator)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].Originator)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].CurrentHolder)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].Holder)
+                                                                </td>
+                                                                <td>
+                                                                    @Convert.ToDateTime(@Model.ReqList[i].DateReqnRaised).ToString("yyyy-MM-dd")
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].DateReqnRaised)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].ReqnValue)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].ReqnValue)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].Branch)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].Branch)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].CostCentre)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].CostCentre)
+                                                                </td>
+                                                                <td>
+                                                                    @Convert.ToDateTime(@Model.ReqList[i].DueDate).ToString("yyyy-MM-dd")
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].DueDate)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model => Model.ReqList[i].DaysPassed)
+                                                                    @Html.HiddenFor(model => Model.ReqList[i].DaysPassed)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(model=> Model.ReqList[i].Urgent)
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+
+
+                                                }
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+
+<script type="text/javascript">
+    $("#tblLines").DataTable({
+        "lengthMenu": [[100, 25, 50, -1],[100,25,50,"ALL"]]
+    });
+</script>

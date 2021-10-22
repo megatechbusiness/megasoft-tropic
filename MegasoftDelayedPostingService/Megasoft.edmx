@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MegasoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="mtSystemSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UseRoles" Type="bit" />
+          <Property Name="SmtpHost" Type="varchar" MaxLength="100" />
+          <Property Name="SmtpPort" Type="int" />
+          <Property Name="FromAddress" Type="varchar" MaxLength="100" />
+          <Property Name="ReportExportPath" Type="varchar" MaxLength="200" />
+          <Property Name="ScadaServiceIntervalMin" Type="int" />
+          <Property Name="MegasoftServiceIntervalMin" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Dashboard" Type="bit" Nullable="false" />
+          <Property Name="BranchAccess" Type="bit" Nullable="false" />
+          <Property Name="GlAuthorisation" Type="bit" Nullable="false" />
+          <Property Name="ProductClassLimit" Type="bit" Nullable="false" />
+          <Property Name="SmartScan" Type="bit" Nullable="false" />
+          <Property Name="ScaleAccess" Type="bit" Nullable="false" />
+          <Property Name="WarehouseAccess" Type="bit" Nullable="false" />
+          <Property Name="PrinterAccess" Type="bit" Nullable="false" />
+          <Property Name="DepartmentAccess" Type="bit" Nullable="false" />
+          <Property Name="ReportAccess" Type="bit" Nullable="false" />
+          <Property Name="FromAddressPassword" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="MegasoftModelStoreContainer">
+          <EntitySet Name="mtSystemSettings" EntityType="Self.mtSystemSettings" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MegasoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MegasoftEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="mtSystemSettings" EntityType="MegasoftModel.mtSystemSetting" />
+        </EntityContainer>
+        <EntityType Name="mtSystemSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UseRoles" Type="Boolean" />
+          <Property Name="SmtpHost" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPort" Type="Int32" />
+          <Property Name="FromAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ReportExportPath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ScadaServiceIntervalMin" Type="Int32" />
+          <Property Name="MegasoftServiceIntervalMin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Dashboard" Type="Boolean" Nullable="false" />
+          <Property Name="BranchAccess" Type="Boolean" Nullable="false" />
+          <Property Name="GlAuthorisation" Type="Boolean" Nullable="false" />
+          <Property Name="ProductClassLimit" Type="Boolean" Nullable="false" />
+          <Property Name="SmartScan" Type="Boolean" Nullable="false" />
+          <Property Name="ScaleAccess" Type="Boolean" Nullable="false" />
+          <Property Name="WarehouseAccess" Type="Boolean" Nullable="false" />
+          <Property Name="PrinterAccess" Type="Boolean" Nullable="false" />
+          <Property Name="DepartmentAccess" Type="Boolean" Nullable="false" />
+          <Property Name="ReportAccess" Type="Boolean" Nullable="false" />
+          <Property Name="FromAddressPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MegasoftModelStoreContainer" CdmEntityContainer="MegasoftEntities">
+          <EntitySetMapping Name="mtSystemSettings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtSystemSetting">
+              <MappingFragment StoreEntitySet="mtSystemSettings">
+                <ScalarProperty Name="FromAddressPassword" ColumnName="FromAddressPassword" />
+                <ScalarProperty Name="ReportAccess" ColumnName="ReportAccess" />
+                <ScalarProperty Name="DepartmentAccess" ColumnName="DepartmentAccess" />
+                <ScalarProperty Name="PrinterAccess" ColumnName="PrinterAccess" />
+                <ScalarProperty Name="WarehouseAccess" ColumnName="WarehouseAccess" />
+                <ScalarProperty Name="ScaleAccess" ColumnName="ScaleAccess" />
+                <ScalarProperty Name="SmartScan" ColumnName="SmartScan" />
+                <ScalarProperty Name="ProductClassLimit" ColumnName="ProductClassLimit" />
+                <ScalarProperty Name="GlAuthorisation" ColumnName="GlAuthorisation" />
+                <ScalarProperty Name="BranchAccess" ColumnName="BranchAccess" />
+                <ScalarProperty Name="Dashboard" ColumnName="Dashboard" />
+                <ScalarProperty Name="MegasoftServiceIntervalMin" ColumnName="MegasoftServiceIntervalMin" />
+                <ScalarProperty Name="ScadaServiceIntervalMin" ColumnName="ScadaServiceIntervalMin" />
+                <ScalarProperty Name="ReportExportPath" ColumnName="ReportExportPath" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
+                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
+                <ScalarProperty Name="UseRoles" ColumnName="UseRoles" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

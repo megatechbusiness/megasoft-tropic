@@ -1,0 +1,164 @@
+﻿@model Megasoft2.ViewModel.StereoSystemAddStereoViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Custom Form Update</h2>
+@Html.HiddenFor(model => model.ReqNo)
+@Html.HiddenFor(model => model.Line)
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmStereoCustomForms" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="spacer-xs form-horizontal row" style="text-align:left;">
+        <button type="submit" class="btn btn-default btn-sm pull-right " id="btnSave" name="action:UpdateLine" value="UpdateLine">
+            <i class="fa fa-save"> Save</i>
+        </button>
+    </div>
+    <div class="form-group col-sm-3">
+        <div class="form-group col-sm-4">
+            PO No.
+        </div>
+        <div class="input-group col-sm-8">
+            @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm" })
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadDetails" value="LoadDetails">
+                    <span class="fa fa-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group" id="Detail">
+            <table class="tblDetail table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblDetail" style="table-layout:fixed;">
+                <thead class="style1" tabindex="-1">
+                    <tr bgcolor="#000000">
+                        <th style="width:50px"></th>
+                        <th style="width:50px">
+                            Req No
+                        </th>
+                        <th style="width:150px">
+                            Stock Code
+                        </th>
+                        <th style="width:300px">
+                            Stock Code Description
+                        </th>
+                        <th style="width:150px">
+                            Gl Code
+                        </th>
+                        <th style="width:50px">
+                            Tax Code
+                        </th>
+                        <th style="width:80px">
+                            Quantity
+                        </th>
+                        <th style="width:150px">
+                            UnitPrice
+                        </th>
+
+                        <th style="width:100px">
+                            Width
+                        </th>
+                        <th style="width:100px">
+                            Length
+                        </th>
+                        <th style="width:100px">
+                            Colour
+                        </th>
+                        <th style="width:150px">
+                            Price
+                        </th>
+
+                    </tr>
+
+                </thead>
+                <tbody class="datarow">
+                    @if (Model != null)
+                    {
+                        if (Model.PODetails != null)
+                        {
+                            for (int i = 0; i < Model.PODetails.Count; i++)
+                            {
+
+                                <tr class="nr">
+                                    <td>
+                                        <a href="@Url.Action("DeleteDetailLine", new { ReqNo = Model.ReqNo, Line = Model.PODetails[i].Line })" class="btn btn-danger btn-sm">
+                                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("EditDetailLine", new { ReqNo = Model.ReqNo, Line = Model.PODetails[i].Line })" class="editLine">
+                                            @Html.DisplayFor(modelItem => Model.PODetails[i].Line)
+                                        </a>
+                                        @Html.HiddenFor(model => Model.PODetails[i].Line)
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].StockCode
+                                        @Html.HiddenFor(model => Model.PODetails[i].StockCode)
+                                    </td>
+
+                                    <td>
+                                        @Model.PODetails[i].StockDescription
+                                        @Html.HiddenFor(model => Model.PODetails[i].StockDescription)
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].GlCode
+                                        @Html.HiddenFor(model => Model.PODetails[i].GlCode)
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].TaxCode
+                                        @Html.HiddenFor(model => Model.PODetails[i].TaxCode)
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].Quantity
+                                        @Html.HiddenFor(model => Model.PODetails[i].Quantity)
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].UnitPrice
+                                        @Html.HiddenFor(model => Model.PODetails[i].UnitPrice)
+                                    </td>
+                                    <td width="100px;">
+                                        <div class="form-group col-sm-1" style="width:100px;">
+                                            @Html.TextBoxFor(model => model.PODetails[i].Width, new { @class = "form-control input-sm" })
+                                            @Html.HiddenFor(model => Model.PODetails[i].Width)
+                                        </div>
+
+                                    </td>
+                                    <td width="100px;">
+                                        <div class="form-group col-sm-1" style="width:100px;">
+                                            @Html.TextBoxFor(model => model.PODetails[i].Length, new { @class = "form-control input-sm" })
+                                            @Html.HiddenFor(model => Model.PODetails[i].Length)
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].Colour
+                                        @Html.HiddenFor(model => Model.PODetails[i].Colour)
+                                    </td>
+                                    <td>
+                                        @Model.PODetails[i].PoPrice
+                                        @Html.HiddenFor(model => Model.PODetails[i].PoPrice)
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+}

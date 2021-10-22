@@ -1,0 +1,189 @@
+﻿@model IEnumerable<Megasoft2.sp_GetGlCodeTagList_Result>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-lg-12">
+            <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+        </div>
+
+
+        <div style="overflow: auto;height: 400px" class="col-lg-12">
+            <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+                <thead class="style1">
+                    <tr>
+
+                        <th style="width:100px" class="nowrap">
+                            Branch
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            Site
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            Department
+                        </th>
+                        <th style="width:100px" class="nowrap">
+                            Account
+                        </th>
+                        <th style="width:200px" class="nowrap">
+                            Analysis Category
+                        </th>
+                        <th style="width:200px" class="nowrap">
+                            Analysis Code
+                        </th>
+                        <th style="width:400px" class="nowrap">
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.Branch)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Site)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Department)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Account)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.AnalysisCategory)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.AnalysisCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Description)
+                                </td>
+                            </tr>
+                        }
+                    }
+                                                                   
+                </tbody>
+            </table>
+            </div>
+
+
+
+        </div>
+        <div class="panel-body">
+            <div style="overflow: auto;height: 400px">
+                <div class="col-lg-12" id="Results">
+                </div>
+            </div>
+        </div>
+    </div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+
+
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+
+        function LoadHeader()
+        {
+            $(".Header > tbody").empty();
+            $.getJSON('../GlCodeTag/GetTagList?FilterText=' + $('#txtSearch').val(), function (data) {
+                //alert(data);
+                //var items = '<table id="Header" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr class="nowrap"><th>Requisition</th><th>RequisitionDate</th><th>Requisitioner</th><th>Notes</th><th>Branch</th><th>Site</th><th>DueDate</th><th>ToAddress1</th><th>ToAddress2</th><th>ToAddress3</th><th>ToAddress4</th><th>ToAddress5</th><th>Emergency</th><th>EmergencyReason</th><th>Completed</th><th>CompletedDate</th><th>Accepted</th><th>AcceptedDate</th><th>QuoteReceived</th><th>QuoteOverride</th><th>QuoteOverrideReason</th><th>Authorised</th><th>AuthorisedDate</th><th>AuthorisedBy</th><th>JobDescription</th><th>SpecialInstructions</th><th>ItemsDescription</th><th>PurchaseOrder</th><th>Status</th></tr>';
+                $.each(data, function (i, GL) {
+
+                    $('.Header tbody').append("<tr class='nr'><td>" + GL.Branch + "</td><td>" +
+                            GL.Site + "</td><td>" + GL.Department + "</td><td>" +
+                            GL.Account + "</td><td>" + GL.AnalysisCategory + "</td><td>" +
+                            GL.AnalysisCode + "</td><td>" + GL.Description + "</td></tr>");
+                });
+                
+            });
+        }
+
+        function LoadDetail()
+        {
+            
+            
+        }
+
+
+        $(document).ready(function () {
+            //LoadHeader();
+           
+            $('#txtSearch').keyup(function () {
+                LoadHeader();
+            });
+            
+
+            $('#Header').on("click", ".nr", function () {
+                //alert($('#txtSearchStockCode').val());
+                var Requisition = $(this).find('td:eq(0)').text().trim();
+                $.getJSON('../GlCodeTag/GetDetail?Requisition=' + Requisition, function (data) {
+                    var items = '<table id="Header" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr class="nowrap"><th>Requisition</th><th>StockCode</th><th>Description</th><th>Uom</th><th>ProductClass</th><th>Quantity</th><th>GlCode</th><th>Job</th><th>Hierachy/Category</th><th>Supplier</th><th>Price</th><th>PurchaseOrder</th></tr>';
+                    $.each(data, function (i, Requisition) {
+                        items += "<tr class='nr' data-dismiss='modal'><td>" + Requisition.Requisition + "</td><td>" + Requisition.StockCode + "</td><td>" + Requisition.Description + "</td><td>" + Requisition.Uom + "</td><td>" + Requisition.ProductClass + "</td><td>" + Requisition.Quantity + "</td><td>" + Requisition.GlCode + "</td><td>" + Requisition.Site + "</td><td>" + Requisition.Job + "</td><td>" + Requisition.Supplier + "</td><td>" + Requisition.SupplierValue + "</td><td>" + Requisition.PurchaseOrder + "</td>";
+                    });
+                    items += "</table>";
+                    $('#Results').html(items);
+                    //alert(items);
+                });
+
+
+            });
+
+
+
+
+            UltimateScrollingTable('Header', 400, 1300, 1);
+
+
+
+            $('#Header').on('click', 'tbody tr', function (event) {
+                
+                
+                var Branch = $(this).find('td:eq(0)').text().trim();
+                var Site = $(this).find('td:eq(1)').text().trim();
+                var Dept = $(this).find('td:eq(2)').text().trim();
+                var Account = $(this).find('td:eq(3)').text().trim();
+                var GlCode = Branch + Site + Dept + Account;
+                var AnalysisCode = $(this).find('td:eq(5)').text().trim();
+                //alert(GlCode);
+
+                $.getJSON('../GlCodeTag/GetDetail?GlCode=' + GlCode + '&AnalysisCode=' + AnalysisCode, function (data) {
+                    var items = '<table id="Detail" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr class="nowrap"><th>Requisition</th><th>Supplier</th><th>GrnYear</th><th>GrnMonth</th><th>Qty</th><th>Price</th><th>Total</th><th>Description</th><th>Invoice</th><th>InvoiceAmount</th><th>DeliveryDate</th></tr>';
+                    $.each(data, function (i, DET) {
+                        items += "<tr class='nr' data-dismiss='modal'><td>" + DET.Requisition + "</td><td>" + DET.Supplier + "</td><td>" + DET.ReqGrnYear + "</td><td>" + DET.ReqGrnMonth + "</td><td>" + DET.QtyReceived + "</td><td>" + DET.Price + "</td><td>" + DET.GrnAmount + "</td><td>" + DET.StockDescription + "</td><td>" + DET.Invoice + "</td><td>" + DET.InvoiceAmount + "</td><td>" + DET.DeliveryNoteDate + "</td></tr>";
+                    });
+                    items += "</table>";
+                    $('#Results').html(items);
+                    //alert(items);
+                });
+            });
+
+        });
+    </script>
+}
+
+
+
+
+

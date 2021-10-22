@@ -1,0 +1,74 @@
+﻿@model Megasoft2.mtLabelPrinter
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+   
+        <h4 >
+           
+                New Label Printer
+        </h4>
+
+
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmCreate" }))
+    {
+        @Html.AntiForgeryToken()
+<div class="alert alert-danger fade in">
+    @Html.ValidationSummary(true)
+</div>
+        <div>
+            <fieldset>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Printer Name
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.PrinterName, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PrinterName)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Printer Path
+                        </div>
+                        <div class="editor-field col-sm-9">
+                            @Html.TextBoxFor(model => model.PrinterPath, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.PrinterPath)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div id="errordiv">
+
+                </div>
+
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="submit" value="Create" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
+
+
+
+
+
+
+
+

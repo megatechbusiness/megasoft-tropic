@@ -1,0 +1,188 @@
+﻿@model Megasoft2.ViewModel.ScaleSystemViewModel
+@{
+    ViewBag.Title = "PalletScanner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h4>Pallet Scanner</h4>*@
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;font-size:xx-small;">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="errordiv" class="col-xs-8" style="font-size:x-small">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Barcode
+            </div>
+            <div class="editor-field col-xs-5">
+                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-xs", @id = "txtBarcode", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Barcode)
+                <input type="hidden" id="hdSupplier" />
+            </div>
+            <div class="col-xs-1 text-left" style="margin-left:-20px;">
+                <a href="#" class="btn btn-success btn-xs" id="btnValidate" onclick="ValidateBarcode();">
+                    <span class="fa fa-gear" aria-hidden="true" title="Validate Barcode"></span>
+                </a>
+            </div>
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                StockCode
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-xs", @id = "txtStockCode", @style = "font-size:xx-small;", @readonly = "read-only" })
+                @Html.ValidationMessageFor(model => model.StockCode)
+            </div>
+            @*<div class="col-md-1 col-xs-2 text-left">
+                <a href="@Url.Action("Index", "StockCodeBrowse")" class="modal-link btn btn-success">
+                    <span class="fa fa-search" aria-hidden="true" title="Browse"></span>
+                </a>
+            </div>*@
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                PalletNo.
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control input-xs", @id = "txtPallet", @style = "font-size:xx-small;", @readonly = "read-only" })
+                @Html.ValidationMessageFor(model => model.Pallet)
+            </div>
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Weight
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.TextBoxFor(model => model.Weight, new { @class = "form-control input-xs", @id = "txtWeight", @style = "font-size:xx-small;", @readonly = "read-only" })
+                @Html.ValidationMessageFor(model => model.Weight)
+            </div>
+            <div class="editor-field col-xs-2 text-right">
+                <a href="#" class="btn btn-primary btn-xs" id="btnAdd" onclick="AddLine();">
+                    <span class="fa fa-plus" aria-hidden="true" title="Add"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="form-horizontal row text-center col-xs-12">
+            @*<div class="control-label col-xs-1" style="text-align:left;" id="txtCount">
+
+            </div>*@
+            <div class="control-label col-xs-4" style="text-align:left; font-size:x-large;" id="txtqty">
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs col-xs-8">
+            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                <thead>
+                    <tr>
+                        <th>Stock Code</th>
+                        <th>PalletNo.</th>
+                        <th>Weight</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>
+
+
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+
+    function ValidateBarcode() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        var str = document.getElementById('txtBarcode').value;
+        //If Megasoft Barcode
+        if (str.indexOf("|") > 0) {
+            var Values = document.getElementById('txtBarcode').value.split("|");
+            document.getElementById('txtStockCode').value = Values[0];
+            document.getElementById('txtPallet').value = Values[4];
+            document.getElementById('txtWeight').value = Values[2];
+        }
+    }
+    function AddLine() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        showprogressbar();
+
+        var StockCode = document.getElementById('txtStockCode').value;
+        var Pallet = document.getElementById('txtPallet').value;
+        var Weight = document.getElementById('txtWeight').value;
+        var AddReel = true;
+
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td');
+            var ReelNumber = $tds.eq(1).text();
+            if (Pallet == ReelNumber) {
+                AddReel = false;
+                alert("PalletNo. " + Pallet + " already scanned.");
+                return;
+            }
+        });
+
+        if (AddReel == true) {
+            $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
+                "</td><td>" + Pallet + "</td><td>" + Weight +
+                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+        }
+
+
+        document.getElementById('txtBarcode').value = "";
+        document.getElementById('txtStockCode').value = "";
+        document.getElementById('txtPallet').value = "";
+        document.getElementById('txtWeight').value = "";
+        document.getElementById('txtBarcode').focus();
+        var qty = 0;
+        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        $('#txtCount').html('Total:' + rows);
+
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td');
+            var Quantity = parseFloat($tds.eq(2).text());
+            //alert(Quantity);
+            qty += Quantity;
+
+        });
+        //alert(qty);
+        $('#txtqty').html('Total Weight:' + qty);
+
+        hideprogressbar();
+    }
+
+    $(document).ready(function () {
+
+        //change page title text
+        $('#megasoftTitle').text(' Megasoft - Immediate');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+        $('#tblLines').on("click", ".delLine", function () {
+            $(this).closest("tr").remove();
+            var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            $('#txtCount').html('Total:' + rows);
+        });
+
+        //Check for Smart Scan
+        if ("@ViewBag.SmartId" != "") {
+            GetSmartIdData("@ViewBag.SmartId");
+        }
+
+    });
+</script>
+

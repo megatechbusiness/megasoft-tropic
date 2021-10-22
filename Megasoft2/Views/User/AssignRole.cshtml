@@ -1,0 +1,105 @@
+﻿@using Megasoft2.Models
+@model List<Megasoft2.sp_GetUserRole_Result>
+
+@{
+    ViewBag.Title = "User Role Access";
+}
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                User-Role Access - @ViewBag.Username
+            </a>
+        </h4>
+    </div>
+    <div><input type="hidden" id="hdUsername" value="@ViewBag.Username" /></div>
+    <div class="panel-body">
+        <table id="tblUserRoles" class="table table-condensed table-responsive table-striped">
+            <thead><tr><th>Role</th><th>Description</th><th style="text-align:center;">Has Access</th></tr></thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    if (role.HasAccess == "false")
+                    {
+                        <tr><td>@role.Role</td><td>@role.Description</td><td>@Html.CheckBox("RoleSelection", false, new { @class = "form-control input-sm" }) </td></tr>
+                    }
+                    else
+                    {
+                        <tr><td>@role.Role</td><td>@role.Description</td><td>@Html.CheckBox("RoleSelection", true, new { @class = "form-control input-sm" }) </td></tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <div id="errordiv">
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <button id="btnSave" type="button" value="Save" class="btn btn-info">
+                    <i class="fa fa-save"></i> Save
+                </button>
+            </div>
+            <div class="col-sm-6" style="text-align:right;">
+                <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                    <i class="fa fa-close"></i> Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSave').on('click', function (e) {
+            e.preventDefault();
+            
+            var mydata = [];
+            var Username = document.getElementById('hdUsername').value;
+
+            $('#tblUserRoles  tr').each(function () {
+
+                var myObject = new Object();
+                var $tds = $(this).find('td');
+                var Role = $tds.eq(0).text().trim();
+                var HasAccess = $(this).find("input[type='checkbox'][name='RoleSelection']").is(":checked");
+                myObject.Username = Username;
+                myObject.Role = Role;                
+                myObject.HasAccess = HasAccess;
+                if (Role != "")
+                {
+                    mydata.push(myObject);
+                }
+
+
+            });
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+            
+            $.ajax({
+                type: "POST",
+                url: "../User/SaveRoleAccess",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+
+            function OnErrorCall(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+        });
+    });
+</script>

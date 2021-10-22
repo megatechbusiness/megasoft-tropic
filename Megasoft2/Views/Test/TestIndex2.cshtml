@@ -1,0 +1,42 @@
+﻿@model Megasoft2.Models.Test
+@{
+    ViewBag.Title = "TestIndex2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TestIndex2</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Purchase Order Receipt</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.StockCode)
+                                </div>
+                                <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                    <button type="submit">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}

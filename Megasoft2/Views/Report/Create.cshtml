@@ -1,0 +1,196 @@
+﻿@model Megasoft2.ViewModel.ReportViewModel
+
+@using (Html.BeginForm("Create", "Report", FormMethod.Post, new { @id = "ReportForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">Create Report</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Report Details</a></li>
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("ReportSetup", "Report") + "'");">
+                <i class="fa fa-group"></i> Reports
+            </button>
+            <button type="submit" id="btnSave" value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Display Name
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.ReportMaster.DisplayName, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.ReportMaster.DisplayName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.ReportMaster == null)
+                                {
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Report
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.ReportMaster.Report, new { @class = "form-control input-sm" })
+                                                    @Html.ValidationMessageFor(model => model.ReportMaster.Report)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Program
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.ReportMaster.Program, new { @class = "form-control input-sm", @Value = "DynamicReports" })
+                                                    @Html.ValidationMessageFor(model => model.ReportMaster.Program)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Report
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.ReportMaster.Report, new { @class = "form-control input-sm",@readonly = "readonly" })
+                                                    @Html.ValidationMessageFor(model => model.ReportMaster.Report)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-horizontal row">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Program
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                <div class="col-sm-12">
+                                                    @Html.TextBoxFor(model => model.ReportMaster.Program, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                    @Html.ValidationMessageFor(model => model.ReportMaster.Program)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Report Group
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.DropDownListFor(model => model.ReportMaster.ReportGroup, new SelectList(ViewBag.ReportGroup, "Value", "Text"), "", new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.ReportMaster.ReportGroup)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Report Path
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(model => model.ReportMaster.ReportPath, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.ReportMaster.ReportPath)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div id="errordiv">
+        </div>
+    </div>
+
+}
+<style type="text/css">
+</style>
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+    $('#btnSave').on("click", function () {
+       if ($('#ReportMaster_Report').val() == "") {
+           alert('Please enter a Report Name!');
+           return false;
+        }
+        if ($('#ReportMaster_DisplayName').val() == "") {
+            alert('Please enter a display name!');
+            return false;
+        }
+        if ($('#ReportMaster_Program').val() == "") {
+            alert('Please enter a Program!');
+            return false;
+        }
+        if ($('#ReportMaster_ReportGroup').val() == "") {
+            alert('Please select a Report Group!');
+            return false;
+        }
+        if ($('#ReportMaster_ReportPath').val().length == "") {
+            alert('Please enter a Report Path!');
+            return false;
+        }
+        if ($('#ReportMaster_ReportPath').val().length > 200) {
+            alert('Path cannot be greater than 200 characters! length: ' + $('#ReportMaster_ReportPath').val().length);
+            return false;
+        }
+        var result = confirm("Are you sure you want to Save?");
+        if (result) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    });
+
+    function ShowErrorDiv() {
+        $('#errordiv').addClass("alert alert-danger");
+    }
+
+    $(function () {
+
+        $("#ReportForm").submit(function (e) {
+            showprogressbar();
+        });
+
+    });
+</script>

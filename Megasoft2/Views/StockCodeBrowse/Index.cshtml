@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Megasoft2.InvMaster>
+
+@{
+    var grid = new WebGrid(Model, canPage: true, canSort: false, rowsPerPage: 10, ajaxUpdateContainerId: "grid");
+}
+<div id="grid">
+    <div class="panel panel-primary modal-body" style="border-color:white;">
+        <div class="panel-heading" id="panelTitle">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-target="#collapseOne"
+                   href="#collapseOne" class="collapsed">
+                    Search StockCode
+                </a>
+            </h4>
+        </div>
+
+        <div class="panel-body" id="panelHeader">
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="col-md-6 col-xs-12">
+                        <input type="text" id="txtSearch" placeholder="search" />
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <button id="SearchGrid" class="btn btn-success">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        @*@if (Model.Any())
+                            {*@
+                        @grid.GetHtml(
+                        tableStyle: "table table-condensed table-responsive table-striped",
+                        columns: grid.Columns(
+                                 grid.Column("StockCode", "StockCode", format: @<a href="#" onclick="SelectStockCode('@item.StockCode');">@item.StockCode</a>),
+                                 grid.Column("Description","Description", format: @<text> @item.Description</text>)))
+                        @*}*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal row">
+
+            <div class="form-group" id="panelFooter">
+                <div class="col-sm-12" style="text-align:right;">
+                    <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                        <i class="fa fa-close"></i> Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+                <script type="text/javascript">
+                    function SelectStockCode(StockCode) {
+                        document.getElementById("txtStockCode").value = StockCode;
+                        $('#modal-container').modal('hide');
+                    }
+
+                
+
+                    
+
+                    $(document).ready(function () {
+                        $('#SearchGrid').on('click', function (e) {
+
+                            e.preventDefault();
+                            var StockCode = document.getElementById('txtSearch').value;
+
+                            $.ajax({
+                                url: '@Url.Action("Index", "StockCodeBrowse")',
+                                contentType: 'application/html; charset=utf-8',
+                                type: 'GET',
+                                dataType: 'html',
+                                data: { SearchText: StockCode },
+                            })
+                            .success(function (result) {
+                                
+                                $('#grid').html(result);
+
+                                
+                            })
+                             .error(function (xhr, status) {
+                                 
+                                 alert(xhr.responseText);
+                             });
+
+
+
+                        
+                        });
+                    });
+                    
+                </script>

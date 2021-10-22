@@ -1,0 +1,319 @@
+﻿@model Megasoft2.Models.BatchReceipt
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSplitPallet" }))
+{
+
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default well">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Split Pallet</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-6" style="text-align:left;">
+                                    <a href="@Url.Action("SplitPallet", "WhseManBatchReceipt")" class="btn btn-default btn-sm">
+                                        <span class="fa" aria-hidden="true" title="">Refresh</span>
+                                    </a>
+                                </div>
+                                <div class="col-md-6" style="text-align:right;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnPost" name="action:TransferSplitPallet" value="TranferSplitPallet">
+                                        <i class="fa fa-save">Transfer</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            @if (ViewBag.LoadPallet == null)
+                            {
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Pallet No
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.PalletNo, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadSplitPallet" value="LoadSplitPallet">
+                                                <span class="fa fa-arrow-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Pallet No
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.PalletNo, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        @Html.HiddenFor(model => model.Job)
+                                        <div class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadSplitPallet" value="LoadSplitPallet" disabled>
+                                                <span class="fa fa-arrow-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Stock Code
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <div class="form-group col-sm-4">
+                                    Stock Description
+                                </div>
+                                <div class="input-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.StockDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-horizontal row">
+                            <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="wrap">
+                                <table id="tblItems" class="table table-hover myTableStyle table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" colspan="4">
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.PalletNo != null)
+                                                    {
+                                                        @Model.PalletNo
+                                                    }
+                                                }
+
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50px">
+                                                Select <input type="checkbox" class="chkall" />
+                                            </th>
+                                            <th style="width:150px">
+                                                Batch Id
+                                            </th>
+                                            <th >
+                                                Gross Qty
+                                            </th>
+                                            <th >
+                                                Net Qty
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            if (Model.SplitPalletDetails != null)
+                                            {
+                                                for (int i = 0; i < Model.SplitPalletDetails.Count(); i++)
+                                                {
+
+                                                    <tr class="nr">
+                                                        <td>
+                                                            @Html.CheckBoxFor(model => model.SplitPalletDetails[i].Selected, new { @class = "form-control input-sm big-checkbox chkbox " })
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SplitPalletDetails[i].BatchId)
+                                                            @Html.HiddenFor(model => model.SplitPalletDetails[i].BatchId)
+                                                            @Html.HiddenFor(model => model.SplitPalletDetails[i].Job)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SplitPalletDetails[i].GrossQty)
+                                                            @Html.HiddenFor(model => model.SplitPalletDetails[i].GrossQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SplitPalletDetails[i].NetQty)
+                                                            @Html.HiddenFor(model => model.SplitPalletDetails[i].NetQty)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="wrap2">
+                                <table id="tblTransferredItems" class="table table-hover myTableStyle table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" colspan="4">
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.NewPalletNo != null)
+                                                    {
+                                                        @Model.NewPalletNo <label>(new)</label>
+                                                        if (Model.PalletReport != null)
+                                                        {
+                                                            <a href="@Model.PalletReport.FilePath" target="_blank" class="btn btn-default btn-sm">
+                                                                <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PalletReport.FileName</span></span>
+                                                            </a>
+                                                        }
+                                                        if (Model.PalletInformation != null)
+                                                        {
+                                                            <a href="@Model.PalletInformation.FilePath" target="_blank" class="btn btn-default btn-sm">
+                                                                <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PalletInformation.FileName</span></span>
+                                                            </a>
+                                                        }
+                                                    }
+                                                }
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Batch Id
+                                            </th>
+                                            <th>
+                                                Gross Qty
+                                            </th>
+                                            <th >
+                                                Net Qty
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            if (Model.PalletTransferedTo != null)
+                                            {
+                                                for (int i = 0; i < Model.PalletTransferedTo.Count(); i++)
+                                                {
+
+                                                    <tr class="nr">
+
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.PalletTransferedTo[i].BatchId)
+                                                            @Html.HiddenFor(model => model.PalletTransferedTo[i].BatchId)
+                                                            @Html.HiddenFor(model => model.PalletTransferedTo[i].Job)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.PalletTransferedTo[i].GrossQty)
+                                                            @Html.HiddenFor(model => model.PalletTransferedTo[i].GrossQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.PalletTransferedTo[i].NetQty)
+                                                            @Html.HiddenFor(model => model.PalletTransferedTo[i].NetQty)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<style type="text/css">
+
+    table {
+        width: 100%;
+    }
+    .wrap {
+        
+        width: 45%;
+        float: left;
+    }
+    .wrap2 {
+        float: right;
+        width: 50%;
+    }
+
+    ​
+    .big-checkbox {
+        width: 10px;
+        height: 10px;
+    }
+</style>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".chkall").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $('#btnPost').on('click', function () {
+           //alert("");
+            if ($('#PalletNo').val() === "") {
+                alert('Please enter a Pallet No!');
+                return false;
+            }
+            var table = document.getElementById("tblItems");
+            var TableLength = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            if (TableLength === 0) {
+                alert("Please Load Pallet.");
+                return false;
+            }
+            var RowsCount = 0;
+            for (var i = 0, row; row = table.rows[i]; i++) {
+                //alert("loop");
+                var CheckBox = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(0)').find('input[type=checkbox]').prop('checked');
+                //alert(CheckBox);
+
+                if (CheckBox === true) {
+                    RowsCount++;
+
+                    var BatchId = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(1)').text().trim();
+                    var HiddenQty = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(2)').find('input[type=hidden]').val();
+                    var TextBoxQty = $('#tblItems tbody').find('tr:eq(' + i + ')').find('td:eq(2)').find('input[type=text]').val();
+                        if (parseFloat(TextBoxQty) > parseFloat(HiddenQty)) {
+                            alert("Return quantity cannot be greater than lot quantity for Batch: " + BatchId);
+                            return false;
+                        }
+                }
+            }
+            if (RowsCount === 0) {
+                alert("No lines selected ");
+                return false;
+            }
+        });
+        $('#btnLoad').on('click', function () {
+
+            if ($('#PalletNo').val() === "") {
+                alert('Please enter a Pallet No!');
+                return false;
+            }
+        });
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblItems .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $("#frmProductionReturn").submit(function (e) {
+            showprogressbar();
+        });
+    });
+</script>

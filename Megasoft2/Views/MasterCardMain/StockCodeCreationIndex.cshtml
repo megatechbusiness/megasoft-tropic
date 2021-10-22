@@ -1,0 +1,342 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel-heading">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-3">
+                <div class="input-group">
+                    @Html.HiddenFor(model => model.Header.Id)
+                </div>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-4">
+                <center><h4>Stock Code Creation</h4></center>
+            </div>
+            <div class="text-right">
+                <div class="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="btnLoadMasterCardData" type="submit" aria-label="Left Align" name="action:LoadMasterCardData" value="LoadMasterCardData">
+                            <span class="fa fa-arrow-circle-left" aria-hidden="true">Back </span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="well-lg  col-sm-7 ">
+        <div class="" id="Detail">
+            <table class="tblDetail table table-hover table-striped  table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                <thead class="style1" tabindex="-1">
+                    <tr>
+                        <th style="">
+                            Stock Code
+                        </th>
+                        <th width="100px">
+                            Stock Code
+                        </th>
+                        <th width="100px">
+                            Warehouse
+                        </th>
+                        <th width="100px">
+                            Price Code
+                        </th>
+                        <th width="150px">
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="datarow">
+                    @if (Model != null)
+                    {
+                        if (Model.MasterCardStockCode != null)
+                        {
+                            foreach (var i in Model.MasterCardStockCode)
+                            {
+                                <tr class="nr">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.StockCode)
+                                        @Html.HiddenFor(model => i.StockCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.StockCodeCreated)
+                                        @Html.HiddenFor(model => i.StockCodeCreated)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.WarehouseCreated)
+                                        @Html.HiddenFor(model => i.WarehouseCreated)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.PriceCodeCreated)
+                                        @Html.HiddenFor(model => i.PriceCodeCreated)
+                                    </td>
+                                    <td>
+                                        <button href="@Url.Action("EditStockCode", "MasterCardMain",new {MasterCardId = i.Id,StockCode = i.StockCode })" class="btn btn-default" type="button" aria-label="Left Align">
+                                            <span class="fa fa-edit" aria-hidden="true"> </span>
+                                        </button>
+                                        <button href="@Url.Action("DeleteStockCode", "MasterCardMain",new {MasterCardId = i.Id,StockCode = i.StockCode })" class="btn btn-danger" type="button" aria-label="Left Align">
+                                            <span class="fa fa-trash" aria-hidden="true"> </span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr />
+    <div class="col-md-12 well well-lg">
+        <div class="form-horizontal row">
+            <div class="">
+                <div class="col-lg-12">
+                    <div class="form-horizontal row spacer">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7> Stock Code</h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.StockCode, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Stock Description </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.Description, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Long Desc</h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.LongDesc, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Volume </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.Volume, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7> Product Class</h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (ViewBag.ProductClassList != null)
+                                {
+                                    @Html.DropDownListFor(n => n.stkobj.ProductClass, new SelectList(ViewBag.ProductClassList, "Value", "Description"), "Select Product Class", new { @class = "form-control input-sm", style = "width:100%" })
+                                    @Html.HiddenFor(m => m.stkobj.ProductClass)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.stkobj.ProductClass, new { @class = "form-control input-sm" })
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Warehouse </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (ViewBag.WarehouseList != null)
+                                {
+                                    @Html.DropDownListFor(n => n.stkobj.WarehouseToUse, new SelectList(ViewBag.WarehouseList, "Value", "Description"), new { @class = "form-control input-sm select2-multiselect-checkbox", style = "width:100%", multiple = "multiple" })
+                                    @Html.HiddenFor(m => m.stkobj.WarehouseToUse)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.stkobj.WarehouseToUse, new { @class = "form-control input-sm " })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-horizontal row spacer">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Stock Uom </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (ViewBag.StockUomList != null)
+                                {
+                                    @Html.DropDownListFor(n => n.stkobj.StockUom, new SelectList(ViewBag.StockUomList, "Value", "Description"), "Select Stock Uom", new { @class = "form-control input-sm", style = "width:100%" })
+                                    @Html.HiddenFor(m => m.stkobj.StockUom)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.stkobj.StockUom, new { @class = "form-control input-sm" })
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Mass </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.Mass, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Decimals </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.Decimals, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Alternate UOM </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (ViewBag.StockUomList != null)
+                                {
+                                    @Html.DropDownListFor(n => n.stkobj.AlternateUom, new SelectList(ViewBag.StockUomList, "Value", "Description"), "Select Alternate Uom", new { @class = "form-control input-sm", style = "width:100%" })
+                                    @Html.HiddenFor(m => m.stkobj.AlternateUom)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.stkobj.AlternateUom, new { @class = "form-control input-sm" })
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7> Conv Fact Alt Uom</h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.ConvFactAltUom, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Alt Conv Mul / Div </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(n => n.stkobj.MulDiv, new List<SelectListItem>{
+                new SelectListItem{ Text="Multiply", Value = "M" },
+                new SelectListItem{ Text="Divide", Value = "D" }}, new { @class = "form-control", style = "width:100%" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Other UOM </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (ViewBag.StockUomList != null)
+                                {
+                                    @Html.DropDownListFor(n => n.stkobj.OtherUom, new SelectList(ViewBag.StockUomList, "Value", "Description"), "Select OtherUom Uom", new { @class = "form-control input-sm", style = "width:100%" })
+                                    @Html.HiddenFor(m => m.stkobj.OtherUom)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.stkobj.OtherUom, new { @class = "form-control input-sm" })
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7> Conv Fact Oth Uom</h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.stkobj.ConvFactOthUom, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Oth Conv Mul / Div </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(n => n.stkobj.ConvMulDiv, new List<SelectListItem>{
+                                  new SelectListItem{ Text="Multiply", Value = "M" },
+                                  new SelectListItem{ Text="Divide", Value = "D" }}, new { @class = "form-control", style = "width:100%" })
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-horizontal row spacer">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Part Category </h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(n => n.stkobj.PartCategory, new List<SelectListItem>{
+                                new SelectListItem{ Text="Made - In", Value = "M" },
+                                new SelectListItem{ Text="Bought Out", Value = "B" }}, new { @class = "form-control", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <h7>Job Classification</h7>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (ViewBag.JobClassList != null)
+                                {
+                                    @Html.DropDownListFor(n => n.stkobj.JobClassification, new SelectList(ViewBag.JobClassList, "Value", "Description"), "Select Job Class", new { @class = "form-control input-sm", style = "width:100%" })
+                                    @Html.HiddenFor(m => m.stkobj.JobClassification)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.stkobj.JobClassification, new { @class = "form-control input-sm" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+}
+
+@section scripts {
+    <link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/DataTable/datatables.js")
+    <style>
+    </style>
+    <script type="text/javascript">
+
+        $('.closeModal3').click(function () {
+
+        });
+
+        $(document).ready(function () {
+            $("#WarehouseToUse").select2({
+                width: '100%',
+                placeholder: " ",
+                allowClear: true,
+                closeOnSelect: true
+            });
+        });
+
+    </script>
+}

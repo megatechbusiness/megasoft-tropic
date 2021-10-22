@@ -1,0 +1,387 @@
+﻿@model Megasoft2.ViewModel.StereoSystemAddStereoViewModel
+@{
+    ViewBag.Title = "StereoQuery";
+}
+<h4 style="font-weight:bold;" class="text-center">Stereo System - Stereo Query</h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmStereoQuery" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+                    <div class="form-horizontal row spacer-xs ">
+                        <div class="form-group row col-sm-12">
+                            <div>
+                                <a href="@Url.Action("StereoQuery", "StereoSystemAddStereo")" class="btn btn-sm btn-default pull-left hbutton "><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+                            </div>
+                        </div>
+                    </div>
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        ReqNo.
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.ReqNo, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("RequisitionSearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                        </div>
+                                        <div class=" col-sm-2">                                        
+                                            <button type="submit" class="btn btn-success btn-sm" id="btnReqno" name="action:SearchReqno" value="SearchReqno">
+                                                <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        StockCode
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("StockCodeSearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-success btn-sm" id="btnStockCode" name="action:SearchStockCode" value="SearchStockCode">
+                                                <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Print Description
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.PrintDescription, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <button type="submit" class="btn btn-success btn-sm" id="btnPrintDescription" style="float: right;" name="action:SearchDecription" value="SearchDecription">
+                                                <i class="fa fa-arrow-right"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Supplier
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.SupplierReference, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("SupplierSearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-success btn-sm" id="btnSupplier" name="action:SearchSupplier" value="SearchSupplier">
+                                                <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Customer
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("CustomerSearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-success btn-sm" id="btnSupplier" name="action:SearchCustomer" value="SearchCustomer">
+                                                <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        ReqNo
+                                    </div>
+                                    <div class="input-group col-sm-7">
+                                        @Html.TextBoxFor(model => model.hdr.ReqNo, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Supplier
+                                    </div>
+                                    <div class="input-group col-sm-7">
+                                        @Html.TextBoxFor(model => model.hdr.SupplierReference, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Quotation No.
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.hdr.Quotation, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Customer
+                                    </div>
+                                    <div class="input-group col-sm-7">
+                                        @Html.TextBoxFor(model => model.hdr.Customer, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Print Description
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.hdr.PrintDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Stereo Type
+                                    </div>
+                                    <div class="input-group col-sm-7">
+                                        @Html.TextBoxFor(model => model.hdr.StereoType, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Colours
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.hdr.NumberColours, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Changed Plates
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.hdr.ChangePlate, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Date Stereos Req.
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.hdr.DateStereosRequired, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-4">
+                                        Stock Code
+                                    </div>
+                                    <div class="input-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.hdr.StockCode, new { @class = "form-control input-sm", @id = "HeaderStockCode", @readonly = "readonly" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("StockCodeQuerySearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary btn-sm" id="btnStockCode" name="action:SaveStockCode" value="SaveStockCode">
+                                                <i class="fa fa-save" aria-hidden="true"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-horizontal" row spacer="xs">
+                                <div class="form-group" id="Detail">
+                                    <table class="tblDetail table table-hover table-striped  table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                                        <thead class="style1" tabindex="-1">
+                                            <tr>
+                                                <td style="width:10px"></td>
+                                                <th style="width:30px">
+                                                    ReqNo
+                                                </th>
+                                                <th style="width:90px">
+                                                    Purchase Order
+                                                </th>
+                                                <th style="width:30px">
+                                                    Line
+                                                </th>
+                                                <th style="width:50px">
+                                                    Stock Code
+                                                </th>
+                                                <th style="width:250px">
+                                                    Stock Description
+                                                </th>
+                                                <th style="width:50px">
+                                                    Quantity
+                                                </th>
+                                                <th style="width:50px">
+                                                    UnitPrice
+                                                </th>
+                                                <th style="width:50px">
+                                                    Gl Code
+                                                </th>
+                                                <th style="width:50px">
+                                                    Tax Code
+                                                </th>
+                                                <th style="width:50px">
+                                                    Width
+                                                </th>
+                                                <th style="width:50px">
+                                                    Length
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="datarow">
+                                            @if (Model != null)
+                                            {
+                                                if (Model.DetailList != null)
+                                                {
+                                                    for (int i = 0; i < Model.DetailList.Count; i++)
+                                                    {
+                                                        <tr class="nr">
+                                                            <td>
+                                                                <a href="@Url.Action("DuplicateStereo","StereoSystemAddStereo", new { ReqNo =  Model.DetailList[i].ReqNo})" class="duplicate btn btn-success btn-sm">
+                                                                    <span class="fa fa-plus" title="Create"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="@Url.Action("LoadStereoHeader","StereoSystemAddStereo", new { ReqNo =  Model.DetailList[i].ReqNo})" class="">
+                                                                    @Html.DisplayFor(modelItem => Model.DetailList[i].ReqNo)
+                                                                </a>
+                                                                @*@Html.DisplayFor(modelItem => Model.DetailList[i].ReqNo)*@
+                                                                @Html.HiddenFor(model => Model.DetailList[i].ReqNo)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].PurchaseOrder
+                                                                @Html.HiddenFor(model => Model.DetailList[i].PurchaseOrder)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].Line
+                                                                @Html.HiddenFor(model => Model.DetailList[i].Line)
+                                                            </td>
+
+                                                            <td>
+                                                                @Model.DetailList[i].StockCode
+                                                                @Html.HiddenFor(model => Model.DetailList[i].StockCode)
+                                                            </td>
+
+                                                            <td>
+                                                                @Model.DetailList[i].StockDescription
+                                                                @Html.HiddenFor(model => Model.DetailList[i].StockDescription)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].Quantity
+                                                                @Html.HiddenFor(model => Model.DetailList[i].Quantity)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].UnitPrice
+                                                                @Html.HiddenFor(model => Model.DetailList[i].UnitPrice)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].GlCode
+                                                                @Html.HiddenFor(model => Model.DetailList[i].GlCode)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].TaxCode
+                                                                @Html.HiddenFor(model => Model.DetailList[i].TaxCode)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].Width
+                                                                @Html.HiddenFor(model => Model.DetailList[i].Width)
+                                                            </td>
+                                                            <td>
+                                                                @Model.DetailList[i].Length
+                                                                @Html.HiddenFor(model => Model.DetailList[i].Length)
+                                                            </td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            }
+                            <link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+                            <style type="text/css">
+                                .btn-link {
+                                    border: none;
+                                    outline: none;
+                                    background: none;
+                                    cursor: pointer;
+                                    color: #0000EE;
+                                    padding: 0;
+                                    text-decoration: underline;
+                                    font-family: inherit;
+                                    font-size: inherit;
+                                }
+
+                                    .btn-link:active {
+                                        color: #FF0000;
+                                    }
+
+                                .nowrap {
+                                    white-space: nowrap;
+                                }
+
+                                .hr {
+                                    padding: 0px;
+                                    margin: 0px;
+                                }
+                            </style>
+
+                            @section Scripts {
+
+                                @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+                                @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+                                @Scripts.Render("~/bundles/jqueryval")
+                                @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+                                @Scripts.Render("~/Content/DataTable/datatables.js")
+
+                                <script type="text/javascript">
+                                    $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+                                    var myTable = $('#tblDetail').DataTable();
+
+
+                                    $(document).ready(function () {
+                                        $('.duplicate').on("click", function () {
+
+                                            var result = confirm("Warning this will create a requisition. Do you want to continue?");
+                                            if (result) {
+                                                return true;
+                                            }
+                                            else {
+                                                return false;
+                                            }
+                                        });
+
+
+                                        $('#btnSave').on("click", function () {
+
+                                            var result = confirm("Are you sure you want to Save?");
+                                            if (result) {
+                                                return true;
+                                            }
+                                            else {
+                                                return false;
+                                            }
+                                        });
+
+                                        $("#frmStereoQuery").submit(function (e) {
+                                            showprogressbar();
+                                        });
+
+                                    });
+                                </script>
+                            }

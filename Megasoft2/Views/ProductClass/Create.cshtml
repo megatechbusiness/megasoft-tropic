@@ -1,0 +1,76 @@
+﻿@model Megasoft2.mtProductClass
+
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Create Product Class
+            </a>
+        </h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        if (!Html.ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger fade in">
+                @Html.ValidationSummary(true)
+            </div>
+        }
+        <fieldset>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Product Class
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.ProductClass, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.ProductClass)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Description
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </div>
+                </div>
+            </div>
+
+            <div id="errordiv">
+
+            </div>
+            <div class="form-horizontal row">
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <button type="submit" value="Save" class="btn btn-info">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                    </div>
+                    <div class="col-sm-6" style="text-align:right;">
+                        <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                            <i class="fa fa-close"></i> Close
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

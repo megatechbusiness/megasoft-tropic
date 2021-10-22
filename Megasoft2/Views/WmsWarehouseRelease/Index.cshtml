@@ -1,0 +1,145 @@
+﻿@model Megasoft2.ViewModel.WmsBackOrderReleaseViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Warehouse Release</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>WMS Id</th>
+                                            <th>
+                                                Sales Order
+                                            </th>
+                                            <th>
+                                                Line
+                                            </th>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Warehouse
+                                            </th>
+                                            <th>
+                                                Uom
+                                            </th>
+                                            <th>
+                                                Order Qty.
+                                            </th>
+
+                                            <th>
+                                                Release Qty.
+                                            </th>
+                                            <th>
+                                                Back Order Qty.
+                                            </th>
+                                            <th>
+                                                Comment
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            if (Model.SoLines != null)
+                                            {
+
+                                                for (int i = 0; i < Model.SoLines.Count(); i++)
+                                                {
+
+                                                    <tr>
+                                                        <td>
+                                                            <a href="@Url.Action("ReleaseLine", "WmsWarehouseRelease", new { WmsId = Model.SoLines[i].WmsId, SalesOrder = Model.SoLines[i].SalesOrder, SalesOrderLine = (int)Model.SoLines[i].SalesOrderLine })" class="btn btn-default btn-xs">
+                                                                <span class="fa fa-binoculars" aria-hidden="true" title="Review and Release"></span>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].WmsId)
+                                                            @Html.HiddenFor(model => model.SoLines[i].WmsId)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].SalesOrder)
+                                                            @Html.HiddenFor(model => model.SoLines[i].SalesOrder)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].SalesOrderLine)
+                                                            @Html.HiddenFor(model => model.SoLines[i].SalesOrderLine)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].MStockCode)
+                                                            @Html.HiddenFor(model => model.SoLines[i].MStockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].MStockDes)
+                                                            @Html.HiddenFor(model => model.SoLines[i].MStockDes)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].MWarehouse)
+                                                            @Html.HiddenFor(model => model.SoLines[i].MWarehouse)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].MStockingUom)
+                                                            @Html.HiddenFor(model => model.SoLines[i].MStockingUom)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].MOrderQty)
+                                                            @Html.HiddenFor(model => model.SoLines[i].MOrderQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].SalesReleaseQty)
+                                                            @Html.HiddenFor(model => model.SoLines[i].SalesReleaseQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].MBackOrderQty)
+                                                            @Html.HiddenFor(model => model.SoLines[i].MBackOrderQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.SoLines[i].Comment)
+                                                            @Html.HiddenFor(model => model.SoLines[i].Comment)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+
+<script type="text/javascript" >
+
+</script >

@@ -1,0 +1,76 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+@using (Html.BeginForm("DeleteLine", "Requisition", FormMethod.Post))
+{
+    <div class="bs-example">
+        <div class="panel panel-yellow">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    Cancel Requisition
+                    <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                    &nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+
+                    <div class="form-horizontal row spacer">
+
+                        <div class="col-md-12">
+                            <table id="tblStock" class="table table-hover  table-condensed table-responsive table-bordered">
+                                <tr>
+                                    <th>Delete Single Line</th>
+                                    <th>
+                                        @Html.RadioButtonFor(model => model.DeleteSingleOrAll, "Single", new { @class = "form-control input-xs" })
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Delete All Line</th>
+                                    <th>
+                                        @Html.RadioButtonFor(model => model.DeleteSingleOrAll, "All", new { @class = "form-control input-xs" })
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Requisition</th>
+                                    <th>
+                                        @Html.TextBoxFor(model => model.Requisition, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Requisition Line</th>
+                                    <th>
+                                        @Html.TextBoxFor(model => model.ReqLines, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Quantity Per</th>
+                                    <th>
+                                        @Html.TextAreaFor(model => model.Reason, new { @class = "form-control input-sm", @placeholder = "Reason For Requisition Cancellation", @style = "font-size:small;", @rows = "4" })
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-right">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-danger" id="btnDeleteReqLines" type="submit" aria-label="Right Align" name="action:DeleteLine" value="DeleteLine">
+                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Line"> Delete Line</span>
+
+                                            </button>
+                                            @*@Html.HiddenFor(model => model.Id, new { @class = "form-control text-right", @readonly = "readonly" })*@
+                                        </span>
+                                        @*<a href="@Url.Action("DeleteLine", "Requisition", new { Requisition = Model.Requisition, Line = Model.ReqLines, Reason=Model.Reason })" class="btn btn-danger btn-xs">
+                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Line"></span>
+                                            </a>*@
+                                    </td>
+
+                                </tr>
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

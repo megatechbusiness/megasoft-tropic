@@ -1,0 +1,131 @@
+﻿@model Megasoft2.ViewModel.RequisitionUserBranchCostCentreViewModel
+@{
+    ViewBag.Title = "Branch";
+}
+@using (Html.BeginForm("Index", "mtRequisitionUserBranchCostCentre", FormMethod.Post, new { @id = "UserForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">User Setup</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <fieldset>
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "mtRequisitionUserBranchCostCentre")" class="btn btn-default">User - Branch - Cost Centre</a>
+
+
+                        </div>
+
+                        <div class="pull-right">
+
+                            <div class="col-lg-6 text-right">
+                                <button type="submit" value="Save" class="btn btn-info">
+                                    <i class="fa fa-save"></i> Save
+                                </button>
+                            </div>
+                            &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+
+                            <div class="form-horizontal row">
+                                <input type="text" class="form-control input-sm" id="search" />
+                                <div class="table-responsive">
+                                    <table id="tblusers" class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    User
+                                                </th>
+                                                <th>
+                                                    Branch
+                                                </th>
+                                                <th>
+                                                    Cost Centre
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                if (Model.Detail != null)
+                                                {
+
+                                                    for (int i = 0; i < Model.Detail.Count; i++)
+                                                    {
+
+                                                        <tr class="nr">
+                                                            <td>
+
+                                                                @Html.DisplayFor(model => model.Detail[i].Username)
+                                                                @Html.HiddenFor(model => model.Detail[i].Username)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(model => model.Detail[i].Branch)
+                                                                @Html.HiddenFor(model => model.Detail[i].Branch)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(model => model.Detail[i].CostCentre)
+                                                                @Html.HiddenFor(model => model.Detail[i].CostCentre)
+                                                            </td>
+                                                            <td>
+                                                                @Html.CheckBoxFor(model => model.Detail[i].Allowed)
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+<style type="text/css">
+</style>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblusers .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    });
+</script>
+
+

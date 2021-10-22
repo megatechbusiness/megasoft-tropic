@@ -1,0 +1,225 @@
+﻿@model Megasoft2.ViewModel.BuyerStatsViewModel
+
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Buyer Turnaround Times</h4><hr />
+
+<div class="panel-body">
+    <div class="pull-right">
+        <a href="@Url.Action("BuyerTurnaroundTimes", "BuyerTurnAroundTime", new { eGuid = Model.eGuid })" class="btn btn-default btn-sm">
+            <span class="fa fa-arrow-circle-o-left"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Back</span></span>
+        </a>
+        <button type="button" id="Export" class="btn btn-default btn-sm">
+            <span class="fa fa-file-excel-o"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Excel</span></span>
+        </button>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="form-horizontal row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">
+                                @if (Model.BuyerTurnaroundDetail != null)
+                                {
+                                    <div style="overflow: auto;height: 600px" class="col-lg-12">
+                                        <table class="tblDet table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblDet" style="table-layout:fixed;">
+                                            <thead style="background-color:#97D3DB;">
+                                                <tr class="nowrap">
+                                                    <th style="width:150px">
+                                                        Buyer
+                                                    </th>
+                                                    <th style="width:100px">
+                                                        Branch
+                                                    </th>
+                                                    <th style="width:100px">
+                                                        Site
+                                                    </th>
+                                                    <th style="width:100px">
+                                                        Requisition
+                                                    </th>
+                                                    <th style="width:150px">
+                                                        Requisitioner
+                                                    </th>
+                                                    <th style="width:200px">
+                                                        Requisition Date
+                                                    </th>
+                                                    <th style="width:200px">
+                                                        Due Date
+                                                    </th>
+                                                    <th style="width:150px">
+                                                        Authorised By
+                                                    </th>
+                                                    
+                                                        @if (Model.TurnaroundDetailReport == "ReqComplete")
+                                                        {
+                                                            <th style="width:200px">
+                                                                Req. Date
+                                                            </th>
+                                                            <th style="width:200px">
+                                                                Completed Date
+                                                            </th>
+                                                            <th style="width:150px">
+                                                                Days to Complete
+                                                            </th>
+                                                        }
+                                                        else if (Model.TurnaroundDetailReport == "DaysToOrder")
+                                                        {
+                                                            <th style="width:200px">
+                                                                Authorised Date
+                                                            </th>
+                                                            <th style="width:200px">
+                                                                Order Date
+                                                            </th>
+                                                            <th style="width:150px">
+                                                                Days to Order
+                                                            </th>
+                                                        }
+                                                        else if (Model.TurnaroundDetailReport == "DaysToDeliver")
+                                                        {
+                                                            <th style="width:200px">
+                                                                Order Date
+                                                            </th>
+                                                            <th style="width:200px">
+                                                                Delivery Date
+                                                            </th>
+                                                            <th style="width:150px">
+                                                                Days to Deliver
+                                                            </th>
+                                                        }
+                                                        else if (Model.TurnaroundDetailReport == "ReqAccepted")
+                                                        {
+                                                            <th style="width:200px">
+                                                                Completed Date
+                                                            </th>
+                                                            <th style="width:200px">
+                                                                Accepted Date
+                                                            </th>
+                                                            <th style="width:150px">
+                                                                Days to Accept
+                                                            </th>
+                                                        }
+                                                        else if (Model.TurnaroundDetailReport == "QuoteReceived")
+                                                        {
+                                                            <th style="width:200px">
+                                                                Accepted Date
+                                                            </th>
+                                                            <th style="width:200px">
+                                                                Quotes Received 
+                                                            </th>
+                                                            <th style="width:150px">
+                                                                Days to Quote
+                                                            </th>
+                                                        }
+                                                        else
+                                                        {
+                                                            <th style="width:200px">
+                                                                Quotes Received
+                                                            </th>
+                                                            <th style="width:200px">
+                                                                Authorised Date
+                                                            </th>
+                                                            <th style="width:150px">
+                                                                Days to Authorise
+                                                            </th>
+                                                        }
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.BuyerTurnaroundDetail)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Buyer)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Branch)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Site)
+                                                        </td>
+
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Requisition)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Requisitioner)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.RequisitionDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.DueDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.AuthorisedBy)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.FirstDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.SecondDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.DaysDiff)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Export").click(function () {
+                //alert('clicked');
+                $("#tblDet").table2excel({
+                    // exclude CSS class
+                    exclude: ".noExl",
+                    name: "BuyerTurnaroundTime",
+                    filename: "BuyerTurnaroundTime" //do not include extension
+                });
+            });
+
+            UltimateScrollingTable('tblDet', 600, 1750, 1);
+        });
+    </script>
+}

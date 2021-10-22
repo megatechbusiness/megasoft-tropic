@@ -1,0 +1,120 @@
+﻿@model Megasoft2.mtInvoiceExtractSetting
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>mtInvoiceExtractSetting</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CustomerClass)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CustomerClass)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OutputFilePath)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OutputFilePath)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SFTPUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SFTPUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SFTPUsername)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SFTPUsername)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SFTPPassword)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SFTPPassword)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SFTPFolder)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SFTPFolder)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SFTPPort)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SFTPPort)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceScheduleMode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceScheduleMode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceRunTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceRunTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceWeeklyDay)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceWeeklyDay)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceMonthlyDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceMonthlyDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceActive)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceActive)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LastRunDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastRunDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceIntervalMin)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceIntervalMin)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ApiExtractUri)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ApiExtractUri)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

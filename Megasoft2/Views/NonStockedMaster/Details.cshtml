@@ -1,0 +1,99 @@
+﻿@model Megasoft2.mtInvMaster
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>mtInvMaster</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StockCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StockCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Uom)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Uom)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OnHold)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OnHold)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProductClass)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProductClass)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category3)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category3)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category4)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category4)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Supplier)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Supplier)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ContractExpiryDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContractExpiryDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ContractPrice)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContractPrice)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

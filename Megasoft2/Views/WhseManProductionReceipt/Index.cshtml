@@ -1,0 +1,103 @@
+﻿@model Megasoft2.Models.WhseManJobReceipt
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;font-size:xx-small;">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="errordiv" class="col-xs-8" style="font-size:xx-small">
+
+            </div>
+        </div>
+        
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Barcode
+            </div>
+            <div class="editor-field col-xs-5">
+                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-xs", @id = "txtBarcode", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Barcode)
+                <input type="hidden" id="hdSupplier" />
+            </div>
+            <div class="col-xs-1 text-left" style="margin-left:-20px;">
+                <a href="#" class="btn btn-success btn-xs" id="btnValidate" onclick="ValidateBarcode();">
+                    <span class="fa fa-gear" aria-hidden="true" title="Validate Barcode"></span>
+                </a>
+            </div>
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Job
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-xs", @id = "txtJob", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Job)
+            </div>
+            @*<div class="col-md-1 col-xs-2 text-left">
+                    <a href="@Url.Action("Index", "StockCodeBrowse")" class="modal-link btn btn-success">
+                        <span class="fa fa-search" aria-hidden="true" title="Browse"></span>
+                    </a>
+                </div>*@
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Pallet
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.Lot, new { @class = "form-control input-xs", @id = "txtLot", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Lot)
+            </div>
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Quantity
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-xs", @id = "txtQuantity", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+            <div class="editor-field col-xs-2 text-right">
+                <a href="#" class="btn btn-primary btn-xs" id="btnAdd" onclick="AddLine();">
+                    <span class="fa fa-plus" aria-hidden="true" title="Add"></span>
+                </a>
+            </div>
+        </div>
+        <div class="form-horizontal row text-center col-xs-8">
+            <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
+
+            </div>
+            <a href="#" class="btn btn-primary btn-xs" onclick="PostReceipt();" id="btnPost">
+                <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+            </a>
+
+        </div>
+        <div class="form-horizontal row spacer-xs col-xs-8">
+            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                <thead>
+                    <tr>
+                        <th>Job</th>
+                        <th>Pallet</th>
+                        <th>Qty</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>
+
+
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Content/WhseManProdLabel/WhseManProdReceipt.js"></script>
+

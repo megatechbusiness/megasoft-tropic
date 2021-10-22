@@ -1,0 +1,125 @@
+﻿@model Megasoft2.ViewModel.SettingsViewModel
+@{
+    ViewBag.Title = "WarehouseSettings";
+}
+
+@using (Html.BeginForm("WarehouseSettingd", "Settings", FormMethod.Post, new { @id = "SettingsForm" }))
+{
+    @Html.AntiForgeryToken()
+    
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+        <div class="form-group ">
+            <div class="col-sm-12 well well-lg" >
+                <h4 style="font-weight:bold;" class="text-center">Warehouse Settings</h4><hr />
+                <fieldset>
+                    <div class="form-horizontal row">
+                        <div class="form-horizontal row">
+                            <div class="col-md-12" style="text-align:right;">
+                                <button type="submit" class="btn btn-success btn-sm" id="btnSave" name="action:SaveWarehouseSettings" onclick="showprogressbar();" value="SaveWarehouseSettings">
+                                    <i class="fa fa-save">Save</i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Post Labour
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.CheckBoxFor(model => model.Warehouse.PostLabour, new { @class = "pull-right input-sm bigchk" })
+                                        @Html.HiddenFor(model => model.Warehouse.PostLabour)
+                                        @Html.HiddenFor(model => model.Warehouse.SettingId)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Post Material Issue (Kit Issue)
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.CheckBoxFor(model => model.Warehouse.PostMaterialIssue, new { @class = "pull-right input-sm bigchk" })
+                                        @Html.HiddenFor(model => model.Warehouse.PostMaterialIssue)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Post Job Receipt
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.CheckBoxFor(model => model.Warehouse.PostJobReceipt, new { @class = "pull-right input-sm bigchk" })
+                                        @Html.HiddenFor(model => model.Warehouse.PostJobReceipt)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Allow Job Receipt Tolerance
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.CheckBoxFor(model => model.Warehouse.AllowJobReceiptTolerance, new { @class = " pull-right bigchk input-sm" })
+                                        @Html.HiddenFor(model => model.Warehouse.AllowJobReceiptTolerance)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Job Receipt Tolerance %
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.TextBoxFor(model => model.Warehouse.JobReceiptTolerance, new { @class = "text-right form-control input-sm" })
+                                        @Html.HiddenFor(model => model.Warehouse.JobReceiptTolerance)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Sales Release Auto Allocation
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.CheckBoxFor(model => model.Warehouse.SalesReleaseAutoAllocation, new { @class = " pull-right bigchk input-sm" })
+                                        @Html.HiddenFor(model => model.Warehouse.SalesReleaseAutoAllocation)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="control-label col-sm-4" style="text-align:left;">
+                                        Use Scale EUser
+                                    </div>
+                                    <div class="editor-field input-sm col-sm-3">
+                                        @Html.CheckBoxFor(model => model.Warehouse.UseScaleEUser , new { @class = " pull-right bigchk input-sm" })
+                                        @Html.HiddenFor(model => model.Warehouse.UseScaleEUser)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+</fieldset>
+            </div>
+
+        </div>
+}
+        <style type="text/css">
+            .bigchk {
+                width: 40px;
+                height: 40px;
+            }
+        </style>

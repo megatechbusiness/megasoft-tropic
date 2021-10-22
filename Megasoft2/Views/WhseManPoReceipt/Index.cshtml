@@ -1,0 +1,400 @@
+﻿@model Megasoft2.ViewModel.WhseManPoReceipt
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmIndex" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+<fieldset>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <h4 class="text-center" style="font-weight:bold;">Purchase Order Receipt</h4><hr />
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                <a href="@Url.Action("Index", "PurchaseOrderBrowse")" class="modal-link btn btn-success btn-sm">
+                                    <span class="fa fa-search" aria-hidden="true" title="Browse Purchase Orders"> Search</span>
+                                </a>
+                            </div>
+                            <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                                @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @id = "txtPurchaseOrder" })
+                                @Html.ValidationMessageFor(model => model.PurchaseOrder)
+                            </div>
+                            <div class="col-md-9 col-xs-2" style="text-align:left;">
+                                <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:Index" value="Index">
+                                    <i class="fa fa-arrow-right"></i>
+                                </button>
+
+                                <button type="submit" class="btn btn-success btn-sm pull-right" id="btnPostPo" value="PoReceipt" name="action:PoReceipt">
+                                    <i class="fa fa-save"> Post</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                Delivery Note
+                            </div>
+                            <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                Delivery Date
+                            </div>
+                            <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                @Html.TextBoxFor(model => model.DeliveryDate, "{0:yyyy/MM/dd}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-xs-6">
+                                Select All
+                                <input type="checkbox" id="SelectAll" name="selectAllLines" />
+                            </div>
+                            <div class="col-md-6 col-xs-6 text-right">
+                                @if (Model != null)
+                                {
+                                    if (Model.ReelLines != null)
+                                    {
+                                        @: Total : @Model.ReelLines.Count
+                                        @: | Total Qty: @string.Format("{0:##,###,##0.00}", Model.ReelLines.Sum(a => a.ReelQty))
+                                        @*@string.Format("{0:##,###,##0.00}",*@
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLines">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            Purchase Order
+                                        </th>
+                                        <th>
+                                            Line
+                                        </th>
+                                        <th>
+                                            Stock Code
+                                        </th>
+                                        <th>
+                                            Gl Code
+                                        </th>
+                                        <th>
+                                            Product Class
+                                        </th>
+                                        <th>
+                                            Expense GL
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Price
+                                        </th>
+                                        <th>
+                                            Reel No.
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                        @*<th>
+                                                Del. Note
+                                            </th>
+                                            <th>
+                                                Del. Date
+                                            </th>*@
+                                        <th>Non-Merch. Cost</th>
+                                        <th>Line Total(Excl. Vat)</th>
+                                        <th>Vat</th>
+                                        <th>Line Total(Incl. Vat)</th>
+                                        <th></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody class="datarow">
+                                    @if (Model != null)
+                                    {
+                                        if (Model.ReelLines != null)
+                                        {
+
+                                            for (int i = 0; i < Model.ReelLines.Count; i++)
+                                            {
+
+                                                if (Model.ReelLines[i].HasCostMultiplier == "Y" && Model.ReelLines[i].CostMultiplierSaved == "N")
+                                                {
+                                                    <tr class="nr highlight">
+                                                        <td class="rowc">
+                                                            @Html.CheckBoxFor(model => Model.ReelLines[i].PostFlag)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Bin)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].CostMultiplier)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].CostMultiplierPrice)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].CostMultiplierSaved)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].HasCostMultiplier)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].UseMultipleBins)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].PurchaseOrder
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].PurchaseOrder)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].Line
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Line)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].StockCode
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].StockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].GlCode
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].GlCode)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ProductClass
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ProductClass)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ExpenseGl
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ExpenseGl)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].Description
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Description)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].Price
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Price)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ReelNumber
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ReelNumber)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ReelQty
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ReelQty)
+                                                        </td>
+                                                        @*<td>
+                                                                @Model.ReelLines[i].DeliveryNote
+                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryNote)
+                                                            </td>
+                                                            <td>
+                                                                @Model.ReelLines[i].DeliveryDate
+                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryDate)
+                                                            </td>*@
+                                                        <td>
+                                                            @if (Model.ReelLines[i].HasCostMultiplier == "Y")
+                                                            {
+                                                                <a href="@Url.Action("NonMerch", "WhseManPoReceipt", new { PurchaseOrder = @Model.PurchaseOrder, Line = @Model.ReelLines[i].Line })" class="btn btn-default btn-xs">
+                                                                    <span class="fa fa-truck" aria-hidden="true" title="Non Merchandise Costs"></span>
+                                                                </a>
+                                                            }
+
+                                                        </td>
+                                                        <td class="text-right nowrap">
+                                                            @string.Format("{0: # ### #00.000}", Model.ReelLines[i].LineValueExclVat)
+
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].LineValueExclVat)
+                                                        </td>
+                                                        <td class="text-right nowrap">
+                                                            @string.Format("{0: # ### #00.000}", Model.ReelLines[i].LineVat)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].LineVat)
+                                                        </td>
+                                                        <td class="text-right nowrap">
+                                                            @string.Format("{0: # ### #00.000}", Model.ReelLines[i].TotalInclVat)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].TotalInclVat)
+                                                        </td>
+                                                        <td>
+                                                            <a href="@Url.Action("DeleteReel", "WhseManPoReceipt", new { PurchaseOrder = @Model.PurchaseOrder, Line = @Model.ReelLines[i].Line, ReelNo = @Model.ReelLines[i].ReelNumber })" class="btn btn-default btn-xs">
+                                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Reel"></span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr class="nr">
+                                                        <td class="rowc">
+                                                            @Html.CheckBoxFor(model => Model.ReelLines[i].PostFlag)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Bin)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].CostMultiplier)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].CostMultiplierPrice)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].CostMultiplierSaved)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].HasCostMultiplier)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].UseMultipleBins)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].PurchaseOrder
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].PurchaseOrder)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].Line
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Line)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].StockCode
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].StockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].GlCode
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].GlCode)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ProductClass
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ProductClass)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ExpenseGl
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ExpenseGl)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].Description
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Description)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].Price
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].Price)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ReelNumber
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ReelNumber)
+                                                        </td>
+                                                        <td>
+                                                            @Model.ReelLines[i].ReelQty
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].ReelQty)
+                                                        </td>
+                                                        @*<td>
+                                                                @Model.ReelLines[i].DeliveryNote
+                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryNote)
+                                                            </td>
+                                                            <td>
+                                                                @Model.ReelLines[i].DeliveryDate
+                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryDate)
+                                                            </td>*@
+                                                        <td>
+                                                            @if (Model.ReelLines[i].HasCostMultiplier == "Y")
+                                                            {
+                                                                <a href="@Url.Action("NonMerch", "WhseManPoReceipt", new { PurchaseOrder = @Model.PurchaseOrder, Line = @Model.ReelLines[i].Line })" class="btn btn-default btn-xs">
+                                                                    <span class="fa fa-truck" aria-hidden="true" title="Non Merchandise Costs"></span>
+                                                                </a>
+                                                            }
+
+                                                        </td>
+                                                        <td class="text-right nowrap">
+                                                            @string.Format("{0: # ### #00.000}", Model.ReelLines[i].LineValueExclVat)
+
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].LineValueExclVat)
+                                                        </td>
+                                                        <td class="text-right nowrap">
+                                                            @string.Format("{0: # ### #00.000}", Model.ReelLines[i].LineVat)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].LineVat)
+                                                        </td>
+                                                        <td class="text-right nowrap">
+                                                            @string.Format("{0: # ### #00.000}", Model.ReelLines[i].TotalInclVat)
+                                                            @Html.HiddenFor(model => Model.ReelLines[i].TotalInclVat)
+                                                        </td>
+                                                        <td>
+                                                            <a href="@Url.Action("DeleteReel", "WhseManPoReceipt", new { PurchaseOrder = @Model.PurchaseOrder, Line = @Model.ReelLines[i].Line, ReelNo = @Model.ReelLines[i].ReelNumber })" class="btn btn-default btn-xs">
+                                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Reel"></span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            }
+
+                                            <tr>
+                                                <th colspan="14" class="text-right nowrap"> Total (Excl. Vat)</th>
+                                                <th class="text-right nowrap">@string.Format("{0: # ### #00.000}", Model.ReelLines.Sum(a => a.LineValueExclVat))</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="14" class="text-right nowrap"> Vat</th>
+                                                <th class="text-right nowrap">@string.Format("{0: # ### #00.000}", Model.ReelLines.Sum(a => a.LineVat))</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="14" class="text-right nowrap"> Total (Incl. Vat)</th>
+                                                <th class="text-right nowrap">@string.Format("{0: # ### #00.000}", Model.ReelLines.Sum(a => a.TotalInclVat))</th>
+                                                <th></th>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+}
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+<style type="text/css">
+    .table-striped tbody tr.highlight td {
+        background-color: red;
+    }
+
+    .nowrap {
+        white-space: nowrap;
+    }
+
+    </style>
+
+    <script type="text/javascript">
+        $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+        $(function () {
+
+            $('#btnPostPo').on('click', function (e) {
+                if (confirm('Are you sure you want to Post to Syspro?')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+
+            $("#SelectAll").click(function () {
+                //$('.case').attr('checked', this.checked);
+                var control = $("#SelectAll").is(":checked");
+
+                var selected;
+                $("#tblLines > tbody.datarow > tr ").each(function (i, el) {
+                    var $tds = $(this).find('td .rowc'),
+                        selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+
+
+                });
+
+            });
+        });
+    </script>
+
+}

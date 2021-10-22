@@ -1,0 +1,122 @@
+﻿@model Megasoft2.mtSupplierContact
+
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Supplier
+            </a>
+        </h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        if (!Html.ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger fade in">
+                @Html.ValidationSummary(true)
+            </div>
+        }
+        <fieldset>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Supplier
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Supplier)
+                        @Html.HiddenFor(model => model.Supplier)
+                        @Html.HiddenFor(model => model.ContactId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        ContactId
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.ContactId, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.ContactId)
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Contact
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.Contact, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Contact)
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Telephone
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Telephone)
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Email
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Fax
+                    </div>
+                    <div class="editor-field input-sm col-sm-7">
+                        @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Fax)
+                    </div>
+                </div>
+            </div>
+
+            <div id="errordiv">
+
+            </div>
+            <div class="form-horizontal row">
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <button type="submit" value="Save" class="btn btn-info">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                    </div>
+                    <div class="col-sm-6" style="text-align:right;">
+                        <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                            <i class="fa fa-close"></i> Close
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

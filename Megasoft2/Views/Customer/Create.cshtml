@@ -1,0 +1,977 @@
+﻿@model Megasoft2.Models.CustomerViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="panel-group" id="accordion">
+<div id="CustomerForm" >
+   
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a class="fa fa-shopping-cart" href="#a" data-toggle="tab"> Customer Details</a></li>
+            <li><a class="fa fa-phone-square" href="#b" data-toggle="tab"> Contact Details</a></li>
+            <li><a class="fa fa-folder-open-o" href="#c" data-toggle="tab"> General Details</a></li>
+            <li><a class="fa fa-cog" href="#d" data-toggle="tab"> Custom Form</a></li>
+            <li><a class="fa fa-paperclip" href="#e" data-toggle="tab"> Attachments</a></li>
+            <li class="pull-right">
+                <div class="text-right">
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <span class="fa fa-save"> Save</span>                       
+                    </button>
+                </div>
+            </li>
+        </ul>
+        
+        
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="a">
+                
+                <fieldset>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-5">
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Customer</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Name</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-xs" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "validation-error alert-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Short Name</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShortName, new { @class = "form-control input-xs" })
+                                        @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "validation-error alert-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Branch</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedBranch, Model.Branch, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Geographic Area</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedGeographicArea, Model.GeographicArea, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Sales Person</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedSalesPerson, Model.SalesPerson, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Invoice Terms</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedInvoiceTerms, Model.InvoiceTerms, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Currency</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedCurrency, Model.Currency, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Customer Class</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedCustomerClass, Model.CustomerClass, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Nationality</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control input-xs" })
+                                        @Html.ValidationMessageFor(model => model.Nationality, "", new { @class = "validation-error alert-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Customer on Hold</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.CustomerOnHold, new { @class = "", @id="CustomerOnHold", @data_toggle="toggle", @data_size="mini", @data_on="Yes" ,@data_off="No"})
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-7 control-label input-xs-label" style="text-align:left;">Exempt from Finance Charges</label>
+                                    <div class="col-sm-5 text-right">
+                                        @Html.CheckBoxFor(model => model.ExemptFromFinCharge, new { @class = "", @id = "ExemptFromFinCharge", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Detail History Required</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.DetailHistoryRequired, new { @class = "", @id = "DetailHistoryRequired", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Retain Detail Movements</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.RetainDetailMovements, new { @class = "", @id = "RetainDetailMovements", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Contract Pricing</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.ContractPricing, new { @class = "", @id = "ContractPricing", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Counter Sales Only</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.CounterSalesOnly, new { @class = "", @id = "CounterSalesOnly", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+
+                        @* ----------------------------------------------------------------------------------------------------------------------------- *@
+
+                        <div class="col-md-2"></div>
+                            <div class="col-md-5">
+
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Default Order Type</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedDefaultOrderType, Model.DefaultOrderType, new { @class = "form-control input-xs" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Default S/O Type</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedDefaultSalesOrderType, Model.DefaultSalesOrderType, new { @class = "form-control input-xs" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Stand. Comment Code</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedStandardCommentCode, Model.StandardCommentCode, new { @class = "form-control input-xs" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Special Instructions</label>
+                                        <div class="col-sm-7">
+                                            @Html.TextBoxFor(model => model.SpecialInstructions, new { @class = "form-control input-xs" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Default Warehouse</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedDefaultWarehouse, Model.DefaultWarehouse, new { @class = "form-control input-xs" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-7 control-label input-xs-label" style="text-align:left;">Trade Promotions Customer</label>
+                                        <div class="col-sm-5 text-right">
+                                            @Html.CheckBoxFor(model => model.TradePromotionsCustomer, new { @class = "", @id = "TradePromotionsCustomer", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+
+                                        <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Trade Promotions Pricing</label>
+                                        <div class="col-sm-6 text-right">
+                                            @Html.CheckBoxFor(model => model.TradePromotionsPricing, new { @class = "", @id = "TradePromotionsPricing", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">IBT Customer</label>
+                                        <div class="col-sm-6 text-right">
+                                            @Html.CheckBoxFor(model => model.IBTCustomer, new { @class = "", @id = "IBTCustomer", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Sales Person 2</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedSalesPerson2, Model.SalesPerson2, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Sales Person 3</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedSalesPerson3, Model.SalesPerson3, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Sales Person 4</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedSalesPerson4, Model.SalesPerson4, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Buying Group 1</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedBuyingGroup1, Model.BuyingGroup1, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Buying Group 2</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedBuyingGroup2, Model.BuyingGroup2, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Buying Group 3</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedBuyingGroup3, Model.BuyingGroup3, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Buying Group 4</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedBuyingGroup4, Model.BuyingGroup4, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-12 col-xs-12">
+                                        <label class="col-sm-5 control-label input-xs-label" style="text-align:left;">Buying Group 5</label>
+                                        <div class="col-sm-7">
+                                            @Html.DropDownListFor(a => a.SelectedBuyingGroup5, Model.BuyingGroup5, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+                        </div>
+                </fieldset>
+            </div>
+
+            @* ----------------------------------------------------------Contact Details------------------------------------------------------------------ *@
+
+
+            <div class="tab-pane" id="b">
+                <fieldset>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-5">
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;font-weight:bold;">Sold to address</label>
+                                    <div class="col-sm-8">
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Building</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToBuilding, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Street</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToStreet, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">City</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToCity, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Locality</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToLocality, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">State</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToState, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Country</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToCountry, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Zip</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToZip, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Geolocation</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SoldToGeolocation, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;font-weight:bold;">Ship to address</label>
+                                    <div class="col-sm-8">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Building</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToBuilding, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Street</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToStreet, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">City</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToCity, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Locality</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToLocality, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">State</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToState, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Country</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToCountry, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Zip</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToZip, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Geolocation</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.ShipToGeolocation, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Email</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Telephone</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Extension</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Extension, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        @* ----------------------------------------------------------------------------------------------------------------------------- *@
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-5">
+
+
+                            
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Additional Telephone</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.AdditionalTelephone, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Fax</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Telex</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Telex, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Contact</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Contact, new { @class = "form-control input-xs" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Ship via Code</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedShipViaCode, Model.ShipViaCode, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">EDI Sender Code</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.EDISenderCode, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">EDI Trading Partner</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.EdiTradingPartner, new { @class = "", @id = "EdiTradingPartner", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Statements Required</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.StatementsRequired, new { @class = "", @id = "StatementsRequired", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Statement Format</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedStatementFormat, Model.StatementFormat, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Balance Print Type</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedBalancePrintType, Model.BalancePrintType, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-8 control-label input-xs-label" style="text-align:left;font-weight:bold;">Document Transmission</label>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Fax</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.DocFax, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Contact</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.DocFaxContact, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">S/O Documents</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedDocFaxSoDocuments, Model.DocFaxSoDocuments, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Order Acknowledgement</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.DocFaxOrderAcknowledgement, new { @class = "", @id = "DocFaxOrderAcknowledgement", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Delivery Note</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.DocFaxOrderDeliveryNote, new { @class = "", @id = "DocFaxOrderDeliveryNote", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Invoice</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.DocFaxOrderInvoice, new { @class = "", @id = "DocFaxOrderInvoice", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-6 control-label input-xs-label" style="text-align:left;">Mulitple Dispatch Note</label>
+                                    <div class="col-sm-6 text-right">
+                                        @Html.CheckBoxFor(model => model.DocFaxMultipleDispatch, new { @class = "", @id = "DocFaxMultipleDispatch", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Statements</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedDocFaxStatements, Model.DocFaxStatements, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Quotations</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(a => a.SelectedDocFaxQuotations, Model.DocFaxQuotations, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+            <div class="tab-pane" id="c">
+                <p>This is General Details</p>
+            </div>
+            <div class="tab-pane" id="d">
+
+                <fieldset>
+
+
+                    @{
+                        int f = 0;
+                        for (int i = 0; i < Model.CustomForms.Count; i++)
+                        {
+
+                            if ((f % 3) == 0)
+                            {
+                                @:<br />
+                                @:<div class="form-horizontal row">
+                            }
+
+                            if (Model.CustomForms[i].FormType == "1")
+                            {
+                                if (Model.CustomForms[i].FieldType == "D")
+                                {
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="col-sm-4 control-label input-xs-label">
+                                            @Model.CustomForms[i].DisplayName
+                                        </div>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(model => model.CustomForms[i].FieldName)
+                                            @Html.HiddenFor(model => model.CustomForms[i].FormType)
+                                            @Html.TextBoxFor(model => model.CustomForms[i].InputFormValue, new { @class = "datepicker datepicker-inline form-control input-xs" })
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="col-sm-4 control-label input-xs-label">
+                                            @Model.CustomForms[i].DisplayName
+                                        </div>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(model => model.CustomForms[i].FieldName)
+                                            @Html.HiddenFor(model => model.CustomForms[i].FormType)
+                                            @Html.TextBoxFor(model => model.CustomForms[i].InputFormValue, new { @class = "form-control input-xs" })
+                                        </div>
+                                    </div>
+                                }
+
+
+                            }
+                            else if (Model.CustomForms[i].FormType == "2")
+                            {
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="col-sm-4 control-label input-xs-label" style="text-overflow:ellipsis">
+                                        @Model.CustomForms[i].DisplayName
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(model => model.CustomForms[i].FieldName)
+                                        @Html.HiddenFor(model => model.CustomForms[i].FormType)
+                                        @Html.DropDownListFor(a => a.CustomForms[i].SelectedFormValue, Model.CustomForms[i].customFormListValues, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.CustomForms[i].FormType == "4")
+                            {
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="col-sm-4 control-label input-xs-label">
+                                        @Model.CustomForms[i].DisplayName
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(model => model.CustomForms[i].FieldName)
+                                        @Html.HiddenFor(model => model.CustomForms[i].FormType)
+                                        @Html.DropDownListFor(a => a.CustomForms[i].SelectedFormValue, Model.CustomForms[i].customFormListValues, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.CustomForms[i].FormType == "5")
+                            {
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="col-sm-4 control-label input-xs-label">
+                                        @Model.CustomForms[i].DisplayName
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(model => model.CustomForms[i].FieldName)
+                                        @Html.HiddenFor(model => model.CustomForms[i].FormType)
+                                        @Html.DropDownListFor(a => a.CustomForms[i].SelectedFormValue, Model.CustomForms[i].customFormListValues, new { @class = "form-control input-xs" })
+                                        @*//Add Validation*@
+                                    </div>
+                                </div>
+                            }
+
+                            if ((f % 3) == 2)
+                            {
+                                @:</div>
+                            }
+                            f++;
+                        }
+
+                        if ((f % 4) != 0)
+                        {
+                            if ((f == -22))
+                            {
+                                @:<div>
+                                    @*this will never execute. Placed here to resolve dev time warnings*@
+                            }
+                            @:</div>
+                        @* This will execute if last div not closed *@
+                        }
+                    }
+
+
+                </fieldset>
+
+            </div>
+
+            <div class="tab-pane" id="e">
+                <p>Attachments go here</p>
+            </div>
+        </div>
+
+        
+    </div>
+    </div> @*test*@
+}
+
+
+<style>
+    .control-label
+    {
+        font-weight:normal;
+    }
+
+    .validation-error
+    {
+        font-size:xx-small;
+    }
+</style>
+
+@section Scripts {
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+    
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+    // will trigger when the document is ready
+        $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+        
+</script>
+    }
+

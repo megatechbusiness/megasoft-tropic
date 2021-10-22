@@ -1,0 +1,43 @@
+﻿@model Megasoft2.mtDepartment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>mtDepartment</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Department)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Department)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Operator)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Operator)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TrnDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TrnDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Megasoft2.mt_GetLast5PurchasesByStockCode_Result>
+<div class="bs-example">
+    <div class="panel panel-yellow">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                Purchase History
+                <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="col-md-12">
+                        <table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Supplier</th>
+                                    <th>Name</th>
+                                    <th>Date Last Received</th>
+                                    <th>Unit Price</th>
+                                    <th>Price Uom</th>
+                                    <th>Qty Received</th>
+                                    <th>Purchase Order</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data">
+                                @if (Model != null)
+                                {
+
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Supplier
+                                            </td>
+                                            <td>
+                                                @item.SupplierName
+                                            </td>
+                                            <td>
+                                                @string.Format("{0:yyyy-MM-dd}", item.DateReceived)
+                                            </td>
+                                            <td>
+                                                @string.Format("{0:# ##0.##}", item.PriceReceived)
+                                            </td>
+                                            <td>
+                                                @item.PriceUom
+                                            </td>
+                                            <td>@item.QtyReceived</td>
+                                            <td>@item.PurchaseOrder</td>
+                                        </tr>
+
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

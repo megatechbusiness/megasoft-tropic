@@ -1,0 +1,131 @@
+﻿<div class="bs-example">
+    <div class="panel panel-yellow">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                Lots
+                <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="form-group">
+
+                </div>
+                <button type="button" class="btn btn-danger btn-sm" id="btnClose">
+                    <i class="fa fa-close"> Close</i>
+                </button>
+            </div>
+            <div id="LotsDiv">
+                <table id="tblLot" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                    <thead><tr><th></th><th>Warehouse</th><th>Bin</th><th>StockCode</th><th>Lot</th><th>Quantity</th></tr></thead>
+                    <tbody id="data"></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+@*@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")*@
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+
+<script type="text/javascript">
+    function SearchLots() {
+        var table = $("#tblLot tbody");
+
+        $.ajax({
+            url: "@Url.Action("LotList", "WarehouseTransfer")?Warehouse=" + $('#ddlSource').val() + "&Bin=" + $('#txtSourceBin').val() + "&StockCode=" + $('#txtStockCode').val(),
+            method: "GET",
+            success: function (data) {
+                table.empty();
+
+                $.each(data, function (a, ord) {
+                    table.append("<tr class='_stk' id=" + ord.Warehouse + "><td><input type='checkbox'></input></td><td><a href=#>" + ord.Warehouse + "</a></td> <td>" + ord.Bin + "</td> <td>" + ord.StockCode + "</td><td>" + ord.Lot + "</td><td>" + ord.QtyOnHand + "</td></tr >");
+                });
+
+                $("#tblLot").DataTable({"bPaginate": false, "ordering": false});
+            }
+
+        });
+    }
+
+
+
+
+
+
+    $(function () {
+
+        $('#LotsDiv').html('<table id="tblLot" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th><input type="checkbox" id="selectAll" /></th><th>Warehouse</th><th>Bin</th><th>StockCode</th><th>Lot</th><th>Quantity</th></tr></thead><tbody id="data" class="datarow"></tbody></table>');
+        SearchLots();
+
+        $('#btnClose').on('click', function (e) {
+
+            //alert(document.getElementById('tblLot').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length);
+            $("#tblLot > tbody > tr ").each(function (i, el) {
+                var $tds = $(this).find('td');
+                var selected = $tds.eq(0).find("input[type='checkbox']").is(":checked");
+                if (selected == true) {
+                    var Warehouse = $tds.eq(1).text();
+                    var Bin = $tds.eq(2).text();
+                    var StockCode = $tds.eq(3).text();
+                    var Lot = $tds.eq(4).text();
+                    var Quantity = $tds.eq(5).text();
+
+
+                    $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
+                        "</td><td>" + Lot + "</td><td>" + Quantity +
+                        "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+
+                }
+
+            });
+
+            document.getElementById('txtLot').value = "";
+            document.getElementById('txtQuantity').value = "";
+
+            var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            $('#txtCount').html('Total:' + rows);
+
+            var qty = 0;
+            $("#tblLines > tbody > tr ").each(function (i, el) {
+                var $tds = $(this).find('td');
+                var Quantity = parseFloat($tds.eq(2).text()); //changed int to float
+                qty += Quantity;
+
+            });
+            //alert(qty);
+            $('#txtqty').html('Total Quantity:' + qty);
+
+            $('.closeModal3').trigger("click");
+        });
+
+
+		$("#selectAll").click(function () {
+            var control = $("#selectAll").is(":checked");
+
+            var selected;
+            $("#tblLot > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td ._stk'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+                    }
+                }
+
+            });
+
+        });
+
+    });
+</script>

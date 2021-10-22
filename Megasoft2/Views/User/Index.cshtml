@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Megasoft2.mtUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Users</h4><hr />
+
+<p>
+    <a href="@Url.Action("Create", "User")" class="btn btn-warning">
+        <span class="fa fa-file-o" aria-hidden="true" title="Add New User"> Add User</span>
+    </a>
+    <a href="@Url.Action("Index", "User")" class="btn btn-default">
+        <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
+    </a>
+</p>
+<div class="form-group">
+    <div class="col-sm-12">
+        <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+
+    </div>
+
+    <hr />
+    <div class="col-sm-12">
+        <table class="tblUser table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblUser" style="table-layout:fixed;">
+            <thead class="style1">
+                <tr class="nowrap">
+                    <th style="width:200px">
+                        Username
+                    </th>
+                    <th style="width:200px">
+                        Syspro Username
+                    </th>
+                    <th style="width:200px">
+                        Req Prefix
+                    </th>
+                    <th style="width:200px">
+                        Last Req No.
+                    </th>
+                    <th style="width:200px">
+                        Email
+                    </th>
+                    <th style="width:200px">
+                        Authorisation Limit
+                    </th>
+                    <th style="width:200px"></th>
+                </tr>
+<tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="nr">
+                        <td>
+                            <a href="@Url.Action("Create", "User", new { Username = item.Username.Trim() })">@item.Username</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SysproUsername)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReqPrefix)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastReqNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmailAddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthorizationLimit)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Create", "User", new { Username = item.Username.Trim() })" class="btn btn-primary btn-xs">
+                                <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit User"></span>
+                            </a>
+                            <a href="@Url.Action("Delete", "User", new { id = item.Username.Trim() })" class="modal-link btn btn-danger btn-xs">
+                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete User"></span>
+                            </a>
+                            @if (ViewBag.UseRoles == true)
+                            {
+                                <a href="@Url.Action("AssignRole", "User", new { id = item.Username.Trim() })" class="modal-link btn btn-success btn-xs">
+                                    <span class="fa fa-wrench" aria-hidden="true" title="Set Roles"></span>
+                                </a>
+                            }
+
+                            <a href="@Url.Action("AssignCompany", "User", new { id = item.Username.Trim() })" class="modal-link btn btn-success btn-xs">
+                                <span class="fa fa-database" aria-hidden="true" title="Set Companies"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+
+
+<script type="text/javascript">
+
+
+
+    $(function () {
+       
+        $('#txtSearch').focus();
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblUser .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        UltimateScrollingTable('tblUser', 700, 1500, 1);
+    });
+</script>
+}

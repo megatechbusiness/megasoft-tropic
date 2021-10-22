@@ -1,0 +1,654 @@
+﻿@model Megasoft2.ViewModel.RepairsAndMaintenanceViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "RepairsAndMaintenance", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <fieldset>
+        <div class="form-group " style="margin-left:-20px">
+            <div class="form-horizontal row spacer-xs" id="firstrow">
+                @Html.HiddenFor(model => model.ProgramMode)
+                <div id="errordiv" class="col-xs-10" style="font-size:xx-small">
+
+                </div>
+            </div>
+        </div>
+
+        @if (Model.ProgramMode == "")
+        {
+
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Cost Centre
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.DropDownListFor(model => model.CostCentre, new SelectList(ViewBag.CostCentreList, "CostCentre", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Work Centre
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.DropDownListFor(model => model.WorkCentre, new SelectList(ViewBag.WorkCentreList, "WorkCentre", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+
+            </div>
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Warehouse:
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.WarehouseList, "Warehouse", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer-xs" id="bin">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Bin:
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextBoxFor(model => model.Bin, new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Employee:
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.DropDownListFor(model => model.Employee, new SelectList(ViewBag.EmployeeList, "Employee", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Barcode:
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+                <div class="col-xs-1 text-left">
+                    <a href="#" class="btn btn-success btn-xs" id="btnCheck">
+                        <span class="fa fa-arrow-circle-o-right " aria-hidden="true" title="Check"></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    StockCode:
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                </div>
+            </div>
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    StockUom:
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextBoxFor(model => model.StockUom, new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                    @Html.ValidationMessageFor(model => model.StockUom)
+                </div>
+
+            </div>
+
+
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Lot
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextBoxFor(model => model.Lot, new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                    @Html.ValidationMessageFor(model => model.Lot)
+                </div>
+
+            </div>
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Quantity
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                    @Html.ValidationMessageFor(model => model.Quantity)
+                </div>
+
+            </div>
+            <div class="form-horizontal row spacer-xs">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Notes
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.TextAreaFor(model => model.Notes, 3, 40, new { @class = "form-control", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.Notes)
+                </div>
+            </div>
+            <div class="form-horizontal row text-center col-xs-8">
+                <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
+
+                </div>
+                <button class="btn btn-primary" id="btnPost" type="submit" aria-label="Left Align" name="action:PostSysproJob" value="PostSysproJob">
+                    <span class="fa fa-save" aria-hidden="true"> Post</span>
+                </button>
+            </div>
+
+        }
+        else
+        {
+            <div class="form-horizontal row spacer">
+                <h4 class="text-center" style="font-weight:bold;">Repairs and Maintenance</h4>
+            </div>
+            <hr />
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Cost Centre
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.DropDownListFor(model => model.CostCentre, new SelectList(ViewBag.CostCentreList, "CostCentre", "Description"), new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Work Centre
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.DropDownListFor(model => model.WorkCentre, new SelectList(ViewBag.WorkCentreList, "WorkCentre", "Description"), new { @class = "form-control input-sm" })
+                    </div>
+
+                </div>
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Warehouse:
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.WarehouseList, "Warehouse", "Description"), new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer" id="bin">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Bin:
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.TextBoxFor(model => model.Bin, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Employee:
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.DropDownListFor(model => model.Employee, new SelectList(ViewBag.EmployeeList, "Employee", "Description"), new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        StockCode:
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        <div class="input-group add-on">
+                            @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm" })
+                            <input type="hidden" id="Barcode" />
+                            <div class="input-group-btn">
+                                <a href="@Url.Action("StockCodeSearch", "WhseManExpenseIssue")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Lot/Serial
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.TextBoxFor(model => model.Lot, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Lot)
+                    </div>
+
+                </div>
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Quantity
+                    </div>
+                    <div class="editor-field col-xs-5">
+                        @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Quantity)
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Notes
+                    </div>
+                    <div class="editor-field col-xs-8">
+                        @Html.TextAreaFor(model => model.Notes, 5, 40, new { @class = "form-control", @maxlength = "50" })
+                        @Html.ValidationMessageFor(model => model.Notes)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-horizontal row text-center col-xs-12">
+                    <div class="control-label col-xs-1" style="text-align:left;" id="txtCount">
+
+                    </div>
+                    <button class="btn btn-primary" id="btnPost" type="submit" aria-label="Left Align" name="action:PostSysproJob" value="PostSysproJob">
+                        <span class="fa fa-save" aria-hidden="true"> Post</span>
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="col-sm-3"></div>
+        }
+
+    </fieldset>
+}
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+
+
+    function ValidateBarcode() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        var str = document.getElementById('Barcode').value;
+        //If Megasoft Barcode
+        if (str.indexOf("|") > 0) {
+            var Values = document.getElementById('Barcode').value.split("|");
+            document.getElementById('StockCode').value = Values[0];
+            document.getElementById('Lot').value = Values[4];
+            document.getElementById('Quantity').value = Values[2];
+
+
+            var mydata = [];
+            var myObject = new Object();
+
+            myObject.Warehouse = $('#Warehouse').val();
+            myObject.StockCode = Values[0];
+            myObject.Lot = Values[4];
+            myObject.Quantity = Values[2];
+            myObject.CostCentre = $('#CostCentre').val();
+            myObject.WorkCentre = $('#WorkCentre').val();
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "RepairsAndMaintenance/ValidateDetails",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                if (response != "") {
+                    document.getElementById('Barcode').value = "";
+                    document.getElementById('StockCode').value = "";
+                    document.getElementById('Lot').value = "";
+                    document.getElementById('Quantity').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('Barcode').focus();
+                }
+                else {
+                    document.getElementById("Quantity").focus();
+                    //AddLine();
+                    GetUom(document.getElementById('StockCode').value);
+
+
+                }
+
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('Barcode').value = "";
+                    document.getElementById('StockCode').value = "";
+                    document.getElementById('Lot').value = "";
+                    document.getElementById('Quantity').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('Barcode').focus();
+                }
+                else {
+                    document.getElementById("btnPost").focus();
+                }
+            }
+        }
+        else {
+
+            alert("Invalid barcode scanned!");
+        }
+
+
+
+
+    }
+
+
+    function checkMultiBins(Warehouse) {
+        var mydata = [];
+        var myObject = new Object();
+        myObject.Warehouse = Warehouse;
+
+        mydata.push(myObject);
+
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "RepairsAndMaintenance/CheckWarehouseMultiBin",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (response == "Y") {
+
+                $('#bin').show();
+            }
+            else {
+                $('#bin').hide();
+            }
+
+        }
+
+        function OnErrorCall(response) {
+            if (response != "") {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+        }
+    }
+
+
+
+    function AddLine() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        showprogressbar();
+
+
+        var Bin = document.getElementById('Bin').value;
+        var StockCode = document.getElementById('StockCode').value;
+        var Lot = document.getElementById('Lot').value;
+        var Quantity = document.getElementById('Quantity').value;
+        var AddReel = true;
+
+        if (Quantity.trim() == "") {
+            alert("Quantity missing.");
+            AddReel = false;
+        }
+
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td');
+            var ReelNumber = $tds.eq(1).text();
+            if (Lot == ReelNumber) {
+                AddReel = false;
+                alert("Reel " + Lot + " already scanned.");
+                return;
+            }
+        });
+
+
+        if (AddReel == true) {
+            $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
+                "</td><td><input type='hidden' value='" + Bin + "'/>" + Lot + "</td><td>" + Quantity +
+                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+
+            $('#CostCentre').attr("disabled", "disabled");
+            $('#WorkCentre').attr("disabled", "disabled");
+            $('#Warehouse').attr("disabled", "disabled");
+        }
+
+
+        document.getElementById('Barcode').value = "";
+        document.getElementById('StockCode').value = "";
+        document.getElementById('Lot').value = "";
+        document.getElementById('Quantity').value = "";
+        document.getElementById('Barcode').focus();
+
+        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        $('#txtCount').html('Total:' + rows);
+
+        hideprogressbar();
+    }
+
+
+    function GetWorkCentres(CostCentre) {
+
+                var myString = JSON.stringify({
+                    CostCentre: CostCentre
+                });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url:"@Url.Action("GetWorkCentres", "RepairsAndMaintenance")",
+                    contentType: "application/json; charset=utf-8",
+                    data: exportdata,
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+                function OnSuccess(response) {
+                    if (response) {
+                        var ddlWorkCentre = $("#WorkCentre");
+
+                        ddlWorkCentre.empty();
+                        $("#WorkCentre").prepend("<option value='' selected='selected'></option>");
+
+                        $.each(response, function () {
+                            //alert(this['Value'] + ' space ' + this['Text']);
+                            ddlWorkCentre.append($("<option></option>").val(this['WorkCentre'].trim()).html(this['Description']));
+                        });
+                    }
+                }
+
+    }
+
+
+      function PostExpenseIssue() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        showprogressbar();
+
+
+
+        if ($('#bin').is(':visible')) {
+            if ($('#Bin').val() == "") {
+                alert("Bin cannot be blank.");
+                hideprogressbar();
+                return;
+            }
+        }
+
+
+        var mydata = [];
+        $("#tblLines > tbody > tr ").each(function (i, el) {
+            var $tds = $(this).find('td')
+            var CostCentre = $('#CostCentre').val();
+            var WorkCentre = $('#WorkCentre').val();
+            var Warehouse = $('#Warehouse').val();
+            var Bin = $tds.eq(0).find('input[type=hidden]').val();
+            var StockCode = $tds.eq(0).text();
+            var Lot = $tds.eq(1).text();
+            var Quantity = $tds.eq(2).text();
+            var Employee = $('#Employee').val();
+
+            var myObject = new Object();
+            myObject.CostCentre = CostCentre;
+            myObject.WorkCentre = WorkCentre;
+            myObject.Warehouse = Warehouse;
+            myObject.Bin = Bin;
+            myObject.StockCode = StockCode;
+            myObject.Lot = Lot;
+            myObject.Quantity = Quantity;
+            myObject.Employee = Employee;
+            mydata.push(myObject);
+        });
+
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "RepairsAndMaintenance/PostSysproJob",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (response != "") {
+                document.getElementById('Barcode').value = "";
+                document.getElementById('StockCode').value = "";
+                document.getElementById('Lot').value = "";
+                document.getElementById('Quantity').value = "";
+                document.getElementById('Bin').value = "";
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+                if (response.indexOf("Posting Complete.") == 0) {
+                    $('#tblLines tbody').empty();
+                    $('#CostCentre').removeAttr("disabled");
+                    $('#WorkCentre').removeAttr("disabled");
+                    $('#Warehouse').removeAttr("disabled");
+                }
+
+            }
+            hideprogressbar();
+        }
+
+        function OnErrorCall(response) {
+            if (response != "") {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+
+            }
+            hideprogressbar();
+        }
+        }
+
+
+        function GetUom(StockCode) {
+
+            var myString = JSON.stringify({
+                StockCode: StockCode
+            });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "RepairsAndMaintenance/GetUom",
+                contentType: "application/json; charset=utf-8",
+                data: exportdata,
+                dataType: "json",
+                success: OnSuccess,
+                failure: function () {
+                    alert(response);
+                }
+            });
+
+            function OnSuccess(response) {
+                // alert(response);
+                $('#StockUom').val(response);
+            }
+        }
+
+
+
+    $(document).ready(function () {
+
+        $("#RepairsAndMaintenance").submit(function (e) {
+            showprogressbar();
+        });
+
+
+        $('#megasoftTitle').text(' Megasoft - Repairs & Maint.');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+
+        checkMultiBins($('#Warehouse').val());
+
+        GetWorkCentres($("#CostCentre").val());
+
+        $("#Warehouse").change(function () {
+            checkMultiBins($('#Warehouse').val());
+        });
+
+        $("#CostCentre").change(function () {
+            GetWorkCentres($("#CostCentre").val());
+        });
+
+        $('#tblLines').on("click", ".delLine", function () {
+            $(this).closest("tr").remove();
+            var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            $('#txtCount').html('Total:' + rows);
+        });
+
+        $('#btnCheck').on("click", function () {
+            ValidateBarcode();
+        });
+    });
+
+    </script>
+}

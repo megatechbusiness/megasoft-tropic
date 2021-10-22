@@ -1,0 +1,143 @@
+﻿@model Megasoft2.ViewModel.TransportPoMaintenanceViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmPo" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Transport System P/O Maintenance</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group col-sm-6">
+                                @*<div class="col-md-1 col-xs-12" style="text-align:left;">
+                                    <a href="@Url.Action("Index", "PurchaseOrderBrowse")" class="modal-link btn btn-success btn-sm">
+                                        <span class="fa fa-search" aria-hidden="true" title="Browse Purchase Orders"> Search</span>
+                                    </a>
+                                </div>*@
+                                <div class="editor-field col-md-3 col-xs-8" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm", @id = "txtPurchaseOrder" })
+                                    @Html.ValidationMessageFor(model => model.PurchaseOrder)
+                                    @Html.HiddenFor(model => model.Supplier)
+                                </div>
+                                <div class="col-md-9 col-xs-2" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadPo" value="LoadPo">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 text-right">
+                                <a href="@Url.Action("WaybillSearch", "TransportSystemPoMaintenance")" class="modal-link btn btn-primary btn-sm">
+                                    <span class="fa fa-plus-circle" aria-hidden="true" title="Add Waybill"> Add Waybill</span>
+                                </a>
+
+                                <button type="submit" class="btn btn-default btn-sm" name="action:PostPo" value="PostPo">
+                                    <i class="fa fa-save fa-lg" title="Post" aria-hidden="true"> Post</i>
+                                    <span class="sr-only">Post</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <table id="tblPo" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>P/O</th>
+                                            <th>Line</th>
+                                            <th>StockCode</th>
+                                            <th>Description</th>
+                                            <th>Order Qty</th>
+                                            <th>Price</th>
+                                            <th>Tax Code</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if(Model != null)
+                                        {
+                                            if(Model.Detail != null)
+                                            {
+                                                for (int i = 0; i < Model.Detail.Count; i++)                                                    
+                                                {
+                                                    <tr class="nr">
+                                                        <td>
+                                                            @Model.Detail[i].PurchaseOrder
+                                                            @Html.HiddenFor(model => Model.Detail[i].PurchaseOrder)
+                                                            @Html.HiddenFor(model => Model.Detail[i].TrackId)
+                                                            @Html.HiddenFor(model => Model.Detail[i].Waybill)
+                                                            @Html.HiddenFor(model => Model.Detail[i].DispatchNote)
+                                                            @Html.HiddenFor(model => Model.Detail[i].DispatchNoteLine)
+                                                            @Html.HiddenFor(model => Model.Detail[i].SeqNo)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].Line
+                                                            @Html.HiddenFor(model => Model.Detail[i].Line)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].MStockCode
+                                                            @Html.HiddenFor(model => Model.Detail[i].MStockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].MStockDes
+                                                            @Html.HiddenFor(model => Model.Detail[i].MStockDes)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].MOrderQty
+                                                            @Html.HiddenFor(model => Model.Detail[i].MOrderQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.Detail[i].MPrice, new { @class = "form-control input-xs" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.Detail[i].MTaxCode, new {  @class="form-control input-xs"})
+                                                        </td>
+                                                        <th>
+                                                            <a href="@Url.Action("DeleteLine", "TransportSystemPoMaintenance", new { PurchaseOrder = @Model.Detail[i].PurchaseOrder, Line = @Model.Detail[i].Line, SeqNo = @Model.Detail[i].SeqNo })" class="btn btn-danger btn-xs">
+                                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+                                                            </a>
+                                                        </th>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#frmPo").submit(function (e) {
+                showprogressbar();
+            });
+        });
+    </script>
+}

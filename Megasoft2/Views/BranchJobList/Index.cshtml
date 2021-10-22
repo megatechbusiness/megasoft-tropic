@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Megasoft2.sp_GetJobList_Result>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Jobs</h4><hr />
+
+<p>
+
+    <button type="button" id="Export" class="btn btn-default btn-sm">
+        <span class="fa fa-file-excel-o"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Excel</span></span>
+    </button>
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-lg-6">
+            <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+        </div>
+        <div style="overflow: auto;height: 600px" class="col-lg-12">
+
+            <table class="tblJob table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblJob" style="table-layout:fixed;">
+                <thead class="style1">
+
+                    <tr class="nowrap">
+                        <th style="width:100px">
+                            @Html.DisplayNameFor(model => model.Job)
+                        </th>
+                        <th style="width:300px">
+                            Description
+                        </th>
+                        <th style="width:180px">
+                            @Html.DisplayNameFor(model => model.JobStatus)
+                        </th>
+                        <th style="width:100px">
+                            @Html.DisplayNameFor(model => model.Branch)
+                        </th>
+                        <th style="width:100px">
+                            @Html.DisplayNameFor(model => model.Site)
+                        </th>
+                        <th style="width:100px">
+                            @Html.DisplayNameFor(model => model.Department)
+                        </th>
+                        <th style="width:100px">
+                            @Html.DisplayNameFor(model => model.Account)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody class="datarow">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr class="nr nowrap">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Job)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.JobDescription)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.JobStatus)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Branch)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Site)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Department)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Account)
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <style type="text/css">
+        /*.nowrap {
+            white-space: nowrap;
+        }*/
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+
+            $('#txtSearch').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#tblJob .nr');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+                
+
+            });
+
+            $("#Export").click(function () {
+                //alert('clicked');
+                $(".tblJob").table2excel({
+                    // exclude CSS class
+                    exclude: ".noExl",
+                    name: "JobList",
+                    filename: "JobList" //do not include extension
+                });
+            });
+
+
+            UltimateScrollingTable('tblJob', 600, 1000, 1);
+        });
+
+    </script>
+}

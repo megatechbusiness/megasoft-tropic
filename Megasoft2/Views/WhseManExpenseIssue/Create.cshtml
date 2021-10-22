@@ -1,0 +1,94 @@
+﻿@model Megasoft2.ViewModel.ExpenseIssue
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "SalesPricingImport", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Matrix", "WhseManExpenseIssue")" class="btn btn-default">Expense Issue Matrix</a>
+                            <a href="@Url.Action("CostCentreMatrix", "WhseManExpenseIssue", new { CostCentre = Model.CostCentre })" class="btn btn-default"> @Model.CostCentre</a>
+
+                        </div>
+
+                        <div class="col-lg-8 pull-right">
+                            <div class="col-lg-7">
+
+                            </div>
+                            <div class="col-lg-3 text-right">
+                            </div>
+                            <div class="col-lg-2 text-right">
+
+                                <button type="submit" class="btn btn-success btn-sm" id="btnSave">
+                                    <i class="fa fa-save"> Save</i>
+                                </button>
+                            </div>
+                            &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel-body">
+                    <div class="col-lg-12">
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">CostCentre</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(model => model.CostCentre, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Work Centre</label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(model => model.WorkCentre, new SelectList(ViewBag.WorkCentreList, "WorkCentre", "Description"), new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Product Class</label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(model => model.ProductClass, new SelectList(ViewBag.ProductClassList, "ProductClass", "Description"), new { @class = "form-control input-sm" })
+                                </div>
+
+                                <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Gl Code</label>
+                                <div class="col-sm-4">
+                                    <div class="input-group add-on">
+                                        @Html.TextBoxFor(model => model.GlCode, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("GLSearch", "WhseManExpenseIssue")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+}

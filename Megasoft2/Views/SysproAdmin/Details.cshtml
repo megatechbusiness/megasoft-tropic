@@ -1,0 +1,36 @@
+﻿@model Megasoft2.mtSysproAdmin
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>mtSysproAdmin</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Company)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Company)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DatabaseName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DatabaseName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CompanyPassword)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CompanyPassword)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

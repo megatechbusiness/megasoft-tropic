@@ -1,0 +1,72 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Branch - Site
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchBranch" class="form-control input-sm" placeholder="Search" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="branchResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+
+    function SearchBranch()
+    {
+        $.getJSON('../NonStockedMaster/BranchSiteList', function (data) {
+            var items = '<table id="BranchSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Branch</th><th>Site</th><th>Site Name</th></tr>';
+            $.each(data, function (i, branch) {
+
+                items += "<tr class='nr' data-dismiss='modal'><td>" + branch.Branch + "</td><td>" + branch.Site + "</td><td>" + branch.SiteName + "</td></tr>";
+
+
+            });
+            items += "</table>";
+            $('#branchResults').html(items);
+            //alert(items);
+        });
+    }
+
+
+
+
+    $(document).ready(function () {
+
+        SearchBranch();
+
+        $('#txtSearchBranch').keyup(function () {
+            SearchBranch();
+        });
+
+        $('#branchResults').on("click", ".nr", function () {
+            var ControlId = @ViewBag.ControlId.ToString();
+            var Branch = $(this).find('td:eq(0)').text();
+            var Site = $(this).find('td:eq(1)').text();
+            
+            $(ControlId).val(Branch + Site);
+        });
+    });
+</script>

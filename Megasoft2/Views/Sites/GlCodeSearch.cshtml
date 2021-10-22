@@ -1,0 +1,65 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Gl Code
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchGlCode" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="glResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#txtSearchGlCode').focus();
+        $('#txtSearchGlCode').keyup(function () {
+            //alert($('#txtSearchGlCode').val());
+            $.getJSON('../Requisition/GlCodeList?Branch=' + "@ViewBag.Branch" + '&Site=' + "@ViewBag.Site" + '&FilterText=' + $('#txtSearchGlCode').val(), function (data) {
+                var items = '<table id="StockSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Branch</th><th>Site</th><th>Department</th><th>Account</th><th>Description</th></tr>';
+                $.each(data, function (i, glCode) {
+                    items += "<tr class='nr' id=" + glCode.GlCode + "  data-dismiss='modal'><td>" + glCode.Branch + "</td><td>" + glCode.Site + "</td><td>" + glCode.Department + "</td><td>" + glCode.Account + "</td><td>" + glCode.Description + "</td></tr>";
+                });
+                items += "</table>";
+                $('#glResults').html(items);
+                //alert(items);
+            });
+        });
+
+        $('#glResults').on("click", ".nr", function () {
+
+            var glCode = $(this).attr('id');
+            //do something with id
+            $('#AccrualSuspenseAcc').val(glCode);
+
+        });
+        $('#txtSearchGlCode').focus();
+        
+
+    });
+</script>

@@ -1,0 +1,122 @@
+﻿@model Megasoft2.Models.LabelPrintPoLine
+@{
+    ViewBag.Title = "PrintBinLabel";
+}
+@*@using (Html.BeginForm("PrintBinLabel", "WhseManScanCard", FormMethod.Post))
+{*@
+    
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+
+    <div class="panel-heading">
+
+        <h4 class="panel-title">
+
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Bin 
+            </a>
+        </h4>
+    </div>
+    
+    <hr />
+    @*<script src="~/Scripts/jquery.validate.js"></script>*@
+
+    <div class="panel-body">
+        <fieldset>
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Bin
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Bin, new { @class = "form-control input-sm" ,@id="txtBin" })
+                            @Html.ValidationMessageFor(model => model.Bin)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Printer
+                        </div>
+                        <div class="col-sm-5">
+                            @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
+                        </div>
+                        <div class="col-sm-4" style="text-align:right;">
+                            <div class="pull-right">
+                                <button type="button" id="btnPrint" class="btn btn-default">
+                                    <i class="fa fa-plus-circle"></i> Print
+                                </button>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div id="printerrordiv">
+
+                </div>
+            </div>
+
+        </fieldset>
+     </div>
+</div>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@*}*@
+<script type="text/javascript">
+
+
+    function ShowErrorDiv() {
+
+        $('#printerrordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {       
+        $('#btnPrint').on('click', function (e) {
+           var PrintLabel = true;
+            var e = document.getElementById("ddlPrinter");
+            var Printer = e.options[e.selectedIndex].value;
+            var Bin = document.getElementById('txtBin').value;
+
+            var mydata = [];
+
+                var myObject = new Object();               
+
+                if (PrintLabel == true) {
+                    myObject.Bin = Bin;         
+                    myObject.Printer = Printer;
+                    mydata.push(myObject);
+                }
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "../WhseManScanCard/PrintBinLabel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+                document.getElementById('txtBin').value = '';
+            }
+
+            function OnErrorCall(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+        });     
+    });
+</script>
+
+

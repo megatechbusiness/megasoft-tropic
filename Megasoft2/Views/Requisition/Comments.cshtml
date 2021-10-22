@@ -1,0 +1,72 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Comments
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-4">
+                            Comment
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            <textarea id="txtComment" class="form-control input-sm" rows="3" autofocus></textarea>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="form-horizontal row">
+                    <div class="form-group text-right">
+                        <button type="button" id="btnSave" class="btn btn-default btn-sm">
+                            <span class="fa fa-save"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Save</span></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="comments">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+
+    function GetData() {
+        var items = '<div class="form-horizontal row"><div class="form-group">';
+        $.getJSON('../Requisition/CommentsData?Requisition=' + "@ViewBag.Requisition", function (data) {
+            $.each(data, function (i, req) {
+                items += '<div class="col-sm-6"><div class="panel panel-default"><div class="panel-heading"><strong>' + req.Username + '</strong> <span class="text-muted">' + req.PostedDate + '</span></div><div class="panel-body">' + req.Comment + '</div></div></div>';
+            });
+            items += '</div></div>'
+            $('#comments').html(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetData();
+
+        $('#btnSave').on("click", function () {
+
+
+            $.post('../Requisition/SaveComment', { Requisition: "@ViewBag.Requisition",  Comment: $('#txtComment').val() }, function (data) {
+                GetData();
+                $('#txtComment').val('');
+                alert(data);
+            }, "json");
+
+
+
+        });
+    });
+</script>

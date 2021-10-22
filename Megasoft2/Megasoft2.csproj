@@ -1,0 +1,2961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1FBCEF7F-F689-48F0-A7E5-42D59CFC4A94}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Megasoft2</RootNamespace>
+    <AssemblyName>Megasoft2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>3029497f</NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=14.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.CrystalReports.Engine\13.0.2000.0__692fbea5521e1304\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=14.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.ReportSource\13.0.2000.0__692fbea5521e1304\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=14.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.Shared\13.0.2000.0__692fbea5521e1304\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Web, Version=14.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.Web\13.0.2000.0__692fbea5521e1304\CrystalDecisions.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="SYSPROWCFServicesClientLibrary40">
+      <HintPath>..\..\..\..\..\..\..\SYSPRO7\BASE\SYSPROWCFServicesClientLibrary40.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.30506.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.4.0.30506\lib\net40\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WinSCPnet">
+      <HintPath>..\packages\WinSCP.5.13.0\lib\net\WinSCPnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdmFormControl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdmFormData.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdmFormList.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdmFormValidation.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdmMultimedia.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdmTax.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Adr_DBLog_Analogs.cs">
+      <DependentUpon>TanksLevelScada.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApBranch.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ApSupplier.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApSupplier_.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BomCostCentre.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BomOperation.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BomRoute.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BomStructure.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BomWorkCentre.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessLogic\AuditHelper.cs" />
+    <Compile Include="BusinessLogic\BeeSupplierBL.cs" />
+    <Compile Include="BusinessLogic\clsData.cs" />
+    <Compile Include="BusinessLogic\CrystalReportsBL.cs" />
+    <Compile Include="BusinessLogic\CsvUpload.cs" />
+    <Compile Include="BusinessLogic\Customer.cs" />
+    <Compile Include="BusinessLogic\DatabaseSwitcher.cs" />
+    <Compile Include="BusinessLogic\DespatchBL.cs" />
+    <Compile Include="BusinessLogic\Email.cs" />
+    <Compile Include="BusinessLogic\InkSystem.cs" />
+    <Compile Include="BusinessLogic\InvoiceExtractBL.cs" />
+    <Compile Include="BusinessLogic\LabelPrint.cs" />
+    <Compile Include="BusinessLogic\LabourPost.cs" />
+    <Compile Include="BusinessLogic\LabourPostControl.cs" />
+    <Compile Include="BusinessLogic\LabourPostReversal.cs" />
+    <Compile Include="BusinessLogic\clsMaterialIssue.cs" />
+    <Compile Include="BusinessLogic\MasterCard.cs" />
+    <Compile Include="BusinessLogic\MasterCardMaintenance.cs" />
+    <Compile Include="BusinessLogic\MegasoftAlertsBL.cs" />
+    <Compile Include="BusinessLogic\PhysicalAdjustmentBL.cs" />
+    <Compile Include="BusinessLogic\ProductionReceipt.cs" />
+    <Compile Include="BusinessLogic\PurchaseOrderGrn.cs" />
+    <Compile Include="BusinessLogic\RepairsAndMaintenanceBL.cs" />
+    <Compile Include="BusinessLogic\RequisitionAudit.cs" />
+    <Compile Include="BusinessLogic\ScaleReceipt.cs" />
+    <Compile Include="BusinessLogic\Scheduler.cs" />
+    <Compile Include="BusinessLogic\SorContractPrice.cs" />
+    <Compile Include="BusinessLogic\StereoSystem.cs" />
+    <Compile Include="BusinessLogic\StockTakeImport.cs" />
+    <Compile Include="BusinessLogic\SupplierContractsBL.cs" />
+    <Compile Include="BusinessLogic\SysproBinTransfer.cs" />
+    <Compile Include="BusinessLogic\SysproCore.cs" />
+    <Compile Include="BusinessLogic\SysproMaterialIssue.cs" />
+    <Compile Include="BusinessLogic\SysproStockTakeOn.cs" />
+    <Compile Include="BusinessLogic\SysproTransferIn.cs" />
+    <Compile Include="BusinessLogic\SysproWarehouseTransfer.cs" />
+    <Compile Include="BusinessLogic\TankLevelsBL.cs" />
+    <Compile Include="BusinessLogic\TransportSystem.cs" />
+    <Compile Include="BusinessLogic\TransportSystemBL.cs" />
+    <Compile Include="BusinessLogic\WhseManProductionReceipt.cs" />
+    <Compile Include="Controllers\AccessDeniedController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AspChartsController.cs" />
+    <Compile Include="Controllers\BarcodeReaderController.cs" />
+    <Compile Include="Controllers\BEESupplierController.cs" />
+    <Compile Include="Controllers\BinTransferController.cs" />
+    <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BranchJobListController.cs" />
+    <Compile Include="Controllers\BranchStatsController.cs" />
+    <Compile Include="Controllers\BuyerTurnaroundTimeController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerInvoiceExtractApiController.cs" />
+    <Compile Include="Controllers\CustomerInvoiceExtractController.cs" />
+    <Compile Include="Controllers\CustomerInvoiceExtractSettingsController.cs" />
+    <Compile Include="Controllers\CustomerInvoiceReextractController.cs" />
+    <Compile Include="Controllers\CustomerOrderSchedulerController.cs" />
+    <Compile Include="Controllers\DemoCameraController.cs" />
+    <Compile Include="Controllers\DepartmentMasterController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\GlCodeTagController.cs" />
+    <Compile Include="Controllers\GrnEnquiryController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InkSystemController.cs" />
+    <Compile Include="Controllers\InventoryQueryController.cs" />
+    <Compile Include="Controllers\InvoicePostingController.cs" />
+    <Compile Include="Controllers\LabelPrinterController.cs" />
+    <Compile Include="Controllers\LabourPostController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MasterCardArtworkController.cs" />
+    <Compile Include="Controllers\MasterCardMainController.cs" />
+    <Compile Include="Controllers\MasterCardMaintenanceController.cs" />
+    <Compile Include="Controllers\MasterCardMultimediaViewerController.cs" />
+    <Compile Include="Controllers\MasterCardStockCodeBomSetupController.cs" />
+    <Compile Include="Controllers\MaterialIssueController.cs" />
+    <Compile Include="Controllers\mtRequisitionBranchController.cs" />
+    <Compile Include="Controllers\mtRequisitionBranchCostCentreController.cs" />
+    <Compile Include="Controllers\mtRequisitionCostCentreController.cs" />
+    <Compile Include="Controllers\mtRequisitionCostCentreProductClassController.cs" />
+    <Compile Include="Controllers\mtRequisitionProductClassGlCodeController.cs" />
+    <Compile Include="Controllers\mtRequisitionUserBranchCostCentreController.cs" />
+    <Compile Include="Controllers\mtRequisitionUserCostCentreSpendLimitController.cs" />
+    <Compile Include="Controllers\mtRequisitionUserRoutingController.cs" />
+    <Compile Include="Controllers\NonStockedInvMasterController.cs" />
+    <Compile Include="Controllers\PeriodControlController.cs" />
+    <Compile Include="Controllers\ProductClassController.cs" />
+    <Compile Include="Controllers\ProductionReceiptController.cs" />
+    <Compile Include="Controllers\PurchaseOrderBrowseController.cs" />
+    <Compile Include="Controllers\PurchaseOrderLabelController.cs" />
+    <Compile Include="Controllers\PurchaseOrderReportingController.cs" />
+    <Compile Include="Controllers\RepairsAndMaintenanceController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RequisitionApiController.cs" />
+    <Compile Include="Controllers\RequisitionApiReturnController.cs" />
+    <Compile Include="Controllers\RequisitionAuditController.cs" />
+    <Compile Include="Controllers\RequisitionAuditTrailController.cs" />
+    <Compile Include="Controllers\RequisitionController.cs" />
+    <Compile Include="Controllers\RequisitionEnquiryController.cs" />
+    <Compile Include="Controllers\RequisitionScanController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\SalesContractPricingController.cs" />
+    <Compile Include="Controllers\ScaleSystemController.cs" />
+    <Compile Include="Controllers\ScaleSystemSetupController.cs" />
+    <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="Controllers\SmartScanMatrixController.cs" />
+    <Compile Include="Controllers\StereoSystemAddStereoController.cs" />
+    <Compile Include="Controllers\StereoSystemCustomFormsController.cs" />
+    <Compile Include="Controllers\StereoSystemGrnController.cs" />
+    <Compile Include="Controllers\StereoSystemSupplierController.cs" />
+    <Compile Include="Controllers\StockCodeBrowseController.cs" />
+    <Compile Include="Controllers\StockCodeImagesController.cs" />
+    <Compile Include="Controllers\StockTakeCaptureController.cs" />
+    <Compile Include="Controllers\StockTakeImportController.cs" />
+    <Compile Include="Controllers\SuppDeliveryLogController.cs" />
+    <Compile Include="Controllers\SupplierContractPricingController.cs" />
+    <Compile Include="Controllers\SupplierContractPricingExcelImportController.cs" />
+    <Compile Include="Controllers\SysproAdminController.cs" />
+    <Compile Include="Controllers\TankLevelsController.cs" />
+    <Compile Include="Controllers\TankMasterController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TestLargeDataController.cs" />
+    <Compile Include="Controllers\tpSchedulerController.cs" />
+    <Compile Include="Controllers\TransferInController.cs" />
+    <Compile Include="Controllers\TransferOutController.cs" />
+    <Compile Include="Controllers\TransportSystemCustomerEmailController.cs" />
+    <Compile Include="Controllers\TransportSystemPoInvoiceController.cs" />
+    <Compile Include="Controllers\TransportSystemPoMaintenanceController.cs" />
+    <Compile Include="Controllers\TransportSystemPvJournalController.cs" />
+    <Compile Include="Controllers\TransportSystemTransportersController.cs" />
+    <Compile Include="Controllers\TransportSystemWaybillEntryController.cs" />
+    <Compile Include="Controllers\TransportSystemWaybillPoEntryController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserGlCodeImportController.cs" />
+    <Compile Include="Controllers\WarehouseTransferController.cs" />
+    <Compile Include="Controllers\WhseManBackOrderReleaseController.cs" />
+    <Compile Include="Controllers\WhseManBatchReceiptController.cs" />
+    <Compile Include="Controllers\WhseManBatchSplitController.cs" />
+    <Compile Include="Controllers\WhseManDelayedPostingController.cs" />
+    <Compile Include="Controllers\WhseManDeliveryImportController.cs" />
+    <Compile Include="Controllers\WhseManExpenseIssueController.cs" />
+    <Compile Include="Controllers\WhseManLabelMaintenanceController.cs" />
+    <Compile Include="Controllers\WhseManLabelReprintController.cs" />
+    <Compile Include="Controllers\WhseManMaterialIssueController.cs" />
+    <Compile Include="Controllers\WhseManMaterialIssuePlannerController.cs" />
+    <Compile Include="Controllers\WhseManPalletAuditController.cs" />
+    <Compile Include="Controllers\WhseManPhysicalAdjustmentController.cs" />
+    <Compile Include="Controllers\WhseManPoLabelController.cs" />
+    <Compile Include="Controllers\WhseManPoReceiptController.cs" />
+    <Compile Include="Controllers\WhseManPoReceiptScanController.cs" />
+    <Compile Include="Controllers\WhseManProductionLabelController.cs" />
+    <Compile Include="Controllers\WhseManProductionReceiptController.cs" />
+    <Compile Include="Controllers\WhseManScanCardController.cs" />
+    <Compile Include="Controllers\WhsManProductionMaterialIssueLabelPrintController.cs" />
+    <Compile Include="Controllers\WmsDespatchController.cs" />
+    <Compile Include="Controllers\WmsPickingController.cs" />
+    <Compile Include="Controllers\WmsSalesReleaseController.cs" />
+    <Compile Include="Controllers\WmsSalesReleaseExpressController.cs" />
+    <Compile Include="Controllers\WmsWarehouseReleaseController.cs" />
+    <Compile Include="CrystalReports\ReportViewer.aspx.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\ReportViewer.aspx.designer.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CusGenMaster_.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomAuthorizeAttribute.cs" />
+    <Compile Include="CustomMetadataValidationProvider.cs" />
+    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="GenControl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenMaster.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GrnDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvBuyer.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvMaster.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvMaster_.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvMultBin.cs">
+      <DependentUpon>StockTake.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvNarration.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvNarrationHdr.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvPrice.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvStockTake.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvWarehouse.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvWarehouse_.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvWhBin.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvWhControl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LotDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Megasoft.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Megasoft.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Megasoft.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Megasoft.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Megasoft.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MegasoftMembershipProvider.cs" />
+    <Compile Include="MegasoftRoleProvider.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AuthorizationLimit.cs" />
+    <Compile Include="Models\BatchReceipt.cs" />
+    <Compile Include="Models\BeeEmail.cs" />
+    <Compile Include="Models\BeeSupplierClass.cs" />
+    <Compile Include="Models\BinTransfer.cs" />
+    <Compile Include="Models\BlendReprint.cs" />
+    <Compile Include="Models\ChangePassword.cs" />
+    <Compile Include="Models\CustomerInvoiceDetail.cs" />
+    <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\EntityChanges.cs" />
+    <Compile Include="Models\ExportFile.cs" />
+    <Compile Include="Models\GrnFilter.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\InkBomOperation.cs" />
+    <Compile Include="Models\InkComponets.cs" />
+    <Compile Include="Models\InvoiceMatchingList.cs" />
+    <Compile Include="Models\LabelPrintPoLine.cs" />
+    <Compile Include="Models\LabelPrintPurchaseOrder.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MasterCardBomOperation.cs" />
+    <Compile Include="Models\MasterCardComponent.cs" />
+    <Compile Include="Models\MasterCardCopyComponent.cs" />
+    <Compile Include="Models\MasterCardCopyOperation.cs" />
+    <Compile Include="Models\MasterCardStockCodeCustomForm.cs" />
+    <Compile Include="Models\MaterialIssue.cs" />
+    <Compile Include="Models\MetadataMasterCard.cs" />
+    <Compile Include="Models\NavigatePoLine.cs" />
+    <Compile Include="Models\PalletAudit.cs" />
+    <Compile Include="Models\PartialClassesMasterCard.cs" />
+    <Compile Include="Models\ProductionLabel.cs" />
+    <Compile Include="Models\ProductionReceipt.cs" />
+    <Compile Include="Models\PurchaseOrderEmail.cs" />
+    <Compile Include="Models\RequisitionHdrAddress.cs" />
+    <Compile Include="Models\RequisitionHeader.cs" />
+    <Compile Include="Models\RequisitionLine.cs" />
+    <Compile Include="Models\RequisitionTextLine.cs" />
+    <Compile Include="Models\RoleFunctionAccess.cs" />
+    <Compile Include="Models\StockTakeOn.cs" />
+    <Compile Include="Models\SupplierPriceColumnMapping.cs" />
+    <Compile Include="Models\TankDataSheet.cs" />
+    <Compile Include="Models\TankDataViewModel.cs" />
+    <Compile Include="Models\TankLevels.cs" />
+    <Compile Include="Models\TankLevelsList.cs" />
+    <Compile Include="Models\TankMovementsViewModel.cs" />
+    <Compile Include="Models\Test.cs" />
+    <Compile Include="Models\TransferIn.cs" />
+    <Compile Include="Models\TransportSystemModel.cs" />
+    <Compile Include="Models\WarehouseTransfer.cs" />
+    <Compile Include="Models\WhseManDeliveryFile.cs" />
+    <Compile Include="Models\WhseManJobLabel.cs" />
+    <Compile Include="Models\WhseManJobReceipt.cs" />
+    <Compile Include="mtApSupplier.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBankingDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBeeEmailLog.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBeePreference.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBeeSupplierAudit.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBranch.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBranchSite.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBranchSiteDept.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBuyerRequisitioner.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtBuyerStatsFilter.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtDelayedPostingWarehouse.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtDepartment.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtDistributionSetup.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtEnetSetting.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtExpenseIssueMatrix.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtGrnDetail.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtGrnInvoiceAudit.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvBranch.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvContractPricing.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvDelayedPosting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvMaster.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvMasterImage.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvoiceExtractSetting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtInvTransfer.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtLabelPrinter.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtLabourPostControl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardArtwork.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardArtworkUMasterCardHeader_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardAttachment.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardBagging.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardBomOperation.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardBomOperationsUpdate.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardBomStructure.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardBomStructureUpdate.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardCustomer.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardExtrusion.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardHeader.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardLamination.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardOther.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardPrinting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardPrintingColour.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardSlitting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockCode.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockCodeCustomForm.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockCodeCustomFormUpdate.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockCodeUpdate.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockCodeWarehouse.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockCodeWarehouseUpdate.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardStockUom.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardUpdateAudit.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMasterCardWicketing.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtMegasoftAlert.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtNonStockMaster.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtOpBranchAccess.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtOpFunction.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPalletAudit.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPalletControl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPeriodControl.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPorDeliveryImport.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtProductClass.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtProductionLabel.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtProductionLabelsDeleted.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtProductionPalletWeight.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtProgramFunction.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPurchaseOrderAnalysisCat.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPurchaseOrderLabel.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtPurchaseOrderNonMerchCost.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReason.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReportAutomation.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReportGroup.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReportMaster.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqBranch.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqBranchCostCentre.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqCostCentre.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqCostCentreProductClass.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqProductClassGlCode.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqPurchaseOrder.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqRequisitionComment.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqRoutingTracking.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionAudit.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionComment.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionDeletedLine.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionDeletedQuote.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionDetail.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionEmailLog.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionHeader.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionQuote.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionSetting.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionStatu.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRequisitionTextLine.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqUserBranchCostCentre.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqUserCostCentreSpendLimit.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtReqUserRouting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRole.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtRoleFunction.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtScale.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtScaleSetting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtShift.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSmartScanMatrix.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSmartScanType.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSorScheduler.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSorSchedulerComment.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStereoDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStereoHdr.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStereoSetting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStereoSupplier.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStockLabel.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStockLabelSequence.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtStockTakeCapture.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSuppDeliveryLog.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSupplierContact.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSupplierContractPrice.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSupplierContractPricingColumnMapping.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSysproAdmin.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtSystemSetting.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTankLevelStaging.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTankMaster.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTankMovementStaging.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTankProductHistory.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTmpLotsToReverse.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransportCustomerEmailSetting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransporter.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransporterRate.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransporterRateCode.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransportSetting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransportWaybillDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtTransportWaybillHdr.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUser.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserBuyerStat.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserCompany.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserDepartment.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserGlCodeAccess.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserPreference.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserPrinterAccess.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserProductClassLimit.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserReportAccess.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserRole.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserScaleAccess.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtUserWarehouse.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtWhseManSetting.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtWmsDeletedItem.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtWmsOrderDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtWmsOrderMaster.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtWmsReason.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_DirectExpenseByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetFlagPrintTropicHeader_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetGLCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetLast5PurchasesByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetMicronDimensionByPalletNo_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetPalletDetailsByPalletId_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetPalletItemsByPalletNumberAndWarehouse_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetProductionDetailsByLot_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_InvQueryStockCodeDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_ProductionLabelCalc_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_ProductionLotDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_ProductionMaterialIssueLots_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleButtonAttribute.cs" />
+    <Compile Include="PorMasterDetail.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PorMasterDetail_.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PorMasterHdr.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PorMasterHdr_.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PorSupStkInfo.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReqDetail.cs" />
+    <Compile Include="SalArea.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalBranch.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalProductClassDe.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalSalesperson.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_BaggingLabelEmployees_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_BuyerOutstandingPo_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_BuyerReqReport_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_BuyerTurnaroundTimesDetail_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_BuyerTurnaroundTimes_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_CheckJobCardExpectedCost_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_CheckStockCodeBins_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetActiveSchedule_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAllStockCodesFiltered_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAllStockCodes_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAllSuppliers_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetApBranch_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAPPostingPeriod_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetApTerms_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAuditTrail_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAuthorizationGlCodes_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAutoDepleteLots_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBackOrderReleaseItems_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBackOrderReleaseLines_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBatchDetailsForBatchSplit_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBeeSuppliers_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBinsByWarehouse_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBins_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBranchAccess_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBranchByStockCode_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBranchSiteByUser_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBuyerRequisitionerLink_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBuyerStatsBranchList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBuyerStatsBuyerList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBuyerStatsDetail_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetBuyerStats_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetCategoryByGlCode_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetCategoryByJob_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetCommentLinesForPo_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetContractPrice_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetContractPricingByStockCode_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetCostCentreControl_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetDelayedPostingCueData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetDelayedPostingData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetDelayedPostingErrors_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetDelayedPostingWarehouses_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetExpenseIssueMatrix_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodesByBranchSite_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodesByBranch_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodesByCostCode_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodesByReportIndex_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodesByUser_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodeTagDetail_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGlCodeTagList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGrnEnquiryHeader_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGrnLinesForInvoicing_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGrnListForInvoicing_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGrnSuspenseAccByPoLine_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGrnTotals_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGtrDetailByReference_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetGtrReferenceByWarehouse_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoiceDetailsByGrn_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoiceExtractCustomerClass_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoiceExtractCustomerContactDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoiceExtractCustXRef_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoiceExtractTaxRate_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoiceReviewTotals_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoicesForReview_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoices_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetInvoices_Re_Extract_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetJobDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetJobList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetJobsByGlCode_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetJobStockMass_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetJournalsToUpdate_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetKitLabourToIssue_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetKitMaterialToIssue_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetKitMaterialToIssue_Result1.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetLabelDataForReprint_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetLabelsPrintedForJob_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetLast3Scans_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetLastThreePurchases_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetLotsToAdjust_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetMasterCardNewStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetMaxJobPalletNumber_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetMaxReelNumber_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetMaxStockReelNumber_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetMegasoftAlerts_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetMegasoftReportsByUser_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetNextGrnNumber_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetNonMerchCostsByPo_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetNonMerchCosts_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetOpFunctionAccess_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetOpFunctionMenu_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetOustandingPoQty_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPackingSlipData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPackingSlipPoLine_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPalletAuditScans_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPalletAuditWarehouse_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPeriodControlSetup_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPeriodControl_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPoLabelLines_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPoLinesForMaterialAllocation_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPostingErrors_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPostingPeriod_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPriceForPoLine_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPrintScaleOperatorInitial_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProductClassLimits_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProductionBomOperations_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProductionDepartments_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProductionJobDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProductionJobs_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProductionReturnPalletDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProvGlJournal_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderEnquiryList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderLinesBySupplier_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderLinesForGrn_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderLinesForLabel_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderLines_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderListForLabels_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderReport_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetPurchaseOrderToCancel_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetQuoteAnalysis_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetReportsByUserAndGroup_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetReportsByUser_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetReqStatus_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequestForQuoteReport_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionAudit_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionAuthorizerByUser_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionAuthorizers_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionComments_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionHeader_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionLines_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionPoTotals_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionQuoteByLine_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionQuoteLines_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionQuotesUpload_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusAwaitingAuthByGL_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusAwaitingAuthList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusGrnListByGL_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusGrnList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusInvoiceListByGL_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusInvoiceList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusPostedInvoiceListByGL_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusPostedInvoiceList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusReqListByGL_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionStatusReqList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRequisitionTotals_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetReversalJobsInfo_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetReversalJobs_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetReversalScrap_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetRoleAccess_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSalesContractPricingForExpiry_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSalesOrderDetailLine_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetScaleOperators_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetScaleRolls_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetScalesJobDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetScalesMaxJobPalletNumber_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetScaleTransferPalletNo_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSmartScanGuidDetail_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSmartScanGuidDetail_Result1.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSoCustomerPoLineNumber_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSorOrderSchedulerComments_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSorOrderSchedule_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSplitPalletDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoApTaxValue_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoByPurchaseOrder_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoCustomerName_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoCustomers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoGlCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoPlateCategory_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoProductClass_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoSupplier_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoSysproSupplier_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStereoTaxCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodeByBranchSiteFiltered_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodeByBranchSite_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodeByBranch_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodeBySupplierCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodeDescriptionByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodePurchaseHistory_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockCodesByCustomer_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockReview_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockTakeCaptureByWarehouse_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetStockTakeWarehouse_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupContractsStockCodesBySupplier_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierByRequisitionAndLine_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierContractsPricingData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierInvoiceValidation_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierPurchaseHistoryDetail_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierPurchaseHistoryHeader_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierPurchaseHistory_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSuppliersForPo_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSuppliersForQuoting_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSuppliers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierTermsCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSysproProductClass_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSysproSuppliers_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSysproWarehouses_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTankLevels_Result.cs">
+      <DependentUpon>TanksLevelScada.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTankMovements_Result.cs">
+      <DependentUpon>TanksLevelScada.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTimeCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransApTaxValue_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransCustomers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransDispatchNotes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransGlCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransLocations_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransPoLinesForMaintenance_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransporterPoLines_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransporters_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransportSystemCustomerTowns_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransPvJournal_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransRateCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransSuppliers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransVehicleReg_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransWaybillDetailByTrackId_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTransWaybillsPoEntry_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUnpostedTransactionsCount_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserBuyerStats_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserCompanies_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserDepartments_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserPrinters_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserReportAccess_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserReports_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserRole_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserScaleAccess_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserScales_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetUserWarehouses_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWarehouseByStockCode_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsBackOrderReleaseItems_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsBackOrderReleaseLines_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsCheckItemBatchOrPallet_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsDespatchItems_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsDespatchLines_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsItemsForPicking_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsNextOrderForPicker_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetWmsOrdersForRelease_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_InvMasterList_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_InvMaster_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetAllStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetAttachmentsByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetBomNarrationsForPostingUpdate_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetBomNarrationsForPosting_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetBomOperationsForPosting_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetBomStructureForPosting_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetBomStructure_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetCustomFormData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetNextStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetStockCodeArtwork_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetStockCodeCopyData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetStockCodeCustomFormData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetStockCodeDataForUpdate_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetSysproBomOperations_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetSysproBomStructure_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetUnitRunTime_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetWarehouseUpdate_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardGetWorkCentreDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardUpdateGetComponentsByParentPart_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_MasterCardUpdateGetOperationsByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInksGetAllStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInksGetBomStructureByParentPart_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInksGetNumberOfColours_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInksGetOperationByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInksGetPrintingParentStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInksGetSysproBomStructure_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInkSystemGetBomComponentType_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInkSystemGetBomNarrationsForPostingUpdate_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInkSystemGetBomRoute_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtInkSystemGetWorkCentreDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetActiveJobs_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetActiveSubContractJobs_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetGenMaster_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetGlCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetLinesForCancellation_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetPricingData_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetProductClass_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetQtyOnHandByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionComments_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionEnquiry_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionHeaderCustomForm_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionHeader_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionLinesForPo_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionLines_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionList_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRequisitionUsers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetRouteOnUsers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetStockCodeDetailsByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetSupplierContractPricing_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetSuppliers_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetUserBranchCostCentreAccess_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetUserBranch_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_mtReqGetUserCostCentres_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_PalletOrderReport_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_PurchaseOrderGrnList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_PurchaseOrderList_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_SaveDeliveryScan_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_SaveGlCodeAccess_Result.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Schedule_JobsToSchedule_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StereoPoLinesForGrn_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_SupplierDeliveryGetLogByReciever_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_UpdateInvoicingPreference_Result.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockTake.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockTake.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockTake.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockTake.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockTake.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockTake.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="StockTakeEntities.cs" />
+    <Compile Include="Syspro.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Syspro.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Syspro.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Syspro.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Syspro.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="SysproEntities.cs" />
+    <Compile Include="TanksLevelScada.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TanksLevelScada.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TanksLevelScada.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TanksLevelScada.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TanksLevelScada.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TanksLevelScada.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="TblArTerm.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblCurrency.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblCustomerClass.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSoBuyingGroup.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSoShipInst.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSoStdCom.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSoType.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BeeSupplier.cs" />
+    <Compile Include="ViewModel\BuyerStatsViewModel.cs" />
+    <Compile Include="ViewModel\CustomerInvoiceViewModel.cs" />
+    <Compile Include="ViewModel\CustomerOrderScheduleViewModel.cs" />
+    <Compile Include="ViewModel\EmailRequestForQuote.cs" />
+    <Compile Include="ViewModel\ExpenseIssue.cs" />
+    <Compile Include="ViewModel\InkSystemViewModel.cs" />
+    <Compile Include="ViewModel\InventoryQueryViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceAuthViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceMatching.cs" />
+    <Compile Include="ViewModel\JournalUpdateViewModel.cs" />
+    <Compile Include="ViewModel\LabourPostViewModel.cs" />
+    <Compile Include="ViewModel\MasterCardViewModel.cs" />
+    <Compile Include="ViewModel\MaterCardMaintenanceViewModel.cs" />
+    <Compile Include="ViewModel\MenuViewModel.cs" />
+    <Compile Include="ViewModel\NonStockedMaster.cs" />
+    <Compile Include="ViewModel\PalletAuditViewModel.cs" />
+    <Compile Include="ViewModel\PeriodControlViewModel.cs" />
+    <Compile Include="ViewModel\PhysicalAdjustment.cs" />
+    <Compile Include="ViewModel\PoGrn.cs" />
+    <Compile Include="ViewModel\PoMaintenance.cs" />
+    <Compile Include="ViewModel\PostingViewModel.cs" />
+    <Compile Include="ViewModel\PoTextLine.cs" />
+    <Compile Include="ViewModel\ProductClassViewModel.cs" />
+    <Compile Include="ViewModel\PurchaseOrderLabel.cs" />
+    <Compile Include="ViewModel\RepairsAndMaintenanceViewModel.cs" />
+    <Compile Include="ViewModel\ReportViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionAuditsViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionEnquiryViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionQuoteViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionSettings.cs" />
+    <Compile Include="ViewModel\RequisitionSpendLimitViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionStatusGLViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionStatusViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionUserBranchCostCentreViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionViewModel.cs" />
+    <Compile Include="ViewModel\RequsitionScanViewModel.cs" />
+    <Compile Include="ViewModel\ScaleSystemSetupViewModel.cs" />
+    <Compile Include="ViewModel\ScaleSystemViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\SmartScanViewModel.cs" />
+    <Compile Include="ViewModel\SorContractPriceViewModel.cs" />
+    <Compile Include="ViewModel\StereoSystemAddStereoViewModel.cs" />
+    <Compile Include="ViewModel\StereoSystemGrnViewModel.cs" />
+    <Compile Include="ViewModel\StockCodeImagesViewModel.cs" />
+    <Compile Include="ViewModel\StockTakeImport.cs" />
+    <Compile Include="ViewModel\StockTakeReview.cs" />
+    <Compile Include="ViewModel\SuppDeliveryLogViewModel.cs" />
+    <Compile Include="ViewModel\SupplierContractPriceViewModel.cs" />
+    <Compile Include="ViewModel\SupplierViewModel.cs" />
+    <Compile Include="ViewModel\TransportPoMaintenanceViewModel.cs" />
+    <Compile Include="ViewModel\TransportSystemCustomerEmail.cs" />
+    <Compile Include="ViewModel\TransportSystemPvJournalViewModel.cs" />
+    <Compile Include="ViewModel\TransportSystemTransportersViewModel.cs" />
+    <Compile Include="ViewModel\TransportSystemWaybillEntryViewModel.cs" />
+    <Compile Include="ViewModel\TransportSystemWaybillPOEntryViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="ViewModel\WhseManBackOrderReleaseViewModel.cs" />
+    <Compile Include="ViewModel\WhseManDelayedPostingWarehouse.cs" />
+    <Compile Include="ViewModel\WhseManDeliveryFileViewModel.cs" />
+    <Compile Include="ViewModel\WhseManMaterialIssuePlannerViewModel.cs" />
+    <Compile Include="ViewModel\WhseManPoReceipt.cs" />
+    <Compile Include="ViewModel\WhseManProductionLabelPrint.cs" />
+    <Compile Include="ViewModel\WhseManProductMatIssueViewModel.cs" />
+    <Compile Include="ViewModel\WmsBackOrderReleaseViewModel.cs" />
+    <Compile Include="ViewModel\WmsSalesReleaseViewModel.cs" />
+    <Compile Include="Views\RenderMegasoftOldController.cs" />
+    <Compile Include="vwApSupplier.cs">
+      <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwJobMatData.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwJobSalesOrder.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VwSalesRegister.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VwSorContPrice.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwWipJobLot.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwWipJobLotCtl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwWipJobMatSpec.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_InvWhControl.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseManagement.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WarehouseManagement.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseManagement.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseManagement.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WarehouseManagement.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseManagementEntities.cs" />
+    <Compile Include="WipJobAllMat.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WipJobClass.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WipMaster.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\BinTransfer\BinTransfer.js" />
+    <Content Include="Content\bootstrap-cards\css\bootcards.css" />
+    <Content Include="Content\bootstrap-cards\css\desktop.css" />
+    <Content Include="Content\bootstrap-cards\fonts\icomoon.svg" />
+    <Content Include="Content\bootstrap-cards\js\bootcards.js" />
+    <Content Include="Content\bootstrap-toggle\css\bootstrap-toggle.css" />
+    <Content Include="Content\bootstrap-toggle\css\bootstrap-toggle.min.css" />
+    <Content Include="Content\bootstrap-toggle\js\bootstrap-toggle.js" />
+    <Content Include="Content\bootstrap-toggle\js\bootstrap-toggle.min.js" />
+    <Content Include="Content\bootstrap-treeview\bootstrap-treeview.min.css" />
+    <Content Include="Content\bootstrap-treeview\bootstrap-treeview.min.js" />
+    <Content Include="Content\Bootstrap\css\bootstrap-rtl.css" />
+    <Content Include="Content\Bootstrap\css\bootstrap-rtl.min.css" />
+    <Content Include="Content\Bootstrap\css\bootstrap.css" />
+    <Content Include="Content\Bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\Bootstrap\css\plugins\morris.css" />
+    <Content Include="Content\Bootstrap\css\sb-admin-rtl.css" />
+    <Content Include="Content\Bootstrap\css\sb-admin.css" />
+    <Content Include="Content\Bootstrap\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Bootstrap\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Bootstrap\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\Bootstrap\js\jquery.js" />
+    <Content Include="Content\Bootstrap\js\plugins\flot\excanvas.min.js" />
+    <Content Include="Content\Bootstrap\js\plugins\flot\flot-data.js" />
+    <Content Include="Content\Bootstrap\js\plugins\flot\jquery.flot.js" />
+    <Content Include="Content\Bootstrap\js\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Content\Bootstrap\js\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Content\Bootstrap\js\plugins\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Content\Bootstrap\js\plugins\morris\morris-data.js" />
+    <Content Include="Content\Bootstrap\js\plugins\morris\morris.js" />
+    <Content Include="Content\Bootstrap\js\plugins\morris\morris.min.js" />
+    <Content Include="Content\Bootstrap\js\plugins\morris\raphael.min.js" />
+    <Content Include="Content\DataTables\dataTables.editor.min.js" />
+    <Content Include="Content\DataTables\datatables.min.css" />
+    <Content Include="Content\DataTables\datatables.min.js" />
+    <Content Include="Content\DataTables\editor.bootstrap.min.js" />
+    <Content Include="Content\DataTables\jquerydataTablesmin.css" />
+    <Content Include="Content\DataTables\jquerydataTablesmin.js" />
+    <Content Include="Content\DataTable\buttons.html5.min.js" />
+    <Content Include="Content\DataTable\dataTables.buttons.min.js" />
+    <Content Include="Content\DataTable\datatables.css" />
+    <Content Include="Content\DataTable\datatables.js" />
+    <Content Include="Content\DataTable\datatables.min.js" />
+    <Content Include="Content\DataTable\dataTables.select.min.js" />
+    <Content Include="Content\DataTable\jszip.min.js" />
+    <Content Include="Content\DataTable\select.dataTables.min.css" />
+    <Content Include="Content\DatePicker\bootstrap-datepicker.css" />
+    <Content Include="Content\DatePicker\bootstrap-datepicker.js" />
+    <Content Include="Content\DateTimePicker\bootstrap-datetimepicker.js" />
+    <Content Include="Content\DateTimePicker\moment.min.js" />
+    <Content Include="Content\ddlSearch\select2.css" />
+    <Content Include="Content\ddlSearch\select2.js" />
+    <Content Include="Content\ExcelExport\jquery.table2excel.js" />
+    <Content Include="Content\Images\AccessDenied.png" />
+    <Content Include="Content\Images\background_fade.png" />
+    <Content Include="Content\Images\Freedom_Logo.png" />
+    <Content Include="Content\Images\GHr12sH.jpg" />
+    <Content Include="Content\Images\grey.jpg" />
+    <Content Include="Content\Images\grey1.jpg" />
+    <Content Include="Content\Images\grey2.jpg" />
+    <Content Include="Content\Images\grey3.jpg" />
+    <Content Include="Content\Images\grey4.jpg" />
+    <Content Include="Content\Images\grey5.jpg" />
+    <Content Include="Content\Images\grey6.jpg" />
+    <Content Include="Content\Images\IMG-20160511-WA0002.jpg" />
+    <Content Include="Content\Images\megasoft logo.png" />
+    <Content Include="Content\Images\Preloader_3.gif" />
+    <Content Include="Content\Images\red.jpg" />
+    <Content Include="Content\Images\red1.jpg" />
+    <Content Include="Content\jquery_webcam\jquery.webcam.js" />
+    <Content Include="Content\jquery_webcam\jquery.webcam.min.js" />
+    <Content Include="Content\jquery_webcam\jscam.swf" />
+    <Content Include="Content\jquery_webcam\jscam_canvas_only.swf" />
+    <Content Include="Content\jquery_webcam\src\jscam.xml" />
+    <Content Include="Content\Login\Login.css" />
+    <Content Include="Content\MaterialIssue\MaterialIssue.js" />
+    <Content Include="Content\Modal\bootstrap-modal-bs3patch.css" />
+    <Content Include="Content\Modal\bootstrap-modal.css" />
+    <Content Include="Content\Notify\animate.css" />
+    <Content Include="Content\Notify\bootstrap-notify.js" />
+    <Content Include="Content\Notify\bootstrap-notify.min.js" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\PalletAudit\PalletAudit.js" />
+    <Content Include="Content\ProductionReceipt\ProductionReceipt.js" />
+    <Content Include="Content\simple-sidebar\sidebar_menu.js" />
+    <Content Include="Content\simple-sidebar\simple-sidebar.css" />
+    <Content Include="Content\StockTakeOn\StockTakeOn.js" />
+    <Content Include="Content\TableSorter\tablefilter.js" />
+    <Content Include="Content\TankLevels\tankLevelsUi.css" />
+    <Content Include="Content\TankLevels\tankLevelsUi.js" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\TransferIn\TransferIn.js" />
+    <Content Include="Content\TransferIn\TransferInByScan.js" />
+    <Content Include="Content\TransportSystem\WaybillPoEntry.js" />
+    <Content Include="Content\UltimateScrolling\Sortable.js" />
+    <Content Include="Content\UltimateScrolling\UltimateScrollingTable.js" />
+    <Content Include="Content\VerticalTab\VerticalTab.css" />
+    <Content Include="Content\VerticalTab\VerticalTabs.js" />
+    <Content Include="Content\WarehouseTransfer\TransferOut.js" />
+    <Content Include="Content\WarehouseTransfer\WarehouseTransfer.js" />
+    <Content Include="Content\WhseManProdLabel\WhseManLabelMaintenance.js" />
+    <Content Include="Content\WhseManProdLabel\WhseManProdLabel.js" />
+    <Content Include="Content\WhseManProdLabel\WhseManProdReceipt.js" />
+    <Content Include="Content\WipSystem\JobReceipt.js" />
+    <Content Include="Content\WipSystem\LabourPosting.js" />
+    <Content Include="Content\WipSystem\MaterialIssue.js" />
+    <Content Include="CrystalReports\ReportViewer.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Bootstrap\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Bootstrap\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Bootstrap\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Bootstrap\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\Bootstrap\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\core.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\icons.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\larger.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\list.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\mixins.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\path.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\spinning.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\stacked.less" />
+    <Content Include="Content\Bootstrap\font-awesome\less\variables.less" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_core.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_list.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_path.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_spinning.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\Bootstrap\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\Bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <EntityDeploy Include="Megasoft.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Megasoft.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\LandingPage\5.jpg" />
+    <Content Include="Images\megasoft_logo.jpg" />
+    <Content Include="Images\Megasoft.png" />
+    <Content Include="Images\megasoft_transparent.png" />
+    <Content Include="Images\MegaTech_60.png" />
+    <Content Include="Images\mtechblack.png" />
+    <Content Include="Images\mtech_transparent.png" />
+    <Content Include="Megasoft.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Megasoft.edmx</DependentUpon>
+      <LastGenOutput>Megasoft.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Megasoft.edmx.diagram">
+      <DependentUpon>Megasoft.edmx</DependentUpon>
+    </Content>
+    <Content Include="Megasoft.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Megasoft.edmx</DependentUpon>
+      <LastGenOutput>Megasoft.cs</LastGenOutput>
+    </Content>
+    <Content Include="Content\DateTimePicker\bootstrap-datetimepicker-build.scss" />
+    <Content Include="Content\DateTimePicker\_bootstrap-datetimepicker.scss" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="Content\bootstrap-cards\fonts\icomoon.eot" />
+    <Content Include="Content\bootstrap-cards\fonts\icomoon.ttf" />
+    <Content Include="Content\bootstrap-cards\fonts\icomoon.woff" />
+    <Content Include="ClassDiagram2.cd" />
+    <Content Include="Content\jquery_webcam\bower.json" />
+    <Content Include="Content\jquery_webcam\Makefile" />
+    <Content Include="Content\jquery_webcam\README.md" />
+    <Content Include="Content\jquery_webcam\src\BitString.as" />
+    <Content Include="Content\jquery_webcam\src\JPGEncoder.as" />
+    <Content Include="Content\jquery_webcam\src\jscam.as" />
+    <Content Include="Content\jquery_webcam\webcam.jquery.json" />
+    <None Include="Properties\PublishProfiles\Megasoft.pubxml" />
+    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\AccessDenied\Index.cshtml" />
+    <Content Include="Views\LabelPrinter\Create.cshtml" />
+    <Content Include="Views\LabelPrinter\Delete.cshtml" />
+    <Content Include="Views\LabelPrinter\Details.cshtml" />
+    <Content Include="Views\LabelPrinter\Edit.cshtml" />
+    <Content Include="Views\LabelPrinter\Index.cshtml" />
+    <Content Include="Views\LabelPrinter\TestThis.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\Delete.cshtml" />
+    <Content Include="Views\Role\Details.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\SetAccess.cshtml" />
+    <Content Include="Views\User\AssignRole.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Home\AdminIndex.cshtml" />
+    <Content Include="Views\WarehouseTransfer\Index.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\StockCodeBrowse\Index.cshtml" />
+    <Content Include="Views\SysproAdmin\Index.cshtml" />
+    <Content Include="Views\SysproAdmin\Details.cshtml" />
+    <Content Include="Views\SysproAdmin\Create.cshtml" />
+    <Content Include="Views\SysproAdmin\Edit.cshtml" />
+    <Content Include="Views\SysproAdmin\Delete.cshtml" />
+    <Content Include="Views\User\AssignCompany.cshtml" />
+    <Content Include="Views\PurchaseOrderLabel\Index.cshtml" />
+    <Content Include="Views\PurchaseOrderLabel\_Search.cshtml" />
+    <Content Include="Views\PurchaseOrderLabel\_Results.cshtml" />
+    <Content Include="Views\PurchaseOrderBrowse\Index.cshtml" />
+    <Content Include="Views\PurchaseOrderLabel\DisplayLabel.cshtml" />
+    <Content Include="Views\MaterialIssue\Index.cshtml" />
+    <Content Include="Views\ProductionReceipt\Index.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\TankLevels\Index.cshtml" />
+    <Content Include="Views\TankMaster\Index.cshtml" />
+    <Content Include="Views\TankMaster\Create.cshtml" />
+    <Content Include="Views\TankMaster\Edit.cshtml" />
+    <Content Include="Views\TankMaster\Delete.cshtml" />
+    <Content Include="Views\TankLevels\TankFilter.cshtml" />
+    <Content Include="Views\TankLevels\TankMovement.cshtml" />
+    <Content Include="Views\TankLevels\MovementsFilter.cshtml" />
+    <EntityDeploy Include="TanksLevelScada.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TanksLevelScada.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="TanksLevelScada.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TanksLevelScada.edmx</DependentUpon>
+      <LastGenOutput>TanksLevelScada.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="TanksLevelScada.edmx.diagram">
+      <DependentUpon>TanksLevelScada.edmx</DependentUpon>
+    </Content>
+    <Content Include="TanksLevelScada.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TanksLevelScada.edmx</DependentUpon>
+      <LastGenOutput>TanksLevelScada.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\TankLevels\SendEmail.cshtml" />
+    <Content Include="Views\TankLevels\Reprint.cshtml" />
+    <Content Include="Views\Requisition\Index.cshtml" />
+    <Content Include="Views\Requisition\Create.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\Branch\Create.cshtml" />
+    <Content Include="Views\Branch\Edit.cshtml" />
+    <Content Include="Views\Branch\Delete.cshtml" />
+    <Content Include="Views\Sites\Index.cshtml" />
+    <Content Include="Views\Sites\Create.cshtml" />
+    <Content Include="Views\Sites\Edit.cshtml" />
+    <Content Include="Views\Sites\Delete.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
+    <Content Include="Views\Departments\Create.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Departments\Delete.cshtml" />
+    <Content Include="Views\DepartmentMaster\Index.cshtml" />
+    <Content Include="Views\DepartmentMaster\Details.cshtml" />
+    <Content Include="Views\DepartmentMaster\Create.cshtml" />
+    <Content Include="Views\DepartmentMaster\Edit.cshtml" />
+    <Content Include="Views\DepartmentMaster\Delete.cshtml" />
+    <Content Include="Views\Requisition\AddLine.cshtml" />
+    <Content Include="Views\Requisition\GlCodeSearch.cshtml" />
+    <Content Include="Views\Requisition\SupplierSearch.cshtml" />
+    <Content Include="Views\Requisition\JobSearch.cshtml" />
+    <Content Include="Views\Requisition\Comments.cshtml" />
+    <Content Include="Views\NonStockedMaster\Index.cshtml" />
+    <Content Include="Views\NonStockedMaster\Details.cshtml" />
+    <Content Include="Views\NonStockedMaster\Create.cshtml" />
+    <Content Include="Views\NonStockedMaster\Edit.cshtml" />
+    <Content Include="Views\NonStockedMaster\Delete.cshtml" />
+    <Content Include="Views\Requisition\ProductClassSearch.cshtml" />
+    <Content Include="Views\NonStockedMaster\BranchSiteSearch.cshtml" />
+    <Content Include="Views\NonStockedMaster\AdmTaxSearch.cshtml" />
+    <Content Include="Views\Sites\GlCodeSearch.cshtml" />
+    <Content Include="Views\GrnEnquiry\Index.cshtml" />
+    <Content Include="Views\NonStockedMaster\mtProductClassSearch.cshtml" />
+    <Content Include="Views\PoEnquiry\Index.cshtml" />
+    <Content Include="Views\Sites\ApBranchSearch.cshtml" />
+    <Content Include="Views\Supplier\ApTermsSearch.cshtml" />
+    <Content Include="Views\Supplier\BranchSearch.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Supplier\CreateContact.cshtml" />
+    <Content Include="Views\Supplier\Delete.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\ProductClass\Create.cshtml" />
+    <Content Include="Views\ProductClass\Delete.cshtml" />
+    <Content Include="Views\ProductClass\Edit.cshtml" />
+    <Content Include="Views\ProductClass\Index.cshtml" />
+    <EntityDeploy Include="Syspro.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Syspro.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Syspro.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Syspro.edmx</DependentUpon>
+      <LastGenOutput>Syspro.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Syspro.edmx.diagram">
+      <DependentUpon>Syspro.edmx</DependentUpon>
+    </Content>
+    <Content Include="Syspro.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Syspro.edmx</DependentUpon>
+      <LastGenOutput>Syspro.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\PurchaseOrderLabel\PoLine.cshtml" />
+    <Content Include="Views\RequisitionAudit\Index.cshtml" />
+    <Content Include="Views\PoEnquiry\EmailPo.cshtml" />
+    <Content Include="Views\GrnEnquiry\EmailGrn.cshtml" />
+    <Content Include="Views\NonStockedMaster\StockCodeSuppliers.cshtml" />
+    <Content Include="Views\Supplier\SupplierDetails.cshtml" />
+    <Content Include="Views\BranchStats\Index.cshtml" />
+    <Content Include="Views\BranchStats\Detail.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\WhseManPoLabel\Index.cshtml" />
+    <Content Include="Views\WhseManPoLabel\DisplayLabel.cshtml" />
+    <Content Include="Views\tpScheduler\Index.cshtml" />
+    <Content Include="Views\TransferIn\Index.cshtml" />
+    <Content Include="Views\WhseManPoReceipt\Index.cshtml" />
+    <Content Include="Views\WhseManPoReceiptScan\Index.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\TestIndex2.cshtml" />
+    <Content Include="Views\PurchaseOrderReporting\Index.cshtml" />
+    <Content Include="Views\PurchaseOrderReporting\BuyerOutstandingPo.cshtml" />
+    <Content Include="Views\BuyerTurnaroundTime\Index.cshtml" />
+    <Content Include="Views\BuyerTurnaroundTime\BuyerTurnaroundTimes.cshtml" />
+    <Content Include="Views\TransferOut\Index.cshtml" />
+    <Content Include="Views\PeriodControl\Index.cshtml" />
+    <Content Include="Views\WhseManPoLabel\SupplierSearch.cshtml" />
+    <Content Include="Views\WhseManPoLabel\GlCodeSearch.cshtml" />
+    <Content Include="Views\BuyerTurnaroundTime\BuyerTurnaroundTimesDetail.cshtml" />
+    <Content Include="Views\WhseManPoReceipt\NonMerch.cshtml" />
+    <Content Include="Views\BranchJobList\Index.cshtml" />
+    <Content Include="Views\GlCodeTag\Index.cshtml" />
+    <Content Include="Views\RequisitionAuditTrail\Index.cshtml" />
+    <Content Include="Views\WhseManLabelReprint\Index.cshtml" />
+    <Content Include="Views\RenderMegasoftOld\Index.cshtml" />
+    <Content Include="Views\TestLargeData\Index.cshtml" />
+    <Content Include="Views\WhseManMaterialIssue\Index.cshtml" />
+    <Content Include="Views\WhseManProductionLabel\Index.cshtml" />
+    <Content Include="Views\BarcodeReader\Index.cshtml" />
+    <Content Include="Views\WhseManProductionReceipt\Index.cshtml" />
+    <Content Include="Views\WhseManLabelMaintenance\Index.cshtml" />
+    <Content Include="Views\BinTransfer\Index.cshtml" />
+    <Content Include="Views\WhseManScanCard\Index.cshtml" />
+    <Content Include="Views\TransferIn\TransferInByScan.cshtml" />
+    <Content Include="Views\StockTakeImport\Index.cshtml" />
+    <Content Include="Views\StockTakeCapture\Index.cshtml" />
+    <EntityDeploy Include="WarehouseManagement.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WarehouseManagement.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="WarehouseManagement.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WarehouseManagement.edmx</DependentUpon>
+      <LastGenOutput>WarehouseManagement.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="WarehouseManagement.edmx.diagram">
+      <DependentUpon>WarehouseManagement.edmx</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WarehouseManagement.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WarehouseManagement.edmx</DependentUpon>
+      <LastGenOutput>WarehouseManagement.cs</LastGenOutput>
+    </Content>
+    <EntityDeploy Include="StockTake.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StockTake.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="StockTake.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StockTake.edmx</DependentUpon>
+      <LastGenOutput>StockTake.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="StockTake.edmx.diagram">
+      <DependentUpon>StockTake.edmx</DependentUpon>
+    </Content>
+    <Content Include="StockTake.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StockTake.edmx</DependentUpon>
+      <LastGenOutput>StockTake.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\WhseManScanCard\PrintBinLabel.cshtml" />
+    <Content Include="Views\StockTakeCapture\StockTakeReview.cshtml" />
+    <Content Include="Views\BEESupplier\Index.cshtml" />
+    <Content Include="Views\BEESupplier\Email.cshtml" />
+    <Content Include="Views\SalesContractPricing\Index.cshtml" />
+    <Content Include="Views\SalesContractPricing\ExpireContracts.cshtml" />
+    <Content Include="Views\SalesContractPricing\NewContract.cshtml" />
+    <Content Include="Views\StockTakeCapture\SaveScan.cshtml" />
+    <Content Include="Views\WarehouseTransfer\LotQuery.cshtml" />
+    <Content Include="Views\SalesContractPricing\ContractsXref.cshtml" />
+    <Content Include="Views\WhseManPalletAudit\Index.cshtml" />
+    <Content Include="Views\WhseManPalletAudit\PalletAuditPurge.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\Index.cshtml" />
+    <Content Include="Views\TransportSystemPoInvoice\Index.cshtml" />
+    <Content Include="Views\WhseManPhysicalAdjustment\Index.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\AddRate.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\Create.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\CreateRateCode.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\Delete.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\DeleteRate.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\Edit.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\GlCodeSearch.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\RateCodeIndex.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\RateCodeSearch.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\RateIndex.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\SupplierSearch.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\TransporterIndex.cshtml" />
+    <Content Include="Views\TransportSystemWaybillPoEntry\Index.cshtml" />
+    <Content Include="Views\TransportSystemWaybillPoEntry\SupplierSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillPoEntry\WaybillSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\CustomerSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\DispatchNoteSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\TransporterSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\VehicleRegSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillPoEntry\AddPoLine.cshtml" />
+    <Content Include="Views\TransportSystemWaybillPoEntry\CommentLine.cshtml" />
+    <Content Include="Views\TransportSystemPvJournal\Index.cshtml" />
+    <Content Include="Views\UserGlCodeImport\Index.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\TaxCode.cshtml" />
+    <Content Include="Views\SmartScanMatrix\Create.cshtml" />
+    <Content Include="Views\SmartScanMatrix\Index.cshtml" />
+    <Content Include="Views\TransportSystemTransporters\DeleteRateCode.cshtml" />
+    <Content Include="Views\TransportSystemWaybillPoEntry\TaxCode.cshtml" />
+    <Content Include="Views\CustomerInvoiceExtract\Index.cshtml" />
+    <Content Include="Views\CustomerInvoiceExtractSettings\Index.cshtml" />
+    <Content Include="Views\CustomerInvoiceExtractSettings\Details.cshtml" />
+    <Content Include="Views\CustomerInvoiceExtractSettings\Create.cshtml" />
+    <Content Include="Views\CustomerInvoiceExtractSettings\Edit.cshtml" />
+    <Content Include="Views\CustomerInvoiceExtractSettings\Delete.cshtml" />
+    <Content Include="Views\CustomerInvoiceReextract\Index.cshtml" />
+    <Content Include="Views\WhseManDeliveryImport\Index.cshtml" />
+    <Content Include="Views\WhseManDeliveryImport\DeliveryScan.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\ProvinceSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\TownSearch.cshtml" />
+    <Content Include="Views\TransportSystemWaybillEntry\TrackIdSearch.cshtml" />
+    <Content Include="Views\WhseManDelayedPosting\Index.cshtml" />
+    <Content Include="Views\WhseManDelayedPosting\PostingManager.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\CustomerSearch.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\Detail.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\Index.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\PlateCategorySearch.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\StockCodeSearch.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\SupplierSearch.cshtml" />
+    <Content Include="Views\StereoSystemGrn\Index.cshtml" />
+    <Content Include="Views\StereoSystemSupplier\Create.cshtml" />
+    <Content Include="Views\StereoSystemSupplier\GlCodeSearch.cshtml" />
+    <Content Include="Views\StereoSystemSupplier\Index.cshtml" />
+    <Content Include="Views\StereoSystemSupplier\ProductClassSearch.cshtml" />
+    <Content Include="Views\StereoSystemSupplier\SupplierSearch.cshtml" />
+    <Content Include="Views\StereoSystemSupplier\TaxCodeSearch.cshtml" />
+    <Content Include="Views\TransportSystemPoMaintenance\Index.cshtml" />
+    <Content Include="Views\TransportSystemPoMaintenance\WaybillSearch.cshtml" />
+    <Content Include="Views\WhseManProductionLabel\JobSearch.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\Index.cshtml" />
+    <Content Include="Views\WhseManPalletAudit\PalletAuditReview.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\TransferBail.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\OpenPallet.cshtml" />
+    <Content Include="Views\WhseManProductionLabel\ProductionReporting.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\StereoQuery.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\RequisitionSearch.cshtml" />
+    <Content Include="Views\StereoSystemAddStereo\StockCodeQuerySearch.cshtml" />
+    <Content Include="Views\ScaleSystem\Index.cshtml" />
+    <Content Include="Views\WhseManBackOrderRelease\Index.cshtml" />
+    <Content Include="Views\WhseManBackOrderRelease\ReleaseLine.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\ScaleSystemSetup\Index.cshtml" />
+    <Content Include="Views\ScaleSystemSetup\Delete.cshtml" />
+    <Content Include="Views\ScaleSystemSetup\Create.cshtml" />
+    <Content Include="Views\Report\ReportSetup.cshtml" />
+    <Content Include="Views\Report\Create.cshtml" />
+    <Content Include="Views\Report\Delete.cshtml" />
+    <Content Include="Views\Report\ReportGroupSetup.cshtml" />
+    <Content Include="Views\Report\CreateReportGroup.cshtml" />
+    <Content Include="Views\Report\DeleteReportGroup.cshtml" />
+    <Content Include="Views\WmsSalesRelease\Index.cshtml" />
+    <Content Include="Views\WmsSalesRelease\ReviewCriteria.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\TempReversal.cshtml" />
+    <Content Include="Views\WmsPicking\Index.cshtml" />
+    <Content Include="Views\WmsWarehouseRelease\Index.cshtml" />
+    <Content Include="Views\WmsWarehouseRelease\ReleaseLine.cshtml" />
+    <Content Include="Views\WmsDespatch\Index.cshtml" />
+    <Content Include="Views\LabourPost\Index.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\ScanReturnItems.cshtml" />
+    <Content Include="Views\LabourPost\LabourPostReversal.cshtml" />
+    <Content Include="Views\LabourPost\LabourPostControl.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\ProductionReturns.cshtml" />
+    <Content Include="Views\WmsDespatch\DispatchList.cshtml" />
+    <Content Include="Views\MaterialIssue\MaterialIssue.cshtml" />
+    <Content Include="Views\ScaleSystem\ScaleTransfer.cshtml" />
+    <Content Include="Views\WhseManMaterialIssuePlanner\Index.cshtml" />
+    <Content Include="Views\Scheduler\Index.cshtml" />
+    <Content Include="Views\ScaleSystem\PalletSplit.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\SplitPallet.cshtml" />
+    <Content Include="Views\WhseManBatchSplit\Index.cshtml" />
+    <Content Include="Views\MasterCardMain\Index.cshtml" />
+    <Content Include="Views\MasterCardMain\ExtrusionPartial.cshtml" />
+    <Content Include="Views\MasterCardMain\PrintingPartial.cshtml" />
+    <Content Include="Views\MasterCardMain\SlittingPartial.cshtml" />
+    <Content Include="Views\MasterCardMain\BaggingPartial.cshtml" />
+    <Content Include="Views\MasterCardMain\WickettingPartial.cshtml" />
+    <Content Include="Views\MasterCardMain\LaminationPartial.cshtml" />
+    <Content Include="Views\AspCharts\Index.cshtml" />
+    <Content Include="Views\AspCharts\ProductionHistory.cshtml" />
+    <Content Include="Views\MasterCardMain\BrowseMasterCards.cshtml" />
+    <Content Include="Views\MasterCardMain\CustomerSearch.cshtml" />
+    <Content Include="Views\Settings\AddReport.cshtml" />
+    <Content Include="Views\Settings\ReportAutomationSettings.cshtml" />
+    <Content Include="Views\Settings\WarehouseSettings.cshtml" />
+    <Content Include="Views\WmsSalesReleaseExpress\Index.cshtml" />
+    <Content Include="Views\WmsSalesReleaseExpress\ReviewCriteria.cshtml" />
+    <Content Include="Views\MasterCardMain\BrowseHandles.cshtml" />
+    <Content Include="Views\MasterCardMain\BrowsePunches.cshtml" />
+    <Content Include="Views\MasterCardMain\AddCustomerIndex.cshtml" />
+    <Content Include="Views\MasterCardMain\OtherPartial.cshtml" />
+    <Content Include="Views\MasterCardMain\BomPartial.cshtml" />
+    <Content Include="Views\WhseManDelayedPosting\DelayedPostingCue.cshtml" />
+    <Content Include="Views\MasterCardMain\UnwindDirectionPartial.cshtml" />
+    <Content Include="Views\MaterialIssue\TempReversal.cshtml" />
+    <Content Include="Views\MasterCardMain\BomComponent.cshtml" />
+    <Content Include="Views\MasterCardMain\BomCopyComponent.cshtml" />
+    <Content Include="Views\MasterCardMain\BomOperation.cshtml" />
+    <Content Include="Views\NonStockedInvMaster\Index.cshtml" />
+    <Content Include="Views\NonStockedInvMaster\Edit.cshtml" />
+    <Content Include="Views\TransportSystemCustomerEmail\Index.cshtml" />
+    <Content Include="Views\TransportSystemCustomerEmail\CustomerSearch.cshtml" />
+    <Content Include="Views\TransportSystemCustomerEmail\CustomerSetup.cshtml" />
+    <Content Include="Views\TransportSystemCustomerEmail\CustomerSetupCreate.cshtml" />
+    <Content Include="Views\TransportSystemCustomerEmail\SysproCustomerSearch.cshtml" />
+    <Content Include="Views\MasterCardMain\MasterCardCreation.cshtml" />
+    <Content Include="Views\MasterCardMain\StockCodeCreationIndex.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\Index.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\BomComponent.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\BomCopyComponent.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\BomOperation.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\StockCodeCreationModal.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\BomCopyOperation.cshtml" />
+    <Content Include="Views\MasterCardMultimediaViewer\Index.cshtml" />
+    <Content Include="Views\Home\GetMenu.cshtml" />
+    <Content Include="Views\WhseManExpenseIssue\Index.cshtml" />
+    <Content Include="Views\WhseManExpenseIssue\StockCodeSearch.cshtml" />
+    <Content Include="Views\mtRequisitionCostCentre\Create.cshtml" />
+    <Content Include="Views\mtRequisitionCostCentre\Index.cshtml" />
+    <Content Include="Views\WhseManExpenseIssue\Matrix.cshtml" />
+    <Content Include="Views\WhseManExpenseIssue\CostCentreMatrix.cshtml" />
+    <Content Include="Views\WhseManExpenseIssue\Create.cshtml" />
+    <Content Include="Views\CustomerOrderScheduler\Index.cshtml" />
+    <Content Include="Views\CustomerOrderScheduler\Comments.cshtml" />
+    <Content Include="Views\CustomerOrderScheduler\ExportSchedule.cshtml" />
+    <Content Include="Views\MasterCardArtwork\FileUpload.cshtml" />
+    <Content Include="Views\MasterCardArtwork\Index.cshtml" />
+    <Content Include="Views\SupplierContractPricing\Index.cshtml" />
+    <Content Include="Views\SupplierContractPricing\MaintainContracts.cshtml" />
+    <Content Include="Views\SupplierContractPricingExcelImport\Index.cshtml" />
+    <Content Include="Views\SupplierContractPricingExcelImport\ContractPricingColumnMapper.cshtml" />
+    <Content Include="Views\MasterCardMaintenance\BomComponent.cshtml" />
+    <Content Include="Views\MasterCardMaintenance\BomOperation.cshtml" />
+    <Content Include="Views\MasterCardMaintenance\BrowseStockCode.cshtml" />
+    <Content Include="Views\MasterCardMaintenance\Index.cshtml" />
+    <Content Include="Views\MasterCardMaintenance\Review.cshtml" />
+    <Content Include="Views\StereoSystemCustomForms\Index.cshtml" />
+    <Content Include="Views\DemoCamera\Index.cshtml" />
+    <Content Include="Views\DemoCamera\SaveFile.cshtml" />
+    <Content Include="Views\mtRequisitionBranch\Create.cshtml" />
+    <Content Include="Views\mtRequisitionBranch\Index.cshtml" />
+    <Content Include="Views\mtRequisitionBranchCostCentre\Create.cshtml" />
+    <Content Include="Views\mtRequisitionBranchCostCentre\Index.cshtml" />
+    <Content Include="Views\mtRequisitionCostCentreProductClass\Create.cshtml" />
+    <Content Include="Views\mtRequisitionCostCentreProductClass\Index.cshtml" />
+    <Content Include="Views\mtRequisitionCostCentreProductClass\ProductClassSearch.cshtml" />
+    <Content Include="Views\mtRequisitionProductClassGlCode\Create.cshtml" />
+    <Content Include="Views\mtRequisitionProductClassGlCode\GlCodeSearch.cshtml" />
+    <Content Include="Views\mtRequisitionProductClassGlCode\Index.cshtml" />
+    <Content Include="Views\mtRequisitionUserBranchCostCentre\Create.cshtml" />
+    <Content Include="Views\mtRequisitionUserBranchCostCentre\Index.cshtml" />
+    <Content Include="Views\mtRequisitionUserCostCentreSpendLimit\Create.cshtml" />
+    <Content Include="Views\mtRequisitionUserCostCentreSpendLimit\Index.cshtml" />
+    <Content Include="Views\mtRequisitionUserRouting\Create.cshtml" />
+    <Content Include="Views\mtRequisitionUserRouting\Index.cshtml" />
+    <Content Include="Views\Requisition\ContractPriceSearch.cshtml" />
+    <Content Include="Views\Requisition\RequisitionAltRouting.cshtml" />
+    <Content Include="Views\Requisition\RequisitionApproval.cshtml" />
+    <Content Include="Views\Requisition\RequisitionRouting.cshtml" />
+    <Content Include="Views\Requisition\StockCodeSearch.cshtml" />
+    <Content Include="Views\Requisition\testemail.cshtml" />
+    <Content Include="Views\RequisitionApiReturn\Index.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\Index.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\SupplierPO.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\SupplierSearch.cshtml" />
+    <Content Include="Views\RequisitionScan\Index.cshtml" />
+    <Content Include="Views\Requisition\StockCodeImage.cshtml" />
+    <Content Include="Views\Requisition\PurchaseHistory.cshtml" />
+    <Content Include="Views\RequisitionEnquiry\Index.cshtml" />
+    <Content Include="Views\MasterCardMaintenance\ViewPdf.cshtml" />
+    <Content Include="Views\Requisition\ReqCustomFormSearch.cshtml" />
+    <Content Include="Views\Requisition\QuantityOnHand.cshtml" />
+    <Content Include="Views\InkSystem\BomComponent.cshtml" />
+    <Content Include="Views\InkSystem\BomOperation.cshtml" />
+    <Content Include="Views\InkSystem\BrowseStockCode.cshtml" />
+    <Content Include="Views\InkSystem\Index.cshtml" />
+    <Content Include="Views\Requisition\CancelReq.cshtml" />
+    <Content Include="Views\RepairsAndMaintenance\Index.cshtml" />
+    <Content Include="Views\WarehouseTransfer\DesktopIndex.cshtml" />
+    <Content Include="Views\WarehouseTransfer\StockCodeSearch.cshtml" />
+    <Content Include="Views\WarehouseTransfer\LotSearch.cshtml" />
+    <Content Include="Views\BinTransfer\DesktopIndex.cshtml" />
+    <Content Include="Views\BinTransfer\LotSearch.cshtml" />
+    <Content Include="Views\ScaleSystem\PalletScan.cshtml" />
+    <Content Include="Views\ScaleSystem\PalletScanner.cshtml" />
+    <Content Include="Views\WhsManProductionMaterialIssueLabelPrint\Index.cshtml" />
+    <Content Include="Views\WhsManProductionMaterialIssueLabelPrint\LotSearch.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\BomCopyComponentMasterCard.cshtml" />
+    <Content Include="Views\MasterCardStockCodeBomSetup\BomOperationMasterCard.cshtml" />
+    <Content Include="Views\WhseManExpenseIssue\GLSearch.cshtml" />
+    <Content Include="Views\InventoryQuery\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52696</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:52696/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\WinSCP.5.13.0\build\WinSCP.targets" Condition="Exists('..\packages\WinSCP.5.13.0\build\WinSCP.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WinSCP.5.13.0\build\WinSCP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WinSCP.5.13.0\build\WinSCP.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

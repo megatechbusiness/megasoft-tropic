@@ -1,0 +1,74 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Master Card Search
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="MasterCardResults" class="table-responsive">
+                            <table id="MasterCardSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                <thead><tr><th>Id</th><th>StockCode</th><th>ProductDescription</th><th>PrintDescription</th><th>Customer</th><th>DeliveryDate</th><th>Width</th><th>Length</th><th>Micron</th><th>Quantity</th><th>Weight</th><th>DateSaved</th><th>Status</th></tr></thead>
+                                <tbody id="data"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+@Scripts.Render("~/Content/DataTable/datatables.js")
+<script type="text/javascript">
+    function GetMasterCards()
+    {
+
+        var table = $("#MasterCardSearch tbody");
+
+        $.ajax({
+            url:"@Url.Action("MasterCardList","MasterCardMain")",
+            method: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                table.empty();
+                $.each(data, function (a, b) {
+                    table.append("<tr class='nr' id=" + b.Id + "  data-dismiss='modal'><td><a href=#>" + b.Id + "</a></td>" +
+                        "<td>" + b.StockCode + "</td><td>" + b.ProductDescription + "</td><td>" + b.PrintDescription + "</td><td>" + b.Customer + "</td><td>" + b.DeliveryDate + "</td><td>" + b.Width + "</td><td>" + b.Length + "</td><td>" + b.Quantity + "</td><td>" + b.Micron + "</td><td>" + b.Weight + "</td><td>" + b.DateSaved + "</td><td>" + b.Status + "</td></tr>");
+                });
+
+                $("#MasterCardSearch").DataTable();
+            }
+
+        });
+    }
+
+    $(document).ready(function () {
+        GetMasterCards();
+
+         $('#MasterCardResults').on("click", ".nr", function () {
+            var rCode = $(this).attr('id');
+            //do something with id
+             if ($('#Header_Id').length) {
+                 $('#Header_Id').val(rCode);
+             }
+             else {
+                 $('#Id').val(rCode);
+             }
+
+            window.setTimeout(function () {
+             }, 500);
+             $('#btnGetMasterCardDetails').click();
+        });
+    });
+</script>

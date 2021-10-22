@@ -1,0 +1,321 @@
+﻿@model Megasoft2.ViewModel.StereoSystemAddStereoViewModel
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Stereo System - Add Stereo Detail</h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmStereoDetail" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="spacer-xs form-horizontal row" style="text-align:left;">
+        <button type="submit" class="btn btn-default btn-sm" id="btnHeader" name="action:LoadTrackId" value="LoadTrackId">
+            <i class="fa fa-arrow-left"> Back</i>
+        </button>
+        <button type="submit" class="btn btn-default btn-sm pull-right " id="btnSave" name="action:SaveStereoDetail" value="SaveStereoDetail">
+            <i class="fa fa-save"> Save</i>
+        </button>
+    </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Print Description
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.PrintDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                    @Html.HiddenFor(model => model.ReqNo)
+                    @Html.HiddenFor(model => model.Approved)
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Total Colours
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.TotalColours, new { @class = "form-control input-sm",@readonly="readonly" })
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="form-group col-sm-6">
+                    Gl Code
+                </div>
+                <div class="input-group col-sm-6">
+                    @Html.TextBoxFor(model => model.GlCode, new { @class = "form-control input-sm", @readonly = "readonly", @id = "GlCode" })
+                    <div class="input-group-btn">
+                        <a href="@Url.Action("GlCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="btnGlCode"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="form-group col-sm-6">
+                    Tax Code
+                </div>
+                <div class="input-group col-sm-6">
+                    @Html.TextBoxFor(model => model.TaxCode, new { @class = "form-control input-sm", @readonly = "readonly", @id = "TaxCode" })
+                    <div class="input-group-btn">
+                        <a href="@Url.Action("TaxCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="btnGlCode"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Date Stereos Req.
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.DateStereosRequired, "{0:dd/MM/yyyy}", new { @class = " form-control input-sm", @readonly = "readonly" })
+                </div>
+            </div>
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                     Colour
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Colour, new { @class = "form-control input-sm", @style = "text-transform:uppercase" })
+                </div>
+            </div>
+
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Quantity
+                </div>
+                <div class="input-group col-sm-7">
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="form-group col-sm-6">
+                    Width(cm)
+                </div>
+                <div class="input-group col-sm-6">
+                    @Html.TextBoxFor(model => model.Width, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="form-group col-sm-6">
+                    Length(cm)
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Length, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Unit Price
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Line);
+        </div>
+
+        <hr />
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-group" id="Detail">
+                <table class="tblDetail table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblDetail" style="table-layout:fixed;">
+                    <thead class="style1" tabindex="-1">
+                        <tr bgcolor="#000000">
+                            <th style="width:50px"></th>
+                            <th style="width:50px">
+                                Line
+                            </th>
+                            <th style="width:150px">
+                                Stock Code
+                            </th>
+                            <th style="width:300px">
+                                Stock Code Description
+                            </th>
+                            <th style="width:150px">
+                                Gl Code
+                            </th>
+                            <th style="width:50px">
+                                Tax Code
+                            </th>
+                            <th style="width:80px">
+                                Quantity
+                            </th>
+                            <th style="width:150px">
+                                UnitPrice
+                            </th>
+
+                            <th style="width:100px">
+                                Width
+                            </th>
+                            <th style="width:100px">
+                                Length
+                            </th>
+                            <th style="width:100px">
+                                Price
+                            </th>
+                            <th style="width:150px">
+                                Purchase Order
+                            </th>
+                            <th style="width:150px">
+                                Square Metres
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody class="datarow">
+                        @if (Model != null)
+                        {
+                            if (Model.StereoDetails != null)
+                            {
+                                for (int i = 0; i < Model.StereoDetails.Count; i++)
+                                {
+
+                                    <tr class="nr">
+                                        <td>
+                                            <a href="@Url.Action("DeleteDetailLine", new { ReqNo = Model.ReqNo, Line = Model.StereoDetails[i].Line })" class="btn btn-danger btn-sm">
+                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("EditDetailLine", new { ReqNo = Model.ReqNo, Line = Model.StereoDetails[i].Line })" class="editLine">
+                                                @Html.DisplayFor(modelItem => Model.StereoDetails[i].Line)
+                                            </a>
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].Line)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].StockCode
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].StockCode)
+                                        </td>
+
+                                        <td>
+                                            @Model.StereoDetails[i].StockDescription
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].StockDescription)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].GlCode
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].GlCode)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].TaxCode
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].TaxCode)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].Quantity
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].Quantity)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].UnitPrice
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].UnitPrice)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].Width
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].Width)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].Length
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].Length)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].PoPrice
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].PoPrice)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].PurchaseOrder
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].PurchaseOrder)
+                                        </td>
+                                        <td>
+                                            @Model.StereoDetails[i].SquareM
+                                            @Html.HiddenFor(model => Model.StereoDetails[i].SquareM)
+                                        </td>
+
+                                    </tr>
+
+                                }
+                                    <tr   >
+                                        <td colspan="10" >
+                                            <div class="text-right">
+                                                Total:
+                                            </div>
+                                        </td>
+                                        <td > @Html.DisplayFor(model => model.TotalPoValue, new { })</td>
+                                        <td ></td>
+                                        <td >@Html.DisplayFor(model => model.TotalSquareM, new { })</td>
+                                    </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            </div>
+
+
+            }
+
+            <link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+            <style type="text/css">
+                .nowrap {
+                    white-space: nowrap;
+                }
+
+                .hr {
+                    padding: 0px;
+                    margin: 0px;
+                }
+            </style>
+
+
+            @section Scripts {
+
+                @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+                @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+                @Scripts.Render("~/bundles/jqueryval")
+                @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+                <script type="text/javascript">
+                    $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+
+                    $(document).ready(function () {
+
+
+
+                        $('#btnSave').on("click", function () {
+                            if ($('#Colour').val() == "") {
+                                alert('Please enter a Colour!');
+                                return false;
+                            }
+                            if ($('#Width').val() == "") {
+                                alert('Please enter a Width!');
+                                return false;
+                            }
+                            if ($('#Length').val() == "") {
+                                alert('Please enter a Length!');
+                                return false;
+                            }
+                            if ($('#UnitPrice').val() == "") {
+                                alert('Please enter Unit Price !');
+                                return false;
+                            }
+
+
+
+                            var result = confirm("Are you sure you want to Save?");
+                            if (result) {
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        });
+
+                        $("#frmStereoDetail").submit(function (e) {
+                            showprogressbar();
+                        });
+
+                    });
+                </script>
+            }

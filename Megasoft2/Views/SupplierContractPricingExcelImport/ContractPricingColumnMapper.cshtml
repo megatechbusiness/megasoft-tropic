@@ -1,0 +1,131 @@
+﻿@model Megasoft2.Models.SupplierPriceColumnMapping
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="bs-example">
+        <div class="panel panel-green">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp;&nbsp;Column Mapping
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+
+
+
+            <div class="panel-body">
+                <div class="col-lg-12">
+                    <div class="form-horizontal row">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-horizontal row">
+                                    <div class="col-lg-6">
+
+                                        <div class="form-horizontal row spacer">
+
+                                            <div class="control-label col-sm-6">
+                                                ContractReference
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-6">
+                                                @Html.DropDownListFor(model => model.ContractReference, new SelectList(ViewBag.FieldList, "Text", "Value"), new { @class = "form-control input-sm" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-horizontal row spacer">
+
+                                            <div class="control-label col-sm-6">
+                                                Supplier
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-6">
+                                                @Html.DropDownListFor(model => model.Supplier, new SelectList(ViewBag.FieldList, "Text", "Value"), new { @class = "form-control input-sm" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-horizontal row spacer">
+
+                                            <div class="control-label col-sm-6">
+                                                StockCode
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-6">
+                                                @Html.DropDownListFor(model => model.StockCode, new SelectList(ViewBag.FieldList, "Text", "Value"), new { @class = "form-control input-sm" })
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-horizontal row spacer">
+
+                                            <div class="control-label col-sm-6">
+                                                Start Date
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-6">
+                                                @Html.DropDownListFor(model => model.StartDate, new SelectList(ViewBag.FieldList, "Text", "Value"), new { @class = "form-control input-sm" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-horizontal row spacer">
+
+                                            <div class="control-label col-sm-6">
+                                                ExpiryDate
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-6">
+                                                @Html.DropDownListFor(model => model.ExpiryDate, new SelectList(ViewBag.FieldList, "Text", "Value"), new { @class = "form-control input-sm" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-horizontal row spacer">
+
+                                            <div class="control-label col-sm-6">
+                                                Purchase Price
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-6">
+                                                @Html.DropDownListFor(model => model.PurchasePrice, new SelectList(ViewBag.FieldList, "Text", "Value"), new { @class = "form-control input-sm" })
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="col-lg-12 text-left">
+                                        @Html.HiddenFor(model => model.FilePath)
+                                        @Html.HiddenFor(model => model.SheetName)
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-arrow-circle-o-right fa-lg" title="Load File" aria-hidden="true"></i>
+                                            <span class="sr-only">Load File</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}

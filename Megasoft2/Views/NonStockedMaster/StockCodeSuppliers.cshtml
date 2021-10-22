@@ -1,0 +1,187 @@
+﻿@model Megasoft2.ViewModel.NonStockedMaster
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<h4 style="font-weight:bold;" class="text-center">Details</h4><hr />
+    <p style="text-align:right">
+    <button type="button" value="Suppliers" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("Index", "NonStockedMaster") + "'");">
+        <i class="fa fa-plus-square-o"></i> Stock
+    </button>
+</p>
+<div class="form-horizontal row">
+    <div class="form-group">
+        <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+    </div>
+</div>
+
+<div class="form-horizontal row">
+    <div class="form-group">
+        @Html.TextBoxFor(model => model.Code, new { @class = "form-control input-sm", @readonly = "readonly" })
+    </div>
+</div>
+
+<div class="form-horizontal row">
+    <div class="form-group" id="SupplierDetails" style="overflow: auto;height:auto">
+
+        <table class="table table-hover table-striped table-condensed table-responsive" id="Header">
+            <thead class="style1">
+                <tr>
+                    <th>
+                        Supplier
+                    </th>
+                    <th>
+                        SupplierName
+                    </th>
+                    <th>
+                        Requisition
+                    </th>
+                    <th>
+                        Branch
+                    </th>
+                    <th>
+                        Site
+                    </th>
+                    <th>GlCode</th>
+                    <th>
+                        Grn
+                    </th>
+                    <th>
+                        GrnDate
+                    </th>
+                    <th>
+                        PurchaseOrder
+                    </th>
+                    <th>
+                        StockCode
+                    </th>
+                    <th>
+                        StockDescription
+                    </th>
+                    <th>
+                        QtyUom
+                    </th>
+                    <th>
+                        QtyReceived
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody class="datarow">
+                @if (Model != null)
+                {
+                    if (Model.StockCodeSupplier != null)
+                    {
+
+                        for (int i = 0; i < Model.StockCodeSupplier.Count; i++)
+                        {
+
+                            <tr class="nr">
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Supplier)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Supplier)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].SupplierName)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].SupplierName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Requisition)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Requisition)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Branch)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Branch)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Site)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Site)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].GlCode)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].GlCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Grn)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Grn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].GrnDate)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].GrnDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].PurchaseOrder)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].PurchaseOrder)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].StockCode)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].StockCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].StockDescription)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].StockDescription)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].QtyUom)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].QtyUom)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].QtyReceived)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].QtyReceived)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Price)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Price)
+                                </td>
+                                <td class="text-nowrap">
+                                    @Html.DisplayFor(model => model.StockCodeSupplier[i].Total)
+                                    @Html.HiddenFor(model => model.StockCodeSupplier[i].Total)
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtSearch').keyup(function () {
+            $.getJSON('../NonStockedMaster/PurchaseOrderList?FilterText=' + $('#txtSearch').val() + '&Code=' + $('#Code').val(), function (data) {
+                var items = '<table id="Header" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr class="nowrap"><th>Supplier</th><th>SupplierName</th><th>Requisition</th><th>Branch</th><th>Site</th><th>GlCode</th><th>Grn</th><th>GrnDate</th><th>PurchaseOrder</th><th>StockCode</th><th>StockDescription</th><th>QtyUom</th><th>QtyReceived</th><th>Price</th><th>Total</th></tr>';
+                $.each(data, function (i, PO) {
+                    
+                    items += "<tr class='nr nowrap'><td>"+ PO.Supplier + "</td><td>" +
+                            PO.SupplierName + "</td><td>" + PO.Requisition + "</td><td>" +
+                            PO.Branch + "</td><td>" + PO.Site + "</td><td>" + PO.GlCode + "</td><td>" +
+                            PO.Grn + "</td><td>" + PO.GrnDate + "</td><td>" +
+                            PO.PurchaseOrder + "</td><td>" + PO.StockCode + "</td><td>" +
+                            PO.StockDescription + "</td><td>" + PO.QtyUom + "</td><td>" +
+                            PO.QtyReceived + "</td><td>" + PO.Price +
+                            "</td><td>"+ PO.Total +"</td></tr>";
+                });
+                items += "</table>";
+                $('#SupplierDetails').html(items);
+                //alert(items);
+            });
+        });
+    });
+</script>
+
+
+

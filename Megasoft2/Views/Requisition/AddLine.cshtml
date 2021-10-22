@@ -1,0 +1,623 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "Requisition" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    @Html.HiddenFor(model => model.Line.SupCatalogueNum)
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "Requisition")" class="btn btn-default">Requisitions</a>
+                            @if (!string.IsNullOrWhiteSpace(Model.Header.Requisition))
+                            {
+                                <a href="@Url.Action("Create", "Requisition", new { Requisition = Model.Header.Requisition })" class="btn btn-default">@Model.Header.Requisition</a>
+                            }
+
+                        </div>
+
+                        <div class="pull-right">
+
+                            <div class="col-lg-12 text-right">
+                                <button type="submit" class="btn btn-success btn-sm" name="action:PostLine" id="btnPost">
+                                    <i class="fa fa-save"></i> Post
+                                </button>
+                                @*&nbsp; &nbsp;
+                                    <input type="submit" value="Clear Errors" class="btn btn-danger btn-sm" name="action:ClearError" id="btnClear" />*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-6 col-xs-6 text-left">
+                                    <a href="@Url.Action("Create", "Requisition", new { Requisition = @Model.Header.Requisition })" class="btn btn-default btn-sm">
+                                        <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back to Header"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Back to @Model.Header.Requisition</span></span>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-xs-6 text-right">
+
+
+
+                                    @*<a href="@Url.Action("AddLine", "Requisition", new { Requisition = @Model.Header.Requisition })" class="btn btn-default btn-sm">
+                                            <span class="fa fa-plus-circle" aria-hidden="true" title="New Line"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New Line</span></span>
+                                        </a>*@
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Requisition</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Header.Requisition, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Branch</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Header.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Line</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Line.Line, new { @class = "form-control input-sm", @id = "txtLine", @readonly = "readonly" })
+
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Site</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Header.CostCentre, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Warehouse</label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(model => model.Line.Warehouse, new SelectList(ViewBag.WarehouseList, "Warehouse", "Description"), new { @class = "form-control input-sm" })
+                                    </div>
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Uom</label>
+                                    <div class="col-sm-4" id="divuom">
+                                        @*@if (Model.Line.Warehouse != "**")
+                                            {
+                                                @Html.DropDownListFor(model => model.Line.OrderUom, new SelectList(ViewBag.OrderUomList, "Uom", "Desc"), new { @class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.OrderUom, new { @class = "form-control input-sm" })
+                                            }*@
+
+                                        @Html.TextBoxFor(model => model.Line.OrderUom, new { @class = "form-control input-sm", @list = "Line_OrderUom_List" })
+                                        <datalist id="Line_OrderUom_List"></datalist>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">StockCode</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+
+                                            @if (Model.Line.Line == 0)
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.StockCode, new { @class = "form-control input-sm" })
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("StockCodeSearch", "Requisition", new { CostCentre=Model.Header.CostCentre })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                <div class="input-group-btn">
+                                                    <a href="@Url.Action("StockCodeSearch", "Requisition", new {  CostCentre=Model.Header.CostCentre})" style="pointer-events:none;" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Description</label>
+                                    <div class="col-sm-4">
+                                        @if (Model.Line.Line != 0)
+                                        {
+                                            if (Model.Line.Warehouse != "**")
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.StockDescription, new { @class = "form-control input-sm", @id = "txtDescription", @maxlength = "100", @readonly = "readonly" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.StockDescription, new { @class = "form-control input-sm", @id = "txtDescription", @maxlength = "100" })
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.Line.StockDescription, new { @class = "form-control input-sm", @id = "txtDescription", @maxlength = "100" })
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-horizontal row spacer" id="Jobdiv">
+                                <div class="col-md-12 col-xs-12">
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Supplier</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+                                            @Html.TextBoxFor(model => model.Line.Supplier, new { @class = "form-control input-sm" })
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("SupplierSearch", "Requisition")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">SupplierName</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+                                            @if (Model.Line.Warehouse != "**")
+                                            {
+
+                                                <div class="input-group-btn">
+                                                    @Html.TextBoxFor(model => model.Line.SupplierName, new { @class = "form-control input-sm" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+
+                                                <div class="input-group-btn">
+                                                    @Html.TextBoxFor(model => model.Line.SupplierName, new { @class = "form-control input-sm" })
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Currency</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Line.Currency, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        @Html.HiddenFor(model => model.LocalCurrency)
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Product Class</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+                                            @if (Model.Line.Warehouse != "**")
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.ProductClass, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                <div class="input-group-btn">
+                                                    <a id="pclassbtn" href="@Url.Action("ProductClassSearch", "Requisition", new { CostCentre = Model.Header.CostCentre })" class="modal-link btn btn-default btn-sm" style="pointer-events:none;"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.ProductClass, new { @class = "form-control input-sm" })
+                                                <div class="input-group-btn">
+                                                    <a id="pclassbtn" href="@Url.Action("ProductClassSearch", "Requisition", new { CostCentre = Model.Header.CostCentre })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Price Method</label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(model => model.PriceMethod, new SelectList(ViewBag.PriceMethodList, "Price", "PriceMethod"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Price</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+                                            @Html.TextBoxFor(model => model.Line.Price, new { @class = "form-control input-sm", @id = "txtPrice" })
+                                            <div class="input-group-btn">
+                                                <a id="pricebtn" href="@Url.Action("ContractPriceSearch", "Requisition")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Exchange Rate</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Line.ExchangeRate, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Sub Contract Op.</label>
+                                    <div class="col-sm-4">
+                                        @Html.CheckBoxFor(model => model.SubContract)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Price Uom</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Line.PriceUom, new { @class = "form-control input-sm", @list = "Line_OrderUom_List" })
+                                        @*<datalist id="Line_OrderUom_List"></datalist>*@
+                                    </div>
+
+
+
+
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Job</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+                                            @Html.TextBoxFor(model => model.Line.Job, new { @class = "form-control input-sm" })
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("JobSearch", "Requisition")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Quantity</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Line.OrderQty, new { @class = "form-control input-sm", @id = "txtQuantity" })
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Operation</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.Line.SubOperationNum, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Due Date</label>
+                                    <div class="col-sm-4">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            @Html.TextBoxFor(model => model.Line.DueDate, "{0:yyyy-MM-dd}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                                            <span class="input-group-addon input-sm">
+                                                <span class="fa fa-calendar fa-lg"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Tax Code</label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(model => model.Line.TaxCode, new SelectList(ViewBag.TaxCodeList, "TaxCode", "Description"), new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Buyer</label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(model => model.Line.Buyer, new SelectList(ViewBag.BuyerList, "Buyer", "Description"), new { @class = "form-control input-sm" })
+                                    </div>
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">GL Code</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group add-on">
+                                            @if (Model.Line.Warehouse != "**")
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.GlCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                <div class="input-group-btn">
+                                                    <a id="glbtn" href="@Url.Action("GlCodeSearch", "Requisition", new { CostCentre = Model.Header.CostCentre })" class="modal-link btn btn-default btn-sm" style="pointer-events:none;"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.Line.GlCode, new { @class = "form-control input-sm" })
+                                                <div class="input-group-btn">
+                                                    <a id="glbtn" href="@Url.Action("GlCodeSearch", "Requisition", new { CostCentre = Model.Header.CostCentre })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12 col-xs-12">
+
+                                    <label class="col-sm-2 control-label input-sm-label" style="text-align:left;">Reason for Requisition</label>
+                                    <div class="col-sm-10">
+                                        @Html.TextBoxFor(model => model.Line.ReasonForReqn, new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/javascript">
+        $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+
+        function LoadWarehouses(StockCode) {
+                $("#Line_Warehouse option").remove();
+                $.getJSON('@Url.Action("GetWarehouse")?StockCode=' + StockCode, function (data) {
+                    $.each(data, function (i, Ref) {
+                        $('#Line_Warehouse').append($('<option></option>').val(Ref.Warehouse).html(Ref.Description));
+                     });
+                });
+
+        }
+
+        function LoadUom(StockCode) {
+            $("#Line_OrderUom_List option").remove();
+                $.getJSON('@Url.Action("GetStockCodeUom")?StockCode=' + StockCode, function (data) {
+                    $.each(data, function (i, Ref) {
+                        $('#Line_OrderUom_List').append($('<option></option>').val(Ref.StockUom).html(Ref.StockUom));
+                        $('#Line_OrderUom_List').append($('<option></option>').val(Ref.AlternateUom).html(Ref.AlternateUom));
+                        $("#Line_OrderUom").val(Ref.StockUom);
+                     });
+                });
+
+            }
+
+        function LoadNonStockedWarehouse() {
+            $("#Line_Warehouse option").remove();
+            $('#Line_Warehouse').append($('<option></option>').val("**").html("**"));
+        }
+
+        function LoadPriceMethod() {
+            $("#PriceMethod option").remove();
+            $.getJSON('@Url.Action("GetPriceMethodsAndPrice")?StockCode=' + $('#Line_StockCode').val() + '&Warehouse=' + $('#Line_Warehouse').val() + '&Supplier=' + $('#Line_Supplier').val(), function (data) {
+                    $.each(data, function (i, Ref) {
+                        $('#PriceMethod').append($('<option></option>').val(Ref.Price).html(Ref.PriceMethod));
+                });
+
+
+
+                    if ($('#PriceMethod').val() == "Contract") {
+                        $("#pricebtn").css('pointer-events', '');
+                        $('#txtPrice').attr("readonly", "readonly");
+                        $('#txtPrice').val("");
+                    }
+                    else if ($('#PriceMethod').val() == "Manual") {
+                        $("#pricebtn").css('pointer-events', "none");
+                        $('#txtPrice').removeAttr("readonly");
+                        $('#txtPrice').val("");
+                    }
+                    else {
+                        $("#pricebtn").css('pointer-events', '');
+                        $('#txtPrice').attr("readonly", "readonly");
+                        $('#txtPrice').val($("#PriceMethod").val());
+                    }
+
+            });
+
+
+            //alert($('#PriceMethod').val());
+
+            if ($('#PriceMethod').val() == "Contract") {
+                $("#pricebtn").css('pointer-events', '');
+                $('#txtPrice').attr("readonly", "readonly");
+                $('#txtPrice').val("");
+            }
+            else if ($('#PriceMethod').val() == "Manual") {
+                $("#pricebtn").css('pointer-events', "none");
+                $('#txtPrice').removeAttr("readonly");
+                $('#txtPrice').val("");
+            }
+            else {
+                $("#pricebtn").css('pointer-events', '');
+                $('#txtPrice').attr("readonly", "readonly");
+                $('#txtPrice').val($("#PriceMethod").val());
+            }
+
+
+
+        }
+
+
+        function LoadStockCodeDetails(StockCode) {
+            $.getJSON('@Url.Action("GetStockCodeDetails")?StockCode=' + StockCode, function (data) {
+                    if (data.length > 0) {
+                        //LoadWarehouses(StockCode);
+                        LoadUom(StockCode);
+
+                        $("#Line_ProductClass").attr("readonly", true);
+                        $("#Line_GlCode").attr("readonly", true);
+                        $("#pclassbtn").css("pointer-events", "none");
+                        $("#glbtn").css("pointer-events", "none");
+                        window.setTimeout(function () {
+                            $.each(data, function (i, Ref) {
+                                $('#txtDescription').val(Ref.Description);
+                                $('#txtUom').val(Ref.StockUom);
+                                $('#Line_ProductClass').val(Ref.ProductClass);
+                                //$('#Line_Warehouse').val(Ref.Warehouse);
+                                $('#Line_Supplier').val(Ref.Supplier);
+                                $('#Line_SupplierName').val(Ref.SupplierName)
+                                $('#Line_Currency').val(Ref.Currency);
+                                $('#Line_TaxCode').val(Ref.TaxCode);
+                                $('#Line_Buyer').val(Ref.Buyer);
+                            });
+
+                            LoadPriceMethod();
+                            
+                        }, 1000);
+
+                    }
+                    else {
+                        LoadNonStockedWarehouse();
+                        $("#Line_OrderUom_List option").remove();
+                        //Make Product class, GlCode, description readonly
+                        $("#Line_ProductClass").attr("readonly", false);
+                        $("#Line_GlCode").attr("readonly", false);
+                        $("#pclassbtn").css('pointer-events', '');
+                        $("#glbtn").css('pointer-events', '');
+                    }
+
+                });
+        }
+
+        $(document).ready(function () {
+            $('#Line_StockCode').on('change', function (e) {
+                var StockCode = $('#Line_StockCode').val();
+                LoadStockCodeDetails(StockCode);
+
+                LoadPriceMethod();
+
+            });
+
+            if ($('#txtLine').val() == 0) {
+                LoadPriceMethod();
+
+            }
+
+
+            $('#Line_Warehouse').on('change', function (e) {
+                LoadPriceMethod();
+            });
+
+            $('#Line_Supplier').on('change', function (e) {
+                LoadPriceMethod();
+            });
+
+            if ($('#txtLine').val() == 0) {
+                if ($('#PriceMethod').val() == "Contract") {
+                    $("#pricebtn").css('pointer-events', '');
+                    $('#txtPrice').attr("readonly", "readonly");
+                    $('#txtPrice').val("");
+                } else if ($('#PriceMethod').val() == "Manual") {
+                    $("#pricebtn").css('pointer-events', "none");
+                    $('#txtPrice').removeAttr("readonly");
+                    $('#txtPrice').val("");
+                }
+                else {
+                    $("#pricebtn").css('pointer-events', '');
+                    $('#txtPrice').attr("readonly", "readonly");
+                }
+            }
+
+            $('#PriceMethod').on('change', function (e) {
+
+
+                if ($('#PriceMethod').val() == "Contract") {
+                    $("#pricebtn").css('pointer-events', '');
+                    $('#txtPrice').attr("readonly", "readonly");
+                    $('#txtPrice').val("");
+
+                } else if ($('#PriceMethod').val() == "Manual") {
+                    $("#pricebtn").css('pointer-events', "none");
+                    $('#txtPrice').removeAttr("readonly");
+                    $('#txtPrice').val("");
+                }
+                else {
+                    $('#txtPrice').val("");
+                    $("#pricebtn").css('pointer-events', '');
+                    $('#txtPrice').attr("readonly", "readonly");
+                }
+
+                if ($('#PriceMethod').val() == "Manual") {
+                    $('#txtPrice').val("");
+                    $('#txtPrice').removeAttr("readonly");
+                }
+            });
+
+
+            $('#btnPost').on('click', function (e) {
+                var result = confirm("Are you sure you want to Post?");
+                if (result) {
+                }
+                else {
+                    return false;
+                }
+
+
+            });
+        });
+
+    </script>
+
+}

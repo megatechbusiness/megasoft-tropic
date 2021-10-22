@@ -1,0 +1,371 @@
+﻿@model IEnumerable<Megasoft2.sp_GetPurchaseOrderEnquiryList_Result>
+@{
+    ViewBag.Title = "PoEnquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @*<meta http-equiv="refresh" content="300" />*@
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div style="overflow: auto;height: 400px">
+            <div class="col-sm-4">
+                <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+                <button type="button" id="btnSearch" class="btn btn-default btn-sm col-lg-12">
+                    <i class="fa fa-search"> Find</i>
+                </button>
+            </div>
+            <div class="col-lg-12" id="grid">
+                <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+                    <thead class="style1">
+                        <tr class="nowrap">
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Requisition)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.RequisitionDate)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Supplier)
+                            </th>
+                            <th style="width:250px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.SupplierName)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.PurchaseOrder)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Requisitioner)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Buyer)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                Notes
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                Quotes
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                Comments
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                Quote Analysis
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Branch)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Site)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Total)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.DueDate)
+                            </th>
+                            <th class="nowrap" style="width:200px">
+                                @Html.DisplayNameFor(model => model.ToAddress1)
+                            </th>
+                            <th class="nowrap" style="width:200px">
+                                @Html.DisplayNameFor(model => model.ToAddress2)
+                            </th>
+                            <th style="width:200px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.ToAddress3)
+                            </th>
+                            <th style="width:200px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.ToAddress4)
+                            </th>
+                            <th style="width:200px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.ToAddress5)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Emergency)
+                            </th>
+                            <th style="width:200px">
+                                @Html.DisplayNameFor(model => model.EmergencyReason)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Completed)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.CompletedDate)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Accepted)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.AcceptedDate)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.QuoteReceived)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.QuoteOverride)
+                            </th>
+                            <th style="width:250px">
+                                @Html.DisplayNameFor(model => model.QuoteOverrideReason)
+                            </th>
+                            <th style="width:100px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.Authorised)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.AuthorisedDate)
+                            </th>
+                            <th style="width:150px" class="nowrap">
+                                @Html.DisplayNameFor(model => model.AuthorisedBy)
+                            </th>
+                            <th style="width:300px">
+                                @Html.DisplayNameFor(model => model.JobDescription)
+                            </th>
+                            <th style="width:300px">
+                                @Html.DisplayNameFor(model => model.SpecialInstructions)
+                            </th>
+                            <th style="width:300px">
+                                @Html.DisplayNameFor(model => model.ItemsDescription)
+                            </th>
+                            <th class="nowrap" style="width:100px">
+                                Status
+                            </th>
+                            <th style="width:100px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr class="nr">
+                                    <td>
+                                        @Html.DisplayFor(model => item.Requisition)
+                                    </td>
+                                    <td>
+                                        @*@Html.DisplayFor(model => item.RequisitionDate)*@
+                                        @Convert.ToDateTime(item.RequisitionDate).ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Supplier)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.SupplierName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.PurchaseOrder)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Requisitioner)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Buyer)
+                                    </td>
+                                    <td>
+
+                                        <a href="@Url.Action("Notes", "Requisition", new { Requisition = item.Requisition })" class="modal-link btn btn-default btn-xs">
+                                            <span class="fa fa-file-text-o" aria-hidden="true" title="Notes"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("QuotesViewOnly", "Requisition", new { Requisition = item.Requisition })" class="modal-link btn btn-default btn-xs">
+                                            <span class="fa fa-binoculars" aria-hidden="true" title="Quotes"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Comments", "Requisition", new { Requisition = item.Requisition })" id="btnComments" class="modal-link btn btn-default btn-xs text-right">
+                                            <span class="fa fa-comments-o" aria-hidden="true" title="Comments"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("QuoteAnalysis", "Requisition", new { Requisition = item.Requisition })" class="modal-link btn btn-default btn-xs">
+                                            <span class="fa fa-binoculars" aria-hidden="true" title="Quote Analysis"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Branch)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Site)
+                                    </td>
+                                    <td class="text-right">
+                                        @Html.HiddenFor(model => item.Total)
+                                        @string.Format("{0:##,###,##0.00}", item.Total)
+                                    </td>
+                                    <td>
+                                        @*@Html.DisplayFor(model => item.DueDate)*@
+                                        @Convert.ToDateTime(item.DueDate).ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => item.ToAddress1)
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => item.ToAddress2)
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => item.ToAddress3)
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => item.ToAddress4)
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => item.ToAddress5)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Emergency)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.EmergencyReason)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Completed)
+                                    </td>
+                                    <td>
+                                        @*@Html.DisplayFor(model => item.CompletedDate)*@
+                                        @Convert.ToDateTime(item.CompletedDate).ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Accepted)
+                                    </td>
+                                    <td>
+                                        @*@Html.DisplayFor(model => item.AcceptedDate)*@
+                                        @Convert.ToDateTime(item.AcceptedDate).ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.QuoteReceived)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.QuoteOverride)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.QuoteOverrideReason)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Authorised)
+                                    </td>
+                                    <td>
+                                        @*@Html.DisplayFor(model => item.AuthorisedDate)*@
+                                        @Convert.ToDateTime(item.AuthorisedDate).ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.AuthorisedBy)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.JobDescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.SpecialInstructions)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.ItemsDescription)
+                                    </td>
+                                    <td class="nowrap">
+                                        @Html.DisplayFor(model => item.Description)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("EmailPo", "PoEnquiry", new { PurchaseOrder = item.PurchaseOrder })" class="btn btn-default btn-xs">
+                                            <span class="fa fa-print" aria-hidden="true" title="Quote Analysis"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div style="overflow: auto;height: 400px">
+            <div class="col-lg-12" id="Results">
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnSearch').click(function () {
+                $.getJSON('../PoEnquiry/Search?FilterText=' + $('#txtSearch').val(), function (data) {
+                    $(".Header > tbody").empty();
+                    $.each(data, function (i, REQ) {
+
+                        $('.Header tbody').append("<tr class='nr'><td>" + REQ.Requisition + "</td><td>" +
+                                    REQ.RequisitionDate + "</td><td>" + REQ.Supplier + "</td><td>" + REQ.SupplierName + "</td><td>" + REQ.PurchaseOrder + "</td><td>" + REQ.Requisitioner + "</td><td>" + REQ.Buyer + "</td>" +
+                                    "<td class='text-center'><a class='modal-link btn btn-default btn-xs', href='Requisition/Notes?Requisition="
+                                    + REQ.Requisition + "'>" + "<span class='fa fa-file-text-o' aria-hidden='true' ><span style='font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;'></span></span>" + "</a></td>" +
+                                    "<td class='text-center'><a class='modal-link btn btn-default btn-xs', href='Requisition/QuotesViewOnly?Requisition="
+                                    + REQ.Requisition + "'>" + "<span class='fa fa-file-text-o' aria-hidden='true' ><span style='font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;'></span></span>" + "</a></td>" +
+                                    "<td class='text-center'><a class='modal-link btn btn-default btn-xs', href='Requisition/Comments?Requisition="
+                                    + REQ.Requisition + "'>" + "<span class='fa fa-file-text-o' aria-hidden='true' ><span style='font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;'></span></span>" + "</a></td>" +
+                                    "<td class='text-center'><a class='modal-link btn btn-default btn-xs', href='Requisition/QuoteAnalysis?Requisition="
+                                    + REQ.Requisition + "'>" + "<span class='fa fa-file-text-o' aria-hidden='true' ><span style='font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;'></span></span>" + "</a></td><td>" +
+                                    REQ.Branch + "</td><td>" + REQ.Site + "</td><td class='text-right'><input type='hidden' value='" + parseFloat(REQ.Total) + "'/>" + REQ.Total.toLocaleString() + "</td><td>" +
+                                    REQ.DueDate + "</td><td>" + REQ.ToAddress1 + "</td><td>" +
+                                    REQ.ToAddress2 + "</td><td>" + REQ.ToAddress3 + "</td><td>" +
+                                    REQ.ToAddress4 + "</td><td>" + REQ.ToAddress5 + "</td><td>"
+                                    + REQ.Emergency + "</td><td>" + REQ.EmergencyReason +
+                                    "</td><td>" + REQ.Completed + "</td><td>" + REQ.CompletedDate +
+                                    "</td><td>" + REQ.Accepted + "</td><td>" + REQ.AcceptedDate +
+                                    "</td><td>" + REQ.QuoteReceived + "</td><td>" + REQ.QuoteOverride +
+                                    "</td><td>" + REQ.QuoteOverrideReason + "</td><td>" + REQ.Authorised +
+                                    "</td><td>" + REQ.AuthorisedDate + "</td><td>" + REQ.AuthorisedBy +
+                                    "</td><td>" + REQ.JobDescription + "</td><td>" + REQ.SpecialInstructions +
+                                    "</td><td>" + REQ.ItemsDescription + "</td><td>" + REQ.Description +
+                                    "</td><td class='text-center'><a class='btn btn-default btn-xs', href='PoEnquiry/EmailPo?PurchaseOrder="
+                                    + REQ.PurchaseOrder + "'>" + "<span class='fa fa-print' aria-hidden='true' ><span style='font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;'></span></span>" + "</a></td></tr>");
+                    });
+
+
+                });
+            });
+
+
+
+            $('#Header').on("click", ".nr", function () {
+                var PurchaseOrder = $(this).find('td:eq(4)').text().trim();
+                //alert(PurchaseOrder);
+                $.getJSON('../PoEnquiry/PoDetail?PurchaseOrder=' + PurchaseOrder, function (data) {
+                    var items = '<table id="PoDetail" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Line</th><th>StockCode</th><th>Description</th><th>OrderQty</th><th>Uom</th><th>Price</th><th>GlCode</th><th>Job</th><th>HierachyCategory</th></tr>';
+                    $.each(data, function (i, PurchaseOrder) {
+                        items += "<tr class='nr' data-dismiss='modal'><td>" + PurchaseOrder.Line + "</td><td>" + PurchaseOrder.StockCode + "</td><td class = 'nowrap'>" + PurchaseOrder.Description + "</td><td class = 'text-right'>" + PurchaseOrder.OrderQty + "</td><td>" + PurchaseOrder.Uom + "</td><td class = 'text-right'>" + PurchaseOrder.Price + "</td><td>" + PurchaseOrder.GlCode + "</td><td>" + PurchaseOrder.Job + "</td><td>" + PurchaseOrder.HierachyCategory + "</td>";
+                    });
+                    items += "</table>";
+                    $('#Results').html(items);
+                    //alert(items);
+                });
+            });
+
+
+
+            UltimateScrollingTable('Header', 400, 6000, 1);
+
+
+           
+        });
+
+</script>
+
+}
+
+
+
+        
+
+
+
+
+
+

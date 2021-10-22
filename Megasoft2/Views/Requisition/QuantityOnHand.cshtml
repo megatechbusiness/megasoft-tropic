@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Megasoft2.sp_mtReqGetQtyOnHandByStockCode_Result>
+<div class="bs-example">
+    <div class="panel panel-yellow">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                Quantity On Hand
+                <button type="button" class="closeModal3 close" data-dismiss="modal">&times;</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+
+                <div class="form-horizontal row spacer">
+
+                    <div class="col-md-12">
+                        <table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>StockCode</th>
+                                    <th>Description</th>
+                                    <th>Warehouse</th>
+                                    <th>StockUom</th>
+                                    <th>QtyOnOrder</th>
+                                    <th>QtyOnHand</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data">
+                                @if (Model != null)
+                                {
+
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.StockCode
+                                            </td>
+                                            <td>
+                                                @item.Description
+                                            </td>
+                                            <td>
+                                                @item.Warehouse
+                                            </td>
+                                            <td>
+                                                @item.StockUom
+                                            </td>
+                                            <td>
+                                                @item.QtyOnOrder
+                                            </td>
+                                            <td>@item.QtyOnHand</td>
+                                        </tr>
+
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

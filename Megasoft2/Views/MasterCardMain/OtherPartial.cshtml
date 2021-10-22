@@ -1,0 +1,132 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+@{ Layout = null; }
+<div class="form-horizontal row spacer">
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Core Plugs</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Other.CorePlugs, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Interleaves</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Other.Interleaves, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Top Board</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Other.TopBoard, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                    @*@Html.TextBoxFor(model => model.Extrusion.NoSlackEdge, new { @class = "form-control input-xs", @readonly = "readonly" })*@
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Order</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Other.Order, new { @class = "form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Work Order</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Other.WorkOrder, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Quantity</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Other.Quantity, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Production Date</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Other.ProductionDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-xs" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Special Instructions</label>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(model => model.Other.SpecialInstructions, 5, 40, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    @*  *@
+
+
+    <div class="col-md-6">
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Pallet Markings</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Other.PalletMarkings, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Strapping</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Other.Strapping, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+
+                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Stretch Wrap</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(model => model.Other.StretchWrap, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                </div>
+
+            </div>
+        </div>
+
+    </div>

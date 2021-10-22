@@ -1,0 +1,418 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;">
+        <div id="errordiv">
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            @*<div class="form-group">*@
+            <div class="control-label col-xs-1" style="text-align:left;">
+                P/O
+            </div>
+            <div class="editor-field col-xs-5">
+                <input type="text" class="form-control input-xs" id="PurchaseOrder" />
+            </div>
+            <div class="editor-field col-xs-2 text-right">
+                <a href="#" class="btn btn-primary btn-xs" onclick="ValidatePo();">
+                    <span class="fa fa-download" aria-hidden="true" title="Previous"></span>
+                </a>
+            </div>
+            @*</div>*@
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            @*<div class="form-group">*@
+            <div class="control-label col-xs-1" style="text-align:left;">
+                Line
+            </div>
+            <div class="editor-field col-xs-4">
+                <input type="text" class="form-control input-xs" id="txtLine" />
+            </div>
+            <div class="editor-field col-xs-3 text-right">
+                <a href="#" class="btn btn-primary btn-xs" onclick="NavigateLine('Previous')">
+                    <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Previous"></span>
+                </a>
+                <a href="#" class="btn btn-primary btn-xs" onclick="NavigateLine('Next')">
+                    <span class="fa fa-arrow-circle-right" aria-hidden="true" title="Next"></span>
+                </a>
+                <input type="hidden" id="hdStockCode" />
+                <input type="hidden" id="hdDescription" />
+                <input type="hidden" id="hdSupplier" />
+            </div>
+            @*</div>*@
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-9" style="text-align:left;font-size:xx-small;" id="txtStockCode">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-9" style="text-align:left;font-size:xx-small;" id="txtQtyDesc">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="bin">
+            @*<div class="form-group">*@
+            <div class="control-label col-xs-1" style="text-align:left;">
+                Bin
+            </div>
+            <div class="editor-field col-xs-7">
+                <input type="text" class="form-control input-xs" id="txtBin" />
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            @*<div class="form-group">*@
+            <div class="control-label col-xs-1" style="text-align:left;">
+                Reel
+            </div>
+            <div class="editor-field col-xs-7">
+                <input type="text" class="form-control input-xs" id="txtReel" />
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            @*<div class="form-group">*@
+            <div class="control-label col-xs-1" style="text-align:left;">
+                Qty
+            </div>
+            <div class="editor-field col-xs-4">
+                <input type="text" class="form-control input-xs" id="txtQty" />
+            </div>
+            <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
+
+            </div>
+            <div class="editor-field col-xs-2 text-right">
+                <a href="#" class="btn btn-primary btn-xs" id="btnAdd">
+                    <span class="fa fa-save" aria-hidden="true" title="Save"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs col-xs-8">
+            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                <thead>
+                    <tr>
+                        <th>P/O-Line</th>
+                        <th>Reel</th>
+                        <th>Qty</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+
+</fieldset>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    function ValidatePo()
+    {
+        showprogressbar();
+        var PurchaseOrder = $('#PurchaseOrder').val();
+        var mydata = [];
+        var myObject = new Object();
+        myObject.PurchaseOrder = PurchaseOrder;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManPoReceiptScan/ValidatePo",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (typeof response == 'object')
+            {
+                $.each(response, function (i, PO) {
+                    $('#txtLine').val(PO.Line);
+                    $('#txtStockCode').html(PO.StockCode + '-' + PO.Description);
+                    $('#txtQtyDesc').html(PO.QtyDesc);
+                    $('#hdStockCode').val(PO.StockCode);
+                    $('#hdDescription').val(PO.Description);
+                    $('#hdSupplier').val(PO.Supplier);
+                    
+                    $('#txtReel').focus();
+                    if (PO.UseMultipleBins == "Y") {
+                        $('#bin').show();
+                    }
+                    else {
+                        $('#bin').hide();
+                    }
+                    LoadGrid();
+                });
+            }
+            else
+            {
+                alert(response);
+            }
+            
+        }
+
+        function OnErrorCall(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+
+    function NavigateLine(NavDirection)
+    {
+        showprogressbar();
+        var PurchaseOrder = $('#PurchaseOrder').val();
+        var Line = $('#txtLine').val();
+        var mydata = [];
+        var myObject = new Object();
+        myObject.PurchaseOrder = PurchaseOrder;
+        myObject.Line = Line;
+        myObject.NavDirection = NavDirection;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManPoReceiptScan/NavigatePoLine",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            //alert(response);
+            if (typeof response == 'object')
+            {
+                $.each(response, function (i, PO) {
+                    $('#txtLine').val(PO.Line);
+                    $('#txtStockCode').html(PO.StockCode + '-' + PO.Description);
+                    $('#txtReel').focus();
+                    if(PO.UseMultipleBins == "Y")
+                    {
+                        $('#bin').show();
+                    }
+                    else
+                    {
+                        $('#bin').hide();
+                    }
+                });
+            }
+            else
+            {
+                 alert(response);
+            }
+            
+            
+        }
+
+        function OnErrorCall(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+
+    function LoadGrid() {
+        $('#tblLines tbody').empty();
+        var PurchaseOrder = $('#PurchaseOrder').val();
+        var Line = $('#txtLine').val();
+        $.getJSON('WhseManPoReceiptScan/GetGridData?PurchaseOrder=' + PurchaseOrder, function (data) {
+            $('#txtCount').html('Total:' + data.length);
+            $.each(data, function (i, Po) {
+                $('#tblLines tbody').append("<tr class='nr'><td>" + parseInt(Po.PurchaseOrder) + "-" + Po.Line + "<input type='hidden' value='" + Po.PurchaseOrder + "'/></td><td>" + Po.ReelNumber + "</td><td>" + Po.ReelQty + "<input type='hidden' value='" + Po.Line + "'/></td><td><a href='#' class='delLine btn btn-danger btn-xs'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+            });
+        });
+    }
+
+
+    function SaveReel()
+    {
+        showprogressbar();
+        //e.preventDefault();
+
+        var PurchaseOrder = $('#PurchaseOrder').val();
+        var Line = $('#txtLine').val();
+        var StockCode = $('#hdStockCode').val();
+        var Description = $('#hdDescription').val();
+        var ReelQty = $('#txtQty').val();
+        var ReelNumber = $('#txtReel').val();
+        var Bin = $('#txtBin').val();
+
+        if (ReelQty == "") {
+            alert('Reel Quantity cannot be blank.');
+            return;
+        }
+
+        if (ReelNumber == "") {
+            alert('Reel Number cannot be blank.');
+            return;
+        }
+
+        if (ReelQty == "0") {
+            alert('Reel Quantity cannot be zero.');
+            return;
+        }
+
+        var mydata = [];
+        var myObject = new Object();
+        myObject.PurchaseOrder = PurchaseOrder;
+        myObject.Line = Line;
+        myObject.StockCode = StockCode;
+        myObject.Description = Description;
+        myObject.ReelQuantity = ReelQty;
+        myObject.ReelNumber = ReelNumber;
+        myObject.Bin = Bin;
+        mydata.push(myObject);
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "WhseManPoReceiptScan/SaveReel",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            if (response != "") {
+                alert(response);
+                $('#txtReel').focus();
+                
+            }
+            else {
+                LoadGrid();
+                $('#txtReel').val("");
+                $('#txtQty').val("");
+                $('#txtReel').focus();
+            }
+        }
+
+        function OnErrorCall(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+        hideprogressbar();
+    }
+    
+    $(function () {
+
+        $('#bin').hide();
+
+        //change page title text
+        $('#megasoftTitle').text(' Megasoft - P/O Receipt');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+
+        $('#btnAdd').on('click', function (e) {
+            SaveReel();
+        });
+
+
+        $('#txtReel').on('change', function (e) {
+            var str = document.getElementById('txtReel').value;
+
+            if (str.indexOf("|") > 0) {
+
+                var Values = document.getElementById('txtReel').value.split("|");
+                document.getElementById('txtReel').value = Values[4];
+                document.getElementById('txtQty').value = Values[2];
+                SaveReel();
+            }
+            else if($('#hdSupplier').val() == "MON001") //Mondi
+            {
+                var str = document.getElementById('txtReel').value;
+                document.getElementById('txtReel').value = str.substring(0, 9);
+                document.getElementById('txtQty').value = str.substring(9, 13);
+                SaveReel();
+            }
+            else if ($('#hdSupplier').val() == "KOR001") { //Newsprint - 
+                var str = document.getElementById('txtReel').value;
+                document.getElementById('txtReel').value = str.substring(0, 8);
+                document.getElementById('txtQty').value = str.substring(8, 12);
+                SaveReel();
+            }
+            
+            //Jackaroo has seperate barcode for reel and seperate barcode for Qty - No decoding required.
+            //MPact has seprate barcode for reel. Qty barcode need to be decoded.
+
+            
+            
+        });
+
+        $('#txtQty').on('change', function (e) {
+            if($('#hdSupplier').val() == "MON007") //MPact Decode Qty Barcode
+            {
+                var str = document.getElementById('txtReel').value;
+                document.getElementById('txtQty').value = str.substring(9, 13);
+            }
+        });
+
+
+        $('#tblLines').on("click", ".delLine", function () {
+            var tr = $(this).closest('tr');
+            var $tds = tr.find('td');
+            var PurchaseOrder = $tds.eq(0).find("input[type='hidden']").val();
+            var Line = $tds.eq(2).find("input[type='hidden']").val();
+            var ReelNumber = $tds.eq(1).text();
+
+            var mydata = [];
+            var myObject = new Object();
+            myObject.PurchaseOrder = PurchaseOrder;
+            myObject.Line = Line;
+            myObject.ReelNumber = ReelNumber;
+            mydata.push(myObject);
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "WhseManPoLabel/DeleteReel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                if (response != "") {
+                    alert(response);
+                }
+                else {
+                    LoadGrid();
+                }
+            }
+
+            function OnErrorCall(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+
+        });
+
+
+
+    });
+</script>

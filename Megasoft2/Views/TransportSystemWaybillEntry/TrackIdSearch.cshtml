@@ -1,0 +1,80 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                TrackId
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="TrackIdResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetTrackIds()
+    {
+        $.getJSON('TransportSystemWayBillEntry/TrackIdList', function (data) {
+            var items = '<table id="TrackIdSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>TrackId</th><th>Waybill</th><th>DispatchNote</th><th>Line</th><th>Customer</th><th>Province</th><th>Town</th><th>StockCode</th></tr>';
+            $.each(data, function (i, track) {
+                items += "<tr class='nr' id=" + track.TrackId + "  data-dismiss='modal'><td><a href=#>" + track.TrackId + "</a><input type='hidden' value='" + track.TrackId + "' /></td><td>" + track.Waybill + "</td><td>" + track.DispatchNote + "</td><td>" + track.DispatchNoteLine + "</td><td>" + track.Customer + "</td><td>" + track.Province + "</td><td>" + track.Town + "</td><td>" + track.StockCode + "</td></tr>";
+            });
+            items += "</table>";
+
+            $('#TrackIdResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetTrackIds();
+        $('#txtSearch').focus();
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#TrackIdSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+        });
+
+        $('#TrackIdResults').on("click", ".nr", function () {
+
+            var rCode = $(this).find('input[type=hidden]').val();
+
+            //do something with id
+            $('#TrackId').val(rCode);
+            window.setTimeout(function () {
+                //wait for gl code modal to close.
+            }, 500);
+
+        });
+        $('#txtSearch').focus();
+
+    });
+</script>

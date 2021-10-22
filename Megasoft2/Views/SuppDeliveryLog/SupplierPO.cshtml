@@ -1,0 +1,102 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Supplier List
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSupplierSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="SupplierResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function GetSuppliers()   
+    {
+        $.getJSON('@Url.Action("SupplierPOList", "SuppDeliveryLog")?FilterText=' + $('#Supplier').val(), function (data) {
+            var items = '<table id="SupplierSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>PurchaseOrder</th><th>Line</th><th>MStockCode</th><th>MStockDes</th><th>MWarehouse</th><th>MOrderUom</th><th>MOrderQty</th><th>MReceivedQty</th><th>OutstandingQty</th>';
+            $.each(data, function (i, x) {
+                items += "<tr class='nr' id=" + x.PurchaseOrder + "  data-dismiss='modal'><td><a href=#>" + x.PurchaseOrder + "</a></td><td>" + x.Line + "</td><td>" + x.MStockCode + "</td><td>" + x.MStockDes + "</td><td>" + x.MWarehouse + "</td><td>" + x.MOrderUom + "</td><td>" + x.MOrderQty + "</td><td>" + x.MReceivedQty + "</td><td>" + x.OutstandingQty + "</td>" ;
+            });
+            items += "</table>";
+            $('#SupplierResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetSuppliers();
+        $('#txtSupplierSearch').focus();
+        $('#txtSupplierSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#SupplierSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#SupplierResults').on("click", ".nr", function () {
+            var rCode = $(this).attr('id');
+            var Line = $(this).closest("tr").find('td:eq(1)').text();
+            var MStockCode = $(this).closest("tr").find('td:eq(2)').text();
+            var MStockDes = $(this).closest("tr").find('td:eq(3)').text();
+            var MOrderUom = $(this).closest("tr").find('td:eq(5)').text();
+            //var MOrderQty = $(this).closest("tr").find('td:eq(6)').text();
+            //do something with id
+            $('#PurchaseOrder').val(rCode);
+            $('#SuppLog_StockCode').val(MStockCode);
+            $('#SuppLog_Uom').val(MOrderUom);
+            $('#SuppLog_Line').val(Line);
+            //$('#SuppLog_Quantity').val(MOrderQty);
+            $('#SuppLog_Description').val(MStockDes);
+
+            window.setTimeout(function () {
+            }, 500);
+        });
+        $('#txtSupplierSearch').focus();
+
+    });
+
+
+
+    $('#PurchaseOrder').on("click", ".nr", function () {
+        
+        var Line = $(this).closest("tr").find('td:eq(2)').text();
+        var StockCode = $(this).closest("tr").find('td:eq(3)').text();
+        var MOrderUom = $(this).closest("tr").find('td:eq(6)').text();
+        var MOrderQty = $(this).closest("tr").find('td:eq(7)').text();
+
+        $('#Line').val(rCode);
+        $('#Line').val(Line);
+        $('#StockCode').val(StockCode);
+        $('#MOrderUom').val(MOrderUom);
+        $('#MOrderQty').val(MOrderQty);
+    });
+
+
+
+</script>

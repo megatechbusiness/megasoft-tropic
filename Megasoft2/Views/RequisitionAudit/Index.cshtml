@@ -1,0 +1,163 @@
+﻿@model Megasoft2.ViewModel.RequisitionAuditsViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "RequisitionAudits" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <h4 style="font-weight:bold;" class="text-center">Requisition Audit</h4><hr />
+    <div class="col-lg-12">
+        <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        From Date
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.FromDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm", @id = "txtRequisition" })
+                    </td>
+                    <th>
+                        To Date
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.ToDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                    </td>
+                    <td style="text-align:center">
+                        <input type="submit" value="refresh" class="btn btn-default btn-sm" name="action:Index " />
+                    </td>
+                </tr>
+
+            </thead>
+        </table>
+        <table class="table table-hover table-striped table-condensed table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <td>
+                        <div class="editor-field input-sm col-sm-12" >
+                            @Html.TextBoxFor(model => model.FilterText, new {@placeholder = "Requisition Search", @class = " form-control input-sm"})
+                        </div>                     
+                    </td>
+                    <td>
+                        <div class="editor-field input-sm col-sm-12" >
+                            @Html.TextBoxFor(model => model.FilterText2, new {@placeholder = "Username Search", @class = " form-control input-sm" })
+                        </div>
+                    </td>
+                </tr>
+
+            </thead>
+        </table>
+
+        <div class="form-horizontal row spacer">
+            <div class="col-md-12 col-xs-12">
+                <div class="table-responsive" style="overflow: auto;height:800px">
+                    <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines">
+                        <thead>
+                            <tr class="nowrap">
+                                <th>AuditId</th>
+                                <th>Requisition</th>
+                                <th>Line</th>
+                                <th>TrnType</th>
+                                <th>Program</th>
+                                <th>KeyField</th>
+                                <th>OldValue</th>
+                                <th>NewValue</th>
+                                <th>Username</th>
+                                <th>TrnDate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Audit != null)
+                            {
+                                for (int i = 0; i < Model.Audit.Count(); i++)
+                                {
+
+                                    <tr class="errorrow nr nowrap">
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].AuditId)
+                                            @Html.HiddenFor(model => model.Audit[i].AuditId)
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].Requisition)
+                                            @Html.HiddenFor(model => model.Audit[i].Requisition)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].Line)
+                                            @Html.HiddenFor(model => model.Audit[i].Line)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].TrnType)
+                                            @Html.HiddenFor(model => model.Audit[i].TrnType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].Program)
+                                            @Html.HiddenFor(model => model.Audit[i].Program)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].KeyField)
+                                            @Html.HiddenFor(model => model.Audit[i].KeyField)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].OldValue)
+                                            @Html.HiddenFor(model => model.Audit[i].OldValue)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].NewValue)
+                                            @Html.HiddenFor(model => model.Audit[i].NewValue)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].Username)
+                                            @Html.HiddenFor(model => model.Audit[i].Username)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Audit[i].TrnDate)
+                                            @Html.HiddenFor(model => model.Audit[i].TrnDate)
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<style type="text/css">
+    .nowrap {
+        white-space: nowrap;
+    }
+
+    .tdtextbox {
+        min-width: 360px;
+    }
+</style>
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+       
+    </script>
+}

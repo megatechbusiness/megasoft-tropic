@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MegasoftDelayedPostingService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CompanyId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">T</Value>
+    </Setting>
+    <Setting Name="CompanyPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TEST</Value>
+    </Setting>
+    <Setting Name="SysproUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JAROD</Value>
+    </Setting>
+    <Setting Name="SysproPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">J@rod@987</Value>
+    </Setting>
+    <Setting Name="WcfBaseAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ServiceIntervalMins" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

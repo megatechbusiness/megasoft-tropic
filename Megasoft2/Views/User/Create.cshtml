@@ -1,0 +1,1771 @@
+﻿@model Megasoft2.ViewModel.UserViewModel
+
+@using (Html.BeginForm("Create", "User", FormMethod.Post, new { @id = "UserForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">User Setup</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="form-group">
+
+        @if (Model.User != null)
+        {
+            <div class="alert alert-info col-sm-12">
+                <div class="control-label col-sm-4" style="text-align:left;">
+                    @Html.DisplayFor(model => model.User.Username)
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">User Details</a></li>
+        @if (ViewBag.UseRoles == false)
+        {
+            <li><a data-toggle="tab" href="#Security">Security</a></li>
+        }
+
+        @if (ViewBag.BranchAccess == true)
+        {
+            <li><a data-toggle="tab" href="#Branch">Branch Acccess</a></li>
+        }
+        @if (ViewBag.GlAuthorisation == true)
+        {
+            <li><a data-toggle="tab" href="#Authorization">Authorization</a></li>
+            <li><a data-toggle="tab" href="#Buyers">Reporting</a></li>
+        }
+        @if (ViewBag.Report == true)
+        {
+            <li><a data-toggle="tab" href="#TabReports">Report</a></li>
+        }
+        @if (ViewBag.Department == true)
+        {
+            <li><a data-toggle="tab" href="#TabDepartments">Department</a></li>
+        }
+        @if (ViewBag.WarehouseAccess == true)
+        {
+            <li><a data-toggle="tab" href="#TabWarehouses">Warehouses</a></li>
+        }
+        @if (ViewBag.PrinterAccess == true)
+        {
+            <li><a data-toggle="tab" href="#Printers" class="tab_3">Printers</a></li>
+
+        }
+        @if (ViewBag.Scale == true)
+        {
+            <li><a data-toggle="tab" href="#TabScales" class="tab_1">Scales</a></li>
+        }
+
+
+
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "User") + "'");">
+                <i class="fa fa-group"></i> Users
+            </button>
+            <button type="submit" value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Username
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @if (Model != null)
+                                            {
+                                                if (@Model.User != null)
+                                                {
+
+                                                    @Html.TextBoxFor(model => model.User.Username, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                    @Html.ValidationMessageFor(model => model.User.Username)
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(model => model.User.Username, new { @class = "form-control input-sm" })
+                                                    @Html.ValidationMessageFor(model => model.User.Username)
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.User.Username, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.User.Username)
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            First Name
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.FirstName)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Surname
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.Surname, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.Surname)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Password
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.Password, new { @type = "password", @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.Password)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Syspro Username
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.SysproUsername, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.SysproUsername)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Syspro Password
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.SysproPassword, new { @type = "password", @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.SysproPassword)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Req. Prefix
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.ReqPrefix, new { @class = "form-control input-sm", @maxlength = "4" })
+                                            @Html.ValidationMessageFor(model => model.User.ReqPrefix)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Last Req. No.
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.LastReqNo, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.LastReqNo)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Administrator
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.CheckBoxFor(model => model.User.Administrator, new { @class = "", @id = "ReqCompleted", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                            @Html.ValidationMessageFor(model => model.User.Administrator)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Email
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.EmailAddress, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.EmailAddress)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Authorization Limit
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.User.AuthorizationLimit, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.User.AuthorizationLimit)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Reset Password
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.CheckBoxFor(model => model.User.ForcePasswordReset, new { @class = "", @id = "passwordreset", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                            @Html.ValidationMessageFor(model => model.User.ForcePasswordReset)
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Buyer?
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.CheckBoxFor(model => model.User.IsBuyer, new { @class = "", @id = "isbuyer", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                            @Html.ValidationMessageFor(model => model.User.IsBuyer)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Requisitioner?
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.CheckBoxFor(model => model.User.IsRequisitioner, new { @class = "", @id = "isrequisitioner", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                            @Html.ValidationMessageFor(model => model.User.IsRequisitioner)
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Picker
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.CheckBoxFor(model => model.User.Picker, new { @class = "", @id = "Picker", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No" })
+                                            @Html.ValidationMessageFor(model => model.User.Picker)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+        @if (ViewBag.UseRoles == false)
+        {
+            <div id="Security" class="tab-pane fade">
+                <div class="form-group">
+                    <div class="col-sm-12 text-right">
+                        Select All
+                        <input type="checkbox" id="selectAllSecurity" name="selectAllSecurity" />
+                    </div>
+                    <div class="col-sm-6">
+                        <table id="tblRoles" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                            <thead class="style1">
+                                <tr>
+                                    <th>
+                                        Role
+                                    </th>
+                                    <th>
+                                        Apply
+                                    </th>
+                                </tr>
+                            </thead>
+                            @if (ViewBag.Roles != null)
+                            {
+                                foreach (var _role in ViewBag.Roles)
+                                {
+                                    <tr class="nr">
+                                        <td>@_role.Role</td>
+                                        <td><input type="checkbox" id="@_role.Role" /></td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <table id="tblSecurity" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                            <thead class="style1">
+                                <tr>
+                                    <th>
+                                        Program
+                                    </th>
+                                    <th>
+                                        Activity
+                                    </th>
+                                    <th>
+                                        Allowed
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="datarow">
+                                @if (Model != null)
+                                {
+                                    if (Model.FunctionAccess != null)
+                                    {
+                                        var Program = "";
+                                        for (int i = 0; i < Model.FunctionAccess.Count; i++)
+                                        {
+
+                                            <tr class="nr">
+                                                <td>
+                                                    @if (Program != Model.FunctionAccess[i].Program)
+                                                    {
+                                                        Program = Model.FunctionAccess[i].Program;
+                                                        @Html.DisplayFor(model => model.FunctionAccess[i].Program)
+                                                    }
+
+                                                    @Html.HiddenFor(model => model.FunctionAccess[i].Program)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.FunctionAccess[i].Activity)
+                                                    @Html.HiddenFor(model => model.FunctionAccess[i].ProgramFunction)
+                                                    @Html.HiddenFor(model => model.FunctionAccess[i].Activity)
+                                                </td>
+
+                                                @if (Model.FunctionAccess[i].HasAccess == true)
+                                                {
+                                                    <td class="rowc">
+                                                        @Html.CheckBoxFor(model => model.FunctionAccess[i].HasAccess, new { @checked = "checked", @class = "case", @name = "case" })
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="rowc">@Html.CheckBoxFor(model => model.FunctionAccess[i].HasAccess, new { @class = "case", @name = "case" })</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div id="Authorization" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" id="searchauthbranch" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                </div>
+                <div class="col-sm-2">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedCostCode" name="ShowSelectedCostCode" />
+                    Select All
+                    <input type="checkbox" id="AuthAll" name="selectAllAuth" />
+
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" id="searchProdClass" class="form-control input-sm col-sm-12" placeholder="search" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <table id="tblAuthorization" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Cost Code
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Authorization != null)
+                                {
+                                    for (int i = 0; i < Model.Authorization.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.Authorization[i].CostCode)
+                                                @Html.HiddenFor(model => model.Authorization[i].CostCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Authorization[i].Description)
+                                                @Html.HiddenFor(model => model.Authorization[i].Description)
+                                            </td>
+                                            @if (Model.Authorization[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Authorization[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Authorization[i].Allowed, new { @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-6" id="ProdClassAuth">
+                    <table id="tblProductClass" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Product Class
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Limit
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                if (Model.ProdClassLimit != null)
+                                {
+                                    for (int i = 0; i < Model.ProdClassLimit.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.ProdClassLimit[i].ProductClass)
+                                                @Html.HiddenFor(model => model.ProdClassLimit[i].ProductClass)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.ProdClassLimit[i].Description)
+                                                @Html.HiddenFor(model => model.ProdClassLimit[i].Description)
+                                            </td>
+
+                                            <td class="rowc">@Html.TextBoxFor(model => model.ProdClassLimit[i].Limit, new { @class = "form-control input-xs" })</td>
+
+                                        </tr>
+
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="Branch" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" id="search" placeholder="Search" />
+                </div>
+
+
+                <div class="col-sm-4 text-right">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedBranch" name="ShowSelectedBranch" />
+                    Select All
+                    <input type="checkbox" id="BranchAll" name="selectAllBranch" />
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <table id="tblBranch" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Branch
+                                </th>
+                                <th>
+                                    Branch Name
+                                </th>
+                                <th>
+                                    Site
+                                </th>
+                                <th>
+                                    Site Name
+                                </th>
+                                <th>
+                                    Department
+                                </th>
+                                <th>
+                                    Department Name
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.BranchAccess != null)
+                                {
+                                    for (int i = 0; i < Model.BranchAccess.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.BranchAccess[i].Branch)
+                                                @Html.HiddenFor(model => model.BranchAccess[i].Branch)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.BranchAccess[i].BranchName)
+                                                @Html.HiddenFor(model => model.BranchAccess[i].BranchName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.BranchAccess[i].Site)
+                                                @Html.HiddenFor(model => model.BranchAccess[i].Site)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.BranchAccess[i].SiteName)
+                                                @Html.HiddenFor(model => model.BranchAccess[i].SiteName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.BranchAccess[i].Department)
+                                                @Html.HiddenFor(model => model.BranchAccess[i].Department)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.BranchAccess[i].DepartmentName)
+                                                @Html.HiddenFor(model => model.BranchAccess[i].DepartmentName)
+                                            </td>
+                                            @if (Model.BranchAccess[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.BranchAccess[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">@Html.CheckBoxFor(model => model.BranchAccess[i].Allowed, new { @class = "case", @name = "case" })</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="Buyers" class="tab-pane fade">
+            <div class="col-sm-6">
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        Buyer Stats Access
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control input-sm" id="searchBuyer" placeholder="Search" />
+                    </div>
+
+
+                    <div class="col-sm-4 text-right">
+                        Show Selected
+                        <input type="checkbox" id="ShowSelectedbuyer" name="ShowSelectedBuyer" />
+                        Select All
+                        <input type="checkbox" id="BuyAll" name="selectAllBuyers" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <table id="tblBuyer" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                            <thead class="style1">
+                                <tr>
+                                    <th>
+                                        Buyer
+                                    </th>
+                                    <th>
+                                        Allowed
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="datarow">
+                                @if (Model != null)
+                                {
+                                    if (Model.UserBuyerStats != null)
+                                    {
+                                        for (int i = 0; i < Model.UserBuyerStats.Count; i++)
+                                        {
+
+                                            <tr class="nr">
+                                                <td>
+                                                    @Html.DisplayFor(model => model.UserBuyerStats[i].Buyer)
+                                                    @Html.HiddenFor(model => model.UserBuyerStats[i].Buyer)
+                                                    @Html.HiddenFor(model => model.UserBuyerStats[i].Username)
+                                                </td>
+                                                @if (Model.UserBuyerStats[i].HasAccess == true)
+                                                {
+                                                    <td class="rowc">
+                                                        @Html.CheckBoxFor(model => model.UserBuyerStats[i].HasAccess, new { @checked = "checked", @class = "case", @name = "case" })
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="rowc">@Html.CheckBoxFor(model => model.UserBuyerStats[i].HasAccess, new { @class = "case", @name = "case" })</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @if (Model.User != null)
+            {
+                if (Model.User.IsBuyer == true)
+                {
+                    <div class="col-sm-6">
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Buyer - Requisitioner Link
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" id="BuyerReqSearch" placeholder="Search" />
+                            </div>
+
+
+                            <div class="col-sm-4 text-right">
+                                Show Selected
+                                <input type="checkbox" id="ShowSelectedbuyerReq" name="ShowSelectedBuyerReq" />
+                                Select All
+                                <input type="checkbox" id="BuyerReqAll" name="selectAllBuyerReq" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <table id="tblBuyerReq" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                    <thead class="style1">
+                                        <tr>
+                                            <th>
+                                                Requisitioner
+                                            </th>
+                                            <th>
+                                                Allowed
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.BuyerReq != null)
+                                            {
+                                                for (int i = 0; i < Model.BuyerReq.Count; i++)
+                                                {
+
+                                                    <tr class="nr">
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.BuyerReq[i].Requisitioner)
+                                                            @Html.HiddenFor(model => model.BuyerReq[i].Buyer)
+                                                            @Html.HiddenFor(model => model.BuyerReq[i].Requisitioner)
+                                                        </td>
+                                                        @if (Model.BuyerReq[i].HasAccess == true)
+                                                        {
+                                                            <td class="rowc">
+                                                                @Html.CheckBoxFor(model => model.BuyerReq[i].HasAccess, new { @checked = "checked", @class = "case", @name = "case" })
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="rowc">@Html.CheckBoxFor(model => model.BuyerReq[i].HasAccess, new { @class = "case", @name = "case" })</td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-6">
+                        User is not flagged as a Buyer
+                    </div>
+                }
+            }
+
+        </div>
+
+        <div id="TabWarehouses" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" id="searchwh" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                </div>
+                <div class="col-sm-2">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedWh" name="ShowSelectedWh" />
+                    Select All
+                    <input type="checkbox" id="WhAll" name="selectAllWh" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <table id="tblWh" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Warehouse
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Warehouses != null)
+                                {
+                                    for (int i = 0; i < Model.Warehouses.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.Warehouses[i].Warehouse)
+                                                @Html.HiddenFor(model => model.Warehouses[i].Warehouse)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Warehouses[i].Description)
+                                                @Html.HiddenFor(model => model.Warehouses[i].Description)
+                                            </td>
+                                            @if (Model.Warehouses[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Warehouses[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Warehouses[i].Allowed, new { @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="Printers" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" id="searchPrinter" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                </div>
+                <div class="col-sm-2">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedPrinter" name="ShowSelectedPrinter" />
+                    Select All
+                    <input type="checkbox" id="PrinterAll" name="selectAllPrinter" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <table id="tblPrinter" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Printer
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Printers != null)
+                                {
+                                    for (int i = 0; i < Model.Printers.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.Printers[i].PrinterName)
+                                                @Html.HiddenFor(model => model.Printers[i].PrinterName)
+                                            </td>
+                                            @if (Model.Printers[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Printers[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Printers[i].Allowed, new { @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="TabScales" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" id="searchScales" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                </div>
+                <div class="col-sm-2">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedScales" name="ShowSelectedScales" />
+                    Select All
+                    <input type="checkbox" id="ScalesAll" name="selectAllScales" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <table id="tblScales" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Scale
+                                </th>
+                                <th>
+                                    Friendly Name
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Scales != null)
+                                {
+                                    for (int i = 0; i < Model.Scales.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.Scales[i].ScaleModelId)
+                                                @Html.HiddenFor(model => model.Scales[i].ScaleModelId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Scales[i].FriendlyName)
+                                                @Html.HiddenFor(model => model.Scales[i].FriendlyName)
+                                            </td>
+                                            @if (Model.Scales[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Scales[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Scales[i].Allowed, new { @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="TabDepartments" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" id="searchDepartments" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                </div>
+                <div class="col-sm-2">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedDepartments" name="ShowSelectedDepartments" />
+                    Select All
+                    <input type="checkbox" id="DepartmentsAll" name="selectAllDepartments" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <table id="tblDepartments" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    CostCentre
+                                </th>
+                                <th>
+                                    Department
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Departments != null)
+                                {
+                                    for (int i = 0; i < Model.Departments.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.Departments[i].CostCentre)
+                                                @Html.HiddenFor(model => model.Departments[i].CostCentre)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Departments[i].Description)
+                                                @Html.HiddenFor(model => model.Departments[i].Description)
+                                            </td>
+                                            @if (Model.Departments[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Departments[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Departments[i].Allowed, new { @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="TabReports" class="tab-pane fade">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" id="searchReports" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                </div>
+                <div class="col-sm-2">
+                    Show Selected
+                    <input type="checkbox" id="ShowSelectedReports" name="ShowSelectedReports" />
+                    Select All
+                    <input type="checkbox" id="ReportsAll" name="selectAllReports" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <table id="tblReports" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead class="style1">
+                            <tr>
+                                <th>
+                                    Display Name
+                                </th>
+                                <th>
+                                    Report
+                                </th>
+                                <th>
+                                    Allowed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.Reports != null)
+                                {
+                                    for (int i = 0; i < Model.Reports.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.Reports[i].DisplayName)
+                                                @Html.HiddenFor(model => model.Reports[i].DisplayName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Reports[i].Report)
+                                                @Html.HiddenFor(model => model.Reports[i].Report)
+                                                @Html.HiddenFor(model => model.Reports[i].Program)
+                                            </td>
+                                            @if (Model.Reports[i].Allowed == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Reports[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.Reports[i].Allowed, new { @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div id="errordiv">
+
+        </div>
+
+    </div>
+
+
+
+}
+<style type="text/css">
+</style>
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+    $("#tblSecurity").DataTable({
+        "ordering": false,
+        "iDisplayLength": 100
+    });
+    $(function () {
+
+
+        $("#ReqCompleted").click(function () {
+            Alert('1');
+        });
+
+
+        $("#UserForm").submit(function (e) {
+            showprogressbar();
+        });
+
+        // add multiple select / deselect functionality //Authorization
+        $("#AuthAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#AuthAll").is(":checked");
+
+            var selected;
+            $("#tblAuthorization > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+                    }
+                }
+
+            });
+
+        });
+
+        // add multiple select / deselect functionality
+        $("#BranchAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#BranchAll").is(":checked");
+
+            var selected;
+            $("#tblBranch > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+
+        $('#tblRoles').on("click", ".nr", function () {
+            var tr = $(this).closest('tr');
+            var _role = $(tr).find('td:eq(0)').text();
+            var _selected = $(tr).find('td:eq(1)').find('input[type=checkbox]').prop('checked');
+
+            $.ajax({
+                cache: false,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: "../User/GetRoleAccess",
+                data: { Role: _role },
+                success: function (data) {
+                    $.each(data, function (i, role) {
+
+                        if (role["HasAccess"] == "true") {
+                            $('#tblSecurity .nr').each(function (i, row) {
+                                $row = $(row),
+                                    $prog = $row.find('td:eq(0)').find('input[type=hidden]').val(),
+                                    $func = $row.find('td:eq(1)').find('input[type=hidden]').val(),
+                                    $allowed = $row.find('td:eq(2)').find('input[type=checkbox]').prop('checked');
+                                //alert($allowed);
+                                //alert(role["Program"] + ' - ' + role["ProgramFunction"] + ' - ' + $prog + ' - ' + $func.trim());
+                                if (role["Program"] == $prog && role["ProgramFunction"] == $func.trim()) {
+
+                                    if ($allowed == false) {
+                                        if (_selected == true) {
+                                            $row.find('td:eq(2)').find('input[type=checkbox]').prop('checked', true);
+                                        }
+                                    }
+                                    else {
+                                        if (_selected == false) {
+                                            $row.find('td:eq(2)').find('input[type=checkbox]').prop('checked', false);
+                                        }
+                                    }
+                                }
+
+                            });
+                        }
+                    });
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Failed to get role Access. " + thrownError);
+                }
+            });
+        });
+
+
+
+        $('#searchauthbranch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblAuthorization .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#searchProdClass').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblProductClass .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblBranch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#searchwh').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblWh .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#searchPrinter').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblPrinter .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#searchScales').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblScales .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+        $('#searchDepartments').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblDepartments .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+        $('#searchReports').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblReports .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+
+
+        $("#selectAllSecurity").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#selectAllSecurity").is(":checked");
+
+            var selected;
+            $("#tblSecurity > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+
+        $("#ShowSelectedBranch").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedBranch").is(":checked");
+
+            var selected;
+            $("#tblBranch > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+
+        $("#ShowSelectedCostCode").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedCostCode").is(":checked");
+            var selected;
+            $("#tblAuthorization > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+
+
+        //Show Select Buyer - Reporting
+        $("#ShowSelectedbuyer").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedbuyer").is(":checked");
+
+            var selected;
+            $("#tblBuyer > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+
+        //Select ALL - Buyer Reporting
+        $("#BuyAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#BuyAll").is(":checked");
+
+            var selected;
+            $("#tblBuyer > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+
+
+        //Search Buyers
+        $('#searchBuyer').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblBuyer .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+
+        //Show Select Buyer - Reporting
+        $("#ShowSelectedbuyerReq").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedbuyerReq").is(":checked");
+
+            var selected;
+            $("#tblBuyerReq > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+
+
+        //Select ALL - Buyer - Requisitioner Link
+        $("#BuyerReqAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#BuyerReqAll").is(":checked");
+
+            var selected;
+            $("#tblBuyerReq > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+
+        //Search Buyer-Requisitioner
+        $('#BuyerReqSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblBuyerReq .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+
+
+        // add multiple select / deselect functionality //Warehouses
+        $("#WhAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#WhAll").is(":checked");
+
+            var selected;
+            $("#tblWh > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+        $("#ShowSelectedWh").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedWh").is(":checked");
+
+            var selected;
+            $("#tblWh > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+        //Printer Access
+        $("#PrinterAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#PrinterAll").is(":checked");
+
+            var selected;
+            $("#tblPrinter > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+        $("#ShowSelectedPrinter").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedPrinter").is(":checked");
+
+            var selected;
+            $("#tblPrinter > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+        //Scales Access
+        $("#ScalesAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ScalesAll").is(":checked");
+
+            var selected;
+            $("#tblScales > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+        $("#ShowSelectedScales").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedScales").is(":checked");
+
+            var selected;
+            $("#tblScales > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+        });
+
+        //DepartmentAccess
+        $("#DepartmentsAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#DepartmentsAll").is(":checked");
+
+            var selected;
+            $("#tblDepartments > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+        $("#ShowSelectedDepartments").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedDepartments").is(":checked");
+
+            var selected;
+            $("#tblDepartments > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+        });
+
+        //ReportAccess
+        $("#ReportsAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ReportsAll").is(":checked");
+
+            var selected;
+            $("#tblReports > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+        $("#ShowSelectedReports").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedReports").is(":checked");
+
+            var selected;
+            $("#tblReports > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                    selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+        });
+    });
+</script>

@@ -1,0 +1,72 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Supplier List
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSupplierSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="SupplierResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function GetSuppliers()
+    {
+        $.getJSON('@Url.Action("SupplierList","StereoSystemAddStereo",new { FilterText = " " })', function (data) {
+            var items = '<table id="SupplierSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Supplier</th><th>SupplierName</th><th>Gl Code</th><th>Product Class</th><th>Tax Code</th><th>Taxable</th></tr>';
+            $.each(data, function (i, x) {
+                items += "<tr class='nr' id=" + x.Supplier + "  data-dismiss='modal'><td><a href=#>" + x.Supplier + "</a></td><td>" + x.SupplierName + "</td><td>" + x.GlCode + "</td><td>" + x.ProductClass + "</td><td>" + x.TaxCode + "</td><td>" + x.Taxable + "</td></tr>";
+            });
+            items += "</table>";
+            $('#SupplierResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetSuppliers();
+        $('#txtSupplierSearch').focus();
+        $('#txtSupplierSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#SupplierSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('#SupplierResults').on("click", ".nr", function () {
+            var rCode = $(this).attr('id');
+            //do something with id
+            $('#SupplierReference').val(rCode);
+            window.setTimeout(function () {
+            }, 500);
+        });
+        $('#txtSupplierSearch').focus();
+
+    });
+</script>

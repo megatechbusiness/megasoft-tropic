@@ -1,0 +1,615 @@
+﻿@model Megasoft2.ViewModel.NonStockedMaster
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <h4 style="font-weight:bold;" class="text-center">Stock Code Setup</h4><hr />
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Details</a></li>
+        @if (Model.StockedItem == "N")
+        {
+            <li class="tab"><a data-toggle="tab" href="#branch">Stock-Site</a></li>
+        }
+        else
+        {
+            <li class="tab"><a data-toggle="tab" href="#warehouse">Site-Warehouse</a></li>
+        }
+        
+        
+        <li class="tab"><a data-toggle="tab" href="#contractPrice">Contract Price</a></li>
+        <li class="pull-right">
+            <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "NonStockedMaster") + "'");">
+                <i class="fa fa-link"></i> StockCodes
+            </button>
+            @if (ViewBag.SetupStockCode == true)
+            {
+                <button type="submit" value="Save" class="btn btn-info">
+                    <i class="fa fa-save"></i> Save
+                </button>
+            }
+            
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-horizontal row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-2" style="text-align:left;">
+                                            StockCode
+                                            @Html.HiddenFor(model => model.NewStockCode)
+                                        </div>
+                                        @if (ViewBag.NewStockCode == "Y")
+                                        {
+                                            <div class="editor-field input-sm col-sm-4">
+                                                @Html.HiddenFor(model => model.StockedItem)
+                                                @Html.TextBoxFor(model => model.InvMaster.StockCode, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.StockCode)
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="editor-field input-sm col-sm-4">
+                                                @Html.HiddenFor(model => model.StockedItem)
+                                                @Html.TextBoxFor(model => model.InvMaster.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.StockCode)
+                                            </div>
+                                        }
+
+
+
+                                        <div class="control-label col-sm-2" style="text-align:left;">
+                                            Description
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-4">
+                                            @if (Model.StockedItem == "Y")
+                                            {
+                                                @Html.TextBoxFor(model => model.InvMaster.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.Description)
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.InvMaster.Description, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.Description)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="control-label col-sm-2" style="text-align:left;">
+                                            Uom
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-4">
+                                            @if (Model.StockedItem == "Y")
+                                            {
+                                                @Html.TextBoxFor(model => model.InvMaster.Uom, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.Uom)
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.InvMaster.Uom, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.Uom)
+                                            }
+                                        </div>
+
+                                        <div class="control-label col-sm-2" style="text-align:left;">
+                                            On Hold
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-4">
+                                            @if (Model.StockedItem == "Y")
+                                            {
+                                                @Html.TextBoxFor(model => model.InvMaster.OnHold, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.OnHold)
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(model => model.InvMaster.OnHold, new SelectList(ViewBag.YesNoList,"Value", "Text"), new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => model.InvMaster.OnHold)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        @if (Model.StockedItem == "N")
+                                        {
+                                            <div class="control-label col-sm-2" style="text-align:left;">
+                                                Product Class
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-4">
+                                                <div class="input-group add-on">
+
+                                                    @Html.TextBoxFor(model => model.InvMaster.Category, new { @class = "form-control input-sm", @id = "txtmtProductClass" })
+                                                    <div class="input-group-btn">
+                                                        <a href="@Url.Action("mtProductClassSearch", "NonStockedMaster")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                        }
+                                        <div class="control-label col-sm-2" style="text-align:left;">
+                                            Tax Code
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-4">
+                                            <div class="input-group add-on">
+                                                @if (Model.StockedItem == "Y")
+                                                {
+                                                    @Html.TextBoxFor(model => model.InvMaster.TaxCode, new { @class = "form-control input-sm", @id = "txtTaxCode", @readonly = "readonly" })
+                                                    <div class="input-group-btn">
+                                                        <a href="@Url.Action("AdmTaxSearch", "NonStockedMaster")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search" style="pointer-events:none;"></i></a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(model => model.InvMaster.TaxCode, new { @class = "form-control input-sm", @id = "txtTaxCode" })
+                                                    <div class="input-group-btn">
+                                                        <a href="@Url.Action("AdmTaxSearch", "NonStockedMaster")" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="branch" class="tab-pane fade in">
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        StockCode
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.InvMaster.StockCode, new { @class = "form-control input-sm", @readonly="readonly"})
+                        @Html.ValidationMessageFor(model => model.InvMaster.StockCode)
+                    </div>
+
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Description
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.InvMaster.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.InvMaster.Description)
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <table id="tblStockBranchSite" class="table table-hover table-striped table-condensed table-responsive">
+                        <tr>
+                            <th>
+                                Branch
+                            </th>
+                            <th>
+                                Site
+                            </th>
+                            <th>
+                                Site Name
+                            </th>
+                            <th>
+                                Stocked
+                            </th>
+                        </tr>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.InvBranch != null)
+                                {
+                                    var Branch = "";
+                                    for (int i = 0; i < Model.InvBranch.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td class="brapply">
+                                                @if(Branch != Model.InvBranch[i].Branch)
+                                                {
+                                                    Branch = Model.InvBranch[i].Branch;
+                                                    @Html.DisplayFor(model => model.InvBranch[i].Branch)
+                                                    <input type="checkbox" class="checkBrApply"/>
+                                                }
+                                                
+                                                @Html.HiddenFor(model => model.InvBranch[i].Branch)
+                                                @Html.HiddenFor(model => model.InvBranch[i].StockCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.InvBranch[i].Site)
+                                                @Html.HiddenFor(model => model.InvBranch[i].Site)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(model => model.InvBranch[i].SiteName)
+                                                @Html.HiddenFor(model => model.InvBranch[i].SiteName)
+                                            </td>
+
+                                            @if (Model.InvBranch[i].StockedBranch == true)
+                                            {
+                                                <td class="rowc">
+                                                    @Html.CheckBoxFor(model => model.InvBranch[i].StockedBranch, new { @checked = "checked", @class = "case", @name = "case" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="rowc">@Html.CheckBoxFor(model => model.InvBranch[i].StockedBranch, new { @class = "case", @name = "case" })</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+
+
+
+                    </table>
+                </div>
+            </div>
+
+            </div>
+
+
+
+        <div id="warehouse" class="tab-pane fade in">
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        StockCode
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.InvMaster.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.InvMaster.StockCode)
+                    </div>
+
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Description
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.InvMaster.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.InvMaster.Description)
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <table id="tblBranch" class="table table-hover table-striped table-condensed table-responsive">
+                        <tr>
+                            <th>
+                                Warehouse
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Branch-Site
+                            </th>
+                        </tr>
+                        <tbody class="datarow">
+                            @if (Model != null)
+                            {
+                                if (Model.InvWarehouse != null)
+                                {
+
+                                    for (int i = 0; i < Model.InvWarehouse.Count; i++)
+                                    {
+
+                                        <tr class="nr">
+                                            <td>
+                                                @Html.DisplayFor(model => model.InvWarehouse[i].Warehouse)
+                                                @Html.HiddenFor(model => model.InvWarehouse[i].StockCode)
+                                                @Html.HiddenFor(model => model.InvWarehouse[i].Warehouse)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.InvWarehouse[i].Description)
+                                                @Html.HiddenFor(model => model.InvWarehouse[i].Description)
+                                            </td>
+                                            <td>
+                                                <div class="input-group add-on">
+                                                    @Html.TextBoxFor(model => model.InvWarehouse[i].BranchSite, new { @class = "form-control input-sm" })
+                                                    <div class="input-group-btn">
+                                                        <a href="@Url.Action("BranchSiteSearch", "NonStockedMaster", new { ControlId = "InvWarehouse_" + i + "__BranchSite" })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                    </div>
+                                                </div>
+                                                                                                
+                                            </td>
+                                            
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div id="contractPrice" class="tab-pane fade in">
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-1" style="text-align:left;">
+                        StockCode
+                    </div>
+                    <div class="editor-field input-sm col-sm-3">
+                        @Html.TextBoxFor(model => model.InvMaster.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.InvMaster.StockCode)
+                    </div>
+
+                    <div class="control-label col-sm-1" style="text-align:left;">
+                        Description
+                    </div>
+                    <div class="editor-field input-sm col-sm-3">
+                        @Html.TextBoxFor(model => model.InvMaster.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.InvMaster.Description)
+                    </div>
+
+                    <div class="col-sm-4" style="text-align:left;">                        
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="chkApplyAll"> Apply to all
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <table id="tblContractBranch" class="table table-hover table-striped table-condensed table-responsive">
+                            <tr>
+                                <th>
+                                    Branch
+                                </th>
+                               <td>
+                                   @Html.DropDownList("ddlBranch", (SelectList)@ViewBag.Branch, "Select Branch", new { @class = "form-control input-sm" })
+                               </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-9">
+                        <table id="tblContractPrice" class="table table-hover table-striped table-condensed table-responsive">
+                            <tr>
+                                <th>
+                                    Site
+                                </th>
+                                <th>
+                                    Warehouse
+                                </th>
+                                <th>
+                                    Supplier
+                                </th>
+                                <th>
+                                    Expiry Date
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                            </tr>
+                            <tbody class="datarow">
+                                @if (Model != null)
+                                {
+                                    if (Model.Contract != null)
+                                    {
+
+                                        for (int i = 0; i < Model.Contract.Count; i++)
+                                        {
+
+                                            <tr class="nr">
+                                                <td>
+                                                    @Html.HiddenFor(model => model.Contract[i].Branch)                                                    
+                                                    @Model.Contract[i].Site - @Model.Contract[i].SiteName
+                                                </td>
+                                                <td>
+                                                    @Html.HiddenFor(model => model.Contract[i].Site)
+                                                    @Html.HiddenFor(model => model.Contract[i].SiteName)
+                                                    <div class="input-group add-on">
+                                                        @Html.TextBoxFor(model => model.Contract[i].Warehouse, new { @class = "form-control input-sm" })
+                                                        <div class="input-group-btn">
+                                                            <a href="@Url.Action("WarehouseSearch", "Requisition", new { ControlId = "Contract_" + i + "__Warehouse" })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group add-on">
+                                                        @Html.HiddenFor(model => model.Contract[i].StockCode)                                                        
+                                                        @Html.TextBoxFor(model => model.Contract[i].Supplier, new { @class = "form-control input-sm" })
+                                                        <div class="input-group-btn">
+                                                            <a href="@Url.Action("SupplierSearch", "Requisition", new { ControlId = "Contract_" + i + "__Supplier" })" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.Contract[i].ContractExpiryDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.Contract[i].ContractPrice, new { @class = "form-control input-sm" })
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+
+
+
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+
+
+}
+
+<style type="text/css">
+    .searchbox {
+        position: absolute;
+        z-index: 1000;
+        top: 20%;
+        right: 8%;
+    }
+
+    a.glyphicon-map-marker {
+        text-decoration: none !important;
+    }
+</style>
+
+
+
+@section Scripts {
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+<script type="text/javascript">
+    
+    $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+    $('#tblContractPrice .nr').each(function (i, row) {
+        $row = $(row);
+        $row.hide();
+    });
+
+    $('#ddlBranch').change(function (event) {
+        var SelectedBranch = $(this).val();
+        //alert(SelectedBranch);
+        $('#tblContractPrice .nr').each(function (i, row) {
+            $row = $(row),
+            $branch = $row.find('td:eq(0)').find('input[type=hidden]').val();
+            if (SelectedBranch == $branch)
+            {
+                $row.show();
+            }
+            else
+            {
+                $row.hide();
+            }
+        });
+    });
+
+    $("#chkApplyAll").click(function () {
+        
+        var control = $("#chkApplyAll").is(":checked");
+
+        var selected;
+        var k = 0;
+        var Warehouse, Supplier, ExpiryDate, Price;
+        $("#tblContractPrice .nr").each(function (i, row) {
+                $row = $(row),
+                $branch = $row.find('td:eq(0)').find('input[type=hidden]').val(),
+                $Warehouse = $row.find('td:eq(1)').find('input[type=text]').val();
+                $Supplier = $row.find('td:eq(2)').find('input[type=text]').val();
+                $ExpiryDate = $row.find('td:eq(3)').find('input[type=text]').val();
+                $Price = $row.find('td:eq(4)').find('input[type=text]').val();
+
+                if ($row.is(':visible')) {
+                    if (k == 0) {
+                        Warehouse = $Warehouse;
+                        Supplier = $Supplier;
+                        ExpiryDate = $ExpiryDate;
+                        Price = $Price;
+                        k++;
+                    }
+                    if (k != 0)
+                    {
+                        
+                        if (control == true)
+                        {
+                            $row.find('td:eq(1)').find('input[type=text]').val(Warehouse);
+                            $row.find('td:eq(2)').find('input[type=text]').val(Supplier);
+                            $row.find('td:eq(3)').find('input[type=text]').val(ExpiryDate);
+                            $row.find('td:eq(4)').find('input[type=text]').val(Price);
+                        }
+                        else
+                        {
+                            if (k - 1 != 0)
+                            {
+                                $row.find('td:eq(1)').find('input[type=text]').val('');
+                                $row.find('td:eq(2)').find('input[type=text]').val('');
+                                $row.find('td:eq(3)').find('input[type=text]').val('');
+                                $row.find('td:eq(4)').find('input[type=text]').val('');
+                            }
+                            
+                        }
+                        k++;
+                    }
+                }
+                
+
+         });        
+        
+    });
+
+
+    $('#tblStockBranchSite').on("click", ".checkBrApply", function () {
+        var tr = $(this).closest('tr');
+        var Branch = $(tr).find('td:eq(0)').find('input[type=hidden]').val();
+        var _selected = $(tr).find('td:eq(0)').find('input[type=checkbox]').prop('checked');
+        
+
+        $('#tblStockBranchSite .nr').each(function (i, row) {
+            $row = $(row),
+            $branch = $row.find('td:eq(0)').find('input[type=hidden]').val(),
+            $allowed = $row.find('td:eq(3)').find('input[type=checkbox]').prop('checked');
+
+            if($branch == Branch)
+            {
+                if ($allowed == false) {
+                    if (_selected == true) {
+                        $row.find('td:eq(3)').find('input[type=checkbox]').prop('checked', true);
+                    }
+                }
+                else {
+                    if (_selected == false) {
+                        $row.find('td:eq(3)').find('input[type=checkbox]').prop('checked', false);
+                    }
+                }
+            }
+        });
+    });
+  
+    </script>
+}

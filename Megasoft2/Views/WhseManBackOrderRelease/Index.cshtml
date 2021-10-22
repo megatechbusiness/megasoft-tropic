@@ -1,0 +1,134 @@
+﻿@model Megasoft2.ViewModel.WhseManBackOrderReleaseViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Back Order Release</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                    @*<a href="@Url.Action("Index", "WhseManBAck")" class="modal-link btn btn-success btn-sm">
+                                        <span class="fa fa-search" aria-hidden="true" title="Browse Purchase Orders"> Search</span>
+                                    </a>*@
+                                    Sales Order
+                                </div>
+                                <div class="editor-field col-md-2 col-xs-8" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.SalesOrder, new { @class = "form-control input-sm" })
+                                    @Html.ValidationMessageFor(model => model.SalesOrder)
+                                </div>
+                                <div class="col-md-9 col-xs-2" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Sales Order
+                                            </th>
+                                            <th>
+                                                Line
+                                            </th>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Warehouse
+                                            </th>
+                                            <th>
+                                                Uom
+                                            </th>
+                                            <th>
+                                                Order Qty
+                                            </th>
+                                            <th>
+                                                Back Order Qty
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.SoLines != null)
+                                        {
+
+                                            for (int i = 0; i < Model.SoLines.Count(); i++)
+                                            {
+
+                                                <tr>
+                                                    <td>
+                                                        <a href="@Url.Action("ReleaseLine", "WhseManBackOrderRelease", new { SalesOrder = Model.SoLines[i].SalesOrder, Line = Model.SoLines[i].SalesOrderLine })" class="btn btn-default btn-xs">
+                                                            <span class="fa fa-binoculars" aria-hidden="true" title="Review and Release"></span>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].SalesOrder)
+                                                        @Html.HiddenFor(model => model.SoLines[i].SalesOrder)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].SalesOrderLine)
+                                                        @Html.HiddenFor(model => model.SoLines[i].SalesOrderLine)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].MStockCode)
+                                                        @Html.HiddenFor(model => model.SoLines[i].MStockCode)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].MStockDes)
+                                                        @Html.HiddenFor(model => model.SoLines[i].MStockDes)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].MWarehouse)
+                                                        @Html.HiddenFor(model => model.SoLines[i].MWarehouse)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].MStockingUom)
+                                                        @Html.HiddenFor(model => model.SoLines[i].MStockingUom)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].MOrderQty)
+                                                        @Html.HiddenFor(model => model.SoLines[i].MOrderQty)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.SoLines[i].MBackOrderQty)
+                                                        @Html.HiddenFor(model => model.SoLines[i].MBackOrderQty)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}

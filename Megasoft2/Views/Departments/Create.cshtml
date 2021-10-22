@@ -1,0 +1,163 @@
+﻿@model Megasoft2.mtBranchSiteDept
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Create New Department
+            </a>
+        </h4>
+    </div>
+
+    @using (Ajax.BeginForm("Create", new AjaxOptions { HttpMethod = "POST", OnSuccess = "ShowErrorDiv" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            @if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger fade in">
+                    @Html.ValidationSummary()
+                </div>
+            }
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Branch
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm", @readonly = "readonly", @value = @ViewBag.Branch })
+                            @Html.ValidationMessageFor(model => model.Branch)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Site
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Site, new { @class = "form-control input-sm", @readonly = "readonly", @value = @ViewBag.Site })
+                            @Html.ValidationMessageFor(model => model.Site)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Department
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.DropDownListFor(model => model.Department, ViewBag.Departments as IEnumerable<SelectListItem> , new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Department)
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Department Name
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.DepartmentName, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.DepartmentName)
+                        </div>
+                    </div>
+                </div>*@
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Telephone
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Telephone)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Fax
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Fax)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Email
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="errordiv">
+
+                </div>
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    }
+</div>
+
+<script type="text/javascript">
+
+    function ShowErrorDiv(result) {
+        if (result.redirectTo) {
+            $('#errordiv').addClass("alert alert-danger");
+            $('#errordiv').html('Saved Successfully. Redirecting to Departments page....');
+            window.setTimeout(function () {
+
+                // Move to sites page
+                window.location.href = result.redirectTo;
+
+            }, 2000);
+
+        }
+        else
+        {
+            $('#errordiv').addClass("alert alert-danger");
+            $('#errordiv').html(result);
+        }
+
+
+    }
+</script>

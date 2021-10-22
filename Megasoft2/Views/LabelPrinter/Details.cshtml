@@ -1,0 +1,29 @@
+﻿@model Megasoft2.mtLabelPrinter
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>mtLabelPrinter</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PrinterName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PrinterName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PrinterPath)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PrinterPath)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

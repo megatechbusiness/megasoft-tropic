@@ -1,0 +1,74 @@
+﻿@model Megasoft2.Models.TransferIn
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;font-size:xx-small;">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="errordiv" class="col-xs-8" style="font-size:xx-small">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Warehouse
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlSource", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs" id="bin">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                GIT Ref.
+            </div>
+            <div class="editor-field col-xs-6">
+                <select id="GtrRef" class="form-control input-xs" style="font-size:xx-small;"></select>
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs" id="bin">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Barcode
+            </div>
+            <div class="editor-field col-xs-6">
+                <input type="text" class="form-control input-xs" id="txtBarcode"/>
+            </div>
+        </div>
+
+        <div class="form-horizontal row text-center col-xs-8">
+            <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
+
+            </div>
+            <a href="#" class="btn btn-primary btn-xs" onclick="PostTransferIn();" tabindex="-1">
+                <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+            </a>
+            <div class="control-label col-xs-1 pull-right" style="text-align:left;font-size:xx-small;" id="txtScanCount">
+
+            </div>
+            <div class="control-label col-xs-1 pull-right" style="text-align:left;font-size:xx-small;" >
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs col-xs-8">
+            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Line</th>
+                        <th>StockCode</th>
+                        <th>Lot</th>
+                        <th>Qty</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Content/TransferIn/TransferInByScan.js"></script>

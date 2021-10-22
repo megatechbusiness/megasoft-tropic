@@ -1,0 +1,2121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StockTakeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="InvMaster">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LongDesc" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AlternateKey1" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AlternateKey2" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EccUser" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StockUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AlternateUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OtherUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ConvFactAltUom" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ConvMulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ConvFactOthUom" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="MulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Mass" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Volume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Decimals" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="PriceCategory" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PriceMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Supplier" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CycleCount" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ProductClass" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TaxCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="OtherTaxCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="ListPriceCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SerialMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="InterfaceFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="KitType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LowLevelCode" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="Buyer" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Planner" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TraceableType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="MpsFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BulkIssueFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AbcClass" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StockMovementReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ClearingFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SupercessionDate" Type="datetime" />
+          <Property Name="AbcAnalysisReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AbcCostingReq" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CostUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MinPricePct" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="LabourCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MaterialCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="FixOverhead" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="VariableOverhead" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="PartCategory" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DrawOfficeNum" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="WarehouseToUse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="BuyingRule" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SpecificGravity" Type="decimal" Precision="6" Scale="4" Nullable="false" />
+          <Property Name="ImplosionNum" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="Ebq" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ComponentCount" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="FixTimePeriod" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="PanSize" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="DockToStock" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="OutputMassFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="Version" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Release" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="DemandTimeFence" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="MakeToOrderFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ManufLeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="GrossReqRule" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PercentageYield" Type="decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="AbcPreProd" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcManufacturing" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcSales" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcCumPreProd" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcCumManuf" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="WipCtlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="ResourceCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="GstTaxCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="PrcInclGst" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SerEntryAtSale" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StpSelection" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField1" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserField2" Type="decimal" Precision="17" Scale="5" Nullable="false" />
+          <Property Name="UserField3" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField4" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField5" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TariffCode" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="SupplementaryUnit" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="EbqPan" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StdLandedCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="LctRequired" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StdLctRoute" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="IssMultLotsFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="InclInStrValid" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StdLabCostsBill" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="PhantomIfComp" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CountryOfOrigin" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="StockOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StockOnHoldReason" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="EccFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StockAndAltUm" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AltUnitChar" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="JobsOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="JobHoldAllocs" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PurchOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SalesOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="MaintOnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BatchBill" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BlanketPoExists" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CallOffBpoExists" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DistWarehouseToUse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobClassification" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SubContractCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DateStkAdded" Type="datetime" />
+          <Property Name="InspectionFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SerialPrefix" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="SerialSuffix" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ReturnableItem" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ProductGroup" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PriceType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Basis" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ManualCostFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ManufactureUom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ConvFactMuM" Type="decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ManMulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LookAheadWin" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="LoadingFactor" Type="decimal" Precision="9" Scale="3" Nullable="false" />
+          <Property Name="SupplUnitCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="StorageSecurity" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StorageHazard" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StorageCondition" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ProductShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="InternalShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="AltMethodFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AltSisoFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="AltReductionFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="WithTaxExpenseType" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvMaster+">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Size1" Type="varchar" MaxLength="10" />
+          <Property Name="Style" Type="varchar" MaxLength="10" />
+          <Property Name="LoadingFactor" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="LookAheadWindow" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="Width" Type="decimal" Precision="8" Scale="3" />
+          <Property Name="Length" Type="decimal" Precision="8" Scale="3" />
+          <Property Name="QtyAcross" Type="decimal" Precision="3" Scale="0" />
+          <Property Name="QtyAround" Type="decimal" Precision="3" Scale="0" />
+          <Property Name="RepeatLength" Type="decimal" Precision="8" Scale="3" />
+          <Property Name="Viscosity" Type="varchar" MaxLength="10" />
+          <Property Name="Reducer" Type="varchar" MaxLength="60" />
+          <Property Name="Retarder" Type="varchar" MaxLength="60" />
+          <Property Name="MicroThickness" Type="decimal" Precision="6" Scale="3" />
+          <Property Name="Temper" Type="varchar" MaxLength="15" />
+          <Property Name="TinCoating" Type="varchar" MaxLength="10" />
+          <Property Name="Critical" Type="char" MaxLength="1" />
+          <Property Name="GenMicron" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="InvGroup1" Type="varchar" MaxLength="40" />
+          <Property Name="InvGroup3" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="InvMultBin">
+          <Key>
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Bin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="QtyOnHand1" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnHand2" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnHand3" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="LastReceiptDate" Type="datetime" />
+          <Property Name="LastIssueDate" Type="datetime" />
+          <Property Name="SoQtyToShip" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="QtyDispatched" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OnHold" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="OnHoldReason" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="InvStockTake">
+          <Key>
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Bin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OrigQtyOnHand" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyCaptured" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SaveDate" Type="datetime" />
+          <Property Name="ProductClass" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Uom" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Reference" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PrintedFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Decimals" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="NumTimesCaptured" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="CreatedBinFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SelectionCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="InvWarehouse">
+          <Key>
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="QtyOnHand" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyReceived" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyAdjusted" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyTrf" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyIssued" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtySold" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyAllocated" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnOrder" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnBackOrder" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MinimumQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MaximumQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="YtdQtySold" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="PrevYearQtySold" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpeningBalance" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="YtdUsageValue" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="AbcClass" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UnitCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DefaultBin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DateLastSale" Type="datetime" />
+          <Property Name="DateLastStockMove" Type="datetime" />
+          <Property Name="DateLastCostChange" Type="datetime" />
+          <Property Name="DateLastStockCnt" Type="datetime" />
+          <Property Name="DateLastPurchase" Type="datetime" />
+          <Property Name="QtyInTransit" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="TransferValue" Type="decimal" Precision="16" Scale="4" Nullable="false" />
+          <Property Name="SafetyStockQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ReOrderQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyAllocatedWip" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="InterfaceFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CostMultiplier" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="LastCostEntered" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MtdSalesValue" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="YtdSalesValue" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="PrevYtdSalesVal" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="QtyInInspection" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="PalletQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="NumMonthsHistory" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="YtdQtyIssued" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="RequisitionFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="SalesQty1" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty2" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty3" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty4" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty5" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty6" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty7" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty8" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty9" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty10" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty11" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty12" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="UserField1" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField2" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UserField3" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TrfSuppliedItem" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DefaultSourceWh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TrfLeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TrfCostGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="TrfCostMultiply" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="QtyDispatched" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty1" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty2" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty3" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty4" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty5" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty6" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty7" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty8" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty9" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty10" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty11" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty12" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalCost1" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost2" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost3" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost4" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost5" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost6" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost7" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost8" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost9" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost10" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost11" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost12" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AgedQty1" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty2" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty3" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty4" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty5" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty6" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="TrfReplenishWh" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="TrfBuyingRule" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TrfDockToStock" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TrfFixTimePeriod" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="LabourCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MaterialCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="FixedOverhead" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="VariableOverhead" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="StdLabCostsBill" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="SubContractCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DateWhAdded" Type="datetime" />
+          <Property Name="RmaQtyIssued" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="LastExtendedCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OrderPolicy" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="MajorOrderMult" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MinorOrderMult" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OrderMinimum" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OrderMaximum" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OrderFixPeriod" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ManualCostFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="ManufLeadTime" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TransferCost" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="ImplosionNum" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="ExcludeFromSched" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="QtyWipReserved" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Supplier" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="BoughtOutWhsLvl" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DockToStock" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvWhControl">
+          <Key>
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MtdTrnsVar" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="NextTicketNo" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="StockTakeFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="WhLdgCtlAcc" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WhVarLdg" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="TrnMonth" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="TrnYear" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="GrnLdgAcc" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="DeliveryAddr1" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr2" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr3" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr3Loc" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr4" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="DeliveryAddr5" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DeliveryGpsLat" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="DeliveryGpsLong" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="NegStockAllow" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GtrCtlAccl" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="GtrPrefix" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="GtrNextNo" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="Branch" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Area" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FaxContact" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fax" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FaxDocIwsFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GitAdjAcc" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WhForComp" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Route" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="InclPlanning" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UseMultipleBins" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CostingMethod" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="UseFifoBuckets" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PoPrefix" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PoNextNumber" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="GrnPrefix" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="GrnNextNumber" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="WipInspectGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Nationality" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="SoDefaultDoc" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="RouteCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="RouteDistance" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="WipControlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WipVarCtlGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WipAutoVarGlCode" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="SiteId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RollParentGl" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="WmsActive" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PickLeadHours" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="StockTakeUpdate" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NonStockedGl" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="CountyZip" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="City" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ShippingLocation" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="DeliveryTerms" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="UseFixedBins" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LotDetail">
+          <Key>
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Lot" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Lot" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Bin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="NextTrnLine" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="OrigQtyReceived" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnHand" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyToShip" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Version" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Release" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="ExpiryDate" Type="datetime" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="DrawOfficeNum" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="LastTrnDate" Type="datetime" />
+          <Property Name="ArchiveFilename" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="QtyInTransit" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="LotHoldFlag" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="EccDummy" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="QtyAwaitingCredit" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyReserved" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SupplierLot" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="InternalShelfLife" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="UseByDate" Type="datetime" />
+          <Property Name="SellByDate" Type="datetime" />
+          <Property Name="InternalExpiryDate" Type="datetime" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="mtStockTakeCapture">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Bin" />
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Lot" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Warehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Bin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Lot" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LotExpiry" Type="date" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="BinLocation" Type="varchar" MaxLength="20" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Version" Type="varchar" MaxLength="5" />
+          <Property Name="Release" Type="varchar" MaxLength="5" />
+          <Property Name="TicketNumber" Type="varchar" MaxLength="15" />
+          <Property Name="Uom" Type="varchar" MaxLength="10" />
+          <Property Name="CaptureDate" Type="datetime" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Reference" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="Syspro_FK_InvMultBin_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvMultBin_InvStockTake">
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="InvStockTake">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvMultBin_InvWarehouse">
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvMultBin_InvWhControl">
+          <End Role="InvWhControl" Type="Self.InvWhControl" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvMultBin">
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvWarehouse">
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvWhControl">
+          <End Role="InvWhControl" Type="Self.InvWhControl" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvWarehouse_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvWarehouse_InvWhControl">
+          <End Role="InvWhControl" Type="Self.InvWhControl" Multiplicity="1" />
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvWarehouse">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="LotDetail" Type="Self.LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvMultBin">
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="1" />
+          <End Role="LotDetail" Type="Self.LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvStockTake">
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="1" />
+          <End Role="LotDetail" Type="Self.LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvStockTake">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvWarehouse">
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="1" />
+          <End Role="LotDetail" Type="Self.LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvWhControl">
+          <End Role="InvWhControl" Type="Self.InvWhControl" Multiplicity="1" />
+          <End Role="LotDetail" Type="Self.LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_ArchiveStockTake" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteStockTakeEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetLast3Scans" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetStockTakeCaptureByWarehouse" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetStockTakeWarehouse" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_SaveStockTake" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+          <Parameter Name="Bin" Type="varchar" Mode="In" />
+          <Parameter Name="StockCode" Type="varchar" Mode="In" />
+          <Parameter Name="Lot" Type="varchar" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" Precision="18" Scale="6" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="StockTakeModelStoreContainer">
+          <EntitySet Name="InvMaster" EntityType="Self.InvMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvMaster+" EntityType="Self.InvMaster+" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvMultBin" EntityType="Self.InvMultBin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvStockTake" EntityType="Self.InvStockTake" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvWarehouse" EntityType="Self.InvWarehouse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvWhControl" EntityType="Self.InvWhControl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LotDetail" EntityType="Self.LotDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtStockTakeCapture" EntityType="Self.mtStockTakeCapture" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvMaster" Association="Self.Syspro_FK_InvMultBin_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMaster" />
+            <End Role="InvMultBin" EntitySet="InvMultBin" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvStockTake" Association="Self.Syspro_FK_InvMultBin_InvStockTake">
+            <End Role="InvStockTake" EntitySet="InvStockTake" />
+            <End Role="InvMultBin" EntitySet="InvMultBin" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvWarehouse" Association="Self.Syspro_FK_InvMultBin_InvWarehouse">
+            <End Role="InvWarehouse" EntitySet="InvWarehouse" />
+            <End Role="InvMultBin" EntitySet="InvMultBin" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvWhControl" Association="Self.Syspro_FK_InvMultBin_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControl" />
+            <End Role="InvMultBin" EntitySet="InvMultBin" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvMaster" Association="Self.Syspro_FK_InvStockTake_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMaster" />
+            <End Role="InvStockTake" EntitySet="InvStockTake" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvMultBin" Association="Self.Syspro_FK_InvStockTake_InvMultBin">
+            <End Role="InvMultBin" EntitySet="InvMultBin" />
+            <End Role="InvStockTake" EntitySet="InvStockTake" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvWarehouse" Association="Self.Syspro_FK_InvStockTake_InvWarehouse">
+            <End Role="InvWarehouse" EntitySet="InvWarehouse" />
+            <End Role="InvStockTake" EntitySet="InvStockTake" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvWhControl" Association="Self.Syspro_FK_InvStockTake_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControl" />
+            <End Role="InvStockTake" EntitySet="InvStockTake" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvWarehouse_InvMaster" Association="Self.Syspro_FK_InvWarehouse_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMaster" />
+            <End Role="InvWarehouse" EntitySet="InvWarehouse" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvWarehouse_InvWhControl" Association="Self.Syspro_FK_InvWarehouse_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControl" />
+            <End Role="InvWarehouse" EntitySet="InvWarehouse" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvMaster" Association="Self.Syspro_FK_LotDetail_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMaster" />
+            <End Role="LotDetail" EntitySet="LotDetail" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvMultBin" Association="Self.Syspro_FK_LotDetail_InvMultBin">
+            <End Role="InvMultBin" EntitySet="InvMultBin" />
+            <End Role="LotDetail" EntitySet="LotDetail" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvStockTake" Association="Self.Syspro_FK_LotDetail_InvStockTake">
+            <End Role="InvStockTake" EntitySet="InvStockTake" />
+            <End Role="LotDetail" EntitySet="LotDetail" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvWarehouse" Association="Self.Syspro_FK_LotDetail_InvWarehouse">
+            <End Role="InvWarehouse" EntitySet="InvWarehouse" />
+            <End Role="LotDetail" EntitySet="LotDetail" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvWhControl" Association="Self.Syspro_FK_LotDetail_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControl" />
+            <End Role="LotDetail" EntitySet="LotDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StockTakeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="InvMaster">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LongDesc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AlternateKey1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AlternateKey2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EccUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StockUom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AlternateUom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OtherUom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ConvFactAltUom" Type="Decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ConvMulDiv" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ConvFactOthUom" Type="Decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="MulDiv" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Mass" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Volume" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Decimals" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="PriceCategory" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PriceMethod" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Supplier" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CycleCount" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="OtherTaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ListPriceCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SerialMethod" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="InterfaceFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="KitType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LowLevelCode" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="Buyer" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Planner" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TraceableType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MpsFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BulkIssueFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AbcClass" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LeadTime" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StockMovementReq" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ClearingFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SupercessionDate" Type="DateTime" Precision="3" />
+          <Property Name="AbcAnalysisReq" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AbcCostingReq" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CostUom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MinPricePct" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="LabourCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MaterialCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="FixOverhead" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="VariableOverhead" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="PartCategory" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DrawOfficeNum" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="WarehouseToUse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BuyingRule" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SpecificGravity" Type="Decimal" Precision="6" Scale="4" Nullable="false" />
+          <Property Name="ImplosionNum" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="Ebq" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ComponentCount" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="FixTimePeriod" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="PanSize" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="DockToStock" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="OutputMassFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ShelfLife" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="Version" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Release" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DemandTimeFence" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="MakeToOrderFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ManufLeadTime" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="GrossReqRule" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PercentageYield" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="AbcPreProd" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcManufacturing" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcSales" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcCumPreProd" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AbcCumManuf" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="WipCtlGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResourceCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GstTaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PrcInclGst" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SerEntryAtSale" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StpSelection" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UserField1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserField2" Type="Decimal" Precision="17" Scale="5" Nullable="false" />
+          <Property Name="UserField3" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UserField4" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UserField5" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TariffCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SupplementaryUnit" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="EbqPan" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StdLandedCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="LctRequired" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StdLctRoute" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssMultLotsFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="InclInStrValid" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StdLabCostsBill" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="PhantomIfComp" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CountryOfOrigin" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StockOnHold" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StockOnHoldReason" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EccFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StockAndAltUm" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AltUnitChar" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="JobsOnHold" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="JobHoldAllocs" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PurchOnHold" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SalesOnHold" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MaintOnHold" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BatchBill" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BlanketPoExists" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CallOffBpoExists" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DistWarehouseToUse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JobClassification" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SubContractCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DateStkAdded" Type="DateTime" Precision="3" />
+          <Property Name="InspectionFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SerialPrefix" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SerialSuffix" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReturnableItem" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ProductGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PriceType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Basis" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ManualCostFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ManufactureUom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ConvFactMuM" Type="Decimal" Precision="12" Scale="6" Nullable="false" />
+          <Property Name="ManMulDiv" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LookAheadWin" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="LoadingFactor" Type="Decimal" Precision="9" Scale="3" Nullable="false" />
+          <Property Name="SupplUnitCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StorageSecurity" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StorageHazard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StorageCondition" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductShelfLife" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="InternalShelfLife" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="AltMethodFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AltSisoFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AltReductionFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="WithTaxExpenseType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="InvMultBins" Relationship="Self.Syspro_FK_InvMultBin_InvMaster" FromRole="InvMaster" ToRole="InvMultBin" />
+          <NavigationProperty Name="InvStockTakes" Relationship="Self.Syspro_FK_InvStockTake_InvMaster" FromRole="InvMaster" ToRole="InvStockTake" />
+          <NavigationProperty Name="InvWarehouses" Relationship="Self.Syspro_FK_InvWarehouse_InvMaster" FromRole="InvMaster" ToRole="InvWarehouse" />
+          <NavigationProperty Name="LotDetails" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvMaster" FromRole="InvMaster" ToRole="LotDetail" />
+        </EntityType>
+        <EntityType Name="InvMaster_">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Style" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LoadingFactor" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="LookAheadWindow" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Width" Type="Decimal" Precision="8" Scale="3" />
+          <Property Name="Length" Type="Decimal" Precision="8" Scale="3" />
+          <Property Name="QtyAcross" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="QtyAround" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="RepeatLength" Type="Decimal" Precision="8" Scale="3" />
+          <Property Name="Viscosity" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Reducer" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Retarder" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="MicroThickness" Type="Decimal" Precision="6" Scale="3" />
+          <Property Name="Temper" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="TinCoating" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Critical" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GenMicron" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="InvGroup1" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="InvGroup3" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="InvMultBin">
+          <Key>
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Warehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QtyOnHand1" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnHand2" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnHand3" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="LastReceiptDate" Type="DateTime" Precision="3" />
+          <Property Name="LastIssueDate" Type="DateTime" Precision="3" />
+          <Property Name="SoQtyToShip" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QtyDispatched" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OnHold" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="OnHoldReason" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="InvMaster" Relationship="Self.Syspro_FK_InvMultBin_InvMaster" FromRole="InvMultBin" ToRole="InvMaster" />
+          <NavigationProperty Name="InvStockTake" Relationship="Self.Syspro_FK_InvMultBin_InvStockTake" FromRole="InvMultBin" ToRole="InvStockTake" />
+          <NavigationProperty Name="InvWarehouse" Relationship="Self.Syspro_FK_InvMultBin_InvWarehouse" FromRole="InvMultBin" ToRole="InvWarehouse" />
+          <NavigationProperty Name="InvStockTake1" Relationship="Self.Syspro_FK_InvStockTake_InvMultBin" FromRole="InvMultBin" ToRole="InvStockTake" />
+          <NavigationProperty Name="InvWhControl" Relationship="StockTakeModel.Syspro_FK_InvMultBin_InvWhControl" FromRole="InvMultBin" ToRole="InvWhControl" />
+          <NavigationProperty Name="LotDetails" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvMultBin" FromRole="InvMultBin" ToRole="LotDetail" />
+        </EntityType>
+        <EntityType Name="InvStockTake">
+          <Key>
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="Warehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OrigQtyOnHand" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyCaptured" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SaveDate" Type="DateTime" Precision="3" />
+          <Property Name="ProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrintedFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Decimals" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="NumTimesCaptured" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="CreatedBinFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SelectionCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="InvMaster" Relationship="Self.Syspro_FK_InvStockTake_InvMaster" FromRole="InvStockTake" ToRole="InvMaster" />
+          <NavigationProperty Name="InvMultBin" Relationship="Self.Syspro_FK_InvMultBin_InvStockTake" FromRole="InvStockTake" ToRole="InvMultBin" />
+          <NavigationProperty Name="InvMultBin1" Relationship="Self.Syspro_FK_InvStockTake_InvMultBin" FromRole="InvStockTake" ToRole="InvMultBin" />
+          <NavigationProperty Name="InvWarehouse" Relationship="Self.Syspro_FK_InvStockTake_InvWarehouse" FromRole="InvStockTake" ToRole="InvWarehouse" />
+          <NavigationProperty Name="InvWhControl" Relationship="StockTakeModel.Syspro_FK_InvStockTake_InvWhControl" FromRole="InvStockTake" ToRole="InvWhControl" />
+          <NavigationProperty Name="LotDetails" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvStockTake" FromRole="InvStockTake" ToRole="LotDetail" />
+        </EntityType>
+        <EntityType Name="InvWarehouse">
+          <Key>
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Warehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QtyOnHand" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyReceived" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyAdjusted" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyTrf" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtyIssued" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MtdQtySold" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyAllocated" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnOrder" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyOnBackOrder" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MinimumQty" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MaximumQty" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="YtdQtySold" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="PrevYearQtySold" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpeningBalance" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="YtdUsageValue" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="AbcClass" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UnitCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DefaultBin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateLastSale" Type="DateTime" Precision="3" />
+          <Property Name="DateLastStockMove" Type="DateTime" Precision="3" />
+          <Property Name="DateLastCostChange" Type="DateTime" Precision="3" />
+          <Property Name="DateLastStockCnt" Type="DateTime" Precision="3" />
+          <Property Name="DateLastPurchase" Type="DateTime" Precision="3" />
+          <Property Name="QtyInTransit" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="TransferValue" Type="Decimal" Precision="16" Scale="4" Nullable="false" />
+          <Property Name="SafetyStockQty" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="ReOrderQty" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="QtyAllocatedWip" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="InterfaceFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CostMultiplier" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="LastCostEntered" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MtdSalesValue" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="YtdSalesValue" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="PrevYtdSalesVal" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="QtyInInspection" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="PalletQty" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="NumMonthsHistory" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="YtdQtyIssued" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="RequisitionFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SalesQty1" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty2" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty3" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty4" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty5" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty6" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty7" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty8" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty9" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty10" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty11" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="SalesQty12" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="UserField1" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UserField2" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UserField3" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TrfSuppliedItem" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DefaultSourceWh" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TrfLeadTime" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TrfCostGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TrfCostMultiply" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="QtyDispatched" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty1" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty2" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty3" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty4" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty5" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty6" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty7" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty8" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty9" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty10" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty11" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalQty12" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OpenBalCost1" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost2" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost3" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost4" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost5" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost6" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost7" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost8" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost9" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost10" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost11" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OpenBalCost12" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="AgedQty1" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty2" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty3" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty4" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty5" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="AgedQty6" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="TrfReplenishWh" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="TrfBuyingRule" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TrfDockToStock" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TrfFixTimePeriod" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="LabourCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="MaterialCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="FixedOverhead" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="VariableOverhead" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="StdLabCostsBill" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="SubContractCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="DateWhAdded" Type="DateTime" Precision="3" />
+          <Property Name="RmaQtyIssued" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="LastExtendedCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="OrderPolicy" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MajorOrderMult" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MinorOrderMult" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OrderMinimum" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OrderMaximum" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="OrderFixPeriod" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ManualCostFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LeadTime" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="ManufLeadTime" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TransferCost" Type="Decimal" Precision="15" Scale="5" Nullable="false" />
+          <Property Name="ImplosionNum" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="ExcludeFromSched" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="QtyWipReserved" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Supplier" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="BoughtOutWhsLvl" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DockToStock" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="InvMaster" Relationship="Self.Syspro_FK_InvWarehouse_InvMaster" FromRole="InvWarehouse" ToRole="InvMaster" />
+          <NavigationProperty Name="InvMultBins" Relationship="Self.Syspro_FK_InvMultBin_InvWarehouse" FromRole="InvWarehouse" ToRole="InvMultBin" />
+          <NavigationProperty Name="InvStockTakes" Relationship="Self.Syspro_FK_InvStockTake_InvWarehouse" FromRole="InvWarehouse" ToRole="InvStockTake" />
+          <NavigationProperty Name="InvWhControl" Relationship="StockTakeModel.Syspro_FK_InvWarehouse_InvWhControl" FromRole="InvWarehouse" ToRole="InvWhControl" />
+          <NavigationProperty Name="LotDetails" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvWarehouse" FromRole="InvWarehouse" ToRole="LotDetail" />
+        </EntityType>
+        <EntityType Name="mtStockTakeCapture">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Bin" />
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Lot" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Warehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Lot" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LotExpiry" Type="DateTime" Precision="0" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="BinLocation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Release" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="TicketNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CaptureDate" Type="DateTime" Precision="3" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reference" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="Syspro_FK_InvMultBin_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvWarehouse_InvMaster">
+          <End Role="InvMaster" Type="Self.InvMaster" Multiplicity="1" />
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvMultBin_InvStockTake">
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="InvStockTake">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvMultBin_InvWarehouse">
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="1" />
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvMultBin">
+          <End Role="InvMultBin" Type="Self.InvMultBin" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvWarehouse">
+          <End Role="InvWarehouse" Type="Self.InvWarehouse" Multiplicity="1" />
+          <End Role="InvStockTake" Type="Self.InvStockTake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StockTakeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="InvMasters" EntityType="Self.InvMaster" />
+          <EntitySet Name="InvMaster_" EntityType="Self.InvMaster_" />
+          <EntitySet Name="InvMultBins" EntityType="Self.InvMultBin" />
+          <EntitySet Name="InvStockTakes" EntityType="Self.InvStockTake" />
+          <EntitySet Name="InvWarehouses" EntityType="Self.InvWarehouse" />
+          <EntitySet Name="mtStockTakeCaptures" EntityType="Self.mtStockTakeCapture" />
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvMaster" Association="Self.Syspro_FK_InvMultBin_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMasters" />
+            <End Role="InvMultBin" EntitySet="InvMultBins" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvMaster" Association="Self.Syspro_FK_InvStockTake_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMasters" />
+            <End Role="InvStockTake" EntitySet="InvStockTakes" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvWarehouse_InvMaster" Association="Self.Syspro_FK_InvWarehouse_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMasters" />
+            <End Role="InvWarehouse" EntitySet="InvWarehouses" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvStockTake" Association="Self.Syspro_FK_InvMultBin_InvStockTake">
+            <End Role="InvStockTake" EntitySet="InvStockTakes" />
+            <End Role="InvMultBin" EntitySet="InvMultBins" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvWarehouse" Association="Self.Syspro_FK_InvMultBin_InvWarehouse">
+            <End Role="InvWarehouse" EntitySet="InvWarehouses" />
+            <End Role="InvMultBin" EntitySet="InvMultBins" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvMultBin" Association="Self.Syspro_FK_InvStockTake_InvMultBin">
+            <End Role="InvMultBin" EntitySet="InvMultBins" />
+            <End Role="InvStockTake" EntitySet="InvStockTakes" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvWarehouse" Association="Self.Syspro_FK_InvStockTake_InvWarehouse">
+            <End Role="InvWarehouse" EntitySet="InvWarehouses" />
+            <End Role="InvStockTake" EntitySet="InvStockTakes" />
+          </AssociationSet>
+          <FunctionImport Name="sp_GetLast3Scans" ReturnType="Collection(StockTakeModel.sp_GetLast3Scans_Result)">
+            <Parameter Name="Warehouse" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetStockTakeCaptureByWarehouse" ReturnType="Collection(StockTakeModel.sp_GetStockTakeCaptureByWarehouse_Result)">
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetStockTakeWarehouse" ReturnType="Collection(StockTakeModel.sp_GetStockTakeWarehouse_Result)" />
+          <EntitySet Name="InvWhControls" EntityType="StockTakeModel.InvWhControl" />
+          <EntitySet Name="LotDetails" EntityType="StockTakeModel.LotDetail" />
+          <AssociationSet Name="Syspro_FK_LotDetail_InvMaster" Association="StockTakeModel.Syspro_FK_LotDetail_InvMaster">
+            <End Role="InvMaster" EntitySet="InvMasters" />
+            <End Role="LotDetail" EntitySet="LotDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvMultBin_InvWhControl" Association="StockTakeModel.Syspro_FK_InvMultBin_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControls" />
+            <End Role="InvMultBin" EntitySet="InvMultBins" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvMultBin" Association="StockTakeModel.Syspro_FK_LotDetail_InvMultBin">
+            <End Role="InvMultBin" EntitySet="InvMultBins" />
+            <End Role="LotDetail" EntitySet="LotDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvStockTake_InvWhControl" Association="StockTakeModel.Syspro_FK_InvStockTake_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControls" />
+            <End Role="InvStockTake" EntitySet="InvStockTakes" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvStockTake" Association="StockTakeModel.Syspro_FK_LotDetail_InvStockTake">
+            <End Role="InvStockTake" EntitySet="InvStockTakes" />
+            <End Role="LotDetail" EntitySet="LotDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_InvWarehouse_InvWhControl" Association="StockTakeModel.Syspro_FK_InvWarehouse_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControls" />
+            <End Role="InvWarehouse" EntitySet="InvWarehouses" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvWarehouse" Association="StockTakeModel.Syspro_FK_LotDetail_InvWarehouse">
+            <End Role="InvWarehouse" EntitySet="InvWarehouses" />
+            <End Role="LotDetail" EntitySet="LotDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Syspro_FK_LotDetail_InvWhControl" Association="StockTakeModel.Syspro_FK_LotDetail_InvWhControl">
+            <End Role="InvWhControl" EntitySet="InvWhControls" />
+            <End Role="LotDetail" EntitySet="LotDetails" />
+          </AssociationSet>
+          <FunctionImport Name="sp_ArchiveStockTake">
+            <Parameter Name="Warehouse" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteStockTakeEntry">
+            <Parameter Name="Warehouse" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SaveStockTake">
+            <Parameter Name="Warehouse" Mode="In" Type="String" />
+            <Parameter Name="Bin" Mode="In" Type="String" />
+            <Parameter Name="StockCode" Mode="In" Type="String" />
+            <Parameter Name="Lot" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" Precision="18" Scale="6" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetLast3Scans_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_GetStockTakeCaptureByWarehouse_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Warehouse" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="LotExpiry" Nullable="true" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="String" Name="BinLocation" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="SerialNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Version" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Release" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="TicketNumber" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Uom" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="CaptureDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_GetStockTakeWarehouse_Result">
+          <Property Type="String" Name="Warehouse" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="InvWhControl">
+          <Key>
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MtdTrnsVar" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+          <Property Name="NextTicketNo" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="StockTakeFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="WhLdgCtlAcc" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WhVarLdg" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="TrnMonth" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="TrnYear" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="GrnLdgAcc" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr1" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr2" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr3" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr3Loc" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr4" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddr5" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryGpsLat" Type="Decimal" Nullable="false" Precision="8" Scale="6" />
+          <Property Name="DeliveryGpsLong" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <Property Name="NegStockAllow" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GtrCtlAccl" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="GtrPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GtrNextNo" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="Branch" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Area" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FaxContact" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FaxDocIwsFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GitAdjAcc" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WhForComp" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Route" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="InclPlanning" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UseMultipleBins" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CostingMethod" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UseFifoBuckets" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PoPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PoNextNumber" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="GrnPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GrnNextNumber" Type="Decimal" Nullable="false" Precision="15" Scale="0" />
+          <Property Name="WipInspectGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Nationality" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="SoDefaultDoc" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="RouteCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RouteDistance" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="WipControlGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WipVarCtlGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WipAutoVarGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="SiteId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RollParentGl" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="WmsActive" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PickLeadHours" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="StockTakeUpdate" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NonStockedGl" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="CountyZip" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ShippingLocation" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="DeliveryTerms" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="UseFixedBins" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="InvMultBins" Relationship="StockTakeModel.Syspro_FK_InvMultBin_InvWhControl" FromRole="InvWhControl" ToRole="InvMultBin" />
+          <NavigationProperty Name="InvStockTakes" Relationship="StockTakeModel.Syspro_FK_InvStockTake_InvWhControl" FromRole="InvWhControl" ToRole="InvStockTake" />
+          <NavigationProperty Name="InvWarehouses" Relationship="StockTakeModel.Syspro_FK_InvWarehouse_InvWhControl" FromRole="InvWhControl" ToRole="InvWarehouse" />
+          <NavigationProperty Name="LotDetails" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvWhControl" FromRole="InvWhControl" ToRole="LotDetail" />
+        </EntityType>
+        <EntityType Name="LotDetail">
+          <Key>
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+            <PropertyRef Name="Lot" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Lot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Bin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NextTrnLine" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="OrigQtyReceived" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="QtyOnHand" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="QtyToShip" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Release" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="DrawOfficeNum" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="LastTrnDate" Type="DateTime" Precision="3" />
+          <Property Name="ArchiveFilename" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="QtyInTransit" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="LotHoldFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Note" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="EccDummy" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="QtyAwaitingCredit" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="QtyReserved" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="SupplierLot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductShelfLife" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="InternalShelfLife" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="UseByDate" Type="DateTime" Precision="3" />
+          <Property Name="SellByDate" Type="DateTime" Precision="3" />
+          <Property Name="InternalExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="InvMaster" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvMaster" FromRole="LotDetail" ToRole="InvMaster" />
+          <NavigationProperty Name="InvMultBin" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvMultBin" FromRole="LotDetail" ToRole="InvMultBin" />
+          <NavigationProperty Name="InvStockTake" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvStockTake" FromRole="LotDetail" ToRole="InvStockTake" />
+          <NavigationProperty Name="InvWarehouse" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvWarehouse" FromRole="LotDetail" ToRole="InvWarehouse" />
+          <NavigationProperty Name="InvWhControl" Relationship="StockTakeModel.Syspro_FK_LotDetail_InvWhControl" FromRole="LotDetail" ToRole="InvWhControl" />
+        </EntityType>
+        <Association Name="Syspro_FK_LotDetail_InvMaster">
+          <End Type="StockTakeModel.InvMaster" Role="InvMaster" Multiplicity="1" />
+          <End Type="StockTakeModel.LotDetail" Role="LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvMultBin_InvWhControl">
+          <End Type="StockTakeModel.InvWhControl" Role="InvWhControl" Multiplicity="1" />
+          <End Type="StockTakeModel.InvMultBin" Role="InvMultBin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvMultBin">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvMultBin">
+          <End Type="StockTakeModel.InvMultBin" Role="InvMultBin" Multiplicity="1" />
+          <End Type="StockTakeModel.LotDetail" Role="LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvMultBin">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvStockTake_InvWhControl">
+          <End Type="StockTakeModel.InvWhControl" Role="InvWhControl" Multiplicity="1" />
+          <End Type="StockTakeModel.InvStockTake" Role="InvStockTake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvStockTake">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvStockTake">
+          <End Type="StockTakeModel.InvStockTake" Role="InvStockTake" Multiplicity="1" />
+          <End Type="StockTakeModel.LotDetail" Role="LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvStockTake">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="Warehouse" />
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Bin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_InvWarehouse_InvWhControl">
+          <End Type="StockTakeModel.InvWhControl" Role="InvWhControl" Multiplicity="1" />
+          <End Type="StockTakeModel.InvWarehouse" Role="InvWarehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="InvWarehouse">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvWarehouse">
+          <End Type="StockTakeModel.InvWarehouse" Role="InvWarehouse" Multiplicity="1" />
+          <End Type="StockTakeModel.LotDetail" Role="LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarehouse">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="StockCode" />
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Syspro_FK_LotDetail_InvWhControl">
+          <End Type="StockTakeModel.InvWhControl" Role="InvWhControl" Multiplicity="1" />
+          <End Type="StockTakeModel.LotDetail" Role="LotDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWhControl">
+              <PropertyRef Name="Warehouse" />
+            </Principal>
+            <Dependent Role="LotDetail">
+              <PropertyRef Name="Warehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StockTakeModelStoreContainer" CdmEntityContainer="StockTakeEntities">
+          <EntitySetMapping Name="InvMasters">
+            <EntityTypeMapping TypeName="StockTakeModel.InvMaster">
+              <MappingFragment StoreEntitySet="InvMaster">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
+                <ScalarProperty Name="AlternateKey1" ColumnName="AlternateKey1" />
+                <ScalarProperty Name="AlternateKey2" ColumnName="AlternateKey2" />
+                <ScalarProperty Name="EccUser" ColumnName="EccUser" />
+                <ScalarProperty Name="StockUom" ColumnName="StockUom" />
+                <ScalarProperty Name="AlternateUom" ColumnName="AlternateUom" />
+                <ScalarProperty Name="OtherUom" ColumnName="OtherUom" />
+                <ScalarProperty Name="ConvFactAltUom" ColumnName="ConvFactAltUom" />
+                <ScalarProperty Name="ConvMulDiv" ColumnName="ConvMulDiv" />
+                <ScalarProperty Name="ConvFactOthUom" ColumnName="ConvFactOthUom" />
+                <ScalarProperty Name="MulDiv" ColumnName="MulDiv" />
+                <ScalarProperty Name="Mass" ColumnName="Mass" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Decimals" ColumnName="Decimals" />
+                <ScalarProperty Name="PriceCategory" ColumnName="PriceCategory" />
+                <ScalarProperty Name="PriceMethod" ColumnName="PriceMethod" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="CycleCount" ColumnName="CycleCount" />
+                <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="OtherTaxCode" ColumnName="OtherTaxCode" />
+                <ScalarProperty Name="ListPriceCode" ColumnName="ListPriceCode" />
+                <ScalarProperty Name="SerialMethod" ColumnName="SerialMethod" />
+                <ScalarProperty Name="InterfaceFlag" ColumnName="InterfaceFlag" />
+                <ScalarProperty Name="KitType" ColumnName="KitType" />
+                <ScalarProperty Name="LowLevelCode" ColumnName="LowLevelCode" />
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+                <ScalarProperty Name="Planner" ColumnName="Planner" />
+                <ScalarProperty Name="TraceableType" ColumnName="TraceableType" />
+                <ScalarProperty Name="MpsFlag" ColumnName="MpsFlag" />
+                <ScalarProperty Name="BulkIssueFlag" ColumnName="BulkIssueFlag" />
+                <ScalarProperty Name="AbcClass" ColumnName="AbcClass" />
+                <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+                <ScalarProperty Name="StockMovementReq" ColumnName="StockMovementReq" />
+                <ScalarProperty Name="ClearingFlag" ColumnName="ClearingFlag" />
+                <ScalarProperty Name="SupercessionDate" ColumnName="SupercessionDate" />
+                <ScalarProperty Name="AbcAnalysisReq" ColumnName="AbcAnalysisReq" />
+                <ScalarProperty Name="AbcCostingReq" ColumnName="AbcCostingReq" />
+                <ScalarProperty Name="CostUom" ColumnName="CostUom" />
+                <ScalarProperty Name="MinPricePct" ColumnName="MinPricePct" />
+                <ScalarProperty Name="LabourCost" ColumnName="LabourCost" />
+                <ScalarProperty Name="MaterialCost" ColumnName="MaterialCost" />
+                <ScalarProperty Name="FixOverhead" ColumnName="FixOverhead" />
+                <ScalarProperty Name="VariableOverhead" ColumnName="VariableOverhead" />
+                <ScalarProperty Name="PartCategory" ColumnName="PartCategory" />
+                <ScalarProperty Name="DrawOfficeNum" ColumnName="DrawOfficeNum" />
+                <ScalarProperty Name="WarehouseToUse" ColumnName="WarehouseToUse" />
+                <ScalarProperty Name="BuyingRule" ColumnName="BuyingRule" />
+                <ScalarProperty Name="SpecificGravity" ColumnName="SpecificGravity" />
+                <ScalarProperty Name="ImplosionNum" ColumnName="ImplosionNum" />
+                <ScalarProperty Name="Ebq" ColumnName="Ebq" />
+                <ScalarProperty Name="ComponentCount" ColumnName="ComponentCount" />
+                <ScalarProperty Name="FixTimePeriod" ColumnName="FixTimePeriod" />
+                <ScalarProperty Name="PanSize" ColumnName="PanSize" />
+                <ScalarProperty Name="DockToStock" ColumnName="DockToStock" />
+                <ScalarProperty Name="OutputMassFlag" ColumnName="OutputMassFlag" />
+                <ScalarProperty Name="ShelfLife" ColumnName="ShelfLife" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="DemandTimeFence" ColumnName="DemandTimeFence" />
+                <ScalarProperty Name="MakeToOrderFlag" ColumnName="MakeToOrderFlag" />
+                <ScalarProperty Name="ManufLeadTime" ColumnName="ManufLeadTime" />
+                <ScalarProperty Name="GrossReqRule" ColumnName="GrossReqRule" />
+                <ScalarProperty Name="PercentageYield" ColumnName="PercentageYield" />
+                <ScalarProperty Name="AbcPreProd" ColumnName="AbcPreProd" />
+                <ScalarProperty Name="AbcManufacturing" ColumnName="AbcManufacturing" />
+                <ScalarProperty Name="AbcSales" ColumnName="AbcSales" />
+                <ScalarProperty Name="AbcCumPreProd" ColumnName="AbcCumPreProd" />
+                <ScalarProperty Name="AbcCumManuf" ColumnName="AbcCumManuf" />
+                <ScalarProperty Name="WipCtlGlCode" ColumnName="WipCtlGlCode" />
+                <ScalarProperty Name="ResourceCode" ColumnName="ResourceCode" />
+                <ScalarProperty Name="GstTaxCode" ColumnName="GstTaxCode" />
+                <ScalarProperty Name="PrcInclGst" ColumnName="PrcInclGst" />
+                <ScalarProperty Name="SerEntryAtSale" ColumnName="SerEntryAtSale" />
+                <ScalarProperty Name="StpSelection" ColumnName="StpSelection" />
+                <ScalarProperty Name="UserField1" ColumnName="UserField1" />
+                <ScalarProperty Name="UserField2" ColumnName="UserField2" />
+                <ScalarProperty Name="UserField3" ColumnName="UserField3" />
+                <ScalarProperty Name="UserField4" ColumnName="UserField4" />
+                <ScalarProperty Name="UserField5" ColumnName="UserField5" />
+                <ScalarProperty Name="TariffCode" ColumnName="TariffCode" />
+                <ScalarProperty Name="SupplementaryUnit" ColumnName="SupplementaryUnit" />
+                <ScalarProperty Name="EbqPan" ColumnName="EbqPan" />
+                <ScalarProperty Name="StdLandedCost" ColumnName="StdLandedCost" />
+                <ScalarProperty Name="LctRequired" ColumnName="LctRequired" />
+                <ScalarProperty Name="StdLctRoute" ColumnName="StdLctRoute" />
+                <ScalarProperty Name="IssMultLotsFlag" ColumnName="IssMultLotsFlag" />
+                <ScalarProperty Name="InclInStrValid" ColumnName="InclInStrValid" />
+                <ScalarProperty Name="StdLabCostsBill" ColumnName="StdLabCostsBill" />
+                <ScalarProperty Name="PhantomIfComp" ColumnName="PhantomIfComp" />
+                <ScalarProperty Name="CountryOfOrigin" ColumnName="CountryOfOrigin" />
+                <ScalarProperty Name="StockOnHold" ColumnName="StockOnHold" />
+                <ScalarProperty Name="StockOnHoldReason" ColumnName="StockOnHoldReason" />
+                <ScalarProperty Name="EccFlag" ColumnName="EccFlag" />
+                <ScalarProperty Name="StockAndAltUm" ColumnName="StockAndAltUm" />
+                <ScalarProperty Name="AltUnitChar" ColumnName="AltUnitChar" />
+                <ScalarProperty Name="JobsOnHold" ColumnName="JobsOnHold" />
+                <ScalarProperty Name="JobHoldAllocs" ColumnName="JobHoldAllocs" />
+                <ScalarProperty Name="PurchOnHold" ColumnName="PurchOnHold" />
+                <ScalarProperty Name="SalesOnHold" ColumnName="SalesOnHold" />
+                <ScalarProperty Name="MaintOnHold" ColumnName="MaintOnHold" />
+                <ScalarProperty Name="BatchBill" ColumnName="BatchBill" />
+                <ScalarProperty Name="BlanketPoExists" ColumnName="BlanketPoExists" />
+                <ScalarProperty Name="CallOffBpoExists" ColumnName="CallOffBpoExists" />
+                <ScalarProperty Name="DistWarehouseToUse" ColumnName="DistWarehouseToUse" />
+                <ScalarProperty Name="JobClassification" ColumnName="JobClassification" />
+                <ScalarProperty Name="SubContractCost" ColumnName="SubContractCost" />
+                <ScalarProperty Name="DateStkAdded" ColumnName="DateStkAdded" />
+                <ScalarProperty Name="InspectionFlag" ColumnName="InspectionFlag" />
+                <ScalarProperty Name="SerialPrefix" ColumnName="SerialPrefix" />
+                <ScalarProperty Name="SerialSuffix" ColumnName="SerialSuffix" />
+                <ScalarProperty Name="ReturnableItem" ColumnName="ReturnableItem" />
+                <ScalarProperty Name="ProductGroup" ColumnName="ProductGroup" />
+                <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="Basis" ColumnName="Basis" />
+                <ScalarProperty Name="ManualCostFlag" ColumnName="ManualCostFlag" />
+                <ScalarProperty Name="ManufactureUom" ColumnName="ManufactureUom" />
+                <ScalarProperty Name="ConvFactMuM" ColumnName="ConvFactMuM" />
+                <ScalarProperty Name="ManMulDiv" ColumnName="ManMulDiv" />
+                <ScalarProperty Name="LookAheadWin" ColumnName="LookAheadWin" />
+                <ScalarProperty Name="LoadingFactor" ColumnName="LoadingFactor" />
+                <ScalarProperty Name="SupplUnitCode" ColumnName="SupplUnitCode" />
+                <ScalarProperty Name="StorageSecurity" ColumnName="StorageSecurity" />
+                <ScalarProperty Name="StorageHazard" ColumnName="StorageHazard" />
+                <ScalarProperty Name="StorageCondition" ColumnName="StorageCondition" />
+                <ScalarProperty Name="ProductShelfLife" ColumnName="ProductShelfLife" />
+                <ScalarProperty Name="InternalShelfLife" ColumnName="InternalShelfLife" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="AltMethodFlag" ColumnName="AltMethodFlag" />
+                <ScalarProperty Name="AltSisoFlag" ColumnName="AltSisoFlag" />
+                <ScalarProperty Name="AltReductionFlag" ColumnName="AltReductionFlag" />
+                <ScalarProperty Name="WithTaxExpenseType" ColumnName="WithTaxExpenseType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvMaster_">
+            <EntityTypeMapping TypeName="StockTakeModel.InvMaster_">
+              <MappingFragment StoreEntitySet="InvMaster+">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Size1" ColumnName="Size1" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="LoadingFactor" ColumnName="LoadingFactor" />
+                <ScalarProperty Name="LookAheadWindow" ColumnName="LookAheadWindow" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="QtyAcross" ColumnName="QtyAcross" />
+                <ScalarProperty Name="QtyAround" ColumnName="QtyAround" />
+                <ScalarProperty Name="RepeatLength" ColumnName="RepeatLength" />
+                <ScalarProperty Name="Viscosity" ColumnName="Viscosity" />
+                <ScalarProperty Name="Reducer" ColumnName="Reducer" />
+                <ScalarProperty Name="Retarder" ColumnName="Retarder" />
+                <ScalarProperty Name="MicroThickness" ColumnName="MicroThickness" />
+                <ScalarProperty Name="Temper" ColumnName="Temper" />
+                <ScalarProperty Name="TinCoating" ColumnName="TinCoating" />
+                <ScalarProperty Name="Critical" ColumnName="Critical" />
+                <ScalarProperty Name="GenMicron" ColumnName="GenMicron" />
+                <ScalarProperty Name="InvGroup1" ColumnName="InvGroup1" />
+                <ScalarProperty Name="InvGroup3" ColumnName="InvGroup3" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvMultBins">
+            <EntityTypeMapping TypeName="StockTakeModel.InvMultBin">
+              <MappingFragment StoreEntitySet="InvMultBin">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="QtyOnHand1" ColumnName="QtyOnHand1" />
+                <ScalarProperty Name="QtyOnHand2" ColumnName="QtyOnHand2" />
+                <ScalarProperty Name="QtyOnHand3" ColumnName="QtyOnHand3" />
+                <ScalarProperty Name="LastReceiptDate" ColumnName="LastReceiptDate" />
+                <ScalarProperty Name="LastIssueDate" ColumnName="LastIssueDate" />
+                <ScalarProperty Name="SoQtyToShip" ColumnName="SoQtyToShip" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="QtyDispatched" ColumnName="QtyDispatched" />
+                <ScalarProperty Name="OnHold" ColumnName="OnHold" />
+                <ScalarProperty Name="OnHoldReason" ColumnName="OnHoldReason" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvStockTakes">
+            <EntityTypeMapping TypeName="StockTakeModel.InvStockTake">
+              <MappingFragment StoreEntitySet="InvStockTake">
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="OrigQtyOnHand" ColumnName="OrigQtyOnHand" />
+                <ScalarProperty Name="QtyCaptured" ColumnName="QtyCaptured" />
+                <ScalarProperty Name="SaveDate" ColumnName="SaveDate" />
+                <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
+                <ScalarProperty Name="Uom" ColumnName="Uom" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="PrintedFlag" ColumnName="PrintedFlag" />
+                <ScalarProperty Name="Decimals" ColumnName="Decimals" />
+                <ScalarProperty Name="NumTimesCaptured" ColumnName="NumTimesCaptured" />
+                <ScalarProperty Name="CreatedBinFlag" ColumnName="CreatedBinFlag" />
+                <ScalarProperty Name="SelectionCost" ColumnName="SelectionCost" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvWarehouses">
+            <EntityTypeMapping TypeName="StockTakeModel.InvWarehouse">
+              <MappingFragment StoreEntitySet="InvWarehouse">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="QtyOnHand" ColumnName="QtyOnHand" />
+                <ScalarProperty Name="MtdQtyReceived" ColumnName="MtdQtyReceived" />
+                <ScalarProperty Name="MtdQtyAdjusted" ColumnName="MtdQtyAdjusted" />
+                <ScalarProperty Name="MtdQtyTrf" ColumnName="MtdQtyTrf" />
+                <ScalarProperty Name="MtdQtyIssued" ColumnName="MtdQtyIssued" />
+                <ScalarProperty Name="MtdQtySold" ColumnName="MtdQtySold" />
+                <ScalarProperty Name="QtyAllocated" ColumnName="QtyAllocated" />
+                <ScalarProperty Name="QtyOnOrder" ColumnName="QtyOnOrder" />
+                <ScalarProperty Name="QtyOnBackOrder" ColumnName="QtyOnBackOrder" />
+                <ScalarProperty Name="MinimumQty" ColumnName="MinimumQty" />
+                <ScalarProperty Name="MaximumQty" ColumnName="MaximumQty" />
+                <ScalarProperty Name="YtdQtySold" ColumnName="YtdQtySold" />
+                <ScalarProperty Name="PrevYearQtySold" ColumnName="PrevYearQtySold" />
+                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+                <ScalarProperty Name="YtdUsageValue" ColumnName="YtdUsageValue" />
+                <ScalarProperty Name="AbcClass" ColumnName="AbcClass" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="DefaultBin" ColumnName="DefaultBin" />
+                <ScalarProperty Name="DateLastSale" ColumnName="DateLastSale" />
+                <ScalarProperty Name="DateLastStockMove" ColumnName="DateLastStockMove" />
+                <ScalarProperty Name="DateLastCostChange" ColumnName="DateLastCostChange" />
+                <ScalarProperty Name="DateLastStockCnt" ColumnName="DateLastStockCnt" />
+                <ScalarProperty Name="DateLastPurchase" ColumnName="DateLastPurchase" />
+                <ScalarProperty Name="QtyInTransit" ColumnName="QtyInTransit" />
+                <ScalarProperty Name="TransferValue" ColumnName="TransferValue" />
+                <ScalarProperty Name="SafetyStockQty" ColumnName="SafetyStockQty" />
+                <ScalarProperty Name="ReOrderQty" ColumnName="ReOrderQty" />
+                <ScalarProperty Name="QtyAllocatedWip" ColumnName="QtyAllocatedWip" />
+                <ScalarProperty Name="InterfaceFlag" ColumnName="InterfaceFlag" />
+                <ScalarProperty Name="CostMultiplier" ColumnName="CostMultiplier" />
+                <ScalarProperty Name="LastCostEntered" ColumnName="LastCostEntered" />
+                <ScalarProperty Name="MtdSalesValue" ColumnName="MtdSalesValue" />
+                <ScalarProperty Name="YtdSalesValue" ColumnName="YtdSalesValue" />
+                <ScalarProperty Name="PrevYtdSalesVal" ColumnName="PrevYtdSalesVal" />
+                <ScalarProperty Name="QtyInInspection" ColumnName="QtyInInspection" />
+                <ScalarProperty Name="PalletQty" ColumnName="PalletQty" />
+                <ScalarProperty Name="NumMonthsHistory" ColumnName="NumMonthsHistory" />
+                <ScalarProperty Name="YtdQtyIssued" ColumnName="YtdQtyIssued" />
+                <ScalarProperty Name="RequisitionFlag" ColumnName="RequisitionFlag" />
+                <ScalarProperty Name="SalesQty1" ColumnName="SalesQty1" />
+                <ScalarProperty Name="SalesQty2" ColumnName="SalesQty2" />
+                <ScalarProperty Name="SalesQty3" ColumnName="SalesQty3" />
+                <ScalarProperty Name="SalesQty4" ColumnName="SalesQty4" />
+                <ScalarProperty Name="SalesQty5" ColumnName="SalesQty5" />
+                <ScalarProperty Name="SalesQty6" ColumnName="SalesQty6" />
+                <ScalarProperty Name="SalesQty7" ColumnName="SalesQty7" />
+                <ScalarProperty Name="SalesQty8" ColumnName="SalesQty8" />
+                <ScalarProperty Name="SalesQty9" ColumnName="SalesQty9" />
+                <ScalarProperty Name="SalesQty10" ColumnName="SalesQty10" />
+                <ScalarProperty Name="SalesQty11" ColumnName="SalesQty11" />
+                <ScalarProperty Name="SalesQty12" ColumnName="SalesQty12" />
+                <ScalarProperty Name="UserField1" ColumnName="UserField1" />
+                <ScalarProperty Name="UserField2" ColumnName="UserField2" />
+                <ScalarProperty Name="UserField3" ColumnName="UserField3" />
+                <ScalarProperty Name="TrfSuppliedItem" ColumnName="TrfSuppliedItem" />
+                <ScalarProperty Name="DefaultSourceWh" ColumnName="DefaultSourceWh" />
+                <ScalarProperty Name="TrfLeadTime" ColumnName="TrfLeadTime" />
+                <ScalarProperty Name="TrfCostGlCode" ColumnName="TrfCostGlCode" />
+                <ScalarProperty Name="TrfCostMultiply" ColumnName="TrfCostMultiply" />
+                <ScalarProperty Name="QtyDispatched" ColumnName="QtyDispatched" />
+                <ScalarProperty Name="OpenBalQty1" ColumnName="OpenBalQty1" />
+                <ScalarProperty Name="OpenBalQty2" ColumnName="OpenBalQty2" />
+                <ScalarProperty Name="OpenBalQty3" ColumnName="OpenBalQty3" />
+                <ScalarProperty Name="OpenBalQty4" ColumnName="OpenBalQty4" />
+                <ScalarProperty Name="OpenBalQty5" ColumnName="OpenBalQty5" />
+                <ScalarProperty Name="OpenBalQty6" ColumnName="OpenBalQty6" />
+                <ScalarProperty Name="OpenBalQty7" ColumnName="OpenBalQty7" />
+                <ScalarProperty Name="OpenBalQty8" ColumnName="OpenBalQty8" />
+                <ScalarProperty Name="OpenBalQty9" ColumnName="OpenBalQty9" />
+                <ScalarProperty Name="OpenBalQty10" ColumnName="OpenBalQty10" />
+                <ScalarProperty Name="OpenBalQty11" ColumnName="OpenBalQty11" />
+                <ScalarProperty Name="OpenBalQty12" ColumnName="OpenBalQty12" />
+                <ScalarProperty Name="OpenBalCost1" ColumnName="OpenBalCost1" />
+                <ScalarProperty Name="OpenBalCost2" ColumnName="OpenBalCost2" />
+                <ScalarProperty Name="OpenBalCost3" ColumnName="OpenBalCost3" />
+                <ScalarProperty Name="OpenBalCost4" ColumnName="OpenBalCost4" />
+                <ScalarProperty Name="OpenBalCost5" ColumnName="OpenBalCost5" />
+                <ScalarProperty Name="OpenBalCost6" ColumnName="OpenBalCost6" />
+                <ScalarProperty Name="OpenBalCost7" ColumnName="OpenBalCost7" />
+                <ScalarProperty Name="OpenBalCost8" ColumnName="OpenBalCost8" />
+                <ScalarProperty Name="OpenBalCost9" ColumnName="OpenBalCost9" />
+                <ScalarProperty Name="OpenBalCost10" ColumnName="OpenBalCost10" />
+                <ScalarProperty Name="OpenBalCost11" ColumnName="OpenBalCost11" />
+                <ScalarProperty Name="OpenBalCost12" ColumnName="OpenBalCost12" />
+                <ScalarProperty Name="AgedQty1" ColumnName="AgedQty1" />
+                <ScalarProperty Name="AgedQty2" ColumnName="AgedQty2" />
+                <ScalarProperty Name="AgedQty3" ColumnName="AgedQty3" />
+                <ScalarProperty Name="AgedQty4" ColumnName="AgedQty4" />
+                <ScalarProperty Name="AgedQty5" ColumnName="AgedQty5" />
+                <ScalarProperty Name="AgedQty6" ColumnName="AgedQty6" />
+                <ScalarProperty Name="TrfReplenishWh" ColumnName="TrfReplenishWh" />
+                <ScalarProperty Name="TrfBuyingRule" ColumnName="TrfBuyingRule" />
+                <ScalarProperty Name="TrfDockToStock" ColumnName="TrfDockToStock" />
+                <ScalarProperty Name="TrfFixTimePeriod" ColumnName="TrfFixTimePeriod" />
+                <ScalarProperty Name="LabourCost" ColumnName="LabourCost" />
+                <ScalarProperty Name="MaterialCost" ColumnName="MaterialCost" />
+                <ScalarProperty Name="FixedOverhead" ColumnName="FixedOverhead" />
+                <ScalarProperty Name="VariableOverhead" ColumnName="VariableOverhead" />
+                <ScalarProperty Name="StdLabCostsBill" ColumnName="StdLabCostsBill" />
+                <ScalarProperty Name="SubContractCost" ColumnName="SubContractCost" />
+                <ScalarProperty Name="DateWhAdded" ColumnName="DateWhAdded" />
+                <ScalarProperty Name="RmaQtyIssued" ColumnName="RmaQtyIssued" />
+                <ScalarProperty Name="LastExtendedCost" ColumnName="LastExtendedCost" />
+                <ScalarProperty Name="OrderPolicy" ColumnName="OrderPolicy" />
+                <ScalarProperty Name="MajorOrderMult" ColumnName="MajorOrderMult" />
+                <ScalarProperty Name="MinorOrderMult" ColumnName="MinorOrderMult" />
+                <ScalarProperty Name="OrderMinimum" ColumnName="OrderMinimum" />
+                <ScalarProperty Name="OrderMaximum" ColumnName="OrderMaximum" />
+                <ScalarProperty Name="OrderFixPeriod" ColumnName="OrderFixPeriod" />
+                <ScalarProperty Name="ManualCostFlag" ColumnName="ManualCostFlag" />
+                <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+                <ScalarProperty Name="ManufLeadTime" ColumnName="ManufLeadTime" />
+                <ScalarProperty Name="TransferCost" ColumnName="TransferCost" />
+                <ScalarProperty Name="ImplosionNum" ColumnName="ImplosionNum" />
+                <ScalarProperty Name="ExcludeFromSched" ColumnName="ExcludeFromSched" />
+                <ScalarProperty Name="QtyWipReserved" ColumnName="QtyWipReserved" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="BoughtOutWhsLvl" ColumnName="BoughtOutWhsLvl" />
+                <ScalarProperty Name="DockToStock" ColumnName="DockToStock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtStockTakeCaptures">
+            <EntityTypeMapping TypeName="StockTakeModel.mtStockTakeCapture">
+              <MappingFragment StoreEntitySet="mtStockTakeCapture">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="LotExpiry" ColumnName="LotExpiry" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="BinLocation" ColumnName="BinLocation" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="Uom" ColumnName="Uom" />
+                <ScalarProperty Name="CaptureDate" ColumnName="CaptureDate" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetLast3Scans" FunctionName="StockTakeModel.Store.sp_GetLast3Scans">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StockTakeModel.sp_GetLast3Scans_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetStockTakeCaptureByWarehouse" FunctionName="StockTakeModel.Store.sp_GetStockTakeCaptureByWarehouse">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StockTakeModel.sp_GetStockTakeCaptureByWarehouse_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="LotExpiry" ColumnName="LotExpiry" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="BinLocation" ColumnName="BinLocation" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="Uom" ColumnName="Uom" />
+                <ScalarProperty Name="CaptureDate" ColumnName="CaptureDate" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetStockTakeWarehouse" FunctionName="StockTakeModel.Store.sp_GetStockTakeWarehouse">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StockTakeModel.sp_GetStockTakeWarehouse_Result">
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="InvWhControls">
+            <EntityTypeMapping TypeName="StockTakeModel.InvWhControl">
+              <MappingFragment StoreEntitySet="InvWhControl">
+                <ScalarProperty Name="UseFixedBins" ColumnName="UseFixedBins" />
+                <ScalarProperty Name="DeliveryTerms" ColumnName="DeliveryTerms" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ShippingLocation" ColumnName="ShippingLocation" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountyZip" ColumnName="CountyZip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="NonStockedGl" ColumnName="NonStockedGl" />
+                <ScalarProperty Name="StockTakeUpdate" ColumnName="StockTakeUpdate" />
+                <ScalarProperty Name="PickLeadHours" ColumnName="PickLeadHours" />
+                <ScalarProperty Name="WmsActive" ColumnName="WmsActive" />
+                <ScalarProperty Name="RollParentGl" ColumnName="RollParentGl" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="WipAutoVarGlCode" ColumnName="WipAutoVarGlCode" />
+                <ScalarProperty Name="WipVarCtlGlCode" ColumnName="WipVarCtlGlCode" />
+                <ScalarProperty Name="WipControlGlCode" ColumnName="WipControlGlCode" />
+                <ScalarProperty Name="RouteDistance" ColumnName="RouteDistance" />
+                <ScalarProperty Name="RouteCode" ColumnName="RouteCode" />
+                <ScalarProperty Name="SoDefaultDoc" ColumnName="SoDefaultDoc" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="WipInspectGlCode" ColumnName="WipInspectGlCode" />
+                <ScalarProperty Name="GrnNextNumber" ColumnName="GrnNextNumber" />
+                <ScalarProperty Name="GrnPrefix" ColumnName="GrnPrefix" />
+                <ScalarProperty Name="PoNextNumber" ColumnName="PoNextNumber" />
+                <ScalarProperty Name="PoPrefix" ColumnName="PoPrefix" />
+                <ScalarProperty Name="UseFifoBuckets" ColumnName="UseFifoBuckets" />
+                <ScalarProperty Name="CostingMethod" ColumnName="CostingMethod" />
+                <ScalarProperty Name="UseMultipleBins" ColumnName="UseMultipleBins" />
+                <ScalarProperty Name="InclPlanning" ColumnName="InclPlanning" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="WhForComp" ColumnName="WhForComp" />
+                <ScalarProperty Name="GitAdjAcc" ColumnName="GitAdjAcc" />
+                <ScalarProperty Name="FaxDocIwsFlag" ColumnName="FaxDocIwsFlag" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="FaxContact" ColumnName="FaxContact" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="GtrNextNo" ColumnName="GtrNextNo" />
+                <ScalarProperty Name="GtrPrefix" ColumnName="GtrPrefix" />
+                <ScalarProperty Name="GtrCtlAccl" ColumnName="GtrCtlAccl" />
+                <ScalarProperty Name="NegStockAllow" ColumnName="NegStockAllow" />
+                <ScalarProperty Name="DeliveryGpsLong" ColumnName="DeliveryGpsLong" />
+                <ScalarProperty Name="DeliveryGpsLat" ColumnName="DeliveryGpsLat" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="DeliveryAddr5" ColumnName="DeliveryAddr5" />
+                <ScalarProperty Name="DeliveryAddr4" ColumnName="DeliveryAddr4" />
+                <ScalarProperty Name="DeliveryAddr3Loc" ColumnName="DeliveryAddr3Loc" />
+                <ScalarProperty Name="DeliveryAddr3" ColumnName="DeliveryAddr3" />
+                <ScalarProperty Name="DeliveryAddr2" ColumnName="DeliveryAddr2" />
+                <ScalarProperty Name="DeliveryAddr1" ColumnName="DeliveryAddr1" />
+                <ScalarProperty Name="GrnLdgAcc" ColumnName="GrnLdgAcc" />
+                <ScalarProperty Name="TrnYear" ColumnName="TrnYear" />
+                <ScalarProperty Name="TrnMonth" ColumnName="TrnMonth" />
+                <ScalarProperty Name="WhVarLdg" ColumnName="WhVarLdg" />
+                <ScalarProperty Name="WhLdgCtlAcc" ColumnName="WhLdgCtlAcc" />
+                <ScalarProperty Name="StockTakeFlag" ColumnName="StockTakeFlag" />
+                <ScalarProperty Name="NextTicketNo" ColumnName="NextTicketNo" />
+                <ScalarProperty Name="MtdTrnsVar" ColumnName="MtdTrnsVar" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LotDetails">
+            <EntityTypeMapping TypeName="StockTakeModel.LotDetail">
+              <MappingFragment StoreEntitySet="LotDetail">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="InternalExpiryDate" ColumnName="InternalExpiryDate" />
+                <ScalarProperty Name="SellByDate" ColumnName="SellByDate" />
+                <ScalarProperty Name="UseByDate" ColumnName="UseByDate" />
+                <ScalarProperty Name="InternalShelfLife" ColumnName="InternalShelfLife" />
+                <ScalarProperty Name="ProductShelfLife" ColumnName="ProductShelfLife" />
+                <ScalarProperty Name="SupplierLot" ColumnName="SupplierLot" />
+                <ScalarProperty Name="QtyReserved" ColumnName="QtyReserved" />
+                <ScalarProperty Name="QtyAwaitingCredit" ColumnName="QtyAwaitingCredit" />
+                <ScalarProperty Name="EccDummy" ColumnName="EccDummy" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="LotHoldFlag" ColumnName="LotHoldFlag" />
+                <ScalarProperty Name="QtyInTransit" ColumnName="QtyInTransit" />
+                <ScalarProperty Name="ArchiveFilename" ColumnName="ArchiveFilename" />
+                <ScalarProperty Name="LastTrnDate" ColumnName="LastTrnDate" />
+                <ScalarProperty Name="DrawOfficeNum" ColumnName="DrawOfficeNum" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="QtyToShip" ColumnName="QtyToShip" />
+                <ScalarProperty Name="QtyOnHand" ColumnName="QtyOnHand" />
+                <ScalarProperty Name="OrigQtyReceived" ColumnName="OrigQtyReceived" />
+                <ScalarProperty Name="NextTrnLine" ColumnName="NextTrnLine" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ArchiveStockTake" FunctionName="StockTakeModel.Store.sp_ArchiveStockTake" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteStockTakeEntry" FunctionName="StockTakeModel.Store.sp_DeleteStockTakeEntry" />
+          <FunctionImportMapping FunctionImportName="sp_SaveStockTake" FunctionName="StockTakeModel.Store.sp_SaveStockTake" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,90 @@
+﻿@model Megasoft2.Models.PalletAudit
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*//Pallet Audit*@
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;font-size:xx-small;">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="errordiv" class="col-xs-8" style="font-size:xx-small">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Ware_Hse.
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="Bin">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Bin
+            </div>
+            <div class="editor-field col-xs-5">
+                @Html.TextBoxFor(model => model.Bin, new { @class = "form-control input-xs", @id = "txtBin", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.Bin)
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                StockCode
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-xs", @id = "txtStockCode", @style = "font-size:xx-small;" })
+                @Html.ValidationMessageFor(model => model.StockCode)
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Lot
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.Lot, new { @class = "form-control input-xs", @id = "txtLot", @style = "font-size:xx-small;", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Lot)
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Quantity
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-xs", @id = "txtQuantity", @style = "font-size:xx-small;", @readonly="readonly" })
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+        </div>
+        <div class="form-horizontal row text-center col-xs-8">
+            <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
+
+            </div>
+            <a href="#" class="btn btn-primary btn-xs" onclick="SavePalletAudit();" id="btnPost">
+                <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+            </a>
+
+        </div>
+        <div class="form-horizontal row spacer-xs col-xs-8">
+            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                <thead>
+                    <tr>
+                        <th class="nowrap" style="display:none">ID</th>
+                        <th>StockCode</th>
+                        <th>Bin</th>
+                        <th>Lot</th>
+                        <th>Qty</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>
+
+
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Content/PalletAudit/PalletAudit.js"></script>

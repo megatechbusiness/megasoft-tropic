@@ -1,0 +1,700 @@
+﻿@model Megasoft2.ViewModel.TransportSystemWaybillEntryViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h4 style="font-weight:bold;" class="text-center">Transport System - Waybill Entry</h4><hr />
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmTransportMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-12">
+            <a href="@Url.Action("Index", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info pull-right right"><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+            @if (ViewBag.IsValidTrackId)
+            {
+                if (Model != null)
+                {
+                    if (Model.PrintPdf != null)
+                    {
+                        <a href="@Model.PrintPdf.FilePath" target="_blank" class="btn btn-default btn-sm pull-right right">
+                            <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PrintPdf.FileName</span></span>
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
+                    }
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
+                }
+
+            }
+        </div>
+
+
+    </div>
+
+    if (!ViewBag.IsValidTrackId)
+    {
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Track Id
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.TrackId, new { @class = "form-control input-sm" })
+                    <div class="input-group-btn">
+                        <a href="@Url.Action("TrackIdSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnTransporter"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                        <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadTrackId" value="LoadTrackId">
+                            <span class="fa fa-arrow-circle-o-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Transporter
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Transporter, new { @class = "form-control input-sm", @id = "txtTransporter", @readonly = "readonly" })
+                    <div class="input-group-btn">
+                        @*<button type="button" class="btn btn-info btn-sm modal-link searchbox" id="btnLoad" onclick="@("window.location.href='" + @Url.Action("TransporterSearch", "TransportSystemWaybillEntry") + "'");">
+                                <span class="fa fa-search"></span>
+                            </button>*@
+                        <a href="@Url.Action("TransporterSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnTransporter"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Vehicle Reg. No.
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.RegNo, new { @class = "form-control input-sm", @id = "VehicleReg", @style = "text-transform:uppercase" })
+                    <div class="input-group-btn">
+                        <a href="@Url.Action("VehicleRegSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnVehilceReg"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Driver
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Driver, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Track Id
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.TrackId, new { @class = "form-control input-sm", @readonly = "readonly" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadTrackId" value="LoadTrackId" disabled>
+                            <span class="fa fa-arrow-circle-o-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Transporter
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Transporter, new { @class = "form-control input-sm", @id = "txtTransporter", @readonly = "readonly" })
+                    <div class="input-group-btn">
+                        @*<button type="button" class="btn btn-info btn-sm modal-link searchbox" id="btnLoad" onclick="@("window.location.href='" + @Url.Action("TransporterSearch", "TransportSystemWaybillEntry") + "'");">
+                                <span class="fa fa-search"></span>
+                            </button>*@
+                        <a href="@Url.Action("TransporterSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnTransporter"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Vehicle Reg. No.
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.RegNo, new { @class = "form-control input-sm", @id = "VehicleReg" })
+                    <div class="input-group-btn">
+                        <a href="@Url.Action("VehicleRegSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnVehilceReg"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Driver
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Driver, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    }
+
+    <hr />
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Waybill No.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Waybill, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        @*<div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Customer
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm" })
+                </div>
+            </div>*@
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Customer
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm", @id = "Customer", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("CustomerSearch", "TransportSystemWaybillEntry")" class="modal-link btn btn-sm btn-info searchbox " id="btnCustomer"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Dispatch Note
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.DispatchNote, new { @class = "form-control input-sm" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("DispatchNoteSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox" id="btnDispatchNote"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Line
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DispatchNoteLine, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Province
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Province, new { @class = "form-control input-sm", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("ProvinceSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnProvince"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Town
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Town, new { @class = "form-control input-sm", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("TownSearch", "TransportSystemWaybillEntry")" class="btn btn-sm btn-info  modal-link searchbox " id="btnTown"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                StockCode
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Description
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.StockDesc, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Dispatch Qty.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DispatchQty, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Dispatch Uom.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DispatchUom, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Load Qty.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.LoadQty, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Load Uom.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.LoadUom, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                No. of Pallets
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Pallets, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            @*<div class="form-group col-sm-4">
+                    Weight (Kgs)
+                </div>
+                <div class="form-group col-sm-8">
+                    @Html.TextBoxFor(model => model.Weight, new { @class = "form-control input-sm" })
+                </div>*@
+            @Html.HiddenFor(model => model.Weight)
+        </div>
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Delivery Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "datepicker datepicker-inline form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-6">
+                Waybill Return
+            </div>
+            <div class="form-group col-sm-6">
+                @Html.CheckBoxFor(model => model.WaybillReturn, new { @class = "", @id = "WaybillReturn" })
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-6">
+            <div class="form-group col-sm-2">
+                Notes
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextAreaFor(model => model.Notes, new { @class = "form-control", @rows = "3", @maxlength = "200" })
+            </div>
+
+
+
+
+
+            <div class="form-group col-sm-2">
+                <button type="submit" class="btn btn-default btn-sm pull-right" id="btnSave" name="action:SaveWaybill" value="SaveWaybill">
+                    <i class="fa fa-save"> Save</i>
+                </button>
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+
+            @if (ViewBag.CanSavePOD == true)
+            {
+                <div class="form-group col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Proof of delivery</div>
+                        <div class="panel-body">
+
+
+                            <div class="form-horizontal row spacer-xs">
+                                <div class="form-group col-sm-12">
+                                    <div class="form-group col-sm-4">
+                                        POD Date
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextBoxFor(model => model.PODDate, new { @class = "datepicker datepicker-inline form-control input-sm" })
+                                    </div>
+
+
+                                    <div class="form-group col-sm-4">
+                                        Comment
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                        @Html.TextAreaFor(model => model.PODComment, new { @class = "form-control", @rows = "3", @maxlength = "200" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.PODDate)
+                @Html.HiddenFor(model => model.PODComment)
+            }
+        </div>
+    </div>
+
+
+
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group" id="Detail">
+
+            <table class="tblDetail table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblDetail" style="table-layout:fixed;">
+                <thead class="style1" tabindex="-1">
+                    <tr>
+                        <th style="width:50px"></th>
+                        <th style="width:100px">
+                            Waybill
+                        </th>
+                        <th style="width:150px">
+                            Dispatch Note
+                        </th>
+                        <th style="width:50px">
+                            Line
+                        </th>
+                        <th style="width:150px">
+                            Customer
+                        </th>
+                        <th style="width:100px">
+                            Province
+                        </th>
+                        <th style="width:150px">
+                            Town
+                        </th>
+                        <th style="width:150px">
+                            StockCode
+                        </th>
+                        <th style="width:300px">
+                            Description
+                        </th>
+                        <th style="width:150px">
+                            Dispatch Qty
+                        </th>
+                        <th style="width:100px">
+                            Dispatch Uom
+                        </th>
+                        <th style="width:100px">
+                            Load Qty
+                        </th>
+                        <th style="width:100px">
+                            Load Uom
+                        </th>
+                        <th style="width:100px">
+                            Pallets
+                        </th>
+                        <th style="width:150px">
+                            Weight
+                        </th>
+                        <th>
+                            Delivery Daye
+                        </th>
+                        <th>
+                            Waybill Return
+                        </th>
+                        <th></th>
+                        <th>POD Date</th>
+                        <th>POD Comment</th>
+                    </tr>
+
+                </thead>
+                <tbody class="datarow">
+                    @if (Model != null)
+                    {
+                        if (Model.Detail != null)
+                        {
+                            for (int i = 0; i < Model.Detail.Count; i++)
+                            {
+
+                                <tr class="nr">
+                                    <td>
+                                        <a href="@Url.Action("DeleteWaybill", new { TrackId = Model.TrackId, Waybill = Model.Detail[i].Waybill, DispatchNote = Model.Detail[i].DispatchNote, DispatchNoteLine = Model.Detail[i].DispatchNoteLine })" class="btn btn-danger btn-sm">
+                                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="editLine">
+                                            @Html.DisplayFor(modelItem => Model.Detail[i].Waybill)
+                                        </a>
+                                        @Html.HiddenFor(model => Model.Detail[i].Waybill)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].DispatchNote
+                                        @Html.HiddenFor(model => Model.Detail[i].DispatchNote)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].DispatchNoteLine
+                                        @Html.HiddenFor(model => Model.Detail[i].DispatchNoteLine)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].Customer
+                                        @Html.HiddenFor(model => Model.Detail[i].Customer)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].Province
+                                        @Html.HiddenFor(model => Model.Detail[i].Province)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].Town
+                                        @Html.HiddenFor(model => Model.Detail[i].Town)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].StockCode
+                                        @Html.HiddenFor(model => Model.Detail[i].StockCode)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].StockDesc
+                                        @Html.HiddenFor(model => Model.Detail[i].StockDesc)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].DispatchQty
+                                        @Html.HiddenFor(model => Model.Detail[i].DispatchQty)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].DispatchUom
+                                        @Html.HiddenFor(model => Model.Detail[i].DispatchUom)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].LoadQty
+                                        @Html.HiddenFor(model => Model.Detail[i].LoadQty)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].LoadUom
+                                        @Html.HiddenFor(model => Model.Detail[i].LoadUom)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].Pallets
+                                        @Html.HiddenFor(model => Model.Detail[i].Pallets)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].Weight
+                                        @Html.HiddenFor(model => Model.Detail[i].Weight)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].DeliveryDate
+                                        @Html.HiddenFor(model => Model.Detail[i].DeliveryDate)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].WaybillReturn
+                                        @Html.HiddenFor(model => Model.Detail[i].WaybillReturn)
+                                    </td>
+                                    <td>@Html.HiddenFor(model => Model.Detail[i].Notes)</td>
+                                    <td>
+                                        @Model.Detail[i].PODDate
+                                        @Html.HiddenFor(model => Model.Detail[i].PODDate)
+                                    </td>
+                                    <td>
+                                        @Model.Detail[i].PODComment
+                                        @Html.HiddenFor(model => Model.Detail[i].PODComment)
+                                    </td>
+                                </tr>
+
+
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+<style type="text/css">
+    .nowrap {
+        white-space: nowrap;
+    }
+
+    .hr {
+        padding: 0px;
+        margin: 0px;
+    }
+</style>
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+
+    <script type="text/javascript">
+        $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+        $(document).ready(function () {
+
+
+
+
+            if ($('#TrackId').val() != "") {
+                $('#Waybill').focus();
+            }
+
+
+            $('#tblDetail').on("click", ".nr", function () {
+                var tr = $(this).closest('tr');
+                $('#Waybill').val($(tr).find('td:eq(1)').text().trim());
+                $('#DispatchNote').val($(tr).find('td:eq(2)').text().trim());
+                $('#DispatchNoteLine').val($(tr).find('td:eq(3)').text().trim());
+                $('#Customer').val($(tr).find('td:eq(4)').text().trim());
+                $('#Province').val($(tr).find('td:eq(5)').text().trim());
+                $('#Town').val($(tr).find('td:eq(6)').text().trim());
+                $('#StockCode').val($(tr).find('td:eq(7)').text().trim());
+                $('#StockDesc').val($(tr).find('td:eq(8)').text().trim());
+                $('#DispatchQty').val($(tr).find('td:eq(9)').text().trim());
+                $('#DispatchUom').val($(tr).find('td:eq(10)').text().trim());
+                $('#LoadQty').val($(tr).find('td:eq(11)').text().trim());
+                $('#LoadUom').val($(tr).find('td:eq(12)').text().trim());
+                $('#Pallets').val($(tr).find('td:eq(13)').text().trim());
+                $('#Weight').val($(tr).find('td:eq(14)').text().trim());
+                $('#DeliveryDate').val($(tr).find('td:eq(15)').text().trim());
+                //$('#WaybillReturn').val($(tr).find('td:eq(16)').text().trim());
+                $('#Notes').val($(tr).find('td:eq(17)').find('input[type=hidden]').val().trim());
+                var WaybillReturn = $(tr).find('td:eq(16)').text().trim();
+
+                if (WaybillReturn == "True") {
+                    $('#WaybillReturn').prop('checked', true);
+                    $(tr).find('td:eq(16)').find('input[type=hidden]').val("True");
+                }
+                else {
+                    $('#WaybillReturn').prop('checked', false);
+                    $(tr).find('td:eq(16)').find('input[type=hidden]').val("False");
+                }
+
+                var PODDate = $(tr).find('td:eq(18)').find('input[type=hidden]').val().trim();
+                var PODComment = $(tr).find('td:eq(19)').find('input[type=hidden]').val().trim();
+                $('#PODDate').val(PODDate);
+                $('#PODComment').val(PODComment);
+            });
+
+            $('#btnSave').on("click", function () {
+
+                if ($('#txtTransporter').val() == "") {
+                    alert('Please select a Transporter!');
+                    return false;
+                }
+
+                if ($('#VehicleReg').val() == "") {
+                    alert('Please select a Vehicle!');
+                    return false;
+                }
+
+
+
+                if ($('#Driver').val() == "") {
+                    alert('Please enter the drivers name!');
+                    return false;
+                }
+
+
+                if ($('#Waybill').val() == "") {
+                    alert('Please enter a Waybill Number!');
+                    return false;
+                }
+
+                if ($('#DispatchNote').val() == "") {
+                    alert('Please select a Dispatch Note!');
+                    return false;
+                }
+
+                if ($('#Province').val() == "") {
+                    alert('Please enter a Province!');
+                    return false;
+                }
+
+                if ($('#Town').val() == "") {
+                    alert('Please enter a Town!');
+                    return false;
+                }
+
+                if ($('#LoadQty').val() == "") {
+                    alert('Please enter a Load Qty!');
+                    return false;
+                }
+
+                if ($('#LoadUom').val() == "") {
+                    alert('Please enter a Load Uom!');
+                    return false;
+                }
+
+                if ($('#Pallets').val() == "") {
+                    alert('Please enter a the number of pallets!');
+                    return false;
+                }
+
+                //if ($('#Weight').val() == "") {
+                //    alert('Please enter a weight!');
+                //    return false;
+                //}
+
+
+
+                var result = confirm("Are you sure you want to Save?");
+                if (result) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+
+
+            $("#frmTransportMain").submit(function (e) {
+                showprogressbar();
+            });
+
+
+
+        });
+    </script>
+}

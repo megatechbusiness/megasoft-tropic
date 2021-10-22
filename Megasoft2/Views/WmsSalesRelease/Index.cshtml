@@ -1,0 +1,273 @@
+﻿@model Megasoft2.ViewModel.WmsSalesReleaseViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+        <fieldset>
+
+            @*<div class="panel panel-default">
+        <div class="panel-body">*@
+            <div class="bs-example">
+                <div class="panel panel-primary">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading" style="max-height: 52px;">
+                        <div class="row">
+                            &nbsp&nbsp
+                            <div class="btn-group btn-breadcrumb">
+                                <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                                <a href="@Url.Action("Index", "WmsSalesRelease")" class="btn btn-default">Sales Release</a>
+
+
+                            </div>
+
+                            <div class="pull-right">
+                                <a href="@Url.Action("ReviewCriteria", "WmsSalesRelease")" class="modal-link btn btn-default">
+                                    <i class="fa fa-refresh"></i> Change Criteria
+                                </a>
+                                <button type="submit" class="btn btn-success" id="btnReview" name="action:SaveRelease" value="SaveRelease">
+                                    <i class="fa fa-save"> Save</i>
+                                </button>
+                                &nbsp;&nbsp;
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal row">
+                                <div class="row">
+                                    @*<div class="col-lg-3">
+                                        <div class="">
+                                            
+                                            <table class="table table-bordered table-condensed table-responsive table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sales Order</th>
+                                                        <th>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.SalesOrderSelection, "All") All
+                                                            </label>
+                                                        </th>
+                                                        <th>
+
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.SalesOrderSelection, "Single") Single
+                                                            </label>
+                                                        </td>
+                                                        <td>@Html.TextBoxFor(model => model.SalesOrder, "", new { @class = "form-control input-sm", @placeholder = "Sales Order" }) </td>
+                                                    </tr>
+                                                    <tr>
+                                                    <tr>
+                                                        <th>Stock Code</th>
+                                                        <th>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.StockCodeSelection, "All") All
+                                                            </label>
+                                                        </th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.StockCodeSelection, "Single") Single
+                                                            </label>
+                                                        </td>
+                                                        <td>@Html.TextBoxFor(model => model.StockCode, "", new { @class = "form-control input-sm", @placeholder = "Stock Code" })</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Ship Date</th>
+                                                        <th>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.ShipDateSelection, "All") All
+                                                            </label>
+                                                        </th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.ShipDateSelection, "Single") Single
+                                                            </label>
+                                                        </td>
+                                                        <td>@Html.TextBoxFor(model => model.StartShipDate, "", new { @class = "form-control input-sm", @placeholder = "Start Ship Date" }) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <label class="form-control input-sm">
+                                                                @Html.RadioButtonFor(model => model.ShipDateSelection, "Range") Range
+                                                            </label>
+                                                        </td>
+                                                        <td>@Html.TextBoxFor(model => model.EndShipDate, "", new { @class = "form-control input-sm", @placeholder = "End Ship Date" }) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" class="text-right">
+                                                            <button type="submit" class="btn btn-success btn-sm" id="btnReview" name="action:Review" value="Review">
+                                                                <i class="fa fa-arrow-right"> Load</i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>*@
+                                    <div class="col-lg-12">
+                                        @*Grid goes here*@
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblOrders">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Sales Order
+                                                        </th>
+                                                        <th>
+                                                            Line
+                                                        </th>
+                                                        <th>
+                                                            StockCode
+                                                        </th>
+                                                        <th>
+                                                            Description
+                                                        </th>
+                                                        <th>
+                                                            Warehouse
+                                                        </th>
+                                                        <th>
+                                                            Uom
+                                                        </th>
+                                                        <th>Ship Date</th>
+                                                        <th>
+                                                            Order Qty.
+                                                        </th>
+                                                        <th>
+                                                            Back Order Qty.
+                                                        </th>
+                                                        <th>
+                                                            Picking Qty.
+                                                        </th>
+                                                        <th>
+                                                            Release Qty.
+                                                        </th>
+                                                        <th>
+                                                            Comment
+                                                        </th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        if (Model.OrderLines != null)
+                                                        {
+
+                                                            for (int i = 0; i < Model.OrderLines.Count(); i++)
+                                                            {
+
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].SalesOrder)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].SalesOrder)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].TraceableType)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].WmsId)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].SalesOrderLine)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].SalesOrderLine)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].MStockCode)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MStockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].MStockDes)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MStockDes)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].MWarehouse)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MWarehouse)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].MStockingUom)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MStockingUom)
+                                                        </td>
+                                                        <td style="width:100px">
+                                                            @Convert.ToDateTime(Model.OrderLines[i].MLineShipDate).ToString("yyyy-MM-dd")
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MLineShipDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].MOrderQty)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MOrderQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].MBackOrderQty)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].MBackOrderQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.OrderLines[i].PickingQty)
+                                                            @Html.HiddenFor(model => model.OrderLines[i].PickingQty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.OrderLines[i].ReleaseQty, new { @class = "form-control input-xs" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.OrderLines[i].Comment, new { @class = "form-control input-xs", @maxchar = "200" })
+                                                        </td>
+                                                    </tr>
+                                                            }
+                                                        }
+                                                    }
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+}
+
+    <link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+
+    <script type="text/javascript">
+        $("#tblOrders").DataTable({
+            "ordering": false,
+            "iDisplayLength": 100,
+            "fixedHeader": true,
+            "scrollY": 500,
+            "responsive": true,
+            "paging": false
+            
+        });
+    </script>

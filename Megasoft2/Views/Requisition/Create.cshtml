@@ -1,0 +1,484 @@
+﻿@model Megasoft2.ViewModel.RequisitionViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmCreate" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "Requisition")" class="btn btn-default">Requisitions</a>
+                            @if (!string.IsNullOrWhiteSpace(Model.Header.Requisition))
+                            {
+                                <a href="@Url.Action("Create", "Requisition", new { Requisition = Model.Header.Requisition })" class="btn btn-default">@Model.Header.Requisition</a>
+                            }
+
+
+                        </div>
+
+                        <div class="pull-right">
+
+                            <div class="col-lg-12 text-right">
+                                @*<input type="submit" value="re-post" class="btn btn-default btn-sm" name="action:RePost" id="btnPost" />
+                                    &nbsp; &nbsp;
+                                    <input type="submit" value="Clear Errors" class="btn btn-danger btn-sm" name="action:ClearError" id="btnClear" />*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-6">
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12">
+                                    <a href="@Url.Action("Index", "Requisition")" class="btn btn-default btn-sm">
+                                        <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back to requisition list"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Back</span></span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requisition</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.Requisition, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Branch</label>
+                                <div class="input-group add-on col-md-8">
+                                    @*@if (string.IsNullOrWhiteSpace(Model.Header.Requisition))
+                                    {*@
+                                        @Html.DropDownListFor(model => model.Header.Branch, new SelectList(ViewBag.BranchList, "Branch", "Description"), new { @class = "form-control input-sm" })
+                                    @*}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.Header.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    }*@
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Cost Centre</label>
+                                <div class="input-group add-on col-md-8">
+                                    @*@if (string.IsNullOrWhiteSpace(Model.Header.Requisition))
+                                    {*@
+                                        @Html.DropDownListFor(model => model.Header.CostCentre, new SelectList(ViewBag.CostCentreList, "Value", "Text"), new { @class = "form-control input-sm" })
+                                    @*}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.Header.CostCentre, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    }*@
+
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requisition Date</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.DateReqnRaised, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Originator</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.Originator, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Holder</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.Holder, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                            @if (Model.Header.ReqnStatus == "R")
+                            {
+                                <div class="form-horizontal row spacer">
+                                    <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Approved By</label>
+                                    <div class="input-group add-on col-md-8">
+                                        @Html.TextBoxFor(model => model.Header.ApprovedBy, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                        @* @{ var Address = ViewBag.CanChangeAddress ? (object)new { @class = "form-control input-sm" } : (object)new { @class = "form-control input-sm", @readonly = "readonly" }; }*@
+                        <div class="col-md-6">
+
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12">
+                                    <a href="#" class="btn btn-default btn-sm">
+                                        <span class="fa fa-truck" aria-hidden="true" title="Deliver to"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Deliver To:</span></span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Purchase Category</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.PurchaseCategory, new { @class = "form-control input-sm" })
+                                    <div class="input-group-btn">
+                                        <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="PurCat"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requested By 1</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.RequestedBy1, new { @class = "form-control input-sm" })
+                                    <div class="input-group-btn">
+                                        <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Requ1"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requested By 2</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.RequestedBy2, new { @class = "form-control input-sm" })
+                                    <div class="input-group-btn">
+                                        <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Requ2"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requested By 3</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.RequestedBy3, new { @class = "form-control input-sm" })
+                                    <div class="input-group-btn">
+                                        <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Requ3"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Purchase Department</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.PurchDepartment, new { @class = "form-control input-sm" })
+                                    <div class="input-group-btn">
+                                        <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Dep01"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="form-horizontal row spacer">
+                                    <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requested By 3</label>
+                                    <div class="input-group add-on col-md-8">
+                                        @Html.TextBoxFor(model => model.RequestedBy3, new { @class = "form-control input-sm" })
+                                        <div class="input-group-btn">
+                                            <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Requ3"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+
+
+
+                            <div class="form-horizontal row spacer">
+                                <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Total (ZAR)</label>
+                                <div class="input-group add-on col-md-8">
+                                    @Html.TextBoxFor(model => model.Header.ReqnValue, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-2">
+                            @if (ViewBag.CanMaintainReq == true)
+                            {
+                                <input type="submit" value="Add Line" class="btn btn-default btn-sm" name="action:AddLine" />
+                            }
+
+                        </div>
+                        <div class="col-md-10 text-right">
+                            <a href="@Url.Action("Comments", "Requisition", new { Requisition = @Model.Header.Requisition })" id="btnComments" class="modal-link btn btn-default btn-sm">
+                                <span class="fa fa-comments-o" aria-hidden="true" title="Comments"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Comments</span></span>
+                            </a>
+                            @*<a href="@Url.Action("AttachQuotes", "Requisition", new { Requisition = @Model.Header.Requisition })" class="btn btn-default btn-sm">
+                                    <span class="fa fa-paperclip" aria-hidden="true" title="Quotes"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Quotes</span></span>
+                                </a>*@
+
+
+                            @if (ViewBag.CanRoute == true)
+                            {
+
+                                <a id="btnRoute" href="@Url.Action("RequisitionRouting", "Requisition", new { Requisition = @Model.Header.Requisition })" class="modal-link btn btn-primary btn-sm">
+                                    <span class="fa fa-envelope-square" aria-hidden="true" title="Route"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Route</span></span>
+                                </a>
+
+                            }
+
+                            @if (ViewBag.CanRoute == false)
+                            {
+                                if (ViewBag.CanAlternateRoute == true)
+                                {
+                                    <a id="btnRoute" href="@Url.Action("RequisitionAltRouting", "Requisition", new { Requisition = @Model.Header.Requisition })" class="modal-link btn btn-primary btn-sm">
+                                        <span class="fa fa-envelope-square" aria-hidden="true" title="Route"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Route</span></span>
+                                    </a>
+                                }
+                            }
+
+
+                            @if (Model != null)
+                            {
+                                if (!string.IsNullOrWhiteSpace(Model.Header.Requisition))
+                                {
+                                    <button type="submit" class="btn btn-primary btn-sm" name="action:PostHeaderCustomForms" id="btnSave">
+                                        <i class="fa fa-save"></i> Save
+                                    </button>
+                                }
+                            }
+
+
+                            @if (Model.Header.ApprovedBy == Model.Header.Holder)
+                            {
+                                @*<a href="@Url.Action("RequisitionApproval", "Requisition", new { Requisition = @Model.Header.Requisition, TrnType = "C" })" class="modal-link btn btn-warning btn-sm">
+                                        <span class="fa fa-close" aria-hidden="true" title="Clear approval"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Clear</span></span>
+                                    </a>*@
+                            }
+
+                            @if (ViewBag.CanApprove == true)
+                            {
+
+                                <a href="@Url.Action("RequisitionApproval", "Requisition", new { Requisition = @Model.Header.Requisition, TrnType = "A" })" class="modal-link btn btn-success btn-sm">
+                                    <span class="fa fa-check-circle-o" aria-hidden="true" title="Approve"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Approve</span></span>
+                                </a>
+
+
+
+
+                            }
+
+                            @if (ViewBag.CanCreatePo == true)
+                            {
+
+
+
+
+                                <button type="submit" class="btn btn-success btn-sm" name="action:PostPo" id="btnPo">
+                                    <i class="fa fa-shopping-cart"></i> Create P/O
+                                </button>
+
+                            }
+
+
+
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-condensed table-bordered table-striped table-responsive display nowrap" id="tblLines">
+                            <thead class="">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Image
+                                    </th>
+
+                                    <th>
+                                        StockCode
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Uom
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Supplier
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        SupCatalogueNum
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                    <th>
+                                        Warehouse
+                                    </th>
+                                    <th>
+                                        GL Code
+                                    </th>
+                                    <th>
+                                        Job
+                                    </th>
+                                    <th>
+                                        Product Class
+                                    </th>
+                                    <th>
+                                        Tax Code
+                                    </th>
+                                    <th>Due Date</th>
+                                    <th>
+                                        Purchase History
+                                    </th>
+                                    <th>
+                                        Quantity On Hand
+                                    </th>
+
+                                    <th>
+                                        % Variance
+                                    </th>
+                                    <th>Comments</th>
+                                    <th>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            @if (Model.Lines != null)
+                            {
+                                foreach (var line in Model.Lines)
+                                {
+                                    <tr>
+                                        @if (ViewBag.CanMaintainReq == true)
+                                        {
+                                            <td><a href="@Url.Action("ChangeLine", new { Requisition = @Model.Header.Requisition, Line = @line.Line })">@line.Line</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td><a href="@Url.Action("ChangeLine", new { Requisition = @Model.Header.Requisition, Line = @line.Line })" style="pointer-events:none;">@line.Line</a></td>
+                                        }
+                                        <td>
+                                            <a href="@Url.Action("ImageSearch", new {StockCode=line.StockCode })" class="modal-link btn btn-info btn-xs text-center" style="background-color: lightslategrey;"><span class="fa fa-image"></span></a>
+                                        </td>
+                                        <td>@line.StockCode</td>
+                                        <td>@line.StockDescription</td>
+                                        <td>@line.OrderUom</td>
+                                        <td>@string.Format("{0: # #00.00}", line.OrderQty)</td>
+                                        <td>@line.Supplier</td>
+                                        <td>@line.SupplierName</td>
+                                        <td>@line.SupCatalogueNum</td>
+                                        <td>@string.Format("{0: # #00.00}", line.Price)</td>
+                                        <td>@line.Warehouse</td>
+                                        <td>@line.GlCode</td>
+                                        <td>@line.Job</td>
+                                        <td>@line.ProductClass</td>
+                                        <td>@line.TaxCode</td>
+                                        <td>@line.DueDate.Value.Year-@line.DueDate.Value.Month-@line.DueDate.Value.Day</td>
+                                        <td>
+                                            <a href="@Url.Action("PurchaseHistory", new {StockCode=line.StockCode })" class="modal-link btn btn-info btn-xs text-center" style="background-color: lightslategrey;"><span class="fa fa-history"></span></a>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("QuantityOnHand", new {StockCode=line.StockCode })" class="modal-link btn btn-info btn-xs text-center" style="background-color: lightslategrey;"><span class="fa fa-history"></span></a>
+                                        </td>
+
+                                        <td>
+                                            @line.PriceRecieved
+                                        </td>
+
+                                        <td>
+                                            @line.ReasonForReqn
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.CanMaintainReq == true)
+                                            {
+                                                <a href="@Url.Action("CancelReq", "Requisition", new { Requisition = @Model.Header.Requisition, Line = @line.Line })" class="modal-link btn btn-danger btn-xs">
+                                                    <span class="fa fa-trash-o" aria-hidden="true" title="Delete Line"></span>
+                                                </a>
+
+                                            }
+
+                                        </td>
+                                    </tr>
+
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+
+<style type="text/css">
+</style>
+
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+
+<script type="text/javascript">
+    $("#tblLines").DataTable({
+        "ordering": false,
+        "iDisplayLength": 100,
+        "fixedHeader": false,
+        "scrollY": 200,
+        "scrollX": true,
+        "responsive": true,
+        "paging": false,
+        "class": "dt-nowrap",
+        "searching": false,
+        "fixedColumns": {
+            "leftColumns": 4
+        }
+
+    });
+
+
+    $(document).ready(function () {
+        $('#btnRoute').on("click", function () {
+            var CanRoute = true;
+            $('#tblLines tbody tr').each(function () {
+                $tr = $(this).closest('tr');
+
+
+                //if (parseFloat($('td', $tr).eq(7).html()) == 0) {
+                //    alert("Price is zero for 1 or more lines. Cannot Route requisition.");
+                //    CanRoute = false;
+                //}
+
+                if ($('td', $tr).eq(5).html().trim() == "") {
+                    alert("Supplier not entered for 1 or more lines. Cannot Route requisition.");
+                    CanRoute = false;
+                }
+
+            });
+
+            return CanRoute;
+        });
+    });
+</script>

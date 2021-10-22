@@ -1,0 +1,62 @@
+﻿@model Megasoft2.mtDepartment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Delete
+            </a>
+        </h4>
+    </div>
+
+    <h3>Are you sure you want to delete this?</h3>
+    <fieldset>
+        <div class="panel-body">
+            @if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger fade in">
+                    @Html.ValidationSummary()
+                </div>
+            }
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-4" style="text-align:left;">
+                        Department
+                    </div>
+                    <div class="editor-field input-sm col-sm-8">
+                        @Html.TextBoxFor(model => model.Department, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Department)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal row">
+
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <button type="submit" value="Delete" class="btn btn-info">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </div>
+                <div class="col-sm-6" style="text-align:right;">
+                    <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                        <i class="fa fa-close"></i> Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+   
+    }
+</div>

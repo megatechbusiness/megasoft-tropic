@@ -1,0 +1,208 @@
+﻿@model Megasoft2.ViewModel.WhseManDeliveryFileViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @id = "import" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <fieldset>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 class="text-center" style="font-weight:bold;">Purchase Order Delivery Import</h4><hr />
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="editor-field col-md-3 col-xs-8" style="text-align:left;">
+                                    <input type="file" name="file" class="form-control input-sm" />
+                                </div>
+                                <div class="col-md-9 col-xs-2" style="text-align:left;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:Index" value="Index">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+
+                                    <button type="submit" class="btn btn-success btn-sm pull-right" id="btnSave" value="SaveFile" name="action:SaveFile">
+                                        <i class="fa fa-save"> Save</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    Delivery Note
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                    PurchaseOrder
+                                </div>
+                                <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-sm" })
+                                    @Html.HiddenFor(model => model.FileName)
+                                    @Html.HiddenFor(model => model.FileDate)
+                                    @Html.HiddenFor(model => model.FileTime)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-md-6 col-xs-6">
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 text-right">
+                                    @if (Model != null)
+                                    {
+                                        if (Model.Detail != null)
+                                        {
+                                            @: Total : @Model.Detail.Count
+                                            @: | Total Qty: @string.Format("{0:##,###,##0.00}", Model.Detail.Sum(a => a.QUANTITY))
+                            }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblLines">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Function
+                                            </th>
+                                            <th>
+                                                Record Type
+                                            </th>
+                                            <th>
+                                                Line
+                                                <input type="checkbox" id="allLines" />
+                                            </th>
+                                            <th>
+                                                StockCode
+                                            </th>
+                                            <th>
+                                                Supplier Code
+                                            </th>
+                                            <th>
+                                                Lot
+                                            </th>
+                                            <th>
+                                                Quantity
+                                            </th>
+                                            <th>
+                                                Uom
+                                            </th>
+                                            <th>Meters</th>
+                                            <th>Grammage</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.Detail != null)
+                                            {
+                                                for (int i = 0; i < Model.Detail.Count; i++)
+                                                {
+
+                                                    <tr class="nr highlight">
+                                                        <td>
+                                                            @Model.Detail[i].RECORD_FUNCTION
+                                                            @Html.HiddenFor(model => Model.Detail[i].RECORD_FUNCTION)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].RECORD_TYPE
+                                                            @Html.HiddenFor(model => Model.Detail[i].RECORD_TYPE)
+                                                        </td>
+                                                        <td class="rowc">
+                                                            @Html.DropDownListFor(model => model.Detail[i].LINENO, new SelectList(ViewBag.PoLine, "Value", "Text"), new { @class = "poline form-control input-xs", @style = "font-size:xx-small;" })
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].SUPPLIERSTKCODE
+                                                            @Html.HiddenFor(model => Model.Detail[i].SUPPLIERSTKCODE)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].FS_STKCODE
+                                                            @Html.HiddenFor(model => Model.Detail[i].FS_STKCODE)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].BATCH_NUMBER
+                                                            @Html.HiddenFor(model => Model.Detail[i].BATCH_NUMBER)
+                                                        </td>
+                                                        <td class="text-right">
+                                                            @string.Format("{0:##,###,##0.00}", Model.Detail[i].QUANTITY)
+                                                            @Html.HiddenFor(model => Model.Detail[i].QUANTITY)
+                                                        </td>
+                                                        <td>
+                                                            @Model.Detail[i].UOM
+                                                            @Html.HiddenFor(model => Model.Detail[i].UOM)
+                                                        </td>
+                                                        <td class="text-right">
+                                                            @string.Format("{0:##,###,##0.00}", Model.Detail[i].QTYMTR)
+                                                            @Html.HiddenFor(model => Model.Detail[i].QTYMTR)
+                                                        </td>
+                                                        <td class="text-right">
+                                                            @string.Format("{0:##,###,##0.00}", Model.Detail[i].GRAMMAGE)
+                                                            @Html.HiddenFor(model => Model.Detail[i].GRAMMAGE)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+}
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#allLines").click(function () {
+            var row = 0;
+            var PoLine;
+            var control = $("#allLines").is(":checked");
+            if (control == true) {
+                // loop throw all rows
+                $("#tblLines > tbody > tr.nr ").each(function () {
+                    if (row == 0)
+                    {
+                        PoLine = $(this).find('td').find('select').val();
+                    }
+                    else
+                    {
+                        $(this).find('td').find('select').val(PoLine);
+                    }
+                    
+                    row++;
+                });
+            }
+
+        });
+
+        $("#import").submit(function (e) {
+            showprogressbar();
+        });
+
+    });
+</script>

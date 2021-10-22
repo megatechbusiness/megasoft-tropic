@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Megasoft2.sp_GetBuyerStatsDetail_Result>
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-lg-12">
+            <a href="@Url.Action("Index", "BranchStats", new { eGuid = Model.FirstOrDefault().eGuid })" class="btn btn-default btn-sm">
+                <span class="fa fa-arrow-circle-o-left"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Back</span></span>
+            </a>
+            <button type="button" id="Export" class="btn btn-default btn-sm">
+                <span class="fa fa-file-excel-o"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Excel</span></span>
+            </button>
+        </div>
+        <div class="col-lg-12">
+            <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+        </div>
+
+
+        <div style="overflow: auto;height: 700px" class="col-lg-12" id="grid">
+            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="Header">
+                <thead>
+                    <tr class="nowrap">
+                        <th data-field="RequisitionEnquiry" data-sortable="true">
+                            @Html.DisplayNameFor(model => model.Requisition)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RequisitionDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Requisitioner)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Branch)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Site)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Buyer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DueDate)
+                        </th>     
+                        <th>
+                            @Html.DisplayNameFor(model => model.CompletedDate)
+                        </th>                   
+                        <th>
+                            @Html.DisplayNameFor(model => model.AcceptedDate)
+                        </th>       
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuoteReceivedDate)
+                        </th>                 
+                        <th>
+                            @Html.DisplayNameFor(model => model.AuthorisedDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AuthorisedBy)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.PurchaseOrder)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderEntryDate)
+                        </th>
+                        <th class="nowrap">
+                            @Html.DisplayNameFor(model => model.Reason)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DeliveryNoteDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Supplier)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SupplierName)
+                        </th>
+                        <th>
+                            Notes
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr class="nr">
+                                <td>
+                                    @Html.DisplayFor(model => item.Requisition)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(model => item.RequisitionDate)*@
+                                    @Convert.ToDateTime(item.RequisitionDate).ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Requisitioner)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Branch)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Site)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Buyer)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(model => item.DueDate)*@
+                                    @Convert.ToDateTime(item.DueDate).ToString("dd/MM/yyyy")
+                                </td>
+                                
+                                <td>
+                                    @*@Html.DisplayFor(model => item.CompletedDate)*@
+                                    @Convert.ToDateTime(item.CompletedDate).ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(model => item.AcceptedDate)*@
+                                    @Convert.ToDateTime(item.AcceptedDate).ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.QuoteReceivedDate)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(model => item.AuthorisedDate)*@
+                                    @Convert.ToDateTime(item.AuthorisedDate).ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.AuthorisedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.PurchaseOrder)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(model => item.AuthorisedDate)*@
+                                    @Convert.ToDateTime(item.OrderEntryDate).ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="nowrap">
+                                    @Html.DisplayFor(model => item.Reason)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.DeliveryNoteDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Supplier)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.SupplierName)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Notes", "Requisition", new { Requisition = item.Requisition })" class="modal-link btn btn-default btn-xs">
+                                        <span class="fa fa-file-text-o" aria-hidden="true" title="Notes"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Export").click(function () {
+                //alert('clicked');
+                $("#Header").table2excel({
+                    // exclude CSS class
+                    exclude: ".noExl",
+                    name: "BuyerStatsDetail",
+                    filename: "BuyerStatsDetail" //do not include extension
+                });
+            });
+        });
+    </script>
+}

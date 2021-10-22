@@ -1,0 +1,728 @@
+﻿@model Megasoft2.Models.LabelPrintPoLine
+
+
+@*WhseManPoLabelController*@
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+
+    <div class="panel-heading">
+
+        <h4 class="panel-title">
+
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Packing Slip - @ViewBag.Header
+            </a>
+        </h4>
+    </div>
+
+    <a href="@Url.Action("Index", "WhseManPoLabel", new { PurchaseOrder = Model.PurchaseOrder, Program = Model.Program })" class="btn btn-default btn-sm">
+        <span class="fa fa-arrow-circle-left" aria-hidden="true" title="Back to P/O"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Back</span></span>
+    </a>
+    <hr />
+    @*<script src="~/Scripts/jquery.validate.js"></script>*@
+
+    <div class="panel-body">
+        <fieldset>
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            StockCode
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.StockCode)
+                            @Html.HiddenFor(model => model.PurchaseOrder)
+                            @Html.HiddenFor(model => model.Line)
+                            <input type="hidden" id="hdImport" />
+                            <input type="hidden" id="hdDelNote" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Description
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                Delivery Note
+                            </div>
+                            <div class="editor-field input-sm col-sm-9">
+                                @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.DeliveryNote)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-3" style="text-align:left;">
+                                Delivery Date
+                            </div>
+                            <div class="editor-field input-sm col-sm-9">
+                                @Html.TextBoxFor(model => model.DeliveryDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm", @id="DeliveryDate" })
+                                @Html.ValidationMessageFor(model => model.DeliveryDate)
+                            </div>
+                        </div>
+                    </div>*@
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Warehouse
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.Warehouse, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.Warehouse)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Bin
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @if (Model.UseMultipleBins == "Y")
+                            {
+                                @Html.DropDownListFor(model => model.Bin, new SelectList(ViewBag.BinList, "Value", "Text"), new { @class = "form-control input-sm" })
+                                @Html.ValidationMessageFor(model => model.Bin)
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.Bin, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.Bin)
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Quantity
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.ReelQuantity, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.ReelQuantity)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Reel/Pallet Number
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.ReelNumber, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.ReelNumber)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            No. of Labels
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            @Html.TextBoxFor(model => model.NoOfLables, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.NoOfLables)
+                        </div>
+
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Label Multiplier
+                        </div>
+                        <div class="editor-field input-sm col-sm-3">
+                            <input type="text" id="LabelMultiplier" class="form-control input-sm" value="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-1" style="text-align:left;">
+                            Printer
+                        </div>
+                        <div class="col-sm-5">
+                            @Html.HiddenFor(model => model.Program)
+                            @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
+                        </div>
+                        <div class="col-sm-2">
+                            Auto-Generate Reel
+                            <input type="checkbox" id="AutoReel" name="AutoReel" />
+                        </div>
+                        <div class="col-sm-4" style="text-align:right;">
+
+
+
+                            <button type="button" id="btnAdd" class="btn btn-default">
+                                <i class="fa fa-plus-circle"></i> Add Reel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="col-md-12 col-xs-12">
+                            Select All
+                            <input type="checkbox" id="SelectAll" name="selectAllLines" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Purchase Order</th>
+                                    <th>Line</th>
+                                    <th>StockCode</th>
+                                    <th>Description</th>
+                                    <th>Bin</th>
+                                    <th>Reel Qty</th>
+                                    <th>Reel Number</th>
+                                    <th>No. of Labels</th>
+                                    <th>Warehouse</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div id="printerrordiv">
+
+                </div>
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="button" value="Save" class="btn btn-info" id="btnPrint">
+                                <i class="fa fa-print"></i> Print
+                            </button>
+                        </div>
+                        @*<div class="col-sm-6" style="text-align:right;">
+                                <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                    <i class="fa fa-close"></i> Close
+                                </button>
+                            </div>*@
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 col-sm-12"></div>
+            <div class="col-lg-5">
+                @if (Model.CostMultiplierRequired == "Y")
+                {
+                    <div id="errordiv">
+
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Non-merchandise Cost
+                            </div>
+                            <div class="editor-field input-sm col-sm-6">
+                                @*<input type="text" id="NonMerchCost" class="form-control input-sm" />*@
+                            </div>
+                            <div class="editor-field input-sm col-sm-2 text-right">
+                                <button type="button" value="Save" class="btn btn-info btn-sm" id="btnSaveNonMerch">
+                                    <i class="fa fa-save"></i> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
+                            <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblNonMerch">
+                                <thead>
+                                    <tr>
+                                        <th>Reference</th>
+                                        <th>Supplier</th>
+                                        <th>GL Code</th>
+                                        <th>Amount</th>
+                                        <th><a href='#' class='AddLine btn btn-default btn-xs' tabindex='0' id="AddNonMerch"><span class='fa fa-plus' aria-hidden='true' title='Add Line'></span></a></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+    </div>
+
+
+</div>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/DateTimePicker/moment.min.js")
+@Scripts.Render("~/Content/DateTimePicker/bootstrap-datetimepicker.js")
+
+<script type="text/javascript">
+
+
+    function ShowErrorDiv() {
+
+        $('#printerrordiv').addClass("alert alert-danger");
+
+    }
+
+    function LoadGrid() {
+        $('#tblLines tbody').empty();
+        var Warehouse = $('#Warehouse').val();
+        var PurchaseOrder = $('#PurchaseOrder').val();
+        var Line = $('#Line').val();
+        $.getJSON('../WhseManPoLabel/GetGridData?PurchaseOrder=' + PurchaseOrder + '&Line=' + Line, function (data) {
+            $.each(data, function (i, Po) {
+                $('#tblLines tbody').append("<tr class='nr'><td class='rowc'><input type='checkbox' /></td><td>" + Po.PurchaseOrder + "</td><td>" + Po.Line + "</td><td>" + Po.StockCode + "</td><td>" + Po.Description + "</td><td>" + Po.Bin + "</td><td>" + Po.ReelQty + "</td><td>" + Po.ReelNumber + "<input type='hidden' value='" + Po.Printed + "'/></td><td>" + Po.NoOfLables + "</td><td>"+Warehouse+"</td><td><a href='#' class='delLine btn btn-danger btn-xs'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+                $('#hdImport').val(Po.FileImport);
+                $('#hdDelNote').val(Po.DeliveryNote);
+            });
+        });
+    }
+
+
+    function LoadNonMerch() {
+
+        $('#tblNonMerch tbody').empty();
+        var PurchaseOrder = $('#PurchaseOrder').val();
+        var Line = $('#Line').val();
+        $.getJSON('../WhseManPoLabel/GetNonMerchData?PurchaseOrder=' + PurchaseOrder + '&Line=' + Line, function (data) {
+            var r = 0;
+            //alert(data);
+            $.each(data, function (i, Po) {
+                $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value='" + Po.Reference + "'/>" +
+                "</td><td><div class='input-group add-on'>" +
+                            "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value='" + Po.Supplier + "'/>" +
+                            "<div class='input-group-btn'>" +
+                                "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                            "</div>" +
+                          "</div>" +
+                "</td><td><div class='input-group add-on'>" +
+                            "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + Po.GlCode + "'/>" +
+                            "<div class='input-group-btn'>" +
+                                "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                            "</div>" +
+                          "</div>" +
+                "</td><td><input type='text' class='tabkey form-control input-sm' value='" + Po.Amount + "'/>" +
+                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='0'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+
+                r++;
+            });
+
+            r++;
+            //Add new blank row
+
+            $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value=''/>" +
+                "</td><td><div class='input-group add-on'>" +
+                        "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value=''/>" +
+                        "<div class='input-group-btn'>" +
+                            "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                        "</div>" +
+                      "</div>" +
+            "</td><td><div class='input-group add-on'>" +
+                        "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + "@Model.GrnSuspense" + "'/>" +
+                        "<div class='input-group-btn'>" +
+                            "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                        "</div>" +
+                      "</div>" +
+                "</td><td><input type='text' class='tabkey form-control input-sm' value=''/>" +
+                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabIndex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+
+
+
+
+        });
+
+
+    }
+
+    $(function () {
+
+
+
+        LoadGrid();
+
+        LoadNonMerch();
+
+        $('#btnAdd').on('click', function (e) {
+            //e.preventDefault();
+
+            var PurchaseOrder = $('#PurchaseOrder').val();
+            var Line = $('#Line').val();
+            var StockCode = $('#StockCode').val();
+            var Description = $('#Description').val();
+            var Bin = $('#Bin').val();
+            var ReelQty = $('#ReelQuantity').val();
+            var ReelNumber = $('#ReelNumber').val();
+            var NoOfLables = $('#NoOfLables').val();
+            var LabelMultiplier = $('#LabelMultiplier').val();
+            var DeliveryNote = $('#DeliveryNote').val();
+            var DeliveryDate = $('#DeliveryDate').val();
+            var AutoReel = $('#AutoReel').is(":checked");
+
+            if (ReelQty == "") {
+                alert('Reel Quantity cannot be blank.');
+                return;
+            }
+
+            if (AutoReel == false)
+            {
+                if (ReelNumber == "") {
+                    alert('Reel Number cannot be blank.');
+                    return;
+                }
+            }
+
+
+            if (NoOfLables == "") {
+                alert('No. of labels cannot be blank.');
+                return;
+            }
+
+            if (ReelQty == "0") {
+                alert('Reel Quantity cannot be zero.');
+                return;
+            }
+
+            if (NoOfLables == "0") {
+                alert('No. of labels cannot be zero.');
+                return;
+            }
+
+
+            if ("@Model.UseMultipleBins.ToString()" == "Y") {
+                if (Bin == "") {
+                    alert('Bin cannot be blank!');
+                    return;
+                }
+            }
+
+
+
+            var mydata = [];
+            var myObject = new Object();
+            myObject.PurchaseOrder = PurchaseOrder;
+            myObject.Line = Line;
+            myObject.StockCode = StockCode;
+            myObject.Description = Description;
+            myObject.Bin = Bin;
+            myObject.ReelQuantity = ReelQty;
+            myObject.ReelNumber = ReelNumber;
+            myObject.NoOfLables = NoOfLables;
+            myObject.DeliveryNote = DeliveryNote;
+            myObject.DeliveryDate = DeliveryDate;
+            myObject.AutoReel = AutoReel;
+            myObject.LabelMultiplier = LabelMultiplier;
+            myObject.FileImport = $('#hdImport').val();
+            myObject.FileImport = $('#hdDelNote').val();
+
+            mydata.push(myObject);
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "../WhseManPoLabel/SaveReel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                if (response != "") {
+                    alert(response);
+                }
+                else {
+                    LoadGrid();
+                }
+            }
+
+            function OnErrorCall(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+
+
+
+
+        });
+
+        $('#tblLines').on("click", ".delLine", function () {
+            var tr = $(this).closest('tr');
+            var $tds = tr.find('td');
+            var PurchaseOrder = $tds.eq(1).text();
+            var Line = $tds.eq(2).text();
+            var ReelNumber = $tds.eq(7).text();
+
+            var mydata = [];
+            var myObject = new Object();
+            myObject.PurchaseOrder = PurchaseOrder;
+            myObject.Line = Line;
+            myObject.ReelNumber = ReelNumber;
+            mydata.push(myObject);
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "../WhseManPoLabel/DeleteReel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                if (response != "") {
+                    alert(response);
+                }
+                else {
+                    LoadGrid();
+                }
+            }
+
+            function OnErrorCall(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+
+        });
+
+        $('#btnPrint').on('click', function (e) {
+
+            e.preventDefault();
+
+            var DeliveryNote = $('#DeliveryNote').val();
+            var DeliveryDate = $('#DeliveryDate').val();
+            var e = document.getElementById("ddlPrinter");
+            var Printer = e.options[e.selectedIndex].value;
+            var Program = $('#Program').val();
+            var mydata = [];
+            $("#tblLines > tbody > tr ").each(function (i, el) {
+
+                var myObject = new Object();
+                var $tds = $(this).find('td')
+                var PurchaseOrder = $tds.eq(1).text();
+                var Line = $tds.eq(2).text();
+                var StockCode = $tds.eq(3).text();
+                var Description = $tds.eq(4).text();
+                var ReelQty = $tds.eq(6).text();
+                var ReelNumber = $tds.eq(7).text();
+                var NoOfLables = $tds.eq(8).text();
+                var PrintLabel = $tds.eq(0).find("input[type='checkbox']").is(":checked");
+                var Printed = $tds.eq(7).find("input[type='hidden']").val();
+                var Warehouse = $('#Warehouse').val();
+                if (PrintLabel == true) {
+                    myObject.PurchaseOrder = PurchaseOrder;
+                    myObject.Line = Line;
+                    myObject.StockCode = StockCode;
+                    myObject.Description = Description;
+                    myObject.ReelQuantity = ReelQty;
+                    myObject.ReelNumber = ReelNumber;
+                    myObject.NoOfLables = NoOfLables;
+                    myObject.DeliveryNote = DeliveryNote;
+                    myObject.DeliveryDate = DeliveryDate;
+                    myObject.Printer = Printer;
+                    myObject.Reprint = 'N';
+                    myObject.Printed = Printed;
+                    myObject.Program = Program;
+                    myObject.Warehouse = Warehouse;
+                    mydata.push(myObject);
+                }
+
+            });
+
+
+
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "../WhseManPoLabel/PrintLabel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+                LoadGrid();
+            }
+
+            function OnErrorCall(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+        });
+
+
+        $(document).on('keydown change', '#tblNonMerch tr input:text.tabkey', function (e) {
+
+            var keyCode = e.keyCode || e.which;
+
+            if (keyCode == 9) {
+                var r = $('#tblNonMerch tr').length;
+                //Add new blank row
+                $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value='' />" +
+                        "</td><td><div class='input-group add-on'>" +
+                                "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value=''/>" +
+                                "<div class='input-group-btn'>" +
+                                    "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                "</div>" +
+                              "</div>" +
+                    "</td><td><div class='input-group add-on'>" +
+                                "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + "@Model.GrnSuspense" + "'/>" +
+                                "<div class='input-group-btn'>" +
+                                    "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                                "</div>" +
+                              "</div>" +
+                        "</td><td><input type='text' class='tabkey form-control input-sm' value=''/>" +
+                        "</td><td><a href='#' class='ref_" + r + " delLine btn btn-danger btn-xs' tabIndex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+            }
+        });
+
+
+        $('#btnSaveNonMerch').on('click', function (e) {
+            //e.preventDefault();
+
+            var PurchaseOrder = $('#PurchaseOrder').val();
+            var Line = $('#Line').val();
+            var mydata = [];
+            $("#tblNonMerch > tbody > tr ").each(function (i, el) {
+
+                var myObject = new Object();
+                var $tds = $(this).find('td')
+                var Reference = $tds.eq(0).find("input[type='text']").val();
+                var Supplier = $tds.eq(1).find("input[type='text']").val();
+                var GlCode = $tds.eq(2).find("input[type='text']").val();
+                var Amount = $tds.eq(3).find("input[type='text']").val();
+
+                if (Reference != "") {
+                    myObject.PurchaseOrder = PurchaseOrder;
+                    myObject.Line = Line;
+                    myObject.Reference = Reference;
+                    myObject.Supplier = Supplier;
+                    myObject.GlCode = GlCode;
+                    myObject.Amount = Amount;
+                    mydata.push(myObject);
+                }
+
+
+
+            });
+
+
+
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "../WhseManPoLabel/SaveNonMerchCost",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+
+            function OnErrorCall(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+        });
+
+        $('#tblNonMerch').on("click", ".delLine", function () {
+            $(this).parent().parent().remove();
+        });
+
+        $('#AddNonMerch').on('click', function (e) {
+
+            var r = $('#tblNonMerch tr').length;
+            //Add new blank row
+            $('#tblNonMerch tbody').append("<tr class='nr'><td><input type='text' class='form-control input-sm' value='' />" +
+                    "</td><td><div class='input-group add-on'>" +
+                            "<input class='form-control input-sm' id='Supplier_" + r + "' type='text' value=''/>" +
+                            "<div class='input-group-btn'>" +
+                                "<a href='../WhseManPoLabel/SupplierSearch?ControlId=Supplier_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                            "</div>" +
+                          "</div>" +
+                "</td><td><div class='input-group add-on'>" +
+                            "<input class='form-control input-sm' id='GlCode_" + r + "' type='text' value='" + "@Model.GrnSuspense" + "'/>" +
+                            "<div class='input-group-btn'>" +
+                                "<a href='../WhseManPoLabel/GlCodeSearch?ControlId=GlCode_" + r + "' class='modal-link btn btn-default btn-sm'><i class='glyphicon glyphicon-search'></i></a>" +
+                            "</div>" +
+                          "</div>" +
+                    "</td><td><input type='text' class='tabkey form-control input-sm' value=''/>" +
+                    "</td><td><a href='#' class='ref_" + r + " delLine btn btn-danger btn-xs' tabIndex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
+        });
+
+        $("#SelectAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#SelectAll").is(":checked");
+
+            var selected;
+            $("#tblLines > tbody > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    $(this).find("input[type='checkbox']").prop('checked', true);
+                }
+                else {
+                    $(this).find("input[type='checkbox']").prop('checked', false);
+
+                }
+
+
+            });
+
+        });
+    });
+</script>

@@ -1,0 +1,178 @@
+﻿@model Megasoft2.ViewModel.WhseManDelayedPostingWarehouse
+@using (Html.BeginForm("Index", "WhseManDelayedPosting", FormMethod.Post, new { @id = "UserForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="font-weight:bold;" class="text-center">Delayed Posting Setup</h4><hr />
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Setup</a></li>
+
+
+        <li class="pull-right">
+            <button type="submit" value="Save" class="btn btn-info">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </li>
+    </ul>
+
+
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <input type="text" id="searchwh" class="form-control input-sm col-sm-12" placeholder="search" />
+
+                            </div>
+                            <div class="col-sm-2">
+                                Show Selected
+                                <input type="checkbox" id="ShowSelectedWh" name="ShowSelectedWh" />
+                                Select All
+                                <input type="checkbox" id="WhAll" name="selectAllWh" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <table id="tblWh" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                                    <thead class="style1">
+                                        <tr>
+                                            <th>
+                                                Warehouse
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Delay Posting
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.Warehouse != null)
+                                            {
+                                                    for (int i = 0; i < Model.Warehouse.Count; i++)
+                                                    {
+
+                                                        <tr class="nr">
+                                                            <td>
+                                                                @Html.DisplayFor(model => model.Warehouse[i].Warehouse)
+                                                                @Html.HiddenFor(model => model.Warehouse[i].Warehouse)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(model => model.Warehouse[i].Description)
+                                                                @Html.HiddenFor(model => model.Warehouse[i].Description)
+                                                            </td>
+                                                            @if (Model.Warehouse[i].Allowed == true)
+                                                            {
+                                                                <td class="rowc">
+                                                                    @Html.CheckBoxFor(model => model.Warehouse[i].Allowed, new { @checked = "checked", @class = "case", @name = "case" })
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="rowc">
+                                                                    @Html.CheckBoxFor(model => model.Warehouse[i].Allowed, new { @class = "case", @name = "case" })
+                                                                </td>
+                                                            }
+                                                        </tr>
+
+                                                    }
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#searchwh').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblWh .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+
+
+        // add multiple select / deselect functionality //Warehouses
+        $("#WhAll").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#WhAll").is(":checked");
+
+            var selected;
+            $("#tblWh > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if ($(this).is(':visible')) {
+                    if (control == true) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+
+                    }
+                    else {
+                        $(this).find("input[type='checkbox']").prop('checked', false);
+
+                    }
+                }
+
+            });
+
+        });
+
+
+        $("#ShowSelectedWh").click(function () {
+            //$('.case').attr('checked', this.checked);
+            var control = $("#ShowSelectedWh").is(":checked");
+
+            var selected;
+            $("#tblWh > tbody.datarow > tr ").each(function (i, el) {
+                var $tds = $(this).find('td .rowc'),
+                selected = $(this).find("input[type='checkbox']").is(":checked")
+
+                if (control == true) {
+                    if (selected == true) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+        });
+    });
+</script>

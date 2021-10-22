@@ -1,0 +1,317 @@
+﻿@model Megasoft2.ViewModel.SupplierContractPriceViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmContract" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <fieldset>
+
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading" style="max-height: 52px;">
+                    <div class="row">
+                        &nbsp&nbsp
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("MaintainContracts", "SupplierContractPricing")" class="btn btn-default">Contract Pricing Maintenance</a>
+
+
+                        </div>
+
+                        <div class="pull-right">
+
+                            <div class="col-lg-6 text-right">
+                                <button type="submit" class="btn btn-default btn-sm" name="action:PostUpdate" id="PostUpdate">
+                                    <span class="fa fa-save"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Post</span></span>
+                                </button>
+                            </div>
+                            &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="form-horizontal row">
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Supplier
+                                </div>
+                                <div class="form-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
+                                    Contract
+                                </div>
+                                <div class="form-group col-sm-8">
+                                    @Html.TextBoxFor(model => model.Contract, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-5">
+                                    Stock Code
+                                </div>
+                                <div class="form-group col-sm-7">
+                                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="form-horizontal row">
+                                <div class="form-group">
+                                    Apply Expiry Date to All
+                                    <input type="checkbox" id="Apply" />
+                                </div>
+                            </div>*@
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-success btn-sm" name="action:LoadMaintainContracts" id="LoadMaintainContracts">
+                                        <span class="fa fa-refresh"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Refresh</span></span>
+                                    </button>
+                                    @*<button type="button" id="btnRefresh" class="btn btn-default btn-sm" onclick="LoadGrid();">
+                                            <span class="fa fa-refresh"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Refresh</span></span>
+                                        </button>*@
+                                </div>
+                                <div class="col-sm-6 text-right">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group" id="ContractResults" style="overflow: auto;height: 600px">
+
+                                <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered" id="Header" style="table-layout:fixed;">
+                                    <thead class="style1" tabindex="-1">
+                                        <tr>
+                                            <th style="width:150px">
+                                                Contract
+                                            </th>
+                                            <th style="width:150px">
+                                                Supplier
+                                            </th>
+                                            <th style="width:100px">
+                                                StockCode
+                                            </th>
+                                            <th style="width:300px">
+                                                Description
+                                            </th>
+                                            <th style="width:100px">
+                                                Purchase Price
+                                            </th>
+                                            <th style="width:100px">
+                                                New Price
+                                            </th>
+
+                                            <th style="width:150px">
+                                                <input type="checkbox" id="StartDateApply" class="StartDateApply" />
+                                                Start Date
+                                            </th>
+                                            <th style="width:150px">
+                                                <input type="checkbox" id="ExpiryDateApply" class="ExpiryDateApply" />
+                                                Expiry Date
+                                            </th>
+                                            <th style="width:150px">
+                                                Price Uom
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="datarow">
+                                        @if (Model != null)
+                                        {
+                                            if (Model.Detail != null)
+                                            {
+                                                for (int i = 0; i < Model.Detail.Count(); i++)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.Detail[i].Contract)
+                                                            @Html.HiddenFor(model => model.Detail[i].Contract)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.Detail[i].Supplier)
+                                                            @Html.HiddenFor(model => model.Detail[i].Supplier)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.Detail[i].StockCode)
+                                                            @Html.HiddenFor(model => model.Detail[i].StockCode)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.Detail[i].Description)
+                                                            @Html.HiddenFor(model => model.Detail[i].Description)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.Detail[i].PurchasePrice)
+                                                            @Html.HiddenFor(model => model.Detail[i].PurchasePrice)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.Detail[i].NewPrice, new { @class = "form-control input-xs" })
+                                                            <input type="hidden" class="rowid" value="@i" />
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.Detail[i].StartDate, new { @class = "datepicker inline-datepicker form-control input-xs", @tabindex = "-1" })
+                                                            @Html.HiddenFor(model => model.Detail[i].StaDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.Detail[i].ExpiryDate, new { @class = "datepicker inline-datepicker form-control input-xs", @tabindex = "-1" })
+                                                            @Html.HiddenFor(model => model.Detail[i].ExpDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.Detail[i].PriceUom)
+                                                            @Html.HiddenFor(model => model.Detail[i].PriceUom)
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+@Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+@section Scripts {
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+
+
+
+
+
+        function LoadGrid() {
+            $('.Header tbody').empty();
+            //$.getJSON('BeeSupplier/GetGridData?FilterText=' + $('#txtSearch').val() + '&ExpiryDate=' + $('#txtExpiryDate').val() + '&PurchaseValue=' + $('#txtPurchase').val() + '&FromPeriod=' + $('#FromPeriod').val() + '&ToPeriod=' + $('#ToPeriod').val(), function (data) {
+
+            //    $(".datepicker").datepicker('destroy');
+
+            //    $.each(data, function (i, INV) {
+            //        $('.Header tbody').append("<tr class='nr'>" +
+            //        "<td>" + INV.Supplier + "</td><td>" + INV.SupplierName + "</td><td><input type='text' class='form-control input-xs' value='" + INV.EnterpriseType + "' /></td><td><input type='text' class='form-control input-xs' value='" + INV.BeeLevel +
+            //        "' /></td><td><input type='text' class='form-control input-xs' value='" +
+            //        INV.BlackOwnership + "' /></td><td class='text-right'><input type='text' class='form-control input-xs' value='" + INV.BlackWomenOwnershi +
+            //        "' /></td><td class='text-right'><input type='text' class='form-control input-xs' value='" + INV.EmpoweringSupplier +
+            //        "' /></td><td><input type='text' class='datepicker datepicker-inline form-control input-sm' value='" +
+            //        INV.ExpiryDate + "' /></td><td>" + INV.PurchaseValue + "</td>" +
+            //        "</tr>");
+
+            //    });
+            //    $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+            //});
+        }
+
+        function LoadInitGrid() {
+            //Load dummy table to initiate table scrolling fixed header and height
+            $('.Header tbody').empty();
+            for (var i = 0; i < 80; i++) {
+                $('.Header tbody').append("<tr class='nr'><td colspan='9'></td></tr>");
+            }
+            UltimateScrollingTable('Header', 4000, 1750, 1);
+            $('.Header tbody').empty();
+        }
+
+
+        $(document).ready(function () {
+            $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+            $("#frmContract").submit(function (e) {
+                showprogressbar();
+            });
+
+
+            //function created to tab out of table when tab pressed on last column of price.
+            $('#Header').on('keydown', 'input', function (e) {
+                var keyCode = e.keyCode;
+                if (keyCode !== 9) return;
+
+                var tr = $(this).closest('tr');
+                var rowid = $(tr).find('td:eq(5)').find('input[type=hidden]').val();
+                var rows = document.getElementById('Header').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+                if (rowid == rows - 1) {
+                    $('#Supplier').focus();
+                }
+            });
+
+            $('.StartDateApply').on("change", function () {
+                //alert("StartDateApply");
+                var control = $(".StartDateApply").is(":checked");
+                var row = 0;
+                var ExpDate;
+                if (control == true) {
+                    $("#Header > tbody.datarow > tr ").each(function (i, el) {
+
+                        if (row == 0) {
+                            ExpDate = $(this).find('td:eq(6) input[type="text"]').val();
+
+                        }
+                        else {
+
+                            $(this).find('td:eq(6) input[type="text"]').val(ExpDate);
+                        }
+
+                        row++;
+                    });
+                }
+
+            });
+
+            $('.ExpiryDateApply').on("change", function () {
+                // alert("ExpiryDateApply");
+                var control = $(".ExpiryDateApply").is(":checked");
+                var row = 0;
+                var ExpDate;
+                if (control == true) {
+                    $("#Header > tbody.datarow > tr ").each(function (i, el) {
+
+                        if (row == 0) {
+                            ExpDate = $(this).find('td:eq(7) input[type="text"]').val();
+
+                        }
+                        else {
+
+                            $(this).find('td:eq(7) input[type="text"]').val(ExpDate);
+                        }
+
+                        row++;
+                    });
+                }
+
+            });
+
+        });
+
+
+        UltimateScrollingTable('Header', 600, 1750, 0);
+
+
+
+    </script>
+}

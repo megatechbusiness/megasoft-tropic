@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Megasoft2.mtProductClass>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Product Class</h2>
+<p class=" pull-right">
+    <a href="@Url.Action("Create", "ProductClass")" class="modal-link btn btn-success">
+        <span class="fa fa-plus-square-o" aria-hidden="true" title="Add Product Class"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Add Product Class</span></span>
+    </a>
+    <button type="button" value="ProductClass" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("Index", "ProductClass") + "'");">
+        <i class="fa fa-refresh"></i> Refresh
+    </button>
+</p>
+
+<div class="form-horizontal row">
+    <div class="form-group">
+        <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+    </div>
+</div>
+<div class="form-horizontal row">
+   
+    <div class="form-group" id="SupplierResults" style="overflow: auto;height: 600px">
+
+        <table class="table table-hover table-striped table-condensed table-responsive" id="Header">
+            <tr>
+                <th>
+                    Product Class
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr class="nr">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductClass)
+                    </td>
+                    <td class="nowrap">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Edit", "ProductClass", new { product = item.ProductClass})" class="modal-link btn btn-primary">
+                            <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Product Class"></span>
+                        </a>
+                        <a href="@Url.Action("Delete", "ProductClass", new { product =item.ProductClass })" class="modal-link btn btn-danger">
+                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete Product Class"></span>
+                        </a>
+                        
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+}
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var array = val.split(" ");
+            $.each(array, function (i) {
+                var $rows = $('#Header .nr');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(array[i]);
+                }).hide();
+            });
+        });
+    });
+</script>
+

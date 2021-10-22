@@ -1,0 +1,170 @@
+﻿@model IEnumerable<Megasoft2.vwApSupplier>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Suppliers</h2>
+<p class=" pull-right">
+    <button type="button" value="Suppliers" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("Create", "Supplier") + "'");">
+        <i class="fa fa-plus-square-o"></i> Create Supplier
+    </button>
+    <button type="button" value="Suppliers" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("Index", "Supplier") + "'");">
+        <i class="fa fa-refresh"></i> Refresh
+    </button>
+</p>
+
+<div class="form-horizontal row">
+    <div class="form-group">
+        <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+    </div>
+</div>
+    <div class="form-horizontal row" >
+        <div class="form-group" id="SupplierResults" style="overflow: auto;height: 600px">
+
+            <table class="Header table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="Header" style="table-layout:fixed;">
+                <thead class="style1">
+                    <tr>
+                        <th style="width:150px">
+                            Supplier
+                        </th>
+                        <th style="width:300px">
+                            Supplier Name
+                        </th>
+                        <th style="width:350px">
+                            Long Name
+                        </th>
+                        <th style="width:100px">
+                            Branch
+                        </th>
+                        <th style="width:100px">
+                            TermsCode
+                        </th>
+                        <th style="width:250px">
+                            Address1
+                        </th>
+                        <th style="width:250px">
+                            Address2
+                        </th>
+                        <th style="width:250px">
+                            Address3
+                        </th>
+                        <th style="width:250px">
+                            Address4
+                        </th>
+                        <th style="width:250px">
+                            Address5
+                        </th>
+                        <th style="width:150px">
+                            TaxRegnNum
+                        </th>
+                        <th class="nowrap" style="width:100px">
+                            Purchase History
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="nr">
+                            <td>
+                                @Html.ActionLink(item.Supplier, "Create", new { Supplier = item.Supplier })
+
+                            </td>
+                            <td class="nowrap">
+                                @Html.DisplayFor(modelItem => item.SupplierName)
+                            </td>
+                            <td class="nowrap">
+                                @Html.DisplayFor(modelItem => item.LongName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Branch)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TermsCode)
+                            </td>
+                            <td class="nowrap">
+                                @Html.DisplayFor(modelItem => item.Address1)
+                            </td>
+                            <td class="nowrap">
+                                @Html.DisplayFor(modelItem => item.Address2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address3)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address4)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address5)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TaxRegnNum)
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("SupplierDetails", "Supplier", new { supplier = item.Supplier.Trim() })" class="btn btn-primary btn-xs">
+                                    <span class="fa fa-binoculars" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @section Scripts {
+        <style type="text/css">
+    .nowrap {
+        white-space: nowrap;
+    }
+
+
+</style>
+    
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                 .replace("&amp;", /&/g)
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+        $(document).ready(function () {
+            $('#txtSearch').keyup(function () {
+                $.getJSON('/Supplier/GetSupplier?FilterText=' + encodeURIComponent($('#txtSearch').val()), function (data) {
+                $(".Header > tbody").empty();
+                $.each(data, function (i, supplier) {                 
+                    
+                    
+                    $('.Header tbody').append("<tr class='nr nowrap'><td><a href='Supplier/Create?Supplier=" + encodeURIComponent(supplier.Supplier) + "'>" + supplier.Supplier + "</a></td><td>" +
+                            supplier.SupplierName + "</td><td>" + supplier.LongName + "</td><td>" +
+                            supplier.Branch + "</td><td>" + supplier.TermsCode + "</td><td>" +
+                            supplier.Address1 + "</td><td>" + supplier.Address2 + "</td><td>" +
+                            supplier.Address3 + "</td><td>" + supplier.Address4 + "</td><td>" +
+                            supplier.Address5 + "</td><td>" + supplier.TaxRegnNum +
+                            "</td><td class='text-center'><a class='btn btn-primary btn-xs', href='Supplier/SupplierDetails?supplier=" +
+                            encodeURIComponent(supplier.Supplier) + "'>" + "<span class='fa fa-pencil-square-o' aria-hidden='true' ></span>" + "</a></td></tr>");
+                });
+                
+                //alert(items);
+            });
+        });
+
+        UltimateScrollingTable('Header', 600, 2500, 1);
+
+     
+    });      
+    </script>
+        }

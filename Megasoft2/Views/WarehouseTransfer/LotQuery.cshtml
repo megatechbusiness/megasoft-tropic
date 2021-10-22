@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "LotQuery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;font-size:xx-small;">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+            <div id="errordiv" class="col-xs-8" style="font-size:x-small">
+
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Barcode
+            </div>
+            <div class="editor-field col-xs-6">
+                <input type="text" id="txtBarcode" class="form-control input-xs" />
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Stock Code
+            </div>
+            <div class="editor-field col-xs-6">
+                <input type="text" id="txtStockCode" class="form-control input-xs" style="font-size:small; font-weight:bold;" />
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Lot
+            </div>
+            <div class="editor-field col-xs-6">
+                <input type="text" id="txtLot" class="form-control input-xs" style="font-size:small; font-weight:bold;" />
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-horizontal row spacer-xs col-xs-8" id="Bin" style="font-size:small; font-weight:bold;">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-horizontal row spacer-xs col-xs-8" id="Warehouse" style="font-size:small; font-weight:bold;">
+
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="form-horizontal row spacer-xs col-xs-8" id="Qty" style="font-size:small; font-weight:bold;">
+
+            </div>
+        </div>
+    </div>
+
+</fieldset>
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //change page title text
+        $('#megasoftTitle').text(' Megasoft - LotQuery');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+        $('#txtBarcode').on('change', function (e) {
+            var str = document.getElementById('txtBarcode').value;
+            //If Megasoft Barcode
+            if (str.indexOf("|") > 0) {
+                var Values = document.getElementById('txtBarcode').value.split("|");
+                var StockCode = Values[0];
+                var Lot = Values[4];
+
+
+                var mydata = [];
+                var myObject = new Object();
+
+                myObject.StockCode = StockCode;
+                myObject.LotNumber = Lot;
+
+                mydata.push(myObject);
+
+                var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url: "../WarehouseTransfer/QueryLotData",
+                    data: exportdata,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: OnErrorCall
+                });
+
+                function OnSuccess(response) {                    
+                    if (response[0].StockCode == null) {
+                        $('#txtStockCode').val("");
+                        $('#txtLot').val("");
+                        $('#Warehouse').text("");
+                        $('#Bin').text("");
+                        $('#Qty').text("");
+                        $('#txtBarcode').val("");
+                        $("#txtBarcode").focus();
+                        alert("Not found!");
+                    }
+                    else
+                    {
+                        $('#txtStockCode').val(response[0].StockCode);
+                        $('#txtLot').val(response[0].LotNumber);
+                        $('#Warehouse').text("Warehouse:" + response[0].DestinationWarehouse);
+                        $('#Bin').text("Bin:" + response[0].DestinationBin);
+                        $('#Qty').text("Quantity:" + response[0].Quantity);
+                        $('#txtBarcode').val("");
+                        $("#txtBarcode").focus();
+
+
+                        
+                    }
+                }
+
+                function OnErrorCall(response) {
+                    alert(response);
+                    $('#txtStockCode').val("");
+                    $('#txtLot').val("");
+                    $('#Warehouse').text("");
+                    $('#Bin').text("");
+                    $('#Qty').text("");
+                    $('#txtBarcode').val("");
+                    $("#txtBarcode").focus();
+                }
+            }
+        });
+
+        $('#txtLot').on('change', function (e) {
+            var StockCode = $('#txtStockCode').val();
+            var Lot = $('#txtLot').val();
+
+
+            var mydata = [];
+            var myObject = new Object();
+
+            myObject.StockCode = StockCode;
+            myObject.LotNumber = Lot;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "../WarehouseTransfer/QueryLotData",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess2,
+                failure: OnErrorCall2
+            });
+
+            function OnSuccess2(response) {
+                if (response[0].StockCode == null) {
+                    $('#txtStockCode').val("");
+                    $('#txtLot').val("");
+                    $('#Warehouse').text("");
+                    $('#Bin').text("");
+                    $('#Qty').text("");
+                    $('#txtBarcode').val("");
+                    $("#txtBarcode").focus();
+                    alert("Not found!");
+                }
+                else {
+                    $('#txtStockCode').val(response[0].StockCode);
+                    $('#txtLot').val(response[0].LotNumber);
+                    $('#Warehouse').text("Warehouse:" + response[0].DestinationWarehouse);
+                    $('#Bin').text("Bin:" + response[0].DestinationBin);
+                    $('#Qty').text("Quantity:" + response[0].Quantity);
+                    $('#txtBarcode').val("");
+                    $("#txtBarcode").focus();
+
+                }
+            }
+
+            function OnErrorCall2(response) {
+                alert(response);
+                $('#txtStockCode').val("");
+                $('#txtLot').val("");
+                $('#Warehouse').text("");
+                $('#Bin').text("");
+                $('#Qty').text("");
+                $('#txtBarcode').val("");
+                $("#txtBarcode").focus();
+            }
+        });
+    });
+</script>

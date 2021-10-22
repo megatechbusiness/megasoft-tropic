@@ -1,0 +1,80 @@
+﻿@model Megasoft2.mtDepartment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Department
+            </a>
+        </h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            @if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger fade in">
+                    @Html.ValidationSummary()
+                </div>
+            }
+            <fieldset>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Department
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Department, new { @class = "form-control input-sm", @readonly="readonly"})
+                            @Html.ValidationMessageFor(model => model.Department)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4" style="text-align:left;">
+                            Name
+                        </div>
+                        <div class="editor-field input-sm col-sm-8">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errordiv">
+
+                </div>
+                <div class="form-horizontal row">
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="submit" value="Save" class="btn btn-info">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
+</div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

@@ -1,0 +1,166 @@
+﻿@model IEnumerable<Megasoft2.sp_GetAllStockCodes_Result>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h4 style="font-weight:bold;" class="text-center">Stock Codes</h4><hr />
+<p>
+    <a href="@Url.Action("Create", "NonStockedMaster", new { StockedItem = "N" })" class="btn btn-default">
+        <span class="fa fa-plus-square-o" aria-hidden="true" title="Add Non Stocked Item"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Add StockCode</span></span>
+    </a>
+</p>
+<div class="form-horizontal row">
+    <div class="form-group">
+        <div class="editor-field input-sm col-sm-12">
+            <input type="text" id="txtSearch" class="form-control input-sm" placeholder="search" />
+        </div>
+    </div>
+</div>
+<div class="form-horizontal row">
+    <div class="form-group">
+        <div class="editor-field input-sm col-sm-3">
+            <input type="text" id="txtSearch1" class="form-control input-sm" placeholder="search" />
+        </div>
+        <div class="editor-field input-sm col-sm-3">
+            <input type="text" id="txtSearch2" class="form-control input-sm" placeholder="search" />
+        </div>
+        <div class="editor-field input-sm col-sm-3">
+            <input type="text" id="txtSearch3" class="form-control input-sm" placeholder="search" />
+        </div>
+        <div class="editor-field input-sm col-sm-3">
+            <input type="text" id="txtSearch4" class="form-control input-sm" placeholder="search" />
+        </div>
+    </div>
+</div>
+<div class="form-horizontal row">
+    <div class="form-group" id="stockResults">
+        <table class="table table-bordered table-condensed table-responsive table-striped" id="tblStockCodes">
+            <thead class="style1">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StockCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Uom)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductClass)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Stocked)
+                    </th>
+                    <th>
+                        Purchase History
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr class="nr">
+                    <td>
+                        @Html.ActionLink(item.StockCode, "Create", new { StockedItem = item.Stocked, StockCode = item.StockCode })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductClass)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td >
+                        @Html.DisplayFor(modelItem => item.Stocked)
+                    </td>
+                    <td class="text-center">
+                        <a href="@Url.Action("StockCodeSuppliers", "NonStockedMaster", new { StockCode = item.StockCode.Trim() })" class="btn btn-primary btn-xs">
+                            <span class="fa fa-binoculars" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+        @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+
+
+            function SearchStock() {
+                $.getJSON('NonStockedMaster/StockCodeList?Search1=' + $('#txtSearch').val() + '&Search2=' + $('#txtSearch1').val() + '&Search3=' + $('#txtSearch2').val() + '&Search4=' + $('#txtSearch3').val() + '&Search5=' + $('#txtSearch4').val(), function (data) {
+                    var items = '<table id="tblStockCodes" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>StockCode</th><th>Description</th><th>Uom</th><th>ProductClass</th><th>Category</th><th>Stocked</th><td>Purchase History</td></tr>';
+                    $.each(data, function (i, stockCode) {
+                        items += "<tr class='nr'><td><a href='NonStockedMaster/Create?StockedItem="
+                            + stockCode.Stocked + "&StockCode=" + stockCode.StockCode + "'>"
+                            + stockCode.StockCode + "</a></td><td>" + stockCode.Description
+                            + "</td><td>" + stockCode.Uom + "</td><td>" + stockCode.ProductClass
+                            + "</td><td>" + stockCode.Category + "</td><td>" + stockCode.Stocked
+                            + "</td><td class='text-center'><a class='btn btn-primary btn-xs', href='NonStockedMaster/StockCodeSuppliers?StockCode="
+                            + stockCode.StockCode + "'>" + "<span class='fa fa-pencil-square-o' aria-hidden='true' ></span>" + "</a></td></tr>";
+                    });
+                    items += "</table>";
+                    $('#stockResults').html(items);
+                    //alert(items);
+                });
+            }
+
+
+            $(function () {
+                $('#txtSearch').keyup(function () {
+                    SearchStock();
+                });
+
+                $('#txtSearch1').keyup(function () {
+                    SearchStock();
+                });
+
+                $('#txtSearch2').keyup(function () {
+                    SearchStock();
+                });
+
+                $('#txtSearch3').keyup(function () {
+                    SearchStock();
+                });
+
+                $('#txtSearch4').keyup(function () {
+                    SearchStock();
+                });
+
+
+                $('#tblStockCodes').tableFilter({
+
+                    //input : "input[type=search]", Default element
+
+                    trigger: {
+
+                        event: "keyup",
+                        //element : "button[name=btn-filtro]"
+                    },
+
+                    //timeout: 80,
+
+                    sort: true,
+
+                    //caseSensitive : false, Default
+
+                    callback: function () { /* Callback após o filtro */
+
+                    },
+
+                    notFoundElement: ".not-found"
+                });
+            });
+        </script>

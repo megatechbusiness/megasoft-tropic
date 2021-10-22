@@ -1,0 +1,174 @@
+﻿<div id="WaybillModal" class="wb panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Waybills
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchWaybill" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="input-group-btn">
+                            <a class="btn btn-sm btn-info" data-dismiss="modal" onclick="SaveToGrid();" id="Save"><span class="fa fa-save"> </span></a>
+                        </div>
+                        <div id="WaybillResults" class="table-responsive">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    $('#txtSearchWaybill').focus();
+
+
+    function SaveToGrid() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        var mydata = [];
+
+        $('#tblDetail').find('tr').each(function () {
+            var Exist = false;
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var TrackId = row.find('td:eq(1)').text();
+                var Waybill = row.find('td:eq(2)').text();
+                var DispatchNote = row.find('td:eq(3)').text();
+                var DispatchNoteLine = row.find('td:eq(4)').text();
+                var Customer = row.find('td:eq(5)').text();
+                var Province = row.find('td:eq(6)').text();
+                var Town = row.find('td:eq(7)').text();
+                var StockCode = row.find('td:eq(8)').text();
+                var StockDesc = row.find('td:eq(9)').text();
+                var DispatchQty = row.find('td:eq(10)').text();
+                var DispatchUom = row.find('td:eq(11)').text();
+                var LoadQty = row.find('td:eq(12)').text();
+                var LoadUom = row.find('td:eq(13)').text();
+                var Pallets = row.find('td:eq(14)').text();
+                var Weight = row.find('td:eq(15)').text();
+                var Notes = row.find('td:eq(16)').text();
+
+                //$('#tblPo').find('tr').each(function () {
+                //    var rows = $(this);
+                //    var PoWaybill = rows.find('td:eq(2)').text();
+                //    var PoDispatchNote = rows.find('td:eq(3)').text();
+                //    var PoDispatchNoteLine = rows.find('td:eq(4)').text();
+                //    //    alert(Waybill.trim() + PoWaybill.trim() + DispatchNote.trim() + PoDispatchNote.trim() + DispatchNoteLine.trim() + PoDispatchNoteLine.trim());
+                //    if (Waybill.trim() == PoWaybill.trim() && DispatchNote.trim() == PoDispatchNote.trim() && DispatchNoteLine.trim() + PoDispatchNoteLine.trim()) {
+                //        Exist = true;
+                //    }
+                //});
+                if (Exist == false) {
+                    var myObject = new Object();
+                    myObject.TrackId = TrackId;
+                    myObject.Waybill = Waybill;
+                    myObject.DispatchNote = DispatchNote;
+                    myObject.DispatchNoteLine = DispatchNoteLine;
+                    myObject.Customer = Customer;
+                    myObject.Province = Province;
+                    myObject.Town = Town;
+                    myObject.StockCode = StockCode;
+                    myObject.StockDesc = StockDesc;
+                    myObject.DispatchQty = DispatchQty;
+                    myObject.DispatchUom = DispatchUom;
+                    myObject.LoadQty = LoadQty;
+                    myObject.LoadUom = LoadUom;
+                    myObject.Pallets = Pallets;
+                    myObject.Weight = Weight;
+                    myObject.Notes = Notes;
+                    mydata.push(myObject);
+                }
+            }
+        });
+        var trHTML = '';
+        var Count = $('#tblPo > tbody.datarow > tr ').length;
+
+
+        $.each(mydata, function (index) {
+            trHTML +=
+                     '<tr class="nr">'
+                    + '<td><input type="hidden" name="Detail[' + Count + '].TrackId"  id="Detail_' + Count + '__TrackId" value="' + mydata[index].TrackId.trim()
+                    + '" /><input type="hidden" name="Detail[' + Count + '].Waybill"  id="Detail_' + Count + '__Waybill" value="' + mydata[index].Waybill.trim()
+                    + '" /><input type="hidden" name="Detail[' + Count + '].DispatchNote"  id="Detail_' + Count + '__DispatchNote" value="' + mydata[index].DispatchNote.trim()
+                    + '" /><input type="hidden" name="Detail[' + Count + '].DispatchNoteLine"  id="Detail_' + Count + '__DispatchNoteLine" value="' + mydata[index].DispatchNoteLine.trim() + '" /></td><td></td><td>' + mydata[index].Waybill + '</td><td>' + mydata[index].Customer + "-" + mydata[index].Town + "-" + mydata[index].Weight + 'kg</td><td>1</td><td><input class="form-control input-xs" name="Detail[' + Count + '].MPrice" id="Detail_' + Count + '__MPrice" ></td><td><input class="form-control input-xs" name="Detail[' + Count + '].MTaxCode" id="Detail_' + Count + '__MTaxCode" ></td><td><a href="#" class="delLine btn btn-danger btn-xs"  tabindex="-1"><span class="fa fa-trash-o" aria-hidden="true" title="Delete Line" tabindex="-1"></span></a></td>'
+                    + '</tr>'
+            Count++;
+        });
+
+        $('#tblPo').append(trHTML);
+        //$('modal-container').modal('hide');
+    }
+
+    function GetWaybill() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        if ($('#Supplier').val()) {
+            $('#tblDetail').remove();
+            $.getJSON('@Url.Action("WaybillList", "TransportSystemWaybillPoEntry")?FilterText=' + $('#Supplier').val().replace("&", "%26"), function (data) {
+           // $.getJSON('../TransportSystemWaybillPoEntry/WaybillList?FilterText=' + $('#Supplier').val().replace("&", "%26"), function (data) {
+                var items = '<table id="tblDetail" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Select</th><th>TrackId</th><th>Waybill</th><th>DispatchNote</th><th>DispatchNoteLine</th><th>Customer</th><th>Province</th><th>Town</th><th>StockCode</th><th>StockDesc</th><th>DispatchQty</th><th>DispatchUom</th><th>LoadQty</th><th>LoadUom</th><th>Pallets</th><th>Weight</th><th>Notes</th></tr>';
+                $.each(data, function (i, dat) {
+                    var Exist = false;
+                    $('#tblPo').find('tr').each(function () {
+                        var rows = $(this);
+                        var PoWaybill = rows.find('td:eq(2)').text();
+                        var PoDispatchNote = rows.find('td:eq(3)').text();
+                        var PoDispatchNoteLine = rows.find('td:eq(4)').text();
+                        // alert(dat.Waybill.trim() + PoWaybill.trim() + dat.DispatchNote.trim() + PoDispatchNote.trim() + dat.DispatchNoteLine + PoDispatchNoteLine);
+                        if (dat.Waybill.trim() == PoWaybill.trim() && dat.DispatchNote.trim() == PoDispatchNote.trim() && dat.DispatchNoteLine + PoDispatchNoteLine) {
+                            Exist = true;
+                        }
+                    });
+                    if (Exist == false) {
+                        items += "<tr class='nr' id=" + dat.Waybill + "data-dismiss='modal'><td><input type='checkbox' name='cbSelected' value='Waybill'></td><td>" + dat.TrackId + "</td><td>" + dat.Waybill + "</td><td>" + dat.DispatchNote + "</td><td>" + dat.DispatchNoteLine + "</td><td>" + dat.Customer + "</td><td>" + dat.Province + "</td><td>" + dat.Town + "</td><td>" + dat.StockCode + "</td><td>" + dat.StockDesc + "</td><td>" + dat.DispatchQty + "</td><td>" + dat.DispatchUom + "</td><td>" + dat.LoadQty + "</td><td>" + dat.LoadUom + "</td><td>" + dat.Pallets + "</td><td>" + dat.Weight + "</td><td>" + dat.Notes + "</td></tr>";
+                    }
+                });
+                items += "</table>";
+                $('#WaybillResults').html(items);
+            });
+        }
+        else {
+            alert("Please select a Supplier");
+            $('#errordiv').text("Please select a Supplier");
+            $('#errordiv').addClass("alert alert-danger");
+        }
+    }
+    $(document).ready(function () {
+
+
+        GetWaybill();
+        $('#txtSearchWaybill').focus();
+
+
+        $('#txtSearchWaybill').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblDetail .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+        });
+
+        $('#txtSearchWaybill').focus();
+
+    });
+
+</script>

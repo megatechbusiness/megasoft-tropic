@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Megasoft2.mtDepartment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+<h2>Departments</h2>
+<p>
+    <a href="@Url.Action("Create", "DepartmentMaster")" class="modal-link btn btn-success">
+        <span class="fa fa-plus-square-o" aria-hidden="true" title="Add Department"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Add Department</span></span>
+    </a>
+</p>
+<table class="table table-hover table-striped table-condensed table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            
+            <td>
+                <a href="@Url.Action("Edit", "DepartmentMaster", new { id = item.Department })" class="modal-link btn btn-primary">
+                    <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Department"></span>
+                </a>
+                <a href="@Url.Action("Delete", "DepartmentMaster", new { id = item.Department })" class="modal-link btn btn-danger">
+                    <span class="fa fa-trash-o" aria-hidden="true" title="Delete Department"></span>
+                </a>
+            </td>
+            
+        </tr>
+    }
+
+</table>

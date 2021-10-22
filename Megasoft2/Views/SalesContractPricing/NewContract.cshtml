@@ -1,0 +1,122 @@
+﻿@model Megasoft2.ViewModel.SorContractPriceViewModel
+@{
+    ViewBag.Title = "NewContract";
+}
+
+
+<h4 style="font-weight:bold;" class="text-center">New Contract</h4><hr />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmNew" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="form-horizontal row">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Customer
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm"})
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Contract
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Contract, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Stock Code
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Start Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.StartDate, new { @class = "datepicker inline-datepicker form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Expiry Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "datepicker inline-datepicker form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Fixed Uom
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.FixedUom, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row">
+        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
+                Price
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row">
+        <div class="form-group">
+            <div class="col-sm-6">
+                
+            </div>
+            <div class="col-sm-6 text-right">
+                <button type="submit" class="btn btn-default btn-sm" name="action:PostNewContract" id="PostNewContract">
+                    <span class="fa fa-save"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Post</span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+@Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+@section Scripts {
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+        $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+        $(document).ready(function () {
+
+
+            $("#frmNew").submit(function (e) {
+                showprogressbar();
+            });
+
+
+        });
+    </script>
+}

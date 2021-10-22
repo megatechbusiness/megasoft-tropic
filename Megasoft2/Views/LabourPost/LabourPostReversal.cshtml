@@ -1,0 +1,326 @@
+﻿@model Megasoft2.ViewModel.LabourPostViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmLabourPostReversal" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp&nbsp
+                    <div class="btn-group btn-breadcrumb">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                        <a href="@Url.Action("LabourPostReversal","LabourPost")" class="btn btn-default">Labour Post Reversal</a>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-danger" id="errordiv" hidden="hidden">
+                <asp:Label ID="lblError"  Text=""></asp:Label>
+            </div>
+            <div class="well">
+                <div>
+                    <div class="form-horizontal row">
+                        <button type="submit" class="btn btn-default btn-sm pull-right " id="btnPost" name="action:PostReversalJob" value="PostReversalJob">
+                            <i>Post</i>
+                        </button>
+                        @*<div class="text-right">
+                            <button ID="btnPost" type="submit" class="btn btn-info btn-sm" name="action:PostReversalJob" value="PostReversalJob" Text="Post" onclick="CheckDouble();"></button>
+                        </div>*@
+
+                    </div>
+                    <div class="form-horizontal row">
+                        @*<%-- Select Date --%>*@
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label for="txtDate" class="col-sm-4 control-label" style="text-align: left;">Date</label>
+                                    <div class="col-sm-4  ">
+                                        <div class='input-group' id=''>
+                                            @Html.TextBoxFor(model => model.Date, new { @class = "datepicker datepicker-inline form-control input-sm"})
+                                            <span class="input-group-addon input-sm">
+                                                <span class="fa fa-calendar fa-lg"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label for="tbWorkCentre" class="col-sm-4 control-label" style="text-align: left;">WorkCentre</label>
+                                    <div>
+                                        <div class="col-sm-4">
+                                            @Html.TextBoxFor(model => model.WorkCentre, new { @class = "form-control input-sm" })
+                                            @*<input ID="tbWorkCentre" class="form-control input-sm"  placeholder="WorkCentre"/>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="col-sm-6">
+                            <label for="ddlShift" class="col-sm-4 control-label" style="text-align: left;">Shift</label>
+                            <div class="input-group col-sm-8">
+                                <div class="col-sm-7">
+                                    @Html.DropDownListFor(n => n.Shift, new SelectList(ViewBag.ShiftList, "Value", "Text"), "Select Shift", new { @class = " headselect" })
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-info btn-sm" id="btnShift" name="action:LoadJobs" value="LoadJobs">
+                                        <span class="fa fa-arrow-right"></span>
+                                    </button>
+                                    @*<button type="button" class="btn btn-info btn-sm" id="btnLoad" onclick="GetJobs();">
+                                        <span class="fa fa-arrow-right"></span>
+                                    </button>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label  class="col-sm-4 control-label" style="text-align: left;">Job</label>
+                            <div class="input-group col-sm-8">
+                                <div class="col-sm-7">
+                                    @if (ViewBag.JobList == null)
+                                    {
+                                        <select id="Job" class="headselect"></select>
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(n => n.Job, new SelectList(ViewBag.JobList, "Value", "Text"), new { @class = " headselect" })
+                                    }
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-info btn-sm" id="btnLoad" onchange="" name="action:ReversalJobInfo" value="ReversalJobInfo">
+                                        <span class="fa fa-arrow-right"></span>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-horizontal row">
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="tbProductionQty" class="col-sm-4 control-label" style="text-align: left;">Production Qty</label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.ProductionQty, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="tbTotalScrap" class="col-sm-4 control-label" style="text-align: left;">Total Scrap</label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(model => model.TotalScrap, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+
+                        <div class="col-xs-8">
+                            <div class="form-group">
+                                <label for="tbJobDescription" class="col-sm-3 control-label" style="text-align: left;">Job Description</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.JobDescription, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        @*<input ID="tbJobDescription" class="form-control input-sm" readonly="readonly" placeholder="Job Description"/>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="tblDetail table table-hover table-striped myTableStyle table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                    <thead class="style1" tabindex="-1">
+                        <tr>
+                            <th>
+                                Job
+                            </th>
+                            <th>
+                                Shift
+                            </th>
+                            <th>
+                                Start Time
+                            </th>
+                            <th>
+                                End Time
+                            </th>
+                            <th>
+                                Elapsed Time
+                            </th>
+                            <th>
+                                TimeCode
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody class="datarow">
+                        @if (Model != null)
+                        {
+                            if (Model.JobLines != null)
+                            {
+                                for (int i = 0; i < Model.JobLines.Count; i++)
+                                {
+                        <tr class="nr">
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.JobLines[i].Job)
+                                @Html.HiddenFor(model => Model.JobLines[i].Job)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.JobLines[i].ShiftDesc)
+                                @Html.HiddenFor(model => Model.JobLines[i].ShiftDesc)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.JobLines[i].StartTime)
+                                @Html.HiddenFor(model => Model.JobLines[i].StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.JobLines[i].EndTime)
+                                @Html.HiddenFor(model => Model.JobLines[i].EndTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.JobLines[i].ElapsedTime)
+                                @Html.HiddenFor(model => Model.JobLines[i].ElapsedTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.JobLines[i].TimeCodeIDDesc)
+                                @Html.HiddenFor(model => Model.JobLines[i].TimeCodeIDDesc)
+                            </td>
+                        </tr>
+                                }
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
+</div>
+        <style type="text/css">
+            .ddl {
+                border-radius: 5px;
+                padding: 3px;
+                -webkit-appearance: none;
+                background-position: 88px;
+                background-repeat: no-repeat;
+            }
+        </style>
+        @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $('#Job').on("change", function () {
+                    $('#ProductionQty').val("");
+                    $('#JobDescription').val("");
+                    $('#TotalScrap').val("");
+                    $('#tblDetail tbody').empty();
+                });
+                $('#btnShift').on("click", function () {                 
+                    if ($('#Date').val() === "") {
+                        alert("Please select date.")
+                        return false;
+                    }
+                    if ($('#WorkCentre').val() === "") {
+                        alert("Please enter a work centre.")
+                        return false;
+                    }
+                    if ($('#Shift').val() === "") {
+                        alert("Please select a shift.")
+                        return false;
+                    }
+                });
+                $('#btnLoad').on("click", function () {
+                    if ($('#Shift').val() === "") {
+                        alert("Please select a shift.")
+                        return false;
+                    }
+                    if ($('#Job').val() === "") {
+                        alert("Please select a Job.")
+                        return false;
+                    }
+                });
+                $('#btnPost').on("click", function () {
+                    //alert($('#Job').val());
+                    if ($('#Job').val() === null) {
+                        alert("Please select a Job.")
+                        return false;
+                    }
+                    
+                });
+
+                $(".headselect").select2({
+                    width: '100%',
+                    placeholder: " ",
+                    allowClear: true,
+                    closeOnSelect: true
+                });
+                $(".datepicker").datepicker({ autoclose: true, todayBtn: 'linked', format: 'yyyy-mm-dd' });
+            });
+            var submit = 0;
+            function CheckDouble() {
+                if (++submit > 1) {
+                    alert('This sometimes takes a few seconds - please be patient.');
+                    return false;
+                }
+            }
+            $("#frmLabourPostReversal").submit(function (e) {
+                showprogressbar();
+            });
+            function GetJobs() {
+                $("#formerror").hide();
+                var e = document.getElementById("Shift");
+                var Shift = e.options[e.selectedIndex].value;
+
+                var WorkCentre = document.getElementById("WorkCentre").value.trim();
+                var Date = document.getElementById("Date").value.trim();
+
+                var myString = JSON.stringify({
+                    Shift: Shift,
+                    WorkCentre: WorkCentre,
+                    Date: Date
+                });
+                var exportdata = myString;
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "../LabourPost/GetReversalJobs",
+                    data: exportdata,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+
+                function OnSuccess(response) {
+                    if (response) {
+                      //  alert(response);
+                        var ddJobs = $("#Job");
+
+                        ddJobs.empty();
+                        $("#Job").prepend("<option value='' selected='selected'></option>");
+
+                        $.each(response, function () {
+                      //      alert(response);
+                            //alert(this['Value'] + ' space ' + this['Text']);
+                            ddJobs.append($("<option></option>").val(this['Value'].trim()).html(this['Text']));
+                        });
+                    }
+                }
+            }
+        </script>
+        }

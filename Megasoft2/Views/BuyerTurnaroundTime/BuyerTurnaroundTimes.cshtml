@@ -1,0 +1,154 @@
+﻿@model Megasoft2.ViewModel.BuyerStatsViewModel
+
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Buyer Turnaround Times</h4><hr />
+
+<div class="panel-body">
+    <div class="pull-right">
+        <a href="@Url.Action("Index", "BuyerTurnAroundTime", new { eGuid = Model.eGuid })" class="btn btn-default btn-sm">
+            <span class="fa fa-arrow-circle-o-left"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Back</span></span>
+        </a>
+        <button type="button" id="Export" class="btn btn-default btn-sm">
+            <span class="fa fa-file-excel-o"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Excel</span></span>
+        </button>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="form-horizontal row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">
+                                @if (Model.TurnaroundTimes != null)
+                                {
+                                    <div style="overflow: auto;height: 600px" class="col-lg-12">
+                                        <table class="tblDet table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblDet" style="table-layout:fixed;">
+                                            <thead style="background-color:#97D3DB;">
+                                                <tr class="nowrap">
+                                                    <th style="width:150px">
+                                                        Buyer
+                                                    </th>
+                                                    <th style="width:200px">                                                        
+                                                        <a href="@Url.Action("BuyerTurnaroundTimesDetail", "BuyerTurnaroundTime", new { eGuid = Model.eGuid, Report = "ReqComplete" })">
+                                                            Avg Days to Complete
+                                                        </a>
+                                                    </th>
+
+                                                    <th style="width:200px">
+                                                        <a href="@Url.Action("BuyerTurnaroundTimesDetail", "BuyerTurnaroundTime", new { eGuid = Model.eGuid, Report = "ReqAccepted" })">
+                                                            Avg Days to Accept
+                                                        </a>
+                                                        
+                                                    </th>
+                                                    <th style="width:200px">
+                                                        <a href="@Url.Action("BuyerTurnaroundTimesDetail", "BuyerTurnaroundTime", new { eGuid = Model.eGuid, Report = "QuoteReceived" })">
+                                                            Avg Days to Quote
+                                                        </a>
+                                                        
+                                                    </th>
+                                                    <th style="width:200px">
+                                                        <a href="@Url.Action("BuyerTurnaroundTimesDetail", "BuyerTurnaroundTime", new { eGuid = Model.eGuid, Report = "ReqAuthorized" })">
+                                                            Avg Days to Authorize
+                                                        </a>
+                                                        
+                                                    </th>
+                                                    <th style="width:200px">
+                                                        <a href="@Url.Action("BuyerTurnaroundTimesDetail", "BuyerTurnaroundTime", new { eGuid = Model.eGuid, Report = "DaysToOrder" })">
+                                                            Avg Days to Order
+                                                        </a>
+                                                        
+                                                    </th>
+                                                    <th style="width:200px">
+                                                        <a href="@Url.Action("BuyerTurnaroundTimesDetail", "BuyerTurnaroundTime", new { eGuid = Model.eGuid, Report = "DaysToDeliver" })">
+                                                            Avg Days to Deliver
+                                                        </a>
+                                                        
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.TurnaroundTimes)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Buyer)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.ReqComplete)
+                                                        </td>
+
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.ReqAccepted)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.QuoteReceived)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.ReqAuthorized)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.DaysToOrder)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.DaysToDeliver)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Export").click(function () {
+                //alert('clicked');
+                $("#tblDet").table2excel({
+                    // exclude CSS class
+                    exclude: ".noExl",
+                    name: "BuyerTurnaroundTime",
+                    filename: "BuyerTurnaroundTime" //do not include extension
+                });
+            });
+
+            UltimateScrollingTable('tblDet', 600, 1500, 1);
+        });
+    </script>
+}

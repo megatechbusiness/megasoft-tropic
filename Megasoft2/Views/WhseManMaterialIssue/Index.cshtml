@@ -1,0 +1,87 @@
+﻿@model Megasoft2.Models.MaterialIssue
+@{
+    ViewBag.Title = "Index";
+}
+
+<fieldset>
+    <div class="form-group" style="margin-left:-20px;">
+        <div id="errordiv">
+
+        </div>
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Job
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.Job, new { @id = "txtJob", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+
+        <div class="form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Warehouse
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-xs", @style = "font-size:xx-small;", @tabindex = "-1" })
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="bin">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                StockCode
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.StockCode, new { @id = "txtStockCode", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="bin">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Reel/Pallet
+            </div>
+            <div class="editor-field col-xs-6">
+                @Html.TextBoxFor(model => model.LotNumber, new { @id = "txtLot", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                <input type="hidden" id="hdSupplier" />
+            </div>
+        </div>
+        <div class="form-horizontal row spacer-xs" id="bin">
+            <div class="control-label col-xs-2" style="text-align:left;">
+                Quantity
+            </div>
+            <div class="editor-field col-xs-5">
+                @Html.TextBoxFor(model => model.Quantity, new { @id = "txtQty", @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+            <div class="editor-field col-xs-5">
+                <a href="#" class="btn btn-default btn-xs" onclick="AddItem();" id="btnAdd">
+                    <span class="fa fa-plus" aria-hidden="true" title="Add Item"></span>
+                </a>
+            </div>
+        </div>
+        <div class="form-horizontal row text-center col-xs-8">
+
+            <a href="#" class="btn btn-primary btn-xs" onclick="PostMaterialIssue();" id="btnPost">
+                <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+            </a>
+
+        </div>
+       
+            <div class="form-horizontal row spacer-xs col-xs-8 ">
+                <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                    <thead>
+                        <tr>
+                            <th>Wh</th>
+                            <th>StockCode</th>
+                            <th>Reel/Pallet</th>
+                            <th>Qty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+        
+    </div>
+</fieldset>
+
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Content/MaterialIssue/MaterialIssue.js"></script>

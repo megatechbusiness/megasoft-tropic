@@ -1,0 +1,56 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                AP Branch
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="glResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function GetBranch()
+    {
+        $.getJSON('../Sites/ApBranchList', function (data) {
+            var items = '<table id="StockSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Branch</th><th>Description</th><th>Account</th></tr>';
+            $.each(data, function (i, glCode) {
+                items += "<tr class='nr' id=" + glCode.Branch + "  data-dismiss='modal'><td>" + glCode.Branch + "</td><td>" + glCode.Description + "</td><td>" + glCode.ApBrnGlCode + "</td></tr>";
+            });
+            items += "</table>";
+            $('#glResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetBranch();
+
+        $('#glResults').on("click", ".nr", function () {
+
+            var glCode = $(this).attr('id');
+            //do something with id
+            $('#ApBranch').val(glCode);
+
+        });
+
+
+    });
+</script>

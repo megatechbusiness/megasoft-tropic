@@ -1,0 +1,1306 @@
+﻿@model Megasoft2.ViewModel.MasterCardViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "MasterCard", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel-group" id="accordion">
+        <div id="MasterCardMain">
+            <fieldset>
+                <div class="form-horizontal row spacer">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            @if (ViewBag.ValidId != null)
+                            {
+                                if (ViewBag.ValidId == true)
+                                {
+                                    <span class="input-group-btn">
+                                        <button href="" disabled="disabled" class="btn btn-default " type="button" aria-label="Left Align">
+                                            <span class="fa fa-search" aria-hidden="true"> </span>
+                                        </button>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Header.Id, new { @class = "form-control text-right", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;", @ReadOnly = "readonly" })
+                                }
+                                else
+                                {
+                                    <span class="input-group-btn">
+                                        <button href="@Url.Action("BrowseMasterCards", "MasterCardMain")" class="btn btn-default   modal-link searchbox " type="button" aria-label="Left Align">
+                                            <span class="fa fa-search" aria-hidden="true"> </span>
+                                        </button>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Header.Id, new { @class = "form-control text-right", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                }
+                            }
+                            else
+                            {
+                                <span class="input-group-btn">
+                                    <button href="@Url.Action("BrowseMasterCards", "MasterCardMain")" class="btn btn-default   modal-link searchbox " type="button" aria-label="Left Align">
+                                        <span class="fa fa-search" aria-hidden="true"> </span>
+                                    </button>
+                                </span>
+                                @Html.TextBoxFor(model => model.Header.Id, new { @class = "form-control text-right", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                            }
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="btnGetMasterCardDetails" type="submit" aria-label="Left Align" name="action:GetMasterCardDetails" value="GetMasterCardDetails">
+                                    <span class="fa fa-arrow-circle-right" aria-hidden="true"> </span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="@Url.Action("Index", "MasterCardMain")" class="btn btn-default">
+                            <span class="fa fa-refresh" aria-hidden="true"> </span>
+                        </a>
+                    </div>
+                    <div class="col-md-5">
+                        <center><h4>Master Card</h4></center>
+                    </div>
+                    <div class="text-right">
+                        @if (ViewBag.StockCodeExists == false || Model.Header.Id == 0)
+                        {
+                            <button class="btn btn-primary" id="btnSave" type="submit" aria-label="Left Align" name="action:Save" value="Save">
+                                <span class="fa fa-save" aria-hidden="true"> </span>
+                            </button>
+                        }
+
+                        <a class="btn  btn-success" id="btnExport" onclick="ExportPdf('MasterCardReport')">
+                            <span class="fa fa-print" aria-hidden="true"> </span>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer mycontent-top">
+
+                    <div class="col-md-6 mycontent-left">
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Customer</label>
+                                <div class=" col-sm-6">
+                                    @Html.TextBoxFor(model => model.Header.Customer, new { @class = "form-control input-xs" })
+                                    @Html.ValidationMessageFor(mode => Model.Header.Customer, null, new { @class = "alert-danger" })
+                                </div>
+                                <a href="@Url.Action("CustomerSearch", "MasterCardMain")" class="btn btn-xs btn-info  modal-link searchbox " id="btnCustomer"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                                <a href="@Url.Action("AddCustomerIndex", "MasterCardMain")" class="btn btn-xs btn-success  modal-link searchbox " id="btnCustomer"><span class="fa fa-plus" aria-hidden="true"> </span></a>
+                            </div>
+
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Name</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.CustomerName, new { @class = "form-control input-xs", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Date Created</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.DateSaved, "{0:yyyy-MM-dd}", new { @class = "form-control input-xs", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Delivery Date</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.DeliveryDate, "{0:yyyy-MM-dd}", new { @class = "datepicker datepicker-inline form-control input-xs" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Stock Code</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(model => model.Header.StockCode, new { @class = "form-control input-xs" })
+                                </div>
+                                <button type="button" class="btn btn-xs btn-success" id="btnNextStockCode">
+                                    <span class="fa fa-plus" aria-hidden="true"> </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Product Description</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.ProductDescription, new { @class = "form-control input-xs" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Long Description</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.PrintDescription, new { @class = "form-control input-xs" })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Contact</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.Contact, new { @class = "form-control input-xs" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Telephone</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.Telephone, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Fax</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.Fax, new { @class = "form-control input-xs", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Email</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Header.Email, new { @class = "form-control input-xs", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Multimedia</label>
+                                <div class="col-sm-8 input-group">
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-primary btn-xs">
+                                            Browse… <input type="file" style="display: none;" multiple="" name="FileUpload">
+                                        </span>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.FileName, new { @class = "form-control input-xs", @id = "fileLabel" })
+                                    @Html.HiddenFor(model => model.Header.MultiMediaFilePath)
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="form-horizontal row spacer">
+                            <div class="col-md-12 col-xs-12">
+
+                                <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Copy to (Server)</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.CopyTo, new { @class = "form-control input-xs", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs">
+                    <li id="navSpec" class="tab active  in">
+                        <a data-toggle="tab" href="#partialSpec" id="tabSpec">
+                            SPEC
+                        </a>
+                    </li>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Header.StockCode))
+                    {
+                        <li id="navBom">
+                            <a data-toggle="tab" href="#partialBom" id="tabBom">
+                                BOM
+                            </a>
+                        </li>
+                    }
+                    <li id="navExtrusion" class="tab">
+                        <a data-toggle="tab" href="#partialExtrusion" id="tabExtrusion">
+                            EXTRUSION
+                        </a>
+                    </li>
+                    <li id="navPrinting" class="tab">
+                        <a data-toggle="tab" href="#partialPrinting" id="tabPrinting">
+                            PRINTING
+                        </a>
+                    </li>
+                    <li id="navSlitting" class="tab">
+                        <a data-toggle="tab" href="#partialSlitting" id="tabSlitting">
+                            SLITTING
+                        </a>
+                    </li>
+                    <li id="navBagging" class="tab">
+                        <a data-toggle="tab" href="#partialBagging" id="tabBagging">
+                            BAGGING
+                        </a>
+                    </li>
+                    <li id="navWicketing" class="tab">
+                        <a data-toggle="tab" href="#partialWicketing" id="tabWicketing">
+                            WICKETING
+                        </a>
+                    </li>
+                    <li id="navLamination" class="tab">
+                        <a data-toggle="tab" href="#partialLamination" id="tabLamination">
+                            LAMINATION
+                        </a>
+                    </li>
+                    <li id="navOther" class="tab">
+                        <a data-toggle="tab" href="#partialOther" id="tabOther">
+                            OTHER
+                        </a>
+                    </li>
+                    <li class="pull-right" id="">
+                        <button class="btn btn-default pull-right" onclick="openCostCentreModal();" type="button" aria-label="Left Align">
+                            <span class="fa " aria-hidden="true">Departments</span>
+                        </button>
+                    </li>
+
+                </ul>
+                <div class="tab-content">
+                    <!-- Spec section -->
+                    <div id="partialSpec" class="tab-pane fade in active">
+                        <div class="col-md-6">
+                            <div class="form-horizontal row spacer">
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-6 col-xs-12">
+
+                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Width</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.Header.Width, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-6 col-xs-12">
+
+                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Length</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.Header.Length, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-6 col-xs-12">
+
+                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Micron</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.Header.Micron, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-6 col-xs-12">
+
+                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Quantity</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.Header.Quantity, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal row spacer">
+                                    <div class="col-md-6 col-xs-12">
+
+                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Weight/1000</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.Header.Weight, new { @class = "form-control input-xs", @onkeypress = "if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Model.Header.StockCode))
+                    {
+                        <!-- Bom section -->
+                        <div id="partialBom" class="tab-pane fade">
+                            <div class="form-horizontal row spacer">
+                                <div class="col-md-12">
+                                    <div class="bs-example">
+                                        <div class="panel panel-primary">
+                                            <!-- Default panel contents -->
+                                            <div class="panel-heading" style="max-height: 52px;">
+                                                Structure and Routing
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="form-horizontal row spacer">
+                                                    <div class="col-md-4 col-xs-4">
+
+                                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">StockCode</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="bomStockCode" readonly="readonly" class="form-control input-xs" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal row spacer">
+                                                    <div class="col-md-4 col-xs-4">
+
+                                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Description</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="bomDescription" readonly="readonly" class="form-control input-xs" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row spacer">
+                                                    <div class="col-md-4 col-xs-4">
+
+                                                        <label class="col-sm-4 control-label input-xs-label" style="text-align:left;">Long Description</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="bomLongDesc" readonly="readonly" class="form-control input-xs" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-horizontal row spacer">
+                                                    <div class="col-md-4 col-xs-4">
+                                                        <div id="tree">
+                                                            @* Content will be populated by jsTree *@
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8 col-xs-8">
+                                                        <div class="form-horizontal row spacer">
+                                                            <div class="col-md-12 col-xs-12">
+                                                                <a href="@Url.Action("BomOperation", "MasterCardMain")" class="modal-link btn btn-default btn-sm" id="btnAddOperation">
+                                                                    <i class="fa fa-plus fa-lg"></i>
+                                                                </a>
+                                                                @*<a href="@Url.Action("BomCopyOperation", "MasterCardMain")" class="modal-link btn btn-default btn-sm" id="btnCopyOperation">
+                                                                        <i class="fa fa-copy fa-lg"></i>
+                                                                    </a>*@
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblOper">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th>
+                                                                                    Operation
+                                                                                </th>
+                                                                                <th>
+                                                                                    StockCode
+                                                                                </th>
+                                                                                <th>WorkCentre</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-horizontal row spacer">
+                                                            <div class="col-md-12 col-xs-12">
+                                                                <a href="@Url.Action("BomComponent", "MasterCardMain")" class="modal-link btn btn-default btn-sm" id="btnAddComponent">
+                                                                    <i class="fa fa-plus fa-lg"></i>
+                                                                </a>
+                                                                <a href="@Url.Action("BomCopyComponent", "MasterCardMain")" class="modal-link btn btn-default btn-sm" id="btnCopyComponent">
+                                                                    <i class="fa fa-copy fa-lg"></i>
+                                                                </a>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblComp">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th>
+                                                                                    Parent Part
+                                                                                </th>
+                                                                                <th>
+                                                                                    Component
+                                                                                </th>
+                                                                                <th>
+                                                                                    Sequence
+                                                                                </th>
+                                                                                <th>
+                                                                                    Qty Per
+                                                                                </th>
+                                                                                <th>
+                                                                                    %
+                                                                                </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    <!-- Extrusion section -->
+                    <div id="partialExtrusion" class="tab-pane fade in active">
+                        @Html.Partial("ExtrusionPartial", Model)
+                    </div>
+                    <!-- Printing section -->
+                    <div id="partialPrinting" class="tab-pane fade">
+                        @Html.Partial("PrintingPartial", Model)
+                    </div>
+
+                    <!-- Slitting section -->
+                    <div id="partialSlitting" class="tab-pane fade">
+                        @Html.Partial("SlittingPartial", Model)
+                    </div>
+
+                    <!-- Bagging section -->
+                    <div id="partialBagging" class="tab-pane fade">
+                        @Html.Partial("BaggingPartial", Model)
+                    </div>
+
+                    <!-- Wicketing section -->
+                    <div id="partialWicketing" class="tab-pane fade">
+                        @Html.Partial("WickettingPartial", Model)
+                    </div>
+
+                    <!-- Lamination section -->
+                    <div id="partialLamination" class="tab-pane fade">
+                        @Html.Partial("LaminationPartial", Model)
+                    </div>
+                    <!-- Other section -->
+                    <div id="partialOther" class="tab-pane fade">
+                        @Html.Partial("OtherPartial", Model)
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+    //Cost Centre Modal
+    <div class="modal fade in" id="CostCentreModal" role="dialog">
+        <div class="modal-dialog" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <h4 class="modal-title">Select Cost Centre</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-2 col-xs-12">
+                                Extrusion
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                Printing
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                Slitting
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                Bagging
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                Wicketing
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                Lamination
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Extrusion, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "ExtrusionChange();" })
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Printing, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "PrintingChange();" })
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Slitting, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "SlittingChange();" })
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Bagging, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "BaggingChange();" })
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Wicketing, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "WicketingChange();" })
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Lamination, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "LaminationChange();" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-2 col-xs-12">
+                                Other
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row spacer">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-2 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Header.Other, new { @class = "", @data_toggle = "toggle", @data_size = "mini", @data_on = "Yes", @data_off = "No", @onchange = "OtherChange();" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+<style>
+    .mycontent-left {
+        border-right: 1.5px solid #000080;
+    }
+
+    .mycontent-top {
+        border-top: 1.5px solid #000080;
+        /*border-bottom: 1px solid #000080;*/
+    }
+
+    .btn-default.active {
+        background-color: green;
+        color: white;
+    }
+
+    .tab-content {
+        /*  background: #3be9a6; */
+    }
+    /*div {
+        pointer-events: none;
+    }*/
+    /*          */
+
+</style>
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="~/Content/bootstrap-treeview/bootstrap-treeview.min.css" rel="stylesheet" />
+
+@Scripts.Render("~/Scripts/jquery-2.1.3.min.js")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+@*@Scripts.Render("~/Content/VerticalTab/VerticalTabs.js")*@
+<script type="text/javascript">
+    $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+
+    $("#tblOps").DataTable({
+        "ordering": false,
+        "fixedHeader": true,
+        "responsive": true,
+        "paging": false,
+        "searching": false,
+        "info": false
+
+    });
+
+    $("#tblComp").DataTable({
+        "ordering": false,
+        "fixedHeader": true,
+        "responsive": true,
+        "paging": false,
+        "searching": false,
+        "info": false
+    });
+
+    function ExtrusionChange() {
+
+        var control = $("#Header_Extrusion").is(":checked");
+        if (control == true) {
+            $('#tabExtrusion').show();
+            $('#navExtrusion').addClass("active in");
+            $('#navPrinting').removeClass("active in");
+            $('#navSlitting').removeClass("active in");
+            $('#navBagging').removeClass("active in");
+            $('#navWicketing').removeClass("active in");
+            $('#navLamination').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialExtrusion').addClass("active in");
+            $('#partialPrinting').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+            $('#partialLamination').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+        }
+        else {
+            $('#tabExtrusion').hide();
+            $('#navExtrusion').removeClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+        }
+    }
+
+    function PrintingChange() {
+
+        var control = $("#Header_Printing").is(":checked");
+        if (control == true) {
+            LoadPrintingColours();
+            $('#tabPrinting').show();
+            $('#navPrinting').addClass("active in");
+            $('#navExtrusion').removeClass("active in");
+            $('#navSlitting').removeClass("active in");
+            $('#navBagging').removeClass("active in");
+            $('#navWicketing').removeClass("active in");
+            $('#navLamination').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialPrinting').addClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+            $('#partialLamination').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+        }
+        else {
+            $('#tabPrinting').hide();
+            $('#navPrinting').removeClass("active in");
+            $('#partialPrinting').removeClass("active in");
+        }
+    }
+
+    function SlittingChange() {
+
+        var control = $("#Header_Slitting").is(":checked");
+        if (control == true) {
+            $('#tabSlitting').show();
+            $('#navSlitting').addClass("active in");
+            $('#navPrinting').removeClass("active in");
+            $('#navExtrusion').removeClass("active in");
+            $('#navBagging').removeClass("active in");
+            $('#navWicketing').removeClass("active in");
+            $('#navLamination').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialSlitting').addClass("active in");
+            $('#partialPrinting').removeClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+            $('#partialLamination').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+        }
+        else {
+            $('#tabSlitting').hide();
+            $('#navSlitting').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+        }
+    }
+
+    function BaggingChange() {
+
+        var control = $("#Header_Bagging").is(":checked");
+        if (control == true) {
+            $('#tabBagging').show();
+            $('#navBagging').addClass("active in");
+            $('#navPrinting').removeClass("active in");
+            $('#navSlitting').removeClass("active in");
+            $('#navExtrusion').removeClass("active in");
+            $('#navWicketing').removeClass("active in");
+            $('#navLamination').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialBagging').addClass("active in");
+            $('#partialPrinting').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+            $('#partialLamination').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+        }
+        else {
+            $('#tabBagging').hide();
+            $('#navBagging').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+        }
+    }
+
+    function WicketingChange() {
+
+        var control = $("#Header_Wicketing").is(":checked");
+        if (control == true) {
+            $('#tabWicketing').show();
+            $('#navWicketing').addClass("active in");
+            $('#navPrinting').removeClass("active in");
+            $('#navSlitting').removeClass("active in");
+            $('#navBagging').removeClass("active in");
+            $('#navExtrusion').removeClass("active in");
+            $('#navLamination').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialWicketing').addClass("active in");
+            $('#partialPrinting').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+            $('#partialLamination').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+        }
+        else {
+            $('#tabWicketing').hide();
+            $('#navWicketing').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+        }
+    }
+
+    function LaminationChange() {
+
+        var control = $("#Header_Lamination").is(":checked");
+        if (control == true) {
+            $('#tabLamination').show();
+            $('#navLamination').addClass("active in");
+            $('#navPrinting').removeClass("active in");
+            $('#navSlitting').removeClass("active in");
+            $('#navBagging').removeClass("active in");
+            $('#navWicketing').removeClass("active in");
+            $('#navExtrusion').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialLamination').addClass("active in");
+            $('#partialPrinting').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+        }
+        else {
+            $('#tabLamination').hide();
+            $('#navLamination').removeClass("active in");
+            $('#partialLamination').removeClass("active in");
+
+        }
+    }
+
+    function OtherChange() {
+
+        var control = $("#Header_Other").is(":checked");
+        if (control == true) {
+            $('#tabOther').show();
+            $('#navOther').addClass("active in");
+            $('#navLamination').removeClass("active in");
+            $('#navPrinting').removeClass("active in");
+            $('#navSlitting').removeClass("active in");
+            $('#navBagging').removeClass("active in");
+            $('#navWicketing').removeClass("active in");
+            $('#navExtrusion').removeClass("active in");
+            $('#navSpec').removeClass("active in");
+
+            $('#partialOther').addClass("active in");
+            $('#partialLamination').removeClass("active in");
+            $('#partialPrinting').removeClass("active in");
+            $('#partialSlitting').removeClass("active in");
+            $('#partialBagging').removeClass("active in");
+            $('#partialWicketing').removeClass("active in");
+            $('#partialExtrusion').removeClass("active in");
+            $('#partialSpec').removeClass("active in");
+        }
+        else {
+            $('#tabOther').hide();
+            $('#navOther').removeClass("active in");
+            $('#partialOther').removeClass("active in");
+
+        }
+    }
+
+    function openCostCentreModal() {
+
+        $('#CostCentreModal').modal('show');
+
+    }
+     function ExportPdf(Report) {
+                     var entryGuid = $('#Header_Id').val();
+                    window.open('CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');
+               }
+
+    function CountPrintingColours() {
+        var rows = document.getElementById("PrintingColoursSearch").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        $('#CoulorCount').html(rows);
+    }
+
+    function GetPrintingColours(){
+        if ($('#Header_Id').val() === '') {
+            return false;
+        }
+        var myString = JSON.stringify({
+            Id: $('#Header_Id').val()
+        });
+        var exportdata = myString;
+
+        var table = $("#PrintingColoursSearch tbody");
+
+         $.ajax({
+             type: "POST",
+             url: "@Url.Action("GetPrintingColours","MasterCardMain")",
+             data: exportdata,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+            success: function (data) {
+                table.empty();
+                $.each(data, function (a, b) {
+                    table.append("<tr class='nr' >" +
+                        "<td>" + b.Colour + "<input type ='hidden' value='" + b.ColourId + "'/></td><td><a class='btn btn-xs btn-danger' id=''><span class='fa fa-trash' aria-hidden='true' onclick='DeletePrintingColours(" + b.ColourId+");'> </span></a></td></tr>");
+                });
+                CountPrintingColours();
+
+                if (!$('#PrintingColoursModal').is(':visible')) {
+                    $('#PrintingColoursModal').modal('show');
+                }
+                else {
+                }
+            }
+        });
+    }
+
+    function GetNextStockCode() {
+        var myString = JSON.stringify({
+            customer: $('#Header_Customer').val()
+        });
+        var exportdata = myString;
+        $.ajax({
+             type: "POST",
+             url: "@Url.Action("GetNextStockCode", "MasterCardMain")",
+            data: exportdata,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+            success: function (data) {
+                //alert(data);
+                $.each(data, function (a,b) {
+                    $('#Header_StockCode').val(b.NextStockCode);
+                });
+
+            }
+        });
+    }
+
+    function LoadPrintingColours(){
+        if ($('#Header_Id').val() === '') {
+            return false;
+        }
+        var myString = JSON.stringify({
+            Id: $('#Header_Id').val()
+        });
+        var exportdata = myString;
+
+        var table = $("#PrintingColoursSearch tbody");
+
+         $.ajax({
+             type: "POST",
+             url: "@Url.Action("GetPrintingColours","MasterCardMain")",
+             data: exportdata,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+            success: function (data) {
+                table.empty();
+                $.each(data, function (a, b) {
+                    table.append("<tr class='nr' >" +
+                        "<td>" + b.Colour + "<input type ='hidden' value='" + b.ColourId + "'/></td><td><a class='btn btn-xs btn-danger' id=''><span class='fa fa-trash' aria-hidden='true' onclick='DeletePrintingColours(" + b.ColourId+");'> </span></a></td></tr>");
+                });
+                CountPrintingColours();
+            }
+        });
+    }
+
+    function SavePrintingColours() {
+        var myString = JSON.stringify({
+              Id: $('#Header_Id').val(), ColourToSave: $('#PrintColour').val()
+        });
+        var exportdata = myString;
+
+        var table = $("#PrintingColoursSearch tbody");
+
+         $.ajax({
+             type: "POST",
+             url: "@Url.Action("SavePrintingColour","MasterCardMain")",
+             data: exportdata,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             success: function (data) {
+                 if (data.indexOf("Error") === -1) {
+                     table.empty();
+                     $.each(data, function (a, b) {
+                         table.append("<tr class='nr' >" +
+                             "<td>" + b.Colour + "<input type ='hidden' value='" + b.ColourId + "'/></td><td><a class='btn btn-xs btn-danger' id=''><span class='fa fa-trash' aria-hidden='true' onclick='DeletePrintingColours(" + b.ColourId +");'> </span></a></td></tr>");
+                     });
+                     CountPrintingColours();
+                     $('#PrintColour').val("");
+                 }
+                 else {
+                     alert(data);
+                 }
+                if (!$('#PrintingColoursModal').is(':visible')) {
+                    $('#PrintingColoursModal').modal('show');
+                }
+                else {
+                }
+
+            }
+        });
+
+    }
+     function DeletePrintingColours(Coulor) {
+          var myString = JSON.stringify({
+              Id: $('#Header_Id').val(), CoulorId: Coulor
+        });
+        var exportdata = myString;
+
+        var table = $("#PrintingColoursSearch tbody");
+
+         $.ajax({
+             type: "POST",
+             url: "@Url.Action("DeletePrintingColour","MasterCardMain")",
+             data: exportdata,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             success: function (data) {
+                 if (data.indexOf("Error") === -1) {
+                     table.empty();
+                     $.each(data, function (a, b) {
+                         table.append("<tr class='nr' >" +
+                             "<td>" + b.Colour + "<input type ='hidden' value='" + b.ColourId + "'/></td><td><a class='btn btn-xs btn-danger' id=''><span class='fa fa-trash' aria-hidden='true' onclick='DeletePrintingColours(" + b.ColourId +");'> </span></a></td></tr>");
+                     });
+                     CountPrintingColours();
+                     $('#PrintColour').val("");
+                 }
+                 else {
+                     alert(data);
+                 }
+                if (!$('#PrintingColoursModal').is(':visible')) {
+                    $('#PrintingColoursModal').modal('show');
+                }
+                else {
+                }
+
+            }
+        });
+
+    }
+    function calcMass() {
+        var sum = 0;
+
+        $(".mass").each(function () {
+            sum += parseFloat($(this).val()) || 0;
+        });
+        $("#MassTotal").val(sum);
+
+    }
+    function calcMetre() {
+        var sum = 0;
+
+        $(".metre").each(function () {
+            sum += parseFloat($(this).val()) || 0;
+        });
+        $("#MetreTotal").val(sum);
+
+    }
+
+
+
+    function GetTree() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetTreeData", "MasterCardMain")',
+                data: { KeyId: $('#Header_Id').val() },
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        $('#tree').treeview({
+                            data: data,
+                            enableLinks: true,
+                            showBorder: true,
+                            bordercolor: 'Green',
+                            onNodeSelected: function (event, data) {
+                                LoadComponents(data.Component);
+                                LoadOperations(data.Component);
+                                //Change the Href Parameters based on the component selected.
+                                var url = $('#btnAddComponent').attr("href");
+                                url = "MasterCardMain/BomComponent?Id=" + $('#Header_Id').val() + "&ParentPart=" + data.Component.replace(/ /g, '%20') + "&Mode=Add";
+                                $("#btnAddComponent").attr("href", url);
+
+
+                                var url = $('#btnCopyComponent').attr("href");
+                                url = "MasterCardMain/BomCopyComponent?Id=" + $('#Header_Id').val() + "&ParentPart=" + data.Component.replace(/ /g, '%20');
+                                $("#btnCopyComponent").attr("href", url);
+
+
+                                //Change the Href Parameters based on the component selected.
+                                var url = $('#btnAddOperation').attr("href");
+                                url = "MasterCardMain/BomOperation?Id=" + $('#Header_Id').val() + "&StockCode=" + data.Component.replace(/ /g, '%20') + "&Mode=Add";
+                                $("#btnAddOperation").attr("href", url);
+
+
+                                //var url = $('#btnCopyComponent').attr("href");
+                                //url = "MasterCardMain/BomCopyOperation?Id=" + $('#Header_Id').val() + "&StockCode=" + data.Component.replace(/ /g, '%20');
+                                //$("#btnCopyOperation").attr("href", url);
+
+                                GetDescription(data.Component);
+                            }
+                        });
+
+                        LoadComponents($("#Header_StockCode").val());
+                        LoadOperations($("#Header_StockCode").val());
+                    }
+                }
+            });
+
+
+    }
+
+    function GetDescription(StockCode) {
+
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetSelectedStockCodeDesc", "MasterCardMain")',
+                data: { StockCode : StockCode },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (b, a) {
+                        $('#bomStockCode').val(a.StockCode);
+                        $('#bomDescription').val(a.Description);
+                        $('#bomLongDesc').val(a.LongDesc);
+                       });
+
+                }
+            });
+
+    }
+
+    function LoadComponents(ParentPart) {
+        var table = $("#tblComp tbody");
+
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetParentComponents", "MasterCardMain")',
+                data: { KeyId : $('#Header_Id').val(), ParentPart: ParentPart },
+                dataType: 'json',
+                success: function (data) {
+                table.empty();
+                    $.each(data, function (b, a) {
+                        table.append("<tr class='nr' ><td><a href='/MasterCardMain/BomComponent?Id=" + a.Id + "&ParentPart=" + a.ParentPart + "&Mode=Change&Component=" + a.Component.replace(/ /g, '%20') + "&SequenceNum=" + a.SequenceNum + "' class='btn btn-default btn-xs modal-link' tabindex='-1'><span class='fa fa-briefcase' aria-hidden='true' title='Change Line' tabindex='-1'></span></a> <button type='button' class='delComp btn btn-danger btn-xs'><i class='fa fa-trash fa-lg' title='Delete' aria-hidden='true'></i><span class='sr-only'>Delete</span></button></td><td>" +
+                            a.ParentPart + "</td><td>" + a.Component + "<input type='hidden' value='" + a.Route + "' /></td><td>" + a.SequenceNum + "</td><td>" + a.QtyPer + "</td><td>" + a.LayerPerc + "</td></tr>");
+                });
+              }
+            });
+    }
+
+    function LoadOperations(ParentPart) {
+        var table = $("#tblOper tbody");
+
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetStockCodeOperations", "MasterCardMain")',
+                data: { KeyId : $('#Header_Id').val(), ParentPart: ParentPart },
+                dataType: 'json',
+                success: function (data) {
+                table.empty();
+                    $.each(data, function (b, a) {
+                        table.append("<tr class='nr' ><td><a href='/MasterCardMain/BomOperation?Id=" + a.Id + "&StockCode=" + a.StockCode + "&Mode=Change&Operation=" + a.Operation + "' class='btn btn-default btn-xs modal-link' tabindex='-1'><span class='fa fa-briefcase' aria-hidden='true' title='Change Line' tabindex='-1'></span></a> <button type='button' class='delOper btn btn-danger btn-xs'><i class='fa fa-trash fa-lg' title='Delete' aria-hidden='true'></i><span class='sr-only'>Delete</span></button></td><td>" +
+                            a.Operation + "</td><td>" + a.StockCode + "<input type='hidden' value='" + a.Route + "' /></td><td>" + a.WorkCentre + "</td></tr>");
+                });
+
+                }
+            });
+
+    }
+
+
+
+    $(function () {
+        ExtrusionChange();
+        PrintingChange();
+        SlittingChange();
+        BaggingChange();
+        WicketingChange();
+        LaminationChange();
+        OtherChange();
+
+
+        //LaminationTable totals calculation
+        $(".metre").keyup(calcMetre);
+        $(".mass").keyup(calcMass);
+        calcMetre();
+        calcMass();
+
+        $('#btnSave').on('click', function(){
+            if ($('#Header_Width').val() === '') {
+                alert('SPEC : Width cannot be blank');
+                return false;
+            }
+            if ($('#Header_Length').val() === '') {
+                alert('SPEC : Length cannot be blank');
+                return false;
+            }
+            if ($('#Header_Micron').val() === '') {
+                alert('SPEC : Micron cannot be blank');
+                return false;
+            }
+        });
+
+        $('#btnExport').on('click', function () {
+
+        });
+
+        $('#btnNextStockCode').on('click', function () {
+
+            GetNextStockCode()
+        });
+
+        GetTree();
+
+        $('#tblComp').on("click", ".delComp", function () {
+
+            var $row = $(this).closest("tr");
+            var ParentPart = $(this).closest("tr").find('td:eq(1)').text();
+            var Component = $(this).closest("tr").find('td:eq(2)').text();
+            var Route = $(this).closest("tr").find('td:eq(2)').find('input[type=hidden]').val();
+            var Sequence = $(this).closest("tr").find('td:eq(3)').text();
+            var mydata = [];
+
+            var myObject = new Object();
+            myObject.Id = $('#Header_Id').val();
+            myObject.ParentPart = ParentPart;
+            myObject.Component = Component;
+            myObject.Route = Route;
+            myObject.SequenceNum = Sequence;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "MasterCardMain/DeleteComponent",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                alert(response);
+                GetTree();
+                LoadComponents($("#Header_StockCode").val());
+            }
+
+            function OnErrorCall(response) {
+                alert(response);
+            }
+
+        });
+
+
+
+        $('#tblOper').on("click", ".delOper", function () {
+
+            var $row = $(this).closest("tr");
+            var StockCode = $(this).closest("tr").find('td:eq(2)').text();
+            var Operation = $(this).closest("tr").find('td:eq(1)').text();
+            var Route = $(this).closest("tr").find('td:eq(2)').find('input[type=hidden]').val();
+
+            var mydata = [];
+
+            var myObject = new Object();
+            myObject.Id = $('#Header_Id').val();
+            myObject.StockCode = StockCode;
+            myObject.Operation = Operation;
+            myObject.Route = Route;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "MasterCardMain/DeleteOperation",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                alert(response);
+                GetTree();
+            }
+
+            function OnErrorCall(response) {
+                alert(response);
+            }
+
+        });
+
+});
+</script>

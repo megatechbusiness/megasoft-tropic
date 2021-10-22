@@ -1,0 +1,234 @@
+﻿
+<head>
+
+   
+    <title>Dashboard</title>
+
+    @*<link href="@Url.Content("~/Content/CardsV2/bootstrap.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/CardsV2/font-awesome.css")" rel="stylesheet">*@
+    <link href="@Url.Content("~/Content/CardsV2/cardstyle.css")" rel="stylesheet">
+    @*<script src="@Url.Content("~/Content/CardsV2/font-awesome.js")"></script>*@
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading dark-blue">
+                        <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content dark-blue">
+                    <div class="circle-tile-description text-faded">
+                        Posting Errors
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        265
+                        <span id="sparklineA"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading green">
+                        <i class="fa fa-inbox fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content green">
+                    <div class="circle-tile-description text-faded">
+                        Requisitions Open
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        65
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading orange">
+                        <i class="fa fa-edit fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content orange">
+                    <div class="circle-tile-description text-faded">
+                        Invoices Ready for Review
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        9 New
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading blue">
+                        <i class="fa fa-exchange fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content blue">
+                    <div class="circle-tile-description text-faded">
+                        Grn Ready for Matching
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        10
+                        <span id="sparklineB"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading red">
+                        <i class="fa fa-inbox fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content red">
+                    <div class="circle-tile-description text-faded">
+                        Requisitions Open
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        24
+                        <span id="sparklineC"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading purple">
+                        <i class="fa fa-clock-o fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content purple">
+                    <div class="circle-tile-description text-faded">
+                        Req's Awaiting Authorisation
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        96
+                        <span id="sparklineD"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading gray2">
+                        <i class="fa fa-check-square-o fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content gray2">
+                    <div class="circle-tile-description text-faded">
+                        Requisitions Accepted
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        10
+                        <span id="sparklineB"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading yellow">
+                        <i class="fa fa-thumbs-up fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content yellow">
+                    <div class="circle-tile-description text-faded">
+                        Authorised
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        10
+                        <span id="sparklineB"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading olive">
+                        <i class="fa fa-tasks fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content olive">
+                    <div class="circle-tile-description text-faded">
+                        Requisitions Awaiting Buyer
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        10
+                        <span id="sparklineB"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="circle-tile">
+                <a href="#">
+                    <div class="circle-tile-heading slate">
+                        <i class="fa fa-thumbs-up fa-fw fa-3x"></i>
+                    </div>
+                </a>
+                <div class="circle-tile-content slate">
+                    <div class="circle-tile-description text-faded">
+                        Requisitions Authorised
+                    </div>
+                    <div class="circle-tile-number text-faded">
+                        10
+                        <span id="sparklineB"></span>
+                    </div>
+                    <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="@Url.Content("~/Content/CardsV2/jquery-3.2.1.js")"></script>
+    @*<script src="@Url.Content("~/Content/CardsV2/bootstrap.js")"></script>*@
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".sidebar-toggle").click(function(){
+            $(this).hide();
+
+           $("#user-profil").show();
+
+           $("#hide-btn").show();
+
+           $(".container-2").css("width", "85%");
+
+
+        });
+
+        $("#hide-btn").click(function(){
+            $(this).hide();
+
+           $("#user-profil").hide();
+
+           $(".sidebar-toggle").show();
+
+           $(".container-2").css("width", "100%");
+
+
+        });
+    });
+    </script>
+</body>

@@ -1,0 +1,707 @@
+﻿@model Megasoft2.ViewModel.StereoSystemAddStereoViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Stereo System - Add Stereo</h4><hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmStereoMain" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    //Buttons
+    <div class="form-horizontal row spacer-xs ">
+        <div class="form-group row col-sm-12">
+            <div>
+                <a href="@Url.Action("Index", "StereoSystemAddStereo")" class="btn btn-sm btn-default pull-left hbutton "><span class="fa fa-plus-circle" aria-hidden="true"> New</span></a>
+                <button type="submit" class="btn btn-default hbutton btn-sm pull-left" id="btnSave" name="action:SaveStereoHdr" value="SaveStereoHdr">
+                    <i class="fa fa-save"> Save</i>
+                </button>
+                <button type="submit" class="btn btn-default hbutton btn-sm pull-right " id="btnVariant" name="action:CreateVariant" value="CreateVariant">
+                    <i>Create Variant</i>
+                </button>
+                <button type="submit" class="btn btn-default hbutton btn-sm pull-right auth" id="btnPost" name="action:CreatePurchaseOrder" value="CreatePurchaseOrder">
+                    <i>Post</i>
+                </button>
+
+                <button type="submit" class="btn btn-default hbutton btn-sm pull-right" id="btnDetail" style="float: right;" name="action:Detail" value="Detail">
+                    <i class="fa fa-book"> Detail</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    //Row 1
+    <div class="form-horizontal row spacer-xs">
+        @if (!ViewBag.IsValidTrackId)
+        {
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Req No.
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.ReqNo, new { @class = "form-control input-sm" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-sm" id="btnLoad" name="action:LoadTrackId" value="LoadTrackId">
+                            <span class="fa fa-arrow-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
+                    Req No.
+                </div>
+                <div class="input-group col-sm-8">
+                    @Html.TextBoxFor(model => model.ReqNo, new { @class = "form-control input-sm", @readonly = "readonly" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-sm " id="btnLoad" name="action:LoadTrackId" value="LoadTrackId" disabled>
+                            <span class="fa fa-arrow-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Supplier
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.SupplierReference, new { @class = "form-control input-sm", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("SupplierSearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="btnSupplier"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Date Proof Req.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DateProofRequired, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Quotation No.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Quotation, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Quotation Date
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Customer
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("CustomerSearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="btnCustomer"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <div class="form-group col-sm-2">
+                Print Description
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextAreaFor(model => model.PrintDescription, new { @class = "form-control", @rows = "3", @maxlength = "50", @style = "width:100%; height:50px;" })
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Stereo Type
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.DropDownListFor(n => n.StereoType, new List<SelectListItem>{
+                new SelectListItem{ Text="New", Value = "New" },
+                new SelectListItem{ Text="Repeat", Value = "Repeat" },
+                new SelectListItem{ Text="Customer Supplied", Value = "Customer" }}, new { @class = "form-control", style = "width:100%" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Invoice
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Invoice, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Colours
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.NumberColours, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Changed Plates
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.ChangePlate, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Date Stereos Req.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DateStereosRequired, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Stereo Category
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.PlateCategory, new { @class = "form-control input-sm", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("PlateCategorySearch", "StereoSystemAddStereo")" class="btn btn-sm btn-info  modal-link searchbox " id="btnSupplier"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Customer Invoice
+            </div>
+            <div class="form-group col-sm-8">
+                <div class="editor-field input-sm col-sm-8">
+                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-CustomerInv" onchange="ChangeCustomerInvoice()">
+                </div>
+                @Html.HiddenFor(model => model.CustomerInvoice)
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Stock Code
+            </div>
+            <div class="input-group col-sm-8">
+                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @id = "StockCode", @readonly = "readonly" })
+                <div class="input-group-btn">
+                    <a href="@Url.Action("StockCodeSearch", "StereoSystemAddStereo")" class="modal-link btn btn-sm btn-info searchbox " id="btnStockCode"><span class="fa fa-search" aria-hidden="true"> </span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Design Reference
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.DesignReference, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                To Charge Customer
+            </div>
+            <div class="form-group col-sm-8">
+                <div class="editor-field input-sm col-sm-8">
+                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggleCustomer" onchange="ChangeChargeCustomer()">
+                </div>
+                @Html.HiddenFor(model => model.ChargeCustomer)
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Tropic Account
+            </div>
+            <div class="form-group col-sm-8">
+                <div class="editor-field input-sm col-sm-8">
+                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggleTropic" onchange="ChangeChargeTropic()">
+                </div>
+                @Html.HiddenFor(model => model.ChargeTropic)
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Taxable
+            </div>
+            <div class="form-group col-sm-8">
+                <div class="editor-field input-sm col-sm-8">
+                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-Taxable" onchange="ChangeTaxable()">
+                </div>
+                @Html.HiddenFor(model => model.Taxable)
+                @Html.HiddenFor(model => model.Authorize)
+                @Html.HiddenFor(model => model.Approved)
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Bag Size
+            </div>
+            <div class="input-group col-sm-7">
+                @Html.TextBoxFor(model => model.BagSize, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                CYL / SLV Size
+            </div>
+            <div class="input-group col-sm-7">
+                @Html.TextBoxFor(model => model.CylSlvSize, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Surface or Reverse
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.DropDownListFor(n => n.Surface, new List<SelectListItem>{
+                new SelectListItem{ Text="SURFACE", Value = "SURFACE" },
+                new SelectListItem{ Text="REVERSE", Value = "REVERSE" }}, new { @class = "form-control", style = "width:200px" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Around
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.NumberAround, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Across
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.NumberAcross, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Sets Req.
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.NumberSetsRequired, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Position
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Position, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Colours Front
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.NumberOfColoursFront, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Colours Reverse
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.NumberOfColoursReverse, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Size
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Size, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Type of Material
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.MaterialType, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Thickness
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Thickness, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Barcode
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                Barcode Colour
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextBoxFor(model => model.BarcodeColour, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-4">
+                EyeMark Req.
+            </div>
+            <div class="form-group col-sm-8">
+                <div class="editor-field input-sm col-sm-8">
+                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-EyeMark" onchange="ChangeEyeMarkReq()">
+                </div>
+                @Html.HiddenFor(model => model.EyeMark)
+            </div>
+        </div>
+
+        <div class="form-group col-sm-6">
+            <div class="form-group col-sm-2">
+                Special Instructions
+            </div>
+            <div class="form-group col-sm-8">
+                @Html.TextAreaFor(model => model.SpecialInstructions, new { @class = "form-control", @rows = "3", @maxlength = "200", @style = "width:550px; height:50px;" })
+            </div>
+        </div>
+    </div>
+    <hr />
+}
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+<style type="text/css">
+    .nowrap {
+        white-space: nowrap;
+    }
+    .hbutton {
+        margin: 10px;
+    }
+    .hr {
+        padding: 0px;
+        margin: 0px;
+        }
+</style>
+
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+    <script type="text/javascript">
+        
+        $(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+        if ($('#Taxable').val()) {
+            if ($('#Taxable').val() === 'Y') {
+                $('#toggle-Taxable').prop('checked', true).change();
+            }
+            else if ($('#Taxable').val() === 'N') {
+                $('#toggle-Taxable').prop('checked', false).change();
+            }
+        }
+        else {
+            $('#toggle-Taxable').prop('checked', true).change();
+        }
+        if ($('#EyeMark').val()) {
+            if ($('#EyeMark').val() === 'Y') {
+                $('#toggle-EyeMark').prop('checked', true).change();
+            }
+        }
+        else {
+            $('#toggle-EyeMark').prop('checked', false).change();
+        }
+        if ($('#ChargeTropic').val()) {
+            if ($('#ChargeTropic').val() === 'Y') {
+                $('#toggleTropic').prop('checked', true).change();
+            }
+        }
+        else {
+            $('#toggleTropic').prop('checked', false).change();
+        }
+        if ($('#ChargeCustomer').val()) {
+            if ($('#ChargeCustomer').val() === 'Y') {
+                $('#toggleCustomer').prop('checked', true).change();
+            }
+        }
+        else {
+            $('#toggleCustomer').prop('checked', false).change();
+        }
+        if ($('#CustomerInvoice').val()) {
+            if ($('#CustomerInvoice').val() === 'Y') {
+                $('#toggle-CustomerInv').prop('checked', true).change();
+            }
+        }
+        else {
+            $('#toggle-CustomerInv').prop('checked', false).change();
+        }
+        function ChangeChargeTropic() {
+            if (document.getElementById('toggleTropic').checked) {
+                $('#ChargeTropic').val('Y');
+                //alert(document.getElementById("ChargeTropic").value);
+            } else {
+                $('#ChargeTropic').val('N');
+                //alert(document.getElementById("ChargeTropic").value);
+            }
+        }
+        function ChangeChargeCustomer() {
+            if (document.getElementById('toggleCustomer').checked) {
+                $('#ChargeCustomer').val('Y');
+                //alert(document.getElementById("ChargeCustomer").value);
+            } else {
+                $('#ChargeCustomer').val('N');
+                //alert(document.getElementById("ChargeCustomer").value);
+            }
+        }
+        function ChangeCustomerInvoice() {
+            if (document.getElementById('toggle-CustomerInv').checked) {
+                $('#CustomerInvoice').val('Y');
+                //alert(document.getElementById("CustomerInvoice").value);
+            } else {
+                $('#CustomerInvoice').val('N');
+                //alert(document.getElementById("CustomerInvoice").value);
+            }
+        }
+        function ChangeTaxable() {
+            if (document.getElementById('toggle-Taxable').checked) {
+                $('#Taxable').val('Y');
+                //alert(document.getElementById("Taxable").value);
+            } else {
+                $('#Taxable').val('N');
+                //alert(document.getElementById("Taxable").value);
+            }
+        }
+        function ChangeEyeMarkReq() {
+            if (document.getElementById('toggle-EyeMark').checked) {
+                $('#EyeMark').val('Y');
+                //alert(document.getElementById("EyeMark").value);
+            } else {
+                $('#EyeMark').val('N');
+                //alert(document.getElementById("EyeMark").value);
+            }
+
+        }
+
+        $(document).ready(function () {
+            if (document.getElementById("Authorize").value == 'Y') {
+
+                $('.auth').prop('disabled', false)
+            }
+            else {
+
+                $('.auth').prop('disabled', true)
+            }
+
+            $('#btnSave').on("click", function () {
+
+                if ($('#SupplierReference').val() == "") {
+                    alert('Please select a Supplier!');
+                    return false;
+                }
+                if ($('#DateProofRequired').val() == "") {
+                    alert('Please select a Date Proof is Required!');
+                    return false;
+                }
+                if ($('#Quotation').val() == "") {
+                    alert('Please enter a Quotation Number!');
+                    return false;
+                }
+                if ($('#Date').val() == "") {
+                    alert('Please select a Quotation Date!');
+                    return false;
+                }
+                if ($('#PrintDescription').val().length > 50) {
+                    alert('Print Description is too long!');
+                    return false;
+                }
+                if ($('#NumberColours').val() == "") {
+                    alert('Please enter number of colours!');
+                    return false;
+                }
+                if ($('#DateStereosRequired').val() == "") {
+                    alert('Please select Date Stereos is Required!');
+                    return false;
+                }
+                if ($('#PlateCategory').val() == "") {
+                    alert('Please select a Stereo Category!');
+                    return false;
+                }
+                if ($('#NumberColours').val() + $('#ChangePlate').val() == 0) {
+                    alert('Number of colours and Change Plate cannot be zero!');
+                    return false;
+                }
+                if ($('#PrintDescription').val() == "") {
+                    alert('Please enter a Print Description!');
+                    return false;
+                }
+
+                var result = confirm("Are you sure you want to Save?");
+                if (result) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+            $('#btnDetail').on("click", function () {
+
+                if ($('#SupplierReference').val() == "") {
+                    alert('Please select a Supplier!');
+                    return false;
+                }
+                if ($('#DateProofRequired').val() == "") {
+                    alert('Please select a Date Proof is Required!');
+                    return false;
+                }
+                if ($('#Quotation').val() == "") {
+                    alert('Please enter a Quotation Number!');
+                    return false;
+                }
+                if ($('#Date').val() == "") {
+                    alert('Please select a Quotation Date!');
+                    return false;
+                }
+                if ($('#PrintDescription').val().length > 50) {
+                    alert('Print Description is too long!');
+                    return false;
+                }
+                if ($('#NumberColours').val() == "") {
+                    alert('Please enter number of colours!');
+                    return false;
+                }
+                if ($('#DateStereosRequired').val() == "") {
+                    alert('Please select Date Stereos is Required!');
+                    return false;
+                }
+                if ($('#PlateCategory').val() == "") {
+                    alert('Please select a Stereo Category!');
+                    return false;
+                }
+                if ($('#NumberColours').val() + $('#ChangePlate').val() == 0) {
+                    alert('Number of colours and Change Plate cannot be zero!');
+                    return false;
+                }
+                if ($('#PrintDescription').val() == "") {
+                    alert('Please enter a Print Description!');
+                    return false;
+                }
+            });
+            $('#btnVariant').on("click", function () {
+                var result = confirm("Warning this will create a variant for this entry. Do you want to continue?");
+                if (result) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+
+            $("#frmStereoMain").submit(function (e) {
+                showprogressbar();
+            });
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //$('.button-checkbox').each(function () {
+
+            //    // Settings
+            //    var $widget = $(this),
+            //        $button = $widget.find('button'),
+            //        $checkbox = $widget.find('input:checkbox'),
+            //        color = $button.data('color'),
+            //        settings = {
+            //            on: {
+            //                icon: 'glyphicon glyphicon-check'
+            //            },
+            //            off: {
+            //                icon: 'glyphicon glyphicon-unchecked'
+            //            }
+            //        };
+
+            //    // Event Handlers
+            //    $button.on('click', function () {
+
+            //        $checkbox.prop('checked', !$checkbox.is(':checked'));
+            //        $checkbox.triggerHandler('change');
+            //        updateDisplay();
+            //    });
+            //    $checkbox.on('change', function () {
+            //        updateDisplay();
+
+            //    });
+
+            //    // Actions
+            //    function updateDisplay() {
+            //        var isChecked = $checkbox.is(':checked');
+
+            //        // Set the button's state
+            //        $button.data('state', (isChecked) ? "on" : "off");
+
+            //        // Set the button's icon
+            //        $button.find('.state-icon')
+            //            .removeClass()
+            //            .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            //        // Update the button's color
+            //        if (isChecked) {
+            //            $button
+            //                .removeClass('btn-default')
+            //                .addClass('btn-' + color + ' active');
+            //            $('#Approved').val('Y');
+            //        }
+            //        else {
+            //            $button
+            //                .removeClass('btn-' + color + ' active')
+            //                .addClass('btn-default');
+            //            $('#Approved').val('N');
+            //        }
+            //    }
+
+            //    // Initialization
+            //    function init() {
+
+            //        updateDisplay();
+
+            //        // Inject the icon if applicable
+            //        if ($button.find('.state-icon').length == 0) {
+            //            $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            //        }
+            //    }
+            //    init();
+            //});
+
+        });
+    </script>
+}

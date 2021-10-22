@@ -1,0 +1,79 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Province
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchProvince" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="ProvinceResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetProvinces()
+    {
+        $.getJSON('TransportSystemWayBillEntry/ProvinceList', function (data) {
+            var items = '<table id="ProvinceSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Province</th></tr>';
+            $.each(data, function (i, Province) {
+                items += "<tr class='nr' id=" + Province.Description + "  data-dismiss='modal'><td><a href=#>" + Province.Description + "</a><input type='hidden' value='" + Province.Description + "' /></td></tr>";
+            });
+            items += "</table>";
+
+            $('#ProvinceResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetProvinces();
+        $('#txtSearchProvince').focus();
+        $('#txtSearchProvince').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#ProvinceSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+        });
+
+        $('#ProvinceResults').on("click", ".nr", function () {
+
+            var rCode = $(this).find('input[type=hidden]').val();            
+            //do something with id
+            $('#Province').val(rCode);
+            window.setTimeout(function () {
+                //wait for gl code modal to close.
+            }, 500);
+
+        });
+        $('#txtSearchProvince').focus();
+
+    });
+</script>

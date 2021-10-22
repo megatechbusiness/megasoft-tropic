@@ -1,0 +1,92 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Dispatch Note
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtDispatchNoteSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="DispatchNoteResults" class="table-responsive">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetDispatchNote()
+    {
+        $.getJSON('TransportSystemWayBillEntry/DispatchNoteList?Customer=' + $('#Customer').val() + '&FilterText=' + $('#txtDispatchNoteSearch').val(), function (data) {
+            var items = '<table id="DispatchNoteSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>DispatchNote</th><th>Dispatch Note Line</th><th>Stock Code</th><th>Description</th><th>Customer</th><th>Province</th><th>Town</th><th>Quantity</th><th>Uom</th></tr>';
+            $.each(data, function (i, x) {
+                items += "<tr class='nr' id=" + x.DispatchNote + "  data-dismiss='modal'><td><a href=#>" + x.DispatchNote + "</a></td><td>" + x.DispatchNoteLine + "</td><td>" + x.StockCode + "</td><td>" + x.StockDesc + "</td><td>" + x.Customer + "</td><td>" + x.Province + "</td><td>" + x.Town + "</td><td>" + x.DispatchQty + "</td><td>" + x.DispatchUom + "</td></tr>";
+            });
+            items += "</table>";
+
+            $('#DispatchNoteResults').html(items);
+        });
+    }
+    $(document).ready(function () {
+        GetDispatchNote();
+        $('#txtDispatchNoteSearch').focus();
+
+        $('#txtDispatchNoteSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#DispatchNoteSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+
+
+        $('#DispatchNoteResults').on("click", ".nr", function () {
+
+            var rCode = $(this).attr('id');
+            var Line = $(this).closest("tr").find('td:eq(1)').text();
+            var StockCode = $(this).closest("tr").find('td:eq(2)').text();
+            var StockDesc = $(this).closest("tr").find('td:eq(3)').text();
+            var Customer = $(this).closest("tr").find('td:eq(4)').text();
+            var Province = $(this).closest("tr").find('td:eq(5)').text();
+            var Town = $(this).closest("tr").find('td:eq(6)').text();
+            var DispatchQty = $(this).closest("tr").find('td:eq(7)').text();
+            var DispatchUom = $(this).closest("tr").find('td:eq(8)').text();
+
+            //do something with id
+            $('#DispatchNote').val(rCode);
+            $('#DispatchNoteLine').val(Line);
+            $('#StockCode').val(StockCode);
+            $('#StockDesc').val(StockDesc);
+            $('#Town').val(Town);
+            $('#Province').val(Province);
+            $('#DispatchQty').val(DispatchQty);
+            $('#DispatchUom').val(DispatchUom);
+
+
+        });
+        window.setTimeout(function () {
+
+            $('#txtDispatchNoteSearch').focus();
+        }, 500);
+
+    });
+</script>

@@ -1,0 +1,80 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Towns
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchTown" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="TownResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetTowns()
+    {
+        $.getJSON('TransportSystemWayBillEntry/TownList', function (data) {
+            var items = '<table id="TownSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Town</th></tr>';
+            $.each(data, function (i, Town) {
+                items += "<tr class='nr' id=" + Town.Description + "  data-dismiss='modal'><td><a href=#>" + Town.Description + "</a><input type='hidden' value='" + Town.Description + "' /></td></tr>";
+            });
+            items += "</table>";
+
+            $('#TownResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetTowns();
+        $('#txtSearchTown').focus();
+        $('#txtSearchTown').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#TownSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+        });
+
+        $('#TownResults').on("click", ".nr", function () {
+
+            var rCode = $(this).find('input[type=hidden]').val();
+            
+            //do something with id
+            $('#Town').val(rCode);
+            window.setTimeout(function () {
+                //wait for gl code modal to close.
+            }, 500);
+
+        });
+        $('#txtSearchTransporter').focus();
+
+    });
+</script>

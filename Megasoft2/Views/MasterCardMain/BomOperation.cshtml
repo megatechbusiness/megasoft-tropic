@@ -1,0 +1,125 @@
+﻿@model Megasoft2.Models.MasterCardBomOperation
+<div class="bs-example">
+    <div class="panel panel-green">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                BOM Operation
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div class="form-horizontal row">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="">
+                                @* Filters Goes Here *@
+                                <table class="table table-bordered table-condensed table-responsive table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Key Id</th>
+                                            <th>
+                                                @Html.TextBoxFor(model => model.Id, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Operation</th>
+                                            <th>
+                                                @Html.TextBoxFor(model => model.Operation, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>StockCode</th>
+                                            <th>
+                                                @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.HiddenFor(model => model.Mode)
+                                            </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th>WorkCentre</th>
+                                            <th>
+                                                @Html.DropDownListFor(model => model.WorkCentre, new SelectList(ViewBag.WorkCentreList, "Value", "Text"), new { @class = "form-control input-sm", @id = "ddlAddOpWorkCentre" })
+                                                @Html.HiddenFor(model => model.Route)
+                                            </th>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <div id="errordiv">
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <button type="button" class="btn btn-success btn-sm" id="btnSaveOperation">
+                                                    <i class="fa fa-save"> Save</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSaveOperation').on('click', function (e) {
+            e.preventDefault();
+
+            var mydata = [];
+
+            var f = document.getElementById("ddlAddOpWorkCentre");
+
+            var WorkCentre = f.options[f.selectedIndex].value;
+
+            var myObject = new Object();
+            myObject.Id = $('#Id').val();
+            myObject.Operation = $('#Operation').val();
+            myObject.StockCode = $('#StockCode').val();
+            myObject.WorkCentre = WorkCentre;
+            myObject.Mode = $('#Mode').val();
+            myObject.Route = $('#Route').val();
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "MasterCardMain/SaveOperation",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+                GetTree();
+            }
+
+            function OnErrorCall(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+        });
+    });
+</script>

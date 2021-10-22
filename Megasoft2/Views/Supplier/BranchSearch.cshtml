@@ -1,0 +1,72 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Branch 
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchBranch" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="branchResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+
+    function SearchBranch()
+    {
+        $.getJSON('../Supplier/BranchSiteList', function (data) {
+            var items = '<table id="BranchSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>Branch</th><th>Description</th><th>ApBrnGlCode</th><th>ApBrnDscGlCode</th></tr>';
+            $.each(data, function (i, branch) {
+
+                items += "<tr class='nr' data-dismiss='modal'><td>" + branch.Branch + "</td><td>" + branch.Description + "</td><td>" + branch.ApBrnGlCode + "</td><td>" + branch.ApBrnDscGlCode + "</td></tr>";
+            });
+            items += "</table>";
+            $('#branchResults').html(items);
+            //alert(items);
+        });
+    }
+    $(document).ready(function () {
+
+        SearchBranch();
+
+        $('#txtSearchBranch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#BranchSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+            
+
+        });
+
+        $('#branchResults').on("click", ".nr", function () {
+
+            var Branch = $(this).find('td:eq(0)').text();
+            $('#txtBranch').val(Branch);
+        });
+    });
+</script>

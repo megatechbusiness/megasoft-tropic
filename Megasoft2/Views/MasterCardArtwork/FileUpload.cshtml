@@ -1,0 +1,25 @@
+﻿@model Megasoft2.mtMasterCardArtwork
+@{
+    ViewBag.Title = "File Upload";
+}
+
+<h2>Upload File</h2>
+
+@using (Html.BeginForm("FileUpload", "MasterCardArtwork", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(true)
+    }
+    <br />
+    <div class="form-control-static">
+        <p><label>Stock Code</label></p> @Html.TextBoxFor(x => x.StockCode, new { @class = "form-control", placeholder = "Stock Code", @readonly = "readonly" })
+        <br />
+        <p><label>Customer</label></p> @Html.TextBoxFor(x => x.Customer, new { @class = "form-control", placeholder = "Customer", @readonly = "readonly" })
+        <br />
+        <p><label>Browse File</label></p>
+        @Html.TextBox("file", "", new { type = "file", @class = "btn btn-default" })<br />
+
+        <input type="submit" value="Upload File" class="btn btn-primary" />
+    </div>
+}

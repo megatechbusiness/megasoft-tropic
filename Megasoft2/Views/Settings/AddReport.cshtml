@@ -1,0 +1,208 @@
+﻿@model Megasoft2.ViewModel.SettingsViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="bs-example">
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("ReportAutomationSettings", "Settings")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("AddReport", "Settings")" class="btn btn-default">Add Report</a>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSettings" }))
+        {
+            @Html.AntiForgeryToken()
+            if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger fade in">
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+
+            <div class="panel-body">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+
+
+
+                    <div class="well well-lg">
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group pull-right">
+                                    <div class="col-sm-4 selectContainer text-right">
+                                        <button type="submit" id="btnPost" class="btn btn-default btn-sm" name="action:AddNewReport" value="AddNewReport">
+                                            <i class="fa fa-save fa-lg" title="Save" aria-hidden="true"></i>
+                                            <span class="sr-only">Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+
+
+
+                                    <div class="col-sm-3">
+
+                                        Report Name
+                                        @Html.TextBoxFor(model => model.ReportAutomation.Report, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Service Interval Min
+                                        @Html.TextBoxFor(model => model.ReportAutomation.ServiceIntervalMin, new { @class = "form-control input-sm" })
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+
+                                    <div class="col-sm-3 selectContainer">
+                                        Schedule Mode
+                                        @Html.DropDownListFor(model => model.ReportAutomation.ServiceScheduleMode, new SelectList(ViewBag.Mode, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Schedule Run Time (HH:mm)
+                                        @Html.TextBoxFor(model => model.ReportAutomation.ServiceRunTime, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Weekly Mode Day
+                                        @Html.DropDownListFor(model => model.ReportAutomation.ServiceWeeklyDay, new SelectList(ViewBag.Days, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+
+                                    <div class="col-sm-3">
+
+                                        Monthly Mode Date
+                                        @Html.DropDownListFor(model => model.ReportAutomation.ServiceMonthlyDate, new SelectList(ViewBag.Dates, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 selectContainer">
+                                        Schedule Active
+                                        @Html.DropDownListFor(model => model.ReportAutomation.ServiceActive, new SelectList(ViewBag.YesNo, "Value", "Text"), new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+
+                                        Last Run Date
+                                        @Html.TextBoxFor(model => model.ReportAutomation.LastRunDate, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                        Local File Path
+                                        @Html.TextBoxFor(model => model.ReportAutomation.ReportPath, new { @class = "form-control input-sm" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+
+                                        Title (Subject)
+                                        @Html.TextBoxFor(model => model.ReportAutomation.Title, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+
+                                        To Email                                                         <div class="pull-right">Nb. end each email with a semicolon (;)</div>
+                                        @Html.TextBoxFor(model => model.ReportAutomation.ToEmail, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#btnPost').on('click', function (e) {
+                var result = confirm("Are you sure you want to save?");
+                if (result) {
+                    if ($('#ReportAutomation_Report').val() == "") {
+                        alert("No Please enter report name.");
+                        return false
+                    }
+                    if ($('#ReportAutomation_ServiceIntervalMin').val() == "") {
+                        alert("Please enter a service interval.");
+                        return false
+                    }
+                    if ($('#ReportAutomation_ReportPath').val() == "") {
+                        alert("No file path entered.");
+                        return false
+
+                    }
+                    if ($('#ReportAutomation_ToEmail').val() == "") {
+                        alert("Mailing List cannot be empty.");
+                        return false
+                    }
+                    if ($('#ReportAutomation_Title').val() == "") {
+                        alert("Title cannot be empty.");
+                        return false
+                    }
+                    else {
+                        return true;
+                    }
+
+                }
+                else {
+                    return false;
+                }
+
+
+            });
+        });
+    </script>
+}

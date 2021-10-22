@@ -1,0 +1,284 @@
+﻿@model Megasoft2.Models.LabelPrintPoLine
+
+
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Print Label - @ViewBag.Header
+            </a>
+        </h4>
+    </div>
+    @*<script src="~/Scripts/jquery.validate.js"></script>*@
+
+    <div class="panel-body">
+        <fieldset>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        StockCode
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.StockCode)
+                        @Html.HiddenFor(model => model.PurchaseOrder)
+                        @Html.HiddenFor(model => model.Line)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Description
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Delivery Note
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.DeliveryNote)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Delivery Date
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.DeliveryDate, "{0:dd/MM/yyyy}", new { @class = "datepicker datepicker-inline form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.DeliveryDate)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Reel Quantity
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.ReelQuantity, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.ReelQuantity)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        Reel Number
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.ReelNumber, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.ReelNumber)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-3" style="text-align:left;">
+                        No. of Labels
+                    </div>
+                    <div class="editor-field input-sm col-sm-9">
+                        @Html.TextBoxFor(model => model.NoOfLables, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.NoOfLables)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="col-sm-12" style="text-align:right;">
+                        <button type="button" id="btnAdd" class="btn btn-default">
+                            <i class="fa fa-plus-circle"></i> Add Reel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines">
+                        <thead>
+                            <tr>
+                                <th>Purchase Order</th>
+                                <th>Line</th>
+                                <th>StockCode</th>
+                                <th>Description</th>
+                                <th>Reel Qty</th>
+                                <th>Reel Number</th>
+                                <th>No. of Labels</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div id="printerrordiv">
+
+            </div>
+            <div class="form-horizontal row">
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <button type="button" value="Save" class="btn btn-info" id="btnPrint">
+                            <i class="fa fa-print"></i> Print
+                        </button>
+                    </div>
+                    <div class="col-sm-6" style="text-align:right;">
+                        <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                            <i class="fa fa-close"></i> Close
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    //$(".datepicker").datepicker({ format: 'dd/mm/yyyy', autoclose: true, todayBtn: 'linked' });
+
+    function ShowErrorDiv() {
+
+        $('#printerrordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+        
+        $('#btnAdd').on('click', function (e) {
+            //e.preventDefault();
+
+            var PurchaseOrder = $('#PurchaseOrder').val();
+            var Line = $('#Line').val();
+            var StockCode = $('#StockCode').val();
+            var Description = $('#Description').val();
+            var ReelQty = $('#ReelQuantity').val();
+            var ReelNumber = $('#ReelNumber').val();
+            var NoOfLables = $('#NoOfLables').val();
+
+            if(ReelQty == "")
+            {
+                alert('Reel Quantity cannot be blank.');
+                return;
+            }
+
+            if (ReelNumber == "") {
+                alert('Reel Number cannot be blank.');
+                return;
+            }
+
+            if (NoOfLables == "") {
+                alert('No. of labels cannot be blank.');
+                return;
+            }
+
+            if (ReelQty == "0") {
+                alert('Reel Quantity cannot be zero.');
+                return;
+            }
+
+            if (NoOfLables == "0") {
+                alert('No. of labels cannot be zero.');
+                return;
+            }
+
+            $('#tblLines tbody').append("<tr class='nr'><td>" + PurchaseOrder + "</td><td>" + Line + "</td><td>" + StockCode + "</td><td>" + Description + "</td><td>" + ReelQty + "</td><td>" + ReelNumber + "</td><td>" + NoOfLables + "</td><td><a href='#' class='delLine btn btn-danger btn-xs'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a>");
+
+
+        });
+
+        $('#tblLines').on("click", ".delLine", function () {                    
+            $(this).parent().parent().remove();
+            return false;
+        });
+
+        $('#btnPrint').on('click', function (e) {
+            
+            e.preventDefault();
+
+            var DeliveryNote = $('#DeliveryNote').val();
+            var DeliveryDate = $('DeliveryDate').val();
+
+            var mydata = [];
+            $("#tblLines > tbody > tr ").each(function (i, el) {
+                       
+                var myObject = new Object();
+                var $tds = $(this).find('td')
+                var PurchaseOrder = $tds.eq(0).text();
+                var Line = $tds.eq(1).text();
+                var StockCode = $tds.eq(2).text();
+                var Description = $tds.eq(3).text();
+                var ReelQty = $tds.eq(4).text();
+                var ReelNumber = $tds.eq(5).text();
+                var NoOfLables = $tds.eq(6).text();
+
+           
+
+                myObject.PurchaseOrder = PurchaseOrder;
+                myObject.Line = Line;
+                myObject.StockCode = StockCode;
+                myObject.Description = Description;
+                myObject.ReelQuantity = ReelQty;
+                myObject.ReelNumber = ReelNumber;
+                myObject.NoOfLables = NoOfLables;
+                myObject.DeliveryNote = DeliveryNote;
+                myObject.DeliveryDate = DeliveryDate;
+                mydata.push(myObject);
+            });
+
+            
+            
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+      
+
+            $.ajax({
+                type: "POST",
+                url: "/Megasoft/PurchaseOrderLabel/PrintLabel",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+
+            function OnErrorCall(response) {
+                $('#printerrordiv').text(response);
+                $('#printerrordiv').addClass("alert alert-danger");
+            }
+        });
+    });
+</script>

@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Megasoft2.mtTransportCustomerEmailSetting>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 style="font-weight:bold;" class="text-center">Customer Email Setup</h4><hr />
+@Html.AntiForgeryToken()
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary(true)
+    </div>
+}
+<p>
+    <a href="@Url.Action("CustomerSetupCreate", "TransportSystemCustomerEmail")" class="btn btn-warning">
+        <span class="fa fa-file-o" aria-hidden="true" title="Add New Report"> Add Report</span>
+    </a>
+    <a href="@Url.Action("CustomerSetup", "TransportSystemCustomerEmail")" class="btn btn-default">
+        <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
+    </a>
+</p>
+<div class="form-group">
+    <hr />
+    <div class="col-sm-14">
+        <table class="tblCustomer table table-hover table-striped table-condensed table-responsive table-bordered " id="tblCustomer" style="table-layout:fixed;">
+            <thead class="style1">
+                <tr class="nowrap">
+
+                    <th style="">
+                        Customer
+                    </th>
+                    <th style="">
+                        From Email
+                    </th>
+
+                    <th style="width:200px">
+                        To Email
+                    </th>
+                    <th style="width:200px">
+                       CC
+                    </th>
+                    <th style="width:200px">
+                       BCC
+                    </th>
+                    <th class="nowrap" style="width:80px"></th>
+                </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="nr">
+                        <td>
+                            <a href="@Url.Action("CustomerSetupCreate", "TransportSystemCustomerEmail", new { Customer = item.Customer})">@Html.DisplayFor(model => item.Customer)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.FromEmail)
+                            @Html.HiddenFor(model => item.FromEmail)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => item.ToEmail)
+                            @Html.HiddenFor(model => item.ToEmail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CC)
+                            @Html.HiddenFor(model => item.CC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.BCC)
+                            @Html.HiddenFor(model => item.BCC)
+                        </td>
+
+                        <td>
+                            <a href="@Url.Action("CustomerSetupCreate", "TransportSystemCustomerEmail", new {Customer = item.Customer })" class="btn btn-primary btn-xs">
+                                <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Customer"></span>
+                            </a>
+                            <a href="@Url.Action("CustomerSetupDelete", "TransportSystemCustomerEmail", new { Customer = item.Customer})" class="btn btn-danger btn-xs">
+                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Customer"></span>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: black;
+        }
+    </style>
+    <link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Content/DataTable/datatables.js")
+
+
+
+
+    <script type="text/javascript">
+        $("#tblReport").DataTable({
+            scrollY: "500px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            fixedColumns: {
+                leftColumns: 2,
+                rightColumns: 1
+            }
+        });
+        $(function () {
+            $('#txtSearch').focus();
+            $('#txtSearch').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#tblReport .nr');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+
+            // UltimateScrollingTable('tblScale', 700, 1500, 1);
+        });
+    </script>
+}
+

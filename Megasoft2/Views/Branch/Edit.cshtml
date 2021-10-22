@@ -1,0 +1,109 @@
+﻿@model Megasoft2.mtBranch
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ 
+}
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger fade in">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<div class="panel panel-primary" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Edit Branch Details
+            </a>
+        </h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    <div class="panel-body">
+        <fieldset>
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Branch
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.Branch, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Branch)
+                    </div>
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Name
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.BranchName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Telephone
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Telephone)
+                    </div>
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Fax
+                    </div>
+                    <div class="editor-field input-sm col-sm-4">
+                        @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Fax)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal row">
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="text-align:left;">
+                        Email
+                    </div>
+                    <div class="editor-field input-sm col-sm-10">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="form-horizontal row">
+
+                <div class="form-group">
+                    <div class="col-md-6  col-xs-12">
+                        <button type="submit" value="Save" class="btn btn-info">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                    </div>                  
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    }
+
+    <a href="@Url.Action("Index", "Branch")" class="btn btn-primary">
+        <span class="fa fa-backward" aria-hidden="true" title="Branches"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Branches</span></span>
+    </a>
+    <a href="@Url.Action("Index", "Sites", new { Branch = Model.Branch })" class="btn btn-default">
+        <span class="fa fa-cog" aria-hidden="true" title="Sites"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> Sites</span></span>
+    </a> 
+
+</div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

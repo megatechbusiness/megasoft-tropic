@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SysproModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="mtInvoiceExtractSettings">
+          <Key>
+            <PropertyRef Name="CustomerClass" />
+          </Key>
+          <Property Name="CustomerClass" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OutputFilePath" Type="varchar" MaxLength="500" />
+          <Property Name="SFTPUrl" Type="varchar" MaxLength="500" />
+          <Property Name="SFTPUsername" Type="varchar" MaxLength="100" />
+          <Property Name="SFTPPassword" Type="varchar" MaxLength="100" />
+          <Property Name="SFTPFolder" Type="varchar" MaxLength="100" />
+          <Property Name="SFTPPort" Type="varchar" MaxLength="10" />
+          <Property Name="ServiceScheduleMode" Type="varchar" MaxLength="10" />
+          <Property Name="ServiceRunTime" Type="time" Precision="7" />
+          <Property Name="ServiceWeeklyDay" Type="varchar" MaxLength="10" />
+          <Property Name="ServiceMonthlyDate" Type="int" />
+          <Property Name="ServiceActive" Type="varchar" MaxLength="1" />
+          <Property Name="LastRunDate" Type="datetime" />
+          <Property Name="ServiceIntervalMin" Type="int" />
+          <Property Name="ApiExtractUri" Type="varchar" MaxLength="200" />
+          <Property Name="SshHostKeyFingerprint" Type="varchar" MaxLength="500" />
+          <Property Name="SshPrivateKeyPath" Type="varchar" MaxLength="200" />
+          <Property Name="FromEmail" Type="varchar" MaxLength="100" />
+          <Property Name="ToEmail" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityContainer Name="SysproModelStoreContainer">
+          <EntitySet Name="mtInvoiceExtractSettings" EntityType="Self.mtInvoiceExtractSettings" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SysproModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SysproEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="mtInvoiceExtractSettings" EntityType="SysproModel.mtInvoiceExtractSetting" />
+        </EntityContainer>
+        <EntityType Name="mtInvoiceExtractSetting">
+          <Key>
+            <PropertyRef Name="CustomerClass" />
+          </Key>
+          <Property Name="CustomerClass" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OutputFilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SFTPUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SFTPUsername" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SFTPPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SFTPFolder" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SFTPPort" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceScheduleMode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceRunTime" Type="Time" Precision="7" />
+          <Property Name="ServiceWeeklyDay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceMonthlyDate" Type="Int32" />
+          <Property Name="ServiceActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LastRunDate" Type="DateTime" Precision="3" />
+          <Property Name="ServiceIntervalMin" Type="Int32" />
+          <Property Name="ApiExtractUri" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SshHostKeyFingerprint" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SshPrivateKeyPath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FromEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ToEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SysproModelStoreContainer" CdmEntityContainer="SysproEntities">
+          <EntitySetMapping Name="mtInvoiceExtractSettings">
+            <EntityTypeMapping TypeName="SysproModel.mtInvoiceExtractSetting">
+              <MappingFragment StoreEntitySet="mtInvoiceExtractSettings">
+                <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+                <ScalarProperty Name="FromEmail" ColumnName="FromEmail" />
+                <ScalarProperty Name="SshPrivateKeyPath" ColumnName="SshPrivateKeyPath" />
+                <ScalarProperty Name="SshHostKeyFingerprint" ColumnName="SshHostKeyFingerprint" />
+                <ScalarProperty Name="ApiExtractUri" ColumnName="ApiExtractUri" />
+                <ScalarProperty Name="ServiceIntervalMin" ColumnName="ServiceIntervalMin" />
+                <ScalarProperty Name="LastRunDate" ColumnName="LastRunDate" />
+                <ScalarProperty Name="ServiceActive" ColumnName="ServiceActive" />
+                <ScalarProperty Name="ServiceMonthlyDate" ColumnName="ServiceMonthlyDate" />
+                <ScalarProperty Name="ServiceWeeklyDay" ColumnName="ServiceWeeklyDay" />
+                <ScalarProperty Name="ServiceRunTime" ColumnName="ServiceRunTime" />
+                <ScalarProperty Name="ServiceScheduleMode" ColumnName="ServiceScheduleMode" />
+                <ScalarProperty Name="SFTPPort" ColumnName="SFTPPort" />
+                <ScalarProperty Name="SFTPFolder" ColumnName="SFTPFolder" />
+                <ScalarProperty Name="SFTPPassword" ColumnName="SFTPPassword" />
+                <ScalarProperty Name="SFTPUsername" ColumnName="SFTPUsername" />
+                <ScalarProperty Name="SFTPUrl" ColumnName="SFTPUrl" />
+                <ScalarProperty Name="OutputFilePath" ColumnName="OutputFilePath" />
+                <ScalarProperty Name="CustomerClass" ColumnName="CustomerClass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

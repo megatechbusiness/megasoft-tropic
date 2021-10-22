@@ -1,0 +1,77 @@
+﻿<div id="SupplierModal" class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                GL Code
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchSupplier" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="supplierResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetSupplier()
+    {
+        //alert($('#txtSearchGlCode').val());
+        $.getJSON('../WhseManPoLabel/GlCodeList?FilterText=' + $('#txtSearchSupplier').val(), function (data) {
+            var items = '<table id="SupplierSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>GL Code</th><th>Description</th></tr>';
+            $.each(data, function (i, supplier) {
+                items += "<tr class='nr' id=" + supplier.GlCode + "  data-dismiss='modal'><td><a href=#>" + supplier.GlCode + "</a></td><td>" + supplier.Description + "</td></tr>";
+            });
+            items += "</table>";
+            $('#supplierResults').html(items);
+            //alert(items);
+        });
+        
+    }
+    $('#txtSearchSupplier').focus();
+    $(document).ready(function () {
+
+        
+
+        $('#txtSearchSupplier').focus();
+        
+
+        $('#supplierResults').on("click", ".nr", function () {
+
+
+            var ControlId = @ViewBag.ControlId.ToString();
+
+            var supplier = $(this).find('td:eq(0)').text();
+
+            $(ControlId).val(supplier);
+
+
+        });
+
+        $('#txtSearchSupplier').keyup(function () {
+            GetSupplier();
+        });
+    });
+</script>

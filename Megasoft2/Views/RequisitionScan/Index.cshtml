@@ -1,0 +1,374 @@
+﻿@model Megasoft2.ViewModel.RequsitionScanViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmReqScan" }))
+{
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <fieldset>
+        <div class="form-group " style="margin-left:-20px">
+            <div class="form-horizontal" id="firstrow">
+                <div class="col-xs-11">
+                    <button type="submit" class="btn btn-primary btn-md pull-right" id="btnRoute" name="action:RequisitionRouting" value="RequisitionRouting">
+                        <span class="fa fa-envelope-square" aria-hidden="true" title="Route"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Route</span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="firstrow">
+                <div id="errordiv" class="col-xs-11" style="font-size:x-small">
+
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Warehouse:
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.WareHouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlSource", @class = "form-control input-md" })
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="firstrow">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Cost Centres
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.CostCentre, new SelectList(ViewBag.CostCentreList, "Value", "Text"), new { @class = "form-control input-md", @style = "font-size:x-small;" })
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="StockCode">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Stock Code
+                </div>
+                <div class="editor-field col-xs-6">
+                    @Html.TextBoxFor(model => model.StockCode, new { @class = "form-control input-md", @id = "txtStockCode", @style = "font-size:x-small;" })
+                    @Html.ValidationMessageFor(model => model.StockCode)
+                </div>
+                <div class="editor-field col-xs-2">
+                    <button type="button" class="btn btn-info btn-md" id="btnLoad" onclick="GetStockCode()">
+                        <span class="fa fa-arrow-right"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="StockCodeDescription">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Description
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.TextBoxFor(model => model.StockCodeDescription, new { @class = "form-control input-md", @id = "txtStockCodeDescription", @style = "font-size:small;" })
+                    @Html.ValidationMessageFor(model => model.StockCodeDescription)
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="Quantity">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Quantity
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control input-md", @id = "txtQuantity", @style = "font-size:small;" })
+                    @Html.ValidationMessageFor(model => model.Quantity)
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="Quantity">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Comment
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.TextAreaFor(model => model.ReqComment, new { @class = "form-control input-md", @style = "font-size:small;", @rows = "3" })
+                    @Html.ValidationMessageFor(model => model.ReqComment)
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs">
+                <div class="form-group col-xs-3">
+                    &nbsp;&nbsp; &nbsp;&nbsp;Is Urgent
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="editor-field input-sm col-sm-8">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-Urgent" onchange="UrgentReq();">
+                    </div>
+                    @Html.HiddenFor(model => model.Urgent)
+                </div>
+            </div>
+            <br />
+            <div class="form-horizontal row spacer-xs" id="Quantity">
+                <div class="control-label col-xs-3" style="text-align:left;">
+                    Requisition
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.TextBoxFor(model => model.Requisition, new { @class = "form-control input-md", @id = "txtReq", @style = "font-size:small;", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Requisition)
+                </div>
+            </div>
+            <br />
+            <div class="form-horizontal row spacer-xs" id="Browse">
+
+                <label class="col-md-2">
+                    <span class="btn btn-primary btn-sm">
+                        Img1 <input type="file" style="display: none;" multiple="multiple" name="FileUpload">
+                    </span>
+                </label>
+                <label class="col-md-2">
+
+                    <span class="btn btn-primary btn-sm">
+                        Img2 <input type="file" style="display: none;" multiple="multiple" name="FileUpload">
+                    </span>
+
+                </label>
+                <label class="col-md-2">
+
+                    <span class="btn btn-primary btn-sm">
+                        Img3 <input type="file" style="display: none;" multiple="multiple" name="FileUpload">
+                    </span>
+
+                </label>
+                <label class="col-md-2">
+
+                    <span class="btn btn-primary btn-sm">
+                        Img4 <input type="file" style="display: none;" multiple="multiple" name="FileUpload">
+                    </span>
+
+                </label>
+                <label class="col-md-3">
+
+                    <span class="btn btn-primary btn-sm">
+                        Img5 <input type="file" style="display: none;" multiple="multiple" name="FileUpload">
+                    </span>
+
+                </label>
+
+
+
+            </div>
+            <div class="form-horizontal row spacer-xs" id="ImageList">
+                <div class="col-sm-11" id="show_images" style="width:auto;"></div>
+            </div>
+            <div class="form-horizontal row spacer-xs" id="firstrow">
+                <div class="col-xs-11">
+                    <button type="submit" class="btn btn-primary btn-sm bg-danger pull-right" id="btnAdd" name="action:Index" value="Index">
+                        <span class="fa fa-plus" aria-hidden="true" title="Add"> Save</span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-horizontal row spacer-xs col-xs-11">
+                <table class="table table-hover table-striped table-condensed table-responsive table-bordered display nowrap" id="tblLines">
+                    <thead>
+                        <tr class="nowrap">
+                            <th>Req. No.</th>
+                            <th>StockCode</th>
+                            <th>Desc.</th>
+                            <th>Wh</th>
+                            <th>Qty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="datarow">
+                        @if (Model != null)
+                        {
+                            if (Model.Lines != null)
+                            {
+                                for (int i = 0; i < Model.Lines.Count(); i++)
+                                {
+
+
+                                    <tr class="nr nowrap">
+                                        <td class="rowc">
+
+                                            @Html.DisplayFor(modelItem => Model.Lines[i].Requisition)
+
+                                            @Html.HiddenFor(model => Model.Lines[i].Requisition)
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => Model.Lines[i].StockCode)
+                                            @Html.HiddenFor(model => Model.Lines[i].StockCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => Model.Lines[i].StockDescription)
+                                            @Html.HiddenFor(model => Model.Lines[i].StockDescription)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => Model.Lines[i].Warehouse)
+                                            @Html.HiddenFor(model => Model.Lines[i].Warehouse)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(model => Model.Lines[i].OrderQty)
+                                            @Html.HiddenFor(model => Model.Lines[i].OrderQty)
+                                        </td>
+                                        <th>
+                                            <a href="@Url.Action("DeleteLine", "RequisitionScan", new { Requisition = @Model.Requisition, Line = Model.Lines[i].Line })" class="btn btn-danger btn-xs">
+                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Line"></span>
+                                            </a>
+                                        </th>
+
+                                    </tr>
+                                }
+                            }
+
+
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (Model != null)
+        {
+            if (Model.RouteOn != null)
+            {
+                @Html.HiddenFor(model => model.RouteOn.FirstOrDefault().UserCode)
+                @Html.HiddenFor(model => model.RouteOn.FirstOrDefault().NoOfApprovals)
+            }
+        }
+
+
+
+    </fieldset>
+
+}
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+<style type="text/css">
+    .nowrap {
+        white-space: nowrap;
+    }
+
+    .hbutton {
+        margin: 5px;
+    }
+
+    .hr {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 34px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="@Url.Content(" ~/Content/DataTable/dataTables.min.css")" />
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+<script type="text/javascript">
+
+    function GetStockCode() {
+        $('#show_images').html("");
+
+        var StockCode;
+
+        var result = document.getElementById("txtStockCode").value;
+
+        if (result.indexOf("|") > 0) {
+            var Values = result.split("|");
+            StockCode = Values[0];
+        }
+        else {
+            StockCode = result;
+        }
+
+         $.ajax({
+             type: "POST",
+             url: "@Url.Action("CheckStockCode", "RequisitionScan")?StockCode=" + StockCode,
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             success: OnSuccess,
+             failure: function () {
+                 alert(response);
+             }
+
+        });
+        function OnSuccess(response) {
+
+            if (response.StockCode!= null) {
+                document.getElementById("txtStockCodeDescription").value = response.StockCodeDescription;
+
+                //$('#imgData').attr('src', response.Image[0]);
+
+                $.each(response.Image, function (i, Ref) {
+                    $('<img style="width:50px;"/>')
+                        .attr('src', "" + Ref + "")
+                        .appendTo($('#show_images'));
+                });
+                $('#txtStockCode').val(StockCode);
+                document.getElementById("txtQuantity").focus();
+            }
+            else {
+                $('#txtStockCode').val("");
+                $('txtQuantity').val("");
+                alert("StockCode not found!");
+                $('#txtStockCodeDescription').val("");
+                $('#txtStockCode').focus();
+            }
+
+        }
+        hideprogressbar();
+    }
+
+    function AddLine() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        showprogressbar();
+
+        var Warehouse = document.getElementById('ddlSource').value;
+        var StockCode = document.getElementById('txtStockCode').value;
+        var StockCodeDescription = document.getElementById('txtStockCodeDescription').value;
+        var Quantity = document.getElementById('txtQuantity').value;
+        var BrowseImage = document.getElementById("imgBrowse").files[0].name;
+        //var result = BrowseImage;
+
+        alert( BrowseImage);
+            $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
+                "</td><td>" + StockCodeDescription + "</td><td>" + Warehouse +
+                "</td><td>" + Quantity + "</td><td><img src=" + BrowseImage +"/></td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+        hideprogressbar();
+    }
+
+    $(document).ready(function () {
+
+
+        $('#frmReqScan').keypress(function (event) {
+            if (event.keyCode == '13') {
+                event.preventDefault();
+            }
+        });
+
+
+
+
+    });
+
+    if ($('#Urgent').val()) {
+        if ($('#Urgent').val() === 'Y') {
+            $('#toggle-Urgent').prop('checked', true).change();
+        }
+        else if ($('#Urgent').val() === 'N') {
+            $('#toggle-Urgent').prop('checked', false).change();
+        }
+    }
+    else {
+        $('#toggle-Urgent').prop('checked', true).change();
+    }
+    function UrgentReq() {
+        if (document.getElementById('toggle-Urgent').checked) {
+            $('#Urgent').val('Y');
+        } else {
+            $('#Urgent').val('N');
+        }
+    }
+
+</script>
+}
+

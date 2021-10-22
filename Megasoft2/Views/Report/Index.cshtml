@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div class="form-horizontal well well-lg">
+
+    <h4 style="font-weight:bold;" class="text-center">Reports</h4><hr />
+
+        <div class="SetupContainer " id="SetupContainer">
+            @Html.Raw(ViewBag.HtmlStr)
+        </div>
+</div>
+<style type="text/css">
+    .panel-heading a:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+        color: grey;
+    }
+
+    .panel-heading a.collapsed:after {
+        content: "\e080";
+    }
+</style>
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    <script type="text/javascript">
+    //    $(document).ready(function () {
+    //        //alert();
+    //  //  RenderButtons();
+
+    //});
+        function ShowReport(Report) {
+            var entryGuid = "";
+            window.open('../CrystalReports/ReportViewer.aspx?Report=' + Report + '&EntryGuid=' + entryGuid, '_blank', 'width=900px,height=600px,location=no,menubar=no,titlebar=no,toolbar=no,resizable=yes,scrollbars=1');// calling action
+        }
+
+    @*function RenderButtons() {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("BuildReportHtmlGroups", "Report")",
+                //data:
+                contentType: "application/json; charset=utf-8",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+        function OnSuccess(response) {
+                //alert("Here");
+                //alert(response);
+                var generateHere = document.getElementById("SetupContainer");
+                generateHere.innerHTML = response;
+            }
+
+        function OnErrorCall(response) {
+            alert(response);
+            }
+
+        
+    }*@
+    </script>
+    }

@@ -1,0 +1,79 @@
+﻿@model Megasoft2.Models.BlendReprint
+
+<div class="panel panel-primary modal-body" style="border-color:white;">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Blend Reprint
+            </a>
+        </h4>
+    </div>
+    @using (Html.BeginForm("Reprint", "TankLevels", FormMethod.Post, new { @id = "formPost", }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3" style="text-align:left;">
+                            Blend No.
+                        </div>
+                        <div class="editor-field input-sm col-sm-9">
+                            @Html.TextBoxFor(model => model.BlendNo, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.BlendNo)
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="errordiv">
+
+                </div>
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="col-sm-6 text-left">
+                            <button id="btnApply" type="submit"
+                                    class="btn btn-primary">
+                                Apply
+                            </button>
+
+
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button type="button" id="close-btn" class="modal-close-btn btn btn-danger">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    }
+</div>
+
+<script type="text/javascript">
+
+    function ShowErrorDiv() {
+
+        $('#errordiv').addClass("alert alert-danger");
+
+    }
+
+    $(function () {
+
+
+
+        //$('#save-btn').click(function () {
+        //    $('#modal-container').modal('hide');
+        //});
+
+
+    });
+</script>

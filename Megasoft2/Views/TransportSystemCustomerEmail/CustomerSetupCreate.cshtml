@@ -1,0 +1,167 @@
+﻿@model Megasoft2.mtTransportCustomerEmailSetting
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="bs-example">
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("CustomerSetup", "TransportSystemCustomerEmail")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("CustomerSetupCreate", "TransportSystemCustomerEmail")" class="btn btn-default">Add Customer</a>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSettings" }))
+        {
+            @Html.AntiForgeryToken()
+            if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger fade in">
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+
+            <div class="panel-body">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+
+
+
+                    <div class="well well-lg">
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group pull-right">
+                                    <div class="col-sm-4 selectContainer text-right">
+                                        <button type="submit" id="btnPost" class="btn btn-default btn-sm" name="action:AddNewCustomer" value="AddNewCustomer">
+                                            <i class="fa fa-save fa-lg" title="Save" aria-hidden="true"></i>
+                                            <span class="sr-only">Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+
+
+                                    @if (Model != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(Model.Customer))
+                                        {
+                                            <div class="col-sm-3">
+                                                @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm", @placeholder = "Customer", @readonly = "readonly" })
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                                <a href="@Url.Action("SysproCustomerSearch", "TransportSystemCustomerEmail")" class="modal-link btn btn-success btn-sm">
+                                                    <span class="fa fa-search" aria-hidden="true" title="Browse StockCode"> </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm", @placeholder = "Customer" })
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-1 col-xs-12" style="text-align:left;">
+                                            <a href="@Url.Action("SysproCustomerSearch", "TransportSystemCustomerEmail")" class="modal-link btn btn-success btn-sm">
+                                                <span class="fa fa-search" aria-hidden="true" title="Browse StockCode"> </span>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(model => model.Customer, new { @class = "form-control input-sm", @placeholder = "Customer" })
+                                        </div>
+                                    }
+
+                                </div>
+                                        </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        To Email                                                <div class="pull-right">Nb. end each email with a semicolon (;)</div>
+                                        @Html.TextBoxFor(model => model.ToEmail, new { @class = "form-control input-sm" })
+                                        @Html.HiddenFor(model => model.FromEmail)
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+
+                                        CC                                                   <div class="pull-right">Nb. end each email with a semicolon (;)</div>
+                                        @Html.TextBoxFor(model => model.CC, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+
+                                        BCC                                                   <div class="pull-right">Nb. end each email with a semicolon (;)</div>
+                                        @Html.TextBoxFor(model => model.BCC, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#btnPost').on('click', function (e) {
+                var result = confirm("Are you sure you want to save?");
+                if (result) {
+                    if ($('#Customer').val() == "") {
+                        alert("No Please enter customer.");
+                        return false
+                    }
+                    if ($('#ToEmail').val() == "") {
+                        alert("No Please enter to email.");
+                        return false
+                    }
+
+                    else {
+                        return true;
+                    }
+
+                }
+                else {
+                    return false;
+                }
+
+
+            });
+        });
+    </script>
+}

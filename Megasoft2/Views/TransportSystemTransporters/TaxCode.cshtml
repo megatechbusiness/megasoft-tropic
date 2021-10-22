@@ -1,0 +1,87 @@
+﻿<div class="panel panel-primary modal-body">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseOne"
+               href="#collapseOne" class="collapsed">
+                Tax Codes
+            </a>
+        </h4>
+    </div>
+    <div class="panel-body" id="gl">
+        <div class="col-sm-12">
+            <div class="form-group">
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="editor-field input-sm col-sm-12">
+                            <input type="text" id="txtSearchTransporter" class="form-control input-sm" placeholder="Search" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div id="TransporterResults" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+<script type="text/javascript">
+    function GetTaxCodes() {
+       
+        $.getJSON('../TransportSystemTransporters/TaxCodeList', function (data) {
+            
+            var items = '<table id="TransporterSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>TaxCode</th><th>Description</th></tr>';
+            $.each(data, function (i, tax) {
+                
+                items += "<tr class='nr' id=" + tax.TaxCode + "  data-dismiss='modal'><td><a href=#>" + tax.TaxCode + "</a></td><td>" + tax.Description + "</td></tr>";
+            });
+            items += "</table>";
+
+            $('#TransporterResults').html(items);
+            //alert(items);
+        });
+    }
+
+    $(document).ready(function () {
+        GetTaxCodes();
+        $('#txtSearchTransporter').focus();
+        $('#txtSearchTransporter').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#TransporterSearch .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+
+        });
+
+        $('#TransporterResults').on("click", ".nr", function () {
+
+
+            var OnHold = $(this).closest("tr").find('td:eq(2)').text();
+            if (OnHold == "Y")
+            {
+                alert("Supplier on hold!");
+                return false;
+            }
+
+
+            var rCode = $(this).attr('id');
+            //do something with id
+            $('#TaxCode').val(rCode);
+
+        });
+        $('#txtSearchTransporter').focus();
+
+    });
+</script>

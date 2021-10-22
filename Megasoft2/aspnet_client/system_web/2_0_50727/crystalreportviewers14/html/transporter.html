@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+    (function() {
+
+        var sourcesMap = {}; /* SourceID -> Source Object*/
+
+        /**
+         * gets XMLHTTPRequest for Async requests
+         */
+        function getXMLHttpRequest() {
+            var createFns = [ function() {
+                return new XMLHttpRequest();
+            }, function() {
+                return new ActiveXObject('Msxml2.XMLHTTP');
+            }, function() {
+                return new ActiveXObject('Microsoft.XMLHTTP');
+            }, function() {
+                return new ActiveXObject('Msxml2.XMLHTTP.4.0');
+            }, function() {
+                throw "Browser does not support XMLHttpRequest";
+            } ];
+            
+            for ( var i = 0; i < createFns.length; i++) {
+                var func = createFns[i];
+                try {
+                    return func();
+                } catch (e) {
+                }
+            }
+
+            return null;
+        }
+
+        /**
+         * listener for readystate change of XMLHTTPRequest object
+         */
+        function onReadyStateChange(sourceId) {
+            return function() {
+                if (this.readyState == 4) {
+                    try {
+                        this.onreadystatechange = null; //this refers to XMLHTTPRequest
+                    } catch (e) {
+                        try {
+                            this.onreadystatechange = function() {
+                            };
+                        } catch (e) {
+                        }
+                    }
+
+                    onResponseReady(this.status, this.responseText, sourceId);
+                }
+            };
+        }
+
+        /**
+         *	Callback function when response is ready
+         */
+        function onResponseReady(status, responseText, sourceId) {
+            sourceId.window.postMessage(status + "|" + sourceId.RID + "|" + responseText, "*");
+            removeSource(sourceId.RID);
+        }
+
+        /**
+         * Makes ajax request to url[String] using Method[String: POST/GET] with arguments args
+         */
+        function ajax(method, url, args, headers, sourceId) {
+            var req = getXMLHttpRequest();
+            sourceId.conn = req;
+            method = method.toUpperCase();
+
+            req.onreadystatechange = onReadyStateChange(sourceId);
+            req.open(method, url, true);
+            if (headers != null) {
+                for ( var hName in headers)
+                    req.setRequestHeader(hName, headers[hName]);
+            }
+
+            if (typeof(args) == "undefined" || args === null) {
+                args = "";
+            }
+
+            req.send(args);
+        }
+
+        /**
+         * Aborts the request with ID = RID
+         */
+        function abortRequest(RID) {
+            if (sourcesMap[RID] != null) {
+                try {
+                    sourcesMap[RID].conn.abort();
+                } catch (e) {
+                }
+            }
+
+            removeSource(RID);
+        }
+
+        /**
+         * Removes source with RID=ID from hashmap (sourcesMap)
+         */
+        function removeSource(ID) {
+            delete sourcesMap[ID];
+        }
+
+        /**
+         * Listener for window.onmessage
+         */
+        function onMessage(ev) {
+            /**
+             * Source of message identifier. Used when response is ready or abort action is taken by user
+             */
+            var sourceId = {
+                window : ev.source
+            };
+
+            var jData = null;
+            try {
+                jData = eval("(" + ev.data + ")");
+            } catch (e) {
+                alert(e);
+            }
+
+            if (jData != null) {
+                sourceId.RID = jData.RID;
+                sourcesMap[sourceId.RID] = sourceId;
+                var method = jData.method.toUpperCase();
+
+                if (jData.methodArgs != null && (method == "POST" || method == "GET")) {
+                    var url = jData.methodArgs.url;
+                    var args = jData.methodArgs.args;
+                    var headers = jData.methodArgs.headers;
+
+                    ajax(method, url, args, headers, sourceId);
+                } else if (jData.type == "cancel")
+                    abortRequest(sourceId.RID);
+            }
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener("message", onMessage, false);
+        } else if (window.attachEvent) {
+            window.attachEvent("onmessage", onMessage);
+        }
+    })();
+</script>
+</head>
+<body>
+</body>
+</html>
