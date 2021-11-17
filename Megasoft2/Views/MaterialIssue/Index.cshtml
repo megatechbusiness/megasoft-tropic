@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-horizontal  row spacer-xs">
                 <div class="form-group">
                     <div class="control-label col-xs-4" style="text-align:left;">
@@ -851,6 +851,25 @@
             }
         }
 
+
+
+        function ReloadWorkCentre(Job) {
+            $.getJSON("@Url.Action("GetWorkCentresByJob","MaterialIssue")" + "?Job=" + $('#txtJob').val(), function (data) {
+                if (typeof data == 'object') {
+                    var ddlWorkCentre = $("#WorkCentre");
+
+                    ddlWorkCentre.empty();
+                    $.each(data, function (i, item) {
+
+                        $("#WorkCentre").prepend("<option value='' selected='selected'></option>");
+                        ddlWorkCentre.append($("<option></option>").val(item.WorkCentre).html(item.WorkCentre + "-" + item.Description));
+
+                    });
+
+                }
+            });
+        }
+
         $(document).ready(function () {
 
             //if (screen.width < 300) {
@@ -901,6 +920,9 @@
 
             $('#divPrint').hide();
 
+            $('#txtJob').on('change', function (e) {
+                ReloadWorkCentre(this.value);
+            });
         });
     </script>
 

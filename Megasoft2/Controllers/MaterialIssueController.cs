@@ -42,7 +42,7 @@ namespace Megasoft2.Controllers
             }
             return View();
         }
-        [MultipleButton(Name ="action",Argument ="LoadJob")]
+        [MultipleButton(Name = "action", Argument = "LoadJob")]
         [HttpPost]
         public ActionResult LoadJob(MaterialIssue model)
         {
@@ -60,7 +60,7 @@ namespace Megasoft2.Controllers
             {
                 var DeptList = (from a in db.sp_GetProductionDepartments(Job, Company, Username).ToList() select new { Value = a.CostCentre, Text = a.CostCentre }).ToList();
                 ViewBag.DepartmentList = DeptList;
-                return View("Index",model);
+                return View("Index", model);
             }
             catch (Exception)
             {
@@ -524,6 +524,20 @@ namespace Megasoft2.Controllers
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+
+        public ActionResult GetWorkCentresByJob(string Job)
+        {
+            try
+            {
+                Job = Job.PadLeft(15, '0');
+                return Json(db.mt_MaterialIssueGetWorkCentreByJob(Job).ToList());
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 

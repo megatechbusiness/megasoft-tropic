@@ -4522,6 +4522,9 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
         <Function Name="mt_InvQueryStockCodeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="mt_MaterialIssueGetWorkCentreByJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="mt_ProductionLabelCalc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
           <Parameter Name="Job" Type="varchar" Mode="In" />
@@ -7724,6 +7727,9 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
+          <FunctionImport Name="mt_MaterialIssueGetWorkCentreByJob" ReturnType="Collection(WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result)">
+            <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14326,6 +14332,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="InternalExpenseGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
+          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -21118,6 +21128,14 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
