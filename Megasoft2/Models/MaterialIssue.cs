@@ -19,5 +19,7 @@ namespace Megasoft2.Models
         public bool PrintLabelOnReturn { get; set; }
         public string Department { get; set; }
         public int NumberofLabels { get; set; }
+        public string Shift { get; set; }
+        public string WorkCentre { get; set; }
     }
 }

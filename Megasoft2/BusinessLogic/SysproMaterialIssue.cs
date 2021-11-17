@@ -43,7 +43,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<PostMaterial xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"WIPTMIDOC.XSD\">");
                     foreach (var item in myDeserializedObjList)
                     {
-                        Document.Append(this.BuildMaterialIssueDocument(item.Job, item.Warehouse, item.StockCode, item.LotNumber, item.Quantity.ToString()));
+                        Document.Append(this.BuildMaterialIssueDocument(item.Job, item.Warehouse, item.StockCode, item.LotNumber, item.Quantity.ToString(), item.WorkCentre, item.Shift));
                     }
                     Document.Append("</PostMaterial>");
                     Parameter = this.BuildMaterialIssueParameter("N");
@@ -67,7 +67,7 @@ namespace Megasoft2.BusinessLogic
                 throw new Exception(ex.Message);
             }
         }
-        public string BuildMaterialIssueDocument(string Job, string Warehouse, string StockCode, string Lot, string Quantity)
+        public string BuildMaterialIssueDocument(string Job, string Warehouse, string StockCode, string Lot, string Quantity, string WorkCentre, string Shift)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<StockCode>" + StockCode + "</StockCode>");
                 Document.Append("<Line>" + LineNo + "</Line>");
                 Document.Append("<QtyIssued>" + Quantity + "</QtyIssued>");
-                Document.Append("<Reference>" + Lot + "</Reference>");
+                Document.Append("<Reference>" + WorkCentre + " / " + Shift + "</Reference>");
                 Document.Append("<Notation>" + Lot + "</Notation>");
                 //Document.Append("<LedgerCode>00-4530</LedgerCode>");
                 //Document.Append("<PasswordForLedgerCode />");
@@ -313,10 +313,10 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("Sample XML for the Post Material Business Object");
                     Document.Append("-->");
                     Document.Append("<PostMaterial xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"WIPTMIDOC.XSD\">");
-                    foreach (var item in items)
-                    {
-                        Document.Append(this.BuildMaterialIssueDocument(item.Job, "FM", "NEWCHI036", item.Lot, item.Quantity.ToString()));
-                    }
+                    //foreach (var item in items)
+                    //{
+                    //    Document.Append(this.BuildMaterialIssueDocument(item.Job, "FM", "NEWCHI036", item.Lot, item.Quantity.ToString()));
+                    //}
                     Document.Append("</PostMaterial>");
                     Parameter = this.BuildMaterialIssueParameter("N");
                     XmlOut = objSyspro.SysproPost(Guid, Parameter, Document.ToString(), "WIPTMI");

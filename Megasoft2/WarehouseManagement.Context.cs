@@ -54,7 +54,6 @@ namespace Megasoft2
         public DbSet<mtInvDelayedPosting> mtInvDelayedPostings { get; set; }
         public DbSet<mtPurchaseOrderLabel> mtPurchaseOrderLabels { get; set; }
         public DbSet<mtStereoDetail> mtStereoDetails { get; set; }
-        public DbSet<mtStereoSupplier> mtStereoSuppliers { get; set; }
         public DbSet<mtStereoSetting> mtStereoSettings { get; set; }
         public DbSet<mtPorDeliveryImport> mtPorDeliveryImports { get; set; }
         public DbSet<AdmFormData> AdmFormDatas { get; set; }
@@ -149,6 +148,7 @@ namespace Megasoft2
         public DbSet<mtProductionPalletWeight> mtProductionPalletWeights { get; set; }
         public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
         public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
+        public DbSet<mtStereoSupplier> mtStereoSuppliers { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {

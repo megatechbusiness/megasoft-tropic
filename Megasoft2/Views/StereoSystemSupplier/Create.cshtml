@@ -16,7 +16,7 @@
             <button type="button" value="Users" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "StereoSystemSupplier") + "'");">
                 <i class="fa fa-group"></i> Suppliers
             </button>
-            <button type="submit" id ="btnSave"value="Save" class="btn btn-info">
+            <button type="submit" id="btnSave" value="Save" class="btn btn-info">
                 <i class="fa fa-save"></i> Save
             </button>
         </li>
@@ -30,32 +30,32 @@
                         <div class="form-horizontal row">
                             <div class="col-sm-6">
 
-                                    <div class="form-horizontal row">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Supplier</label>
-                                            <div class="col-sm-6">
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(model => model.tblSupplier.Supplier, new { @class = "form-control input-sm", @id = "SupplierReference", @readonly = "readonly" })
-                                                </div>
-                                                <div class="input-group-btn">
-                                                    <a href="@Url.Action("SupplierSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
-                                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Supplier</label>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(model => model.tblSupplier.Supplier, new { @class = "form-control input-sm", @id = "SupplierReference", @readonly = "readonly" })
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("SupplierSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="supbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-horizontal row">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">GL Code</label>
-                                            <div class="col-sm-6">
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(model => model.tblSupplier.GlCode, new { @class = "form-control input-sm", @id = "GlCode", @readonly = "readonly" })
-                                                </div>
-                                                <div class="input-group-btn">
-                                                    <a href="@Url.Action("GlCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
-                                                </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">GL Code</label>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(model => model.tblSupplier.CustomerExpenseGlCode, new { @class = "form-control input-sm", @id = "GlCode", @readonly = "readonly" })
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("GlCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="form-horizontal row">
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Product Class</label>
@@ -75,7 +75,7 @@
                                         <div class="col-sm-6">
                                             <div class="col-sm-10">
                                                 <div class="editor-field input-sm ">
-                                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggleTaxable" onchange="ChangeTaxable()" >
+                                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="normal" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggleTaxable" onchange="ChangeTaxable()">
 
                                                 </div>
                                                 @Html.HiddenFor(model => model.tblSupplier.Taxable)
@@ -84,19 +84,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="form-horizontal row">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Tax Code</label>
-                                            <div class="col-sm-6">
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(model => model.tblSupplier.TaxCode, new { @class = "form-control input-sm", @id = "TaxCode", @readonly = "readonly" })
-                                                </div>
-                                                <div class="input-group-btn">
-                                                    <a href="@Url.Action("TaxCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
-                                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Tax Code</label>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(model => model.tblSupplier.TaxCode, new { @class = "form-control input-sm", @id = "TaxCode", @readonly = "readonly" })
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("TaxCodeSearch", "StereoSystemSupplier")" class="btn btn-sm btn-info  modal-link searchbox " id="glbtn"><span class="fa fa-search" aria-hidden="true"> </span></a>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="form-horizontal row">
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label input-sm-label" style="text-align:left;">Email</label>
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
 
-                                </div>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
