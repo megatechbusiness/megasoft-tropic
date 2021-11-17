@@ -1032,6 +1032,9 @@
     <Compile Include="mt_InvQueryStockCodeDetails_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mt_MaterialIssueGetWorkCentreByJob_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="mt_ProductionLabelCalc_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>

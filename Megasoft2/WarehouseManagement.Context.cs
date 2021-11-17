@@ -3137,5 +3137,14 @@ namespace Megasoft2
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRequisitionHeaderCustomForm_Result>("sp_mtReqGetRequisitionHeaderCustomForm", requisitionParameter);
         }
+    
+        public virtual ObjectResult<mt_MaterialIssueGetWorkCentreByJob_Result> mt_MaterialIssueGetWorkCentreByJob(string job)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_MaterialIssueGetWorkCentreByJob_Result>("mt_MaterialIssueGetWorkCentreByJob", jobParameter);
+        }
     }
 }
