@@ -226,11 +226,11 @@ namespace Megasoft2.BusinessLogic
 
                     using (var udb = new WarehouseManagementEntities(""))
                     {
-                        string Username = HttpContext.Current.User.Identity.Name.ToUpper(); 
+                        string Username = HttpContext.Current.User.Identity.Name.ToUpper();
                         var result = (from a in model.PoLine.ToList() where a.Selected == true select a).ToList();
                         foreach (var item in result)
                         {
-                            udb.sp_StereoUpdateGrnLine(model.PurchaseOrder, (int)item.Line, Grn.PadLeft(15, '0'), model.Invoice.ToUpper(), model.InvoiceDate, model.InvoiceAmount, item.GrnWidth, item.GrnLength,Username);
+                            udb.sp_StereoUpdateGrnLine(model.PurchaseOrder, (int)item.Line, Grn.PadLeft(15, '0'), model.Invoice.ToUpper(), model.InvoiceDate, model.InvoiceAmount, item.GrnWidth, item.GrnLength, Username);
                         }
 
                     }
@@ -251,7 +251,7 @@ namespace Megasoft2.BusinessLogic
                 if (CheckAP.Count > 0)
                 {
                     return "";
-                }            
+                }
                 var Header = (from a in wdb.mtStereoHdrs where a.PurchaseOrder == model.PurchaseOrder select a).ToList().FirstOrDefault();
                 Grn = Grn.PadLeft(15, '0');
                 var result = (from a in wdb.GrnDetails.AsNoTracking() where a.Grn == Grn && a.Supplier == Header.SupplierReference select a).ToList();
@@ -524,8 +524,8 @@ namespace Megasoft2.BusinessLogic
                 {
                     return "Failed to Log in to Syspro.";
                 }
-                string GrnPost ="";
-                if(model.PoLine != null)
+                string GrnPost = "";
+                if (model.PoLine != null)
                 {
                     var result = (from a in model.PoLine.ToList() where a.Selected == true select a).ToList();
 
@@ -690,7 +690,7 @@ namespace Megasoft2.BusinessLogic
                             po.PoPrice = item.Width * item.Length * item.UnitPrice;
                             po.PurchaseOrder = PurchaseOrder.PadLeft(15, '0');
                             po.PoCreatedDate = DateTime.Now;
-                   
+
                             po.SysproPurchaseOrderLine = SysproLine;
                             wdb.Entry(po).State = EntityState.Modified;
                             wdb.SaveChanges();
@@ -714,12 +714,12 @@ namespace Megasoft2.BusinessLogic
                             wdb.SaveChanges();
 
                             //ADD LENGTH AND WIDTH TO CUSTOM FORM
-                            wdb.sp_StereoUpdateCustomDetail(PurchaseOrder.PadLeft(15, '0'), item.SysproPurchaseOrderLine, (decimal)item.Width,(decimal) item.Length);
+                            wdb.sp_StereoUpdateCustomDetail(PurchaseOrder.PadLeft(15, '0'), item.SysproPurchaseOrderLine, (decimal)item.Width, (decimal)item.Length);
                         }
 
                         mtStereoHdr flag = new mtStereoHdr();
                         flag = wdb.mtStereoHdrs.Find(model.ReqNo);
-                        if(flag != null)
+                        if (flag != null)
                         {
                             if (flag.PoCreated != "Y")
                             {
@@ -728,12 +728,12 @@ namespace Megasoft2.BusinessLogic
                                 hdb.Entry(flag).State = EntityState.Modified;
                                 hdb.SaveChanges();
                             }
-                        }  
+                        }
                     }
                     //PurchaseOrder Doesnt Exist in Custom Form
                     if (PlateCat.Count == 0)
                     {
-                       wdb.sp_StereoSaveCustomHdr(PurchaseOrder.PadLeft(15, '0'), Header.PlateCategory);
+                        wdb.sp_StereoSaveCustomHdr(PurchaseOrder.PadLeft(15, '0'), Header.PlateCategory);
                     }
                     else
                     {
@@ -802,18 +802,18 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
                 Document.Append("<StockCode>" + item.StockCode.Trim().ToUpper() + "</StockCode>");
-                Document.Append("<StockDescription>" + Header.PrintDescription+ "</StockDescription>");
-                    //string PrintDescrip = Header.PrintDescription;
-                    //int len = PrintDescrip.Length + item.Colour.Length+1;
-                    //if (len > 50)
-                    //{
-                    //    PrintDescrip = PrintDescrip.Substring(0, PrintDescrip.Length - item.Colour.Length);
-                    //    Document.Append("<StockDescription>" + PrintDescrip+"-"+item.Colour.ToUpper() + "</StockDescription>");
-                    //}
-                    //else
-                    //{
-                    //    Document.Append("<StockDescription>" + Header.PrintDescription + "-" + item.Colour.ToUpper() + "</StockDescription>");
-                    //}
+                Document.Append("<StockDescription>" + Header.PrintDescription + "</StockDescription>");
+                //string PrintDescrip = Header.PrintDescription;
+                //int len = PrintDescrip.Length + item.Colour.Length+1;
+                //if (len > 50)
+                //{
+                //    PrintDescrip = PrintDescrip.Substring(0, PrintDescrip.Length - item.Colour.Length);
+                //    Document.Append("<StockDescription>" + PrintDescrip+"-"+item.Colour.ToUpper() + "</StockDescription>");
+                //}
+                //else
+                //{
+                //    Document.Append("<StockDescription>" + Header.PrintDescription + "-" + item.Colour.ToUpper() + "</StockDescription>");
+                //}
 
                 Document.Append("<Warehouse>**</Warehouse>");
                 Document.Append("<SupCatalogue>" + item.Line + "</SupCatalogue>");
@@ -886,7 +886,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<CommentLine>");
                     Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                     Document.Append("<LineActionType>A</LineActionType>");
-                    Document.Append("<Comment>CUSTOMER : " + Customer.FirstOrDefault().Name+ "</Comment>");
+                    Document.Append("<Comment>CUSTOMER : " + Customer.FirstOrDefault().Name + "</Comment>");
                     Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                     Document.Append("<DeleteAttachedCommentLines/>");
                     Document.Append("<ChangeSingleCommentLine/>");
@@ -898,7 +898,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>QUOTE NO: "+ Header.Quotation + "</Comment>");
+                Document.Append("<Comment>QUOTE NO: " + Header.Quotation + "</Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");
@@ -1026,7 +1026,7 @@ namespace Megasoft2.BusinessLogic
                     else
                     {
                         //UPDATE EXISTING
-                       
+
                         Document.Append("<StockDescription>" + Header.PrintDescription + "</StockDescription>");
                         Document.Append("<PurchaseOrderLine>" + item.SysproPurchaseOrderLine + "</PurchaseOrderLine>");
                         Document.Append("<LineActionType>C</LineActionType>");
@@ -1066,89 +1066,89 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<WithholdingTaxExpenseType>G</WithholdingTaxExpenseType>");
                     Document.Append("<NonStockedLine>Y</NonStockedLine>");
                     Document.Append("<IncludeInMrp>Y</IncludeInMrp>");
-                    Document.Append("</StockLine>");    
-                }    
+                    Document.Append("</StockLine>");
+                }
             }
+            Document.Append("<CommentLine>");
+            Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
+            Document.Append("<LineActionType>A</LineActionType>");
+            Document.Append("<Comment>DELIVERED ON : " + Convert.ToDateTime(Header.DateStereosRequired).ToShortDateString() + "</Comment>");
+            Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
+            Document.Append("<DeleteAttachedCommentLines/>");
+            Document.Append("<ChangeSingleCommentLine/>");
+            Document.Append("</CommentLine>");
+
+            Document.Append("<CommentLine>");
+            Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
+            Document.Append("<LineActionType>A</LineActionType>");
+            Document.Append("<Comment>DEPT : STEREO PURCHASES    " + Detail.FirstOrDefault().GlCode + "</Comment>");
+            Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
+            Document.Append("<DeleteAttachedCommentLines/>");
+            Document.Append("<ChangeSingleCommentLine/>");
+            Document.Append("</CommentLine>");
+
+            if (!string.IsNullOrEmpty(Header.Customer))
+            {
+                var Customer = wdb.sp_GetStereoCustomerName(Header.Customer).ToList();
+                if (Customer.Count() > 0)
+                {
                     Document.Append("<CommentLine>");
                     Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                     Document.Append("<LineActionType>A</LineActionType>");
-                    Document.Append("<Comment>DELIVERED ON : " + Convert.ToDateTime(Header.DateStereosRequired).ToShortDateString() + "</Comment>");
+                    Document.Append("<Comment>CUSTOMER : " + Customer.FirstOrDefault().Name + "</Comment>");
                     Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                     Document.Append("<DeleteAttachedCommentLines/>");
                     Document.Append("<ChangeSingleCommentLine/>");
                     Document.Append("</CommentLine>");
+                }
+            }
+            if (!string.IsNullOrEmpty(Header.Quotation))
+            {
+                Document.Append("<CommentLine>");
+                Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
+                Document.Append("<LineActionType>A</LineActionType>");
+                Document.Append("<Comment>QUOTE NO: " + Header.Quotation + "</Comment>");
+                Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
+                Document.Append("<DeleteAttachedCommentLines/>");
+                Document.Append("<ChangeSingleCommentLine/>");
+                Document.Append("</CommentLine>");
+            }
+            var TermsCode = wdb.sp_GetSupplierTermsCode(Header.SupplierReference).FirstOrDefault();
+            if (!string.IsNullOrEmpty(TermsCode.Description))
+            {
+                Document.Append("<CommentLine>");
+                Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
+                Document.Append("<LineActionType>A</LineActionType>");
+                Document.Append("<Comment>TERMS : " + TermsCode.Description + " FROM DATE OF STATEMENT</Comment>");
+                Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
+                Document.Append("<DeleteAttachedCommentLines/>");
+                Document.Append("<ChangeSingleCommentLine/>");
+                Document.Append("</CommentLine>");
+            }
+            Document.Append("<CommentLine>");
+            Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
+            Document.Append("<LineActionType>A</LineActionType>");
+            Document.Append("<Comment>NB : E-MAIL QUERIES OF THIS ORDER TO</Comment>");
+            Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
+            Document.Append("<DeleteAttachedCommentLines/>");
+            Document.Append("<ChangeSingleCommentLine/>");
+            Document.Append("</CommentLine>");
 
-                    Document.Append("<CommentLine>");
-                    Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
-                    Document.Append("<LineActionType>A</LineActionType>");
-                    Document.Append("<Comment>DEPT : STEREO PURCHASES    " + Detail.FirstOrDefault().GlCode + "</Comment>");
-                    Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
-                    Document.Append("<DeleteAttachedCommentLines/>");
-                    Document.Append("<ChangeSingleCommentLine/>");
-                    Document.Append("</CommentLine>");
+            var Email = (from a in wdb.mtStereoSuppliers where a.Supplier == Header.SupplierReference select a.Email).ToList();
+            if (Email.Count() > 0)
+            {
+                Document.Append("<CommentLine>");
+                Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
+                Document.Append("<LineActionType>A</LineActionType>");
+                Document.Append("<Comment>     " + Email.FirstOrDefault().Trim() + "</Comment>");
+                Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
+                Document.Append("<DeleteAttachedCommentLines/>");
+                Document.Append("<ChangeSingleCommentLine/>");
+                Document.Append("</CommentLine>");
+            }
+            Document.Append("</OrderDetails>");
+            Document.Append("</Orders>");
 
-                    if (!string.IsNullOrEmpty(Header.Customer))
-                    {
-                        var Customer = wdb.sp_GetStereoCustomerName(Header.Customer).ToList();
-                        if (Customer.Count() > 0)
-                        {
-                            Document.Append("<CommentLine>");
-                            Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
-                            Document.Append("<LineActionType>A</LineActionType>");
-                            Document.Append("<Comment>CUSTOMER : " + Customer.FirstOrDefault().Name + "</Comment>");
-                            Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
-                            Document.Append("<DeleteAttachedCommentLines/>");
-                            Document.Append("<ChangeSingleCommentLine/>");
-                            Document.Append("</CommentLine>");
-                        }
-                    }
-                    if (!string.IsNullOrEmpty(Header.Quotation))
-                    {
-                        Document.Append("<CommentLine>");
-                        Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
-                        Document.Append("<LineActionType>A</LineActionType>");
-                        Document.Append("<Comment>QUOTE NO: " + Header.Quotation + "</Comment>");
-                        Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
-                        Document.Append("<DeleteAttachedCommentLines/>");
-                        Document.Append("<ChangeSingleCommentLine/>");
-                        Document.Append("</CommentLine>");
-                    }
-                    var TermsCode = wdb.sp_GetSupplierTermsCode(Header.SupplierReference).FirstOrDefault();
-                    if (!string.IsNullOrEmpty(TermsCode.Description))
-                    {
-                        Document.Append("<CommentLine>");
-                        Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
-                        Document.Append("<LineActionType>A</LineActionType>");
-                        Document.Append("<Comment>TERMS : " + TermsCode.Description + " FROM DATE OF STATEMENT</Comment>");
-                        Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
-                        Document.Append("<DeleteAttachedCommentLines/>");
-                        Document.Append("<ChangeSingleCommentLine/>");
-                        Document.Append("</CommentLine>");
-                    }
-                    Document.Append("<CommentLine>");
-                    Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
-                    Document.Append("<LineActionType>A</LineActionType>");
-                    Document.Append("<Comment>NB : E-MAIL QUERIES OF THIS ORDER TO</Comment>");
-                    Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
-                    Document.Append("<DeleteAttachedCommentLines/>");
-                    Document.Append("<ChangeSingleCommentLine/>");
-                    Document.Append("</CommentLine>");
-
-                    var Email = (from a in wdb.mtStereoSuppliers where a.Supplier == Header.SupplierReference select a.Email).ToList();
-                    if (Email.Count() > 0)
-                    {
-                        Document.Append("<CommentLine>");
-                        Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
-                        Document.Append("<LineActionType>A</LineActionType>");
-                        Document.Append("<Comment>     " + Email.FirstOrDefault().Trim() + "</Comment>");
-                        Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
-                        Document.Append("<DeleteAttachedCommentLines/>");
-                        Document.Append("<ChangeSingleCommentLine/>");
-                        Document.Append("</CommentLine>");
-                    }
-                        Document.Append("</OrderDetails>");
-                        Document.Append("</Orders>");
-            
 
             return Document.ToString();
         }

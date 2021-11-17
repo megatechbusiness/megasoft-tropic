@@ -45,6 +45,7 @@ namespace Megasoft2.BusinessLogic
             smtp.EnableSsl = true;
 
 
+
             foreach (var path in Files)
             {
                 // Create the file attachment for this e-mail message.
