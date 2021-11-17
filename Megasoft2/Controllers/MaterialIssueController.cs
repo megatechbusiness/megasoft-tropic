@@ -26,6 +26,8 @@ namespace Megasoft2.Controllers
             var Username = HttpContext.User.Identity.Name.ToUpper();
             var WhList = db.sp_GetUserWarehouses(Company, Username).ToList();
             ViewBag.Warehouse = (from a in WhList where a.Allowed == true select new { Warehouse = a.Warehouse, Description = a.Warehouse + " - " + a.Description }).ToList();
+            ViewBag.WorkCentreList = (from a in db.BomWorkCentres select new { WorkCentre = a.WorkCentre, Description = a.WorkCentre + " - " + a.Description }).ToList();
+            ViewBag.ShiftList = (from a in db.mtShifts select new { Text = a.Shift, Value = a.Reference }).ToList();
             ViewBag.PrinterList = (from a in mdb.mtUserPrinterAccesses where a.Username == Username && a.Company == Company select new { Printer = a.PrinterName, Description = a.PrinterName }).ToList();
             var PrintLabel = (from a in db.mtWhseManSettings where a.SettingId == 1 select a.PrintLabelOnMaterialIssueReturn).FirstOrDefault();
             ViewBag.DepartmentList = new List<SelectListItem>();
@@ -50,6 +52,8 @@ namespace Megasoft2.Controllers
             var Username = HttpContext.User.Identity.Name.ToUpper();
             var WhList = db.sp_GetUserWarehouses(Company, Username).ToList();
             ViewBag.Warehouse = (from a in WhList where a.Allowed == true select new { Warehouse = a.Warehouse, Description = a.Warehouse + " - " + a.Description }).ToList();
+            ViewBag.WorkCentre = (from a in db.BomWorkCentres select new { Value = a.WorkCentre, Text = a.WorkCentre + " - " + a.Description }).ToList();
+            ViewBag.ShiftList = (from a in db.mtShifts select new { Text = a.Shift, Value = a.Reference }).ToList();
             ViewBag.PrinterList = (from a in mdb.mtUserPrinterAccesses where a.Username == Username && a.Company == Company select new { Printer = a.PrinterName, Description = a.PrinterName }).ToList();
             var PrintLabel = (from a in db.mtWhseManSettings where a.SettingId == 1 select a.PrintLabelOnMaterialIssueReturn).FirstOrDefault();
             try

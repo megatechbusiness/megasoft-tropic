@@ -845,7 +845,15 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<LatestDueDate/>");
                 Document.Append("<OriginalDueDate/>");
                 Document.Append("<RescheduleDueDate/>");
-                Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
+                if (model.ChargeCustomer.ToString() == "Y")
+                {
+                    Document.Append("<LedgerCode>" + model.tblSupplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
+                }
+                else
+                {
+                    Document.Append("<LedgerCode>" + model.tblSupplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
+                }
+                //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                 Document.Append("<PasswordForLedgerCode/>");
                 Document.Append("<SubcontractOp/>");
                 Document.Append("<InspectionReqd/>");
@@ -1021,7 +1029,15 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<Warehouse>**</Warehouse>");
                         Document.Append("<SupCatalogue>" + item.Line + "</SupCatalogue>");
                         Document.Append("<PriceMethod>M</PriceMethod>");
-                        Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
+                        if (model.ChargeCustomer.ToString() == "Y")
+                        {
+                            Document.Append("<LedgerCode>" + model.tblSupplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
+                        }
+                        else
+                        {
+                            Document.Append("<LedgerCode>" + model.tblSupplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
+                        }
+                        //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                     }
                     else
                     {

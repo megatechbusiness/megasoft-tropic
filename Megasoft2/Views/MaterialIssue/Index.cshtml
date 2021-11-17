@@ -53,10 +53,32 @@
             <div class="form-horizontal  row spacer-xs">
                 <div class="form-group">
                     <div class="control-label col-xs-4" style="text-align:left;">
+                        <h4>Work Centre</h4>
+                    </div>
+                    <div class="editor-field  col-xs-7">
+                        @Html.DropDownListFor(model => model.WorkCentre, new SelectList(ViewBag.WorkCentreList, "WorkCentre", "Description"), new { @id = "ddlWorkCentre", @class = "form-control input-lg" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal  row spacer-xs">
+                <div class="form-group">
+                    <div class="control-label col-xs-4" style="text-align:left;">
                         <h4>Warehouse</h4>
                     </div>
                     <div class="editor-field  col-xs-7">
                         @Html.DropDownListFor(model => model.Warehouse, new SelectList(ViewBag.Warehouse, "Warehouse", "Description"), new { @id = "ddlWarehouse", @class = "form-control input-lg" })
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-horizontal  row spacer-xs">
+                <div class="form-group">
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        <h4>Shift</h4>
+                    </div>
+                    <div class="editor-field  col-xs-7">
+                        @Html.DropDownListFor(model => model.Shift, new SelectList(ViewBag.ShiftList, "Value", "Text"), "Select Shift", new { @id = "ddlShift", @class = "form-control input-lg" })
                     </div>
                 </div>
             </div>
@@ -424,6 +446,8 @@
                 var Lot = $tds.eq(3).text();
                 var Quantity = $tds.eq(4).text();
                 var Printer = $('#ddlPrinter').val();
+                var WorkCentre = $('#ddlWorkCentre').val();
+                var Shift = $('#ddlShift').val();
                 //var NumberofLabels = $tds.eq(5).text();
                 //var Department = $('#Department').val();
                 myObject.Job = Job;
@@ -433,6 +457,8 @@
                 myObject.Quantity = Quantity;
                 myObject.LotNumber = Lot;
                 myObject.Printer = Printer;
+                myObject.WorkCentre = WorkCentre;
+                myObject.Shift = Shift;
                 //myObject.NumberofLabels = NumberofLabels;
                 //myObject.Department = Department;
                 mydata.push(myObject);

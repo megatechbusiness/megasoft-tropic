@@ -15,10 +15,11 @@ namespace Megasoft2
     public partial class mtStereoSupplier
     {
         public string Supplier { get; set; }
-        public string GlCode { get; set; }
+        public string CustomerExpenseGlCode { get; set; }
         public string ProductClass { get; set; }
         public string Taxable { get; set; }
         public string TaxCode { get; set; }
         public string Email { get; set; }
+        public string InternalExpenseGlCode { get; set; }
     }
 }

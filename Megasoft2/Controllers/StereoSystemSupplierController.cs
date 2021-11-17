@@ -72,7 +72,7 @@ namespace Megasoft2.Controllers
                             ModelState.AddModelError("", "Please select a Supplier");
                             return View(StereoModel);
                         }
-                        if (string.IsNullOrEmpty(StereoModel.tblSupplier.GlCode))
+                        if (string.IsNullOrEmpty(StereoModel.tblSupplier.CustomerExpenseGlCode))
                         {
                             ModelState.AddModelError("", "Please select a Gl Code");
                             return View(StereoModel);
@@ -96,7 +96,7 @@ namespace Megasoft2.Controllers
                         wdb.mtStereoSuppliers.Add(new mtStereoSupplier
                         {
                             Supplier= StereoModel.tblSupplier.Supplier,
-                            GlCode = StereoModel.tblSupplier.GlCode,
+                            CustomerExpenseGlCode = StereoModel.tblSupplier.CustomerExpenseGlCode,
                             ProductClass = StereoModel.tblSupplier.ProductClass,
                             Taxable = StereoModel.tblSupplier.Taxable,
                             TaxCode = StereoModel.tblSupplier.TaxCode,

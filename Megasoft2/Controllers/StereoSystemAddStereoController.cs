@@ -288,7 +288,7 @@ namespace Megasoft2.Controllers
                 var supplier = (from a in wdb.mtStereoSuppliers where a.Supplier == model.SupplierReference select a).ToList();
                 model.TotalColours = model.NumberColours + model.ChangePlate;
                 model.Quantity = 1;
-                model.GlCode = supplier.FirstOrDefault().GlCode;
+                model.GlCode = supplier.FirstOrDefault().CustomerExpenseGlCode;
                 model.Approved = Header.Approved;
                 model.TaxCode = Convert.ToChar(supplier.FirstOrDefault().TaxCode.Trim());
                 if(Detail.Count > 0 )
@@ -525,7 +525,7 @@ namespace Megasoft2.Controllers
                 model.DateStereosRequired = Convert.ToDateTime(Header.DateStereosRequired);
                 model.NumberColours = Convert.ToInt32(Header.NumberColours);
                 var supplier = (from a in wdb.mtStereoSuppliers where a.Supplier == Header.SupplierReference select a).ToList();
-                model.GlCode = supplier.FirstOrDefault().GlCode;
+                model.GlCode = supplier.FirstOrDefault().CustomerExpenseGlCode;
                 model.Approved = Header.Approved;
                 model.TaxCode = Convert.ToChar(supplier.FirstOrDefault().TaxCode.Trim());
 
@@ -554,7 +554,7 @@ namespace Megasoft2.Controllers
                 model.DateStereosRequired = Convert.ToDateTime(Header.DateStereosRequired);
                 model.NumberColours = Convert.ToInt32(Header.NumberColours);
                 var supplier = (from a in wdb.mtStereoSuppliers where a.Supplier == Header.SupplierReference select a).ToList();
-                model.GlCode = supplier.FirstOrDefault().GlCode;
+                model.GlCode = supplier.FirstOrDefault().CustomerExpenseGlCode;
                 model.Approved = Header.Approved;
                 model.TaxCode = Convert.ToChar(supplier.FirstOrDefault().TaxCode.Trim());
                 var AllDetailLines = wdb.sp_GetStereoDetails(ReqNo).ToList();

@@ -1,130 +1,137 @@
 ﻿@model IEnumerable<Megasoft2.mtStereoSupplier>
 
-    @{
-        ViewBag.Title = "StereoSuppliers";
-    }
+@{
+    ViewBag.Title = "StereoSuppliers";
+}
 
-    <h4 style="font-weight:bold;" class="text-center">Suppliers</h4><hr />
+<h4 style="font-weight:bold;" class="text-center">Suppliers</h4><hr />
 
-    <p>
-        <a href="@Url.Action("Create", "StereoSystemSupplier")" class="btn btn-warning">
-            <span class="fa fa-file-o" aria-hidden="true" title="Add New User"> Add Supplier</span>
-        </a>
-        <a href="@Url.Action("Index", "StereoSystemSupplier")" class="btn btn-default">
-            <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
-        </a>
-    </p>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
+<p>
+    <a href="@Url.Action("Create", "StereoSystemSupplier")" class="btn btn-warning">
+        <span class="fa fa-file-o" aria-hidden="true" title="Add New User"> Add Supplier</span>
+    </a>
+    <a href="@Url.Action("Index", "StereoSystemSupplier")" class="btn btn-default">
+        <span class="fa fa-refresh" aria-hidden="true" title="Refresh"> Refresh</span>
+    </a>
+</p>
+<div class="form-group">
+    <div class="col-sm-12">
+        <input type="text" id="txtSearch" class="form-control input-sm col-sm-12" placeholder="search" autofocus />
 
-        </div>
-
-        <hr />
-        <div class="col-sm-14">
-            <table class="table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblSupplier" style="table-layout:fixed;">
-                <thead class="style1">
-                    <tr class="nowrap">
-                        <th style="width:75px"></th>
-                        <th style="width:200px">
-                            Supplier
-                        </th>
-                        <th style="width:200px">
-                            GlCode
-                        </th>
-                        <th style="width:200px">
-                            Product Class
-                        </th>
-                        <th style="width:200px">
-                            Taxable
-                        </th>
-                        <th style="width:200px">
-                            Tax Code
-                        </th>
-                        <th style="width:200px">
-                            Email
-                        </th>
-
-
-                    </tr>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-
-                        <tr class="nr">
-                            <td>
-                                <a href="@Url.Action("Create", "StereoSystemSupplier", new { Supplier = item.Supplier })" class="btn btn-primary btn-xs">
-                                    <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Supplier"></span>
-                                </a>
-                                <a href="@Url.Action("Delete", "StereoSystemSupplier", new { Supplier = item.Supplier })" class=" btn btn-danger btn-xs">
-                                    <span class="fa fa-trash-o" aria-hidden="true" title="Delete Supplier"></span>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Create", "StereoSystemSupplier", new { Supplier = item.Supplier })">@Html.DisplayFor(model => item.Supplier)</a>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.GlCode)
-                                @Html.HiddenFor(model => item.GlCode)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.ProductClass)
-                                @Html.HiddenFor(model => item.ProductClass)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.Taxable)
-                                @Html.HiddenFor(model => item.Taxable)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.TaxCode)
-                                @Html.HiddenFor(model => item.TaxCode)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.Email)
-                                @Html.HiddenFor(model => item.Email)
-                            </td>
-                        </tr>
-
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
-    @section Scripts {
 
-        <style type="text/css">
-            .nowrap {
-                white-space: nowrap;
-            }
-        </style>
+    <hr />
+    <div class="col-sm-14">
+        <table class="table table-hover table-striped table-condensed table-responsive table-bordered sortable" id="tblSupplier" style="table-layout:fixed;">
+            <thead class="style1">
+                <tr class="nowrap">
+                    <th style="width:75px"></th>
+                    <th style="width:200px">
+                        Supplier
+                    </th>
+                    <th style="width:200px">
+                        Customer GlCode
+                    </th>
+                    <th style="width:200px">
+                        Internal Exp. GlCode
+                    </th>
+                    <th style="width:200px">
+                        Product Class
+                    </th>
+                    <th style="width:200px">
+                        Taxable
+                    </th>
+                    <th style="width:200px">
+                        Tax Code
+                    </th>
+                    <th style="width:200px">
+                        Email
+                    </th>
 
-        @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
-        @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
-        @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
+
+                </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr class="nr">
+                        <td>
+                            <a href="@Url.Action("Create", "StereoSystemSupplier", new { Supplier = item.Supplier })" class="btn btn-primary btn-xs">
+                                <span class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Supplier"></span>
+                            </a>
+                            <a href="@Url.Action("Delete", "StereoSystemSupplier", new { Supplier = item.Supplier })" class=" btn btn-danger btn-xs">
+                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete Supplier"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Create", "StereoSystemSupplier", new { Supplier = item.Supplier })">@Html.DisplayFor(model => item.Supplier)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CustomerExpenseGlCode)
+                            @Html.HiddenFor(model => item.CustomerExpenseGlCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.InternalExpenseGlCode)
+                            @Html.HiddenFor(model => item.InternalExpenseGlCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.ProductClass)
+                            @Html.HiddenFor(model => item.ProductClass)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Taxable)
+                            @Html.HiddenFor(model => item.Taxable)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.TaxCode)
+                            @Html.HiddenFor(model => item.TaxCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Email)
+                            @Html.HiddenFor(model => item.Email)
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+
+    <style type="text/css">
+        .nowrap {
+            white-space: nowrap;
+        }
+    </style>
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/UltimateScrolling/Sortable.js")
+    @Scripts.Render("~/Content/UltimateScrolling/UltimateScrollingTable.js")
 
 
 
-        <script type="text/javascript">
+    <script type="text/javascript">
 
 
 
 
-    $(function () {
+        $(function () {
 
-        $('#txtSearch').focus();
-        $('#txtSearch').keyup(function () {
-            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-            var $rows = $('#tblSupplier .nr');
-            $rows.show().filter(function () {
-                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-                return !~text.indexOf(val);
-            }).hide();
+            $('#txtSearch').focus();
+            $('#txtSearch').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                var $rows = $('#tblSupplier .nr');
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+
+            UltimateScrollingTable('tblSupplier', 700, 1500, 1);
         });
-
-        UltimateScrollingTable('tblSupplier', 700, 1500, 1);
-    });
-        </script>
-    }
+    </script>
+}
 

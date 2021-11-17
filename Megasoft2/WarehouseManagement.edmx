@@ -2617,11 +2617,12 @@
             <PropertyRef Name="Supplier" />
           </Key>
           <Property Name="Supplier" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="GlCode" Type="varchar" MaxLength="35" />
+          <Property Name="CustomerExpenseGlCode" Type="varchar" MaxLength="35" />
           <Property Name="ProductClass" Type="varchar" MaxLength="20" />
           <Property Name="Taxable" Type="char" MaxLength="1" />
           <Property Name="TaxCode" Type="char" MaxLength="3" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="InternalExpenseGlCode" Type="varchar" MaxLength="35" />
         </EntityType>
         <EntityType Name="mtStockLabel">
           <Key>
@@ -6859,7 +6860,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtStereoDetails" EntityType="WarehouseManagementModel.mtStereoDetail" />
-          <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           <FunctionImport Name="sp_GetStereoApTaxValue" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoApTaxValue_Result)">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
             <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
@@ -7721,8 +7721,9 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionHeaderCustomForm" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionHeaderCustomForm_Result)">
-            <Parameter Name="Requisition" Mode="In" Type="String" />
+          <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -9487,17 +9488,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="InvoiceAmount" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="PurchaseOrder" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="PoCreatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="mtStereoSupplier">
-          <Key>
-            <PropertyRef Name="Supplier" />
-          </Key>
-          <Property Name="Supplier" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="GlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
-          <Property Name="ProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Taxable" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="TaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_GetStereoApTaxValue_Result">
           <Property Type="Decimal" Name="TaxValue" Nullable="true" Precision="38" Scale="2" />
@@ -14324,6 +14314,18 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="RequestedBy2" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="RequestedBy3" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="mtStereoSupplier">
+          <Key>
+            <PropertyRef Name="Supplier" />
+          </Key>
+          <Property Name="Supplier" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerExpenseGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="ProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Taxable" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InternalExpenseGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16275,18 +16277,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="StockCode" ColumnName="StockCode" />
                 <ScalarProperty Name="Line" ColumnName="Line" />
                 <ScalarProperty Name="ReqNo" ColumnName="ReqNo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="mtStereoSuppliers">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtStereoSupplier">
-              <MappingFragment StoreEntitySet="mtStereoSupplier">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
-                <ScalarProperty Name="Taxable" ColumnName="Taxable" />
-                <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
-                <ScalarProperty Name="GlCode" ColumnName="GlCode" />
-                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -21115,6 +21105,19 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="mtStereoSuppliers">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtStereoSupplier">
+              <MappingFragment StoreEntitySet="mtStereoSupplier">
+                <ScalarProperty Name="InternalExpenseGlCode" ColumnName="InternalExpenseGlCode" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="Taxable" ColumnName="Taxable" />
+                <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
+                <ScalarProperty Name="CustomerExpenseGlCode" ColumnName="CustomerExpenseGlCode" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
