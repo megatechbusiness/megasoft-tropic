@@ -2641,7 +2641,7 @@ namespace Megasoft2.Controllers
 
         public ActionResult testemail()
         {
-            SendEmail("0000024093", "JR", "ZA", Guid.Parse("9AC82DC0-681C-4916-9EB4-D963EDE4C735"), "TEST1");
+            SendEmail("0000006797", "JR", "JR", Guid.Parse("9AC82DC0-681C-4916-9EB4-D963EDE4C735"), "TEST1");
             return View();
         }
 
