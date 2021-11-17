@@ -533,7 +533,8 @@ namespace Megasoft2.Controllers
             try
             {
                 Job = Job.PadLeft(15, '0');
-                return Json(db.mt_MaterialIssueGetWorkCentreByJob(Job).ToList());
+                var result = db.mt_MaterialIssueGetWorkCentreByJob(Job).ToList();
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

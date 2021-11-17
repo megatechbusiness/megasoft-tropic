@@ -856,12 +856,13 @@
         function ReloadWorkCentre(Job) {
             $.getJSON("@Url.Action("GetWorkCentresByJob","MaterialIssue")" + "?Job=" + $('#txtJob').val(), function (data) {
                 if (typeof data == 'object') {
-                    var ddlWorkCentre = $("#WorkCentre");
+                    var ddlWorkCentre = $("#ddlWorkCentre");
 
                     ddlWorkCentre.empty();
+                    //$("#ddlWorkCentre").prepend("<option value='' selected='selected'></option>");
                     $.each(data, function (i, item) {
 
-                        $("#WorkCentre").prepend("<option value='' selected='selected'></option>");
+                        
                         ddlWorkCentre.append($("<option></option>").val(item.WorkCentre).html(item.WorkCentre + "-" + item.Description));
 
                     });
