@@ -757,6 +757,9 @@ namespace Megasoft2.BusinessLogic
             StringBuilder Document = new StringBuilder();
             var Header = (from a in wdb.mtStereoHdrs where a.ReqNo == model.ReqNo select a).FirstOrDefault();
             var Detail = (from a in wdb.mtStereoDetails where a.ReqNo == model.ReqNo select a).ToList();
+            var Supplier = (from a in wdb.mtStereoSuppliers where a.Supplier == Header.SupplierReference select a).FirstOrDefault();
+
+
 
             Document.Append("<Orders>");
             Document.Append("<OrderHeader>");
@@ -847,11 +850,11 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<RescheduleDueDate/>");
                 if (model.ChargeCustomer.ToString() == "Y")
                 {
-                    Document.Append("<LedgerCode>" + model.tblSupplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
+                    Document.Append("<LedgerCode>" + Supplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
                 }
                 else
                 {
-                    Document.Append("<LedgerCode>" + model.tblSupplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
+                    Document.Append("<LedgerCode>" + Supplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
                 }
                 //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                 Document.Append("<PasswordForLedgerCode/>");
@@ -959,6 +962,8 @@ namespace Megasoft2.BusinessLogic
             StringBuilder Document = new StringBuilder();
             var Header = (from a in wdb.mtStereoHdrs where a.ReqNo == model.ReqNo select a).FirstOrDefault();
             var Detail = (from a in wdb.mtStereoDetails where a.ReqNo == model.ReqNo select a).ToList();
+            var Supplier = (from a in wdb.mtStereoSuppliers where a.Supplier == Header.SupplierReference select a).FirstOrDefault();
+
 
             Document.Append("<Orders>");
             Document.Append("<OrderHeader>");
@@ -1031,11 +1036,11 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<PriceMethod>M</PriceMethod>");
                         if (model.ChargeCustomer.ToString() == "Y")
                         {
-                            Document.Append("<LedgerCode>" + model.tblSupplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
+                            Document.Append("<LedgerCode>" + Supplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
                         }
                         else
                         {
-                            Document.Append("<LedgerCode>" + model.tblSupplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
+                            Document.Append("<LedgerCode>" + Supplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
                         }
                         //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                     }
