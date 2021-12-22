@@ -33,5 +33,7 @@ namespace Megasoft2
         public string BatchQty { get; set; }
         public Nullable<decimal> NumberofLabels { get; set; }
         public string WorkCentre { get; set; }
+        public int LabelsPrinted { get; set; }
+        public Nullable<decimal> OutstandingLabels { get; set; }
     }
 }

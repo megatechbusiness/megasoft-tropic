@@ -1243,6 +1243,24 @@
           <Property Name="SwiftNumber" Type="varchar" MaxLength="20" />
           <Property Name="IBANNumber" Type="varchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="mtDispatchVerification">
+          <Key>
+            <PropertyRef Name="DispatchNote" />
+            <PropertyRef Name="DispatchNoteLine" />
+            <PropertyRef Name="SalesOrder" />
+            <PropertyRef Name="SalesOrderLine" />
+            <PropertyRef Name="Lot" />
+          </Key>
+          <Property Name="DispatchNote" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DispatchNoteLine" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="SalesOrder" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SalesOrderLine" Type="decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="Lot" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StockQtyToShip" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="ScanDate" Type="datetime" />
+          <Property Name="VerificationComplete" Type="varchar" MaxLength="1" />
+        </EntityType>
         <EntityType Name="mtExpenseIssueMatrix">
           <Key>
             <PropertyRef Name="CostCentre" />
@@ -2623,6 +2641,7 @@
           <Property Name="TaxCode" Type="char" MaxLength="3" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="InternalExpenseGlCode" Type="varchar" MaxLength="35" />
+          <Property Name="CustomerExpenseProductClass" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="mtStockLabel">
           <Key>
@@ -4499,6 +4518,12 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
         <Function Name="mt_DirectExpenseByStockCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="mt_GetDetailLot" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DispatchNote" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="mt_GetDispatchNote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DispatchNote" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="mt_GetFlagPrintTropicHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
         </Function>
@@ -5414,6 +5439,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="InvWhControl" EntityType="Self.InvWhControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LotDetail" EntityType="Self.LotDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtBankingDetails" EntityType="Self.mtBankingDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtDispatchVerification" EntityType="Self.mtDispatchVerification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtExpenseIssueMatrix" EntityType="Self.mtExpenseIssueMatrix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtInvDelayedPosting" EntityType="Self.mtInvDelayedPosting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtInvMasterImages" EntityType="Self.mtInvMasterImages" Schema="dbo" store:Type="Tables" />
@@ -7728,7 +7754,14 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           <FunctionImport Name="mt_MaterialIssueGetWorkCentreByJob" ReturnType="Collection(WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtDispatchVerifications" EntityType="WarehouseManagementModel.mtDispatchVerification" />
+          <FunctionImport Name="mt_GetDetailLot" ReturnType="Collection(WarehouseManagementModel.mt_GetDetailLot_Result)">
+          <Parameter Name="DispatchNote" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="mt_GetDispatchNote" ReturnType="Collection(String)">
+            <Parameter Name="DispatchNote" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
@@ -14181,6 +14214,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="BatchQty" Nullable="true" MaxLength="306" />
           <Property Type="Decimal" Name="NumberofLabels" Nullable="true" Precision="38" Scale="0" />
           <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="LabelsPrinted" Nullable="false" />
+          <Property Type="Decimal" Name="OutstandingLabels" Nullable="true" Precision="38" Scale="0" />
         </ComplexType>
         <EntityType Name="mtProductionLabel">
           <Key>
@@ -14331,10 +14366,37 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="TaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="InternalExpenseGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerExpenseProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
           <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="mtDispatchVerification">
+          <Key>
+            <PropertyRef Name="DispatchNote" />
+            <PropertyRef Name="DispatchNoteLine" />
+            <PropertyRef Name="SalesOrder" />
+            <PropertyRef Name="SalesOrderLine" />
+            <PropertyRef Name="Lot" />
+          </Key>
+          <Property Name="DispatchNote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DispatchNoteLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SalesOrderLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="Lot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockQtyToShip" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ScanDate" Type="DateTime" Precision="3" />
+          <Property Name="VerificationComplete" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="mt_GetDetailLot_Result">
+          <Property Type="String" Name="DispatchNote" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="DispatchNoteLine" Nullable="false" Precision="4" Scale="0" />
+          <Property Type="String" Name="SalesOrder" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="SalesOrderLine" Nullable="false" Precision="4" Scale="0" />
+          <Property Type="Decimal" Name="StockQtyToShip" Nullable="false" Precision="18" Scale="6" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -20941,6 +21003,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="BatchQty" ColumnName="BatchQty" />
                 <ScalarProperty Name="NumberofLabels" ColumnName="NumberofLabels" />
                 <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="LabelsPrinted" ColumnName="LabelsPrinted" />
+                <ScalarProperty Name="OutstandingLabels" ColumnName="OutstandingLabels" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -21118,6 +21182,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="mtStereoSuppliers">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtStereoSupplier">
               <MappingFragment StoreEntitySet="mtStereoSupplier">
+                <ScalarProperty Name="CustomerExpenseProductClass" ColumnName="CustomerExpenseProductClass" />
                 <ScalarProperty Name="InternalExpenseGlCode" ColumnName="InternalExpenseGlCode" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
@@ -21136,6 +21201,34 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="mtDispatchVerifications">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchVerification">
+              <MappingFragment StoreEntitySet="mtDispatchVerification">
+                <ScalarProperty Name="VerificationComplete" ColumnName="VerificationComplete" />
+                <ScalarProperty Name="ScanDate" ColumnName="ScanDate" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="StockQtyToShip" ColumnName="StockQtyToShip" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
+                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="DispatchNoteLine" ColumnName="DispatchNoteLine" />
+                <ScalarProperty Name="DispatchNote" ColumnName="DispatchNote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_GetDetailLot" FunctionName="WarehouseManagementModel.Store.mt_GetDetailLot">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetDetailLot_Result">
+                <ScalarProperty Name="DispatchNote" ColumnName="DispatchNote" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="DispatchNoteLine" ColumnName="DispatchNoteLine" />
+                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
+                <ScalarProperty Name="StockQtyToShip" ColumnName="StockQtyToShip" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_GetDispatchNote" FunctionName="WarehouseManagementModel.Store.mt_GetDispatchNote" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
