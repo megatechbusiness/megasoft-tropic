@@ -2623,6 +2623,7 @@
           <Property Name="TaxCode" Type="char" MaxLength="3" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="InternalExpenseGlCode" Type="varchar" MaxLength="35" />
+          <Property Name="CustomerExpenseProductClass" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="mtStockLabel">
           <Key>
@@ -7726,10 +7727,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <FunctionImport Name="sp_mtReqGetRequisitionHeaderCustomForm" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionHeaderCustomForm_Result)">
           <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           <FunctionImport Name="mt_MaterialIssueGetWorkCentreByJob" ReturnType="Collection(WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14320,6 +14321,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="RequestedBy2" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="RequestedBy3" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
+          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+        </ComplexType>
         <EntityType Name="mtStereoSupplier">
           <Key>
             <PropertyRef Name="Supplier" />
@@ -14331,11 +14336,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="TaxCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="InternalExpenseGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerExpenseProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
-          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -21115,9 +21117,18 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="mtStereoSuppliers">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtStereoSupplier">
               <MappingFragment StoreEntitySet="mtStereoSupplier">
+                <ScalarProperty Name="CustomerExpenseProductClass" ColumnName="CustomerExpenseProductClass" />
                 <ScalarProperty Name="InternalExpenseGlCode" ColumnName="InternalExpenseGlCode" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
@@ -21128,14 +21139,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
-                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

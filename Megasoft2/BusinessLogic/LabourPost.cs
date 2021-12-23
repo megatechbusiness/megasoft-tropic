@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Megasoft2.BusinessLogic
 {
-    
+
     public class LabourPost
     {
         private WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
@@ -77,7 +77,7 @@ namespace Megasoft2.BusinessLogic
         {
             try
             {
-                return data.SelectData("EXEC sp_GetTimeCodes'"+ CostCentre + "'");
+                return data.SelectData("EXEC sp_GetTimeCodes'" + CostCentre + "'");
             }
             catch (Exception ex)
             {
@@ -153,7 +153,7 @@ namespace Megasoft2.BusinessLogic
                 string TotalProdQty = "";
                 string TimeCodeID = "";
 
-                
+
                 DataRow[] FirstRow = dt.Select("row = '1'");
                 foreach (DataRow row in FirstRow)
                 {
@@ -169,7 +169,7 @@ namespace Megasoft2.BusinessLogic
                     TimeCodeID = row["TimeCodeID"].ToString();
                     TotalProdQty = row["ProductionMass"].ToString();
                 }
-                
+
                 decimal TotalScrap = 0;
                 decimal RunTime = 0;
                 decimal SetupTime = 0;
@@ -466,6 +466,10 @@ namespace Megasoft2.BusinessLogic
                     Reference = row["Reference"].ToString();
 
                 }
+
+                bool QuantityApplied = false;
+
+
                 foreach (DataRow row in dts.Rows)
                 {
 
@@ -533,7 +537,25 @@ namespace Megasoft2.BusinessLogic
                         TotalProduced = Convert.ToDecimal(TotalProduced) / 1000;
                     }
 
-                    data.Execute(" INSERT INTO mtLabourTimes(EntryDate,Shift,WorkCentre,Job,Operation,TimeCodeID,StartTime,EndTime,ElapsedTime,ProductionMass,Operator,ProductionQtyEnt,Guid,AddReference) VALUES ('" + row["EntryDate"].ToString().Trim() + "','" + row["Shift"].ToString().Trim() + "','" + row["WorkCentre"].ToString().Trim() + "','" + row["Job"].ToString().Trim() + "','" + Convert.ToDecimal(row["Operation"].ToString().Trim()) + "','" + row["TimeCodeID"].ToString().Trim() + "','" + StartDate + "','" + EndDate + "','" + ElapsedTime + "','" + TotalProduced + "','" + row["Operator"].ToString().Trim() + "','" + Convert.ToDecimal(row["ProductionMass"].ToString()) + "','" + GuidToSave + "','" + Reference + "')");
+                    //JR 21122021 - Run time - Save quantity for runtime only and only for the first entry of the session.
+                    if (QuantityApplied == false)
+                    {
+                        if (row["TimeCodeTrnType"].ToString() == "R")
+                        {
+                            QuantityApplied = true;
+                            data.Execute(" INSERT INTO mtLabourTimes(EntryDate,Shift,WorkCentre,Job,Operation,TimeCodeID,StartTime,EndTime,ElapsedTime,ProductionMass,Operator,ProductionQtyEnt,Guid,AddReference) VALUES ('" + row["EntryDate"].ToString().Trim() + "','" + row["Shift"].ToString().Trim() + "','" + row["WorkCentre"].ToString().Trim() + "','" + row["Job"].ToString().Trim() + "','" + Convert.ToDecimal(row["Operation"].ToString().Trim()) + "','" + row["TimeCodeID"].ToString().Trim() + "','" + StartDate + "','" + EndDate + "','" + ElapsedTime + "','" + TotalProduced + "','" + row["Operator"].ToString().Trim() + "','" + Convert.ToDecimal(row["ProductionMass"].ToString()) + "','" + GuidToSave + "','" + Reference + "')");
+                        }
+                        else
+                        {
+                            data.Execute(" INSERT INTO mtLabourTimes(EntryDate,Shift,WorkCentre,Job,Operation,TimeCodeID,StartTime,EndTime,ElapsedTime,ProductionMass,Operator,ProductionQtyEnt,Guid,AddReference) VALUES ('" + row["EntryDate"].ToString().Trim() + "','" + row["Shift"].ToString().Trim() + "','" + row["WorkCentre"].ToString().Trim() + "','" + row["Job"].ToString().Trim() + "','" + Convert.ToDecimal(row["Operation"].ToString().Trim()) + "','" + row["TimeCodeID"].ToString().Trim() + "','" + StartDate + "','" + EndDate + "','" + ElapsedTime + "','" + 0 + "','" + row["Operator"].ToString().Trim() + "','" + 0 + "','" + GuidToSave + "','" + Reference + "')");
+                        }
+                    }
+                    else
+                    {
+                        data.Execute(" INSERT INTO mtLabourTimes(EntryDate,Shift,WorkCentre,Job,Operation,TimeCodeID,StartTime,EndTime,ElapsedTime,ProductionMass,Operator,ProductionQtyEnt,Guid,AddReference) VALUES ('" + row["EntryDate"].ToString().Trim() + "','" + row["Shift"].ToString().Trim() + "','" + row["WorkCentre"].ToString().Trim() + "','" + row["Job"].ToString().Trim() + "','" + Convert.ToDecimal(row["Operation"].ToString().Trim()) + "','" + row["TimeCodeID"].ToString().Trim() + "','" + StartDate + "','" + EndDate + "','" + ElapsedTime + "','" + 0 + "','" + row["Operator"].ToString().Trim() + "','" + 0 + "','" + GuidToSave + "','" + Reference + "')");
+                    }
+
+
 
                 }
                 string Ref = GetShiftReference(Shift);
@@ -828,7 +850,7 @@ namespace Megasoft2.BusinessLogic
                 decimal RunTime = 0;
                 decimal SetupTime = 0;
                 decimal TotalProduced = Convert.ToDecimal(TotalProdQty);
-               
+
                 decimal StockMass = wdb.sp_GetJobStockMass(Job.PadLeft(15, '0')).FirstOrDefault().Mass;
                 if (StockMass == 0)
                 { StockMass = 1; }

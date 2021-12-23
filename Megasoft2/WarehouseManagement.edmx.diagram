@@ -191,7 +191,7 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionPalletWeight" Width="1.5" PointX="0.75" PointY="45.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabel" Width="1.5" PointX="10.375" PointY="44.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtWhseManSetting" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSupplier" Width="1.5" PointX="45.375" PointY="27.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSupplier" Width="2.875" PointX="45.375" PointY="27.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

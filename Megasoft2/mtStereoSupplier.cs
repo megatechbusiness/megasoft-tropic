@@ -21,5 +21,6 @@ namespace Megasoft2
         public string TaxCode { get; set; }
         public string Email { get; set; }
         public string InternalExpenseGlCode { get; set; }
+        public string CustomerExpenseProductClass { get; set; }
     }
 }
