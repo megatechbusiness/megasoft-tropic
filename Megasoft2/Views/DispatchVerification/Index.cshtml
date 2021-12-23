@@ -1,0 +1,335 @@
+﻿@model Megasoft2.Models.DispatchVerification
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmBatchScan" }))
+{
+    <fieldset>
+        <div class="form-group " style="margin-left:-20px">
+            <div class="form-horizontal row spacer-xs" id="firstrow">
+
+                <div id="errordiv" class="col-xs-10" style="font-size:xx-small">
+
+                </div>
+            </div>
+            <div class="form-horizontal row">
+                <div class="col-xs-10 text-right">
+                    @*<a href="#" class="btn btn-primary btn-lg" onclick="" id="btnPost">
+                        <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+                    </a>*@
+                    <button id="btnPost" type="submit" UseSubmitBehavior="false" @*name="action:DispVerification" value="DispVerification"*@ class="btn-success btn-sm">
+                        <i class="fa fa-save" aria-hidden="true" title="Post"></i> Complete
+                    </button>
+                </div>
+            </div>
+            <hr />
+            <div id="ScanBatch">
+                <div class="form-horizontal row spacer-xs">
+
+                    <div class="control-label col-xs-3" style="text-align:left;">
+                        <h4>Dispatch Note</h4>
+                    </div>
+                    <div class="editor-field col-xs-6">
+                        @Html.TextBoxFor(model => model.DispatchNote, new { @class = "form-control input-lg", @id = "txtDispatchNote" })
+                        @Html.ValidationMessageFor(model => model.DispatchNote)
+
+                    </div>
+                    <div class="col-xs-2 text-left">
+                        <a href="#" class="btn btn-success btn-lg" id="btnValidate">
+                            <span class="fa fa-arrow-circle-o-right " aria-hidden="true" title="Check"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer-xs">
+
+                    <div class="control-label col-xs-3" style="text-align:left;">
+                        <h4>Barcode</h4>
+                    </div>
+                    <div class="editor-field col-xs-6">
+                        @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-lg", @id = "txtBarcode", @style = "font-size:xx-small;" })
+                        @Html.ValidationMessageFor(model => model.Barcode)
+                    </div>
+                    <div class="col-xs-2 text-left">
+                        <a href="#" class="btn btn-success btn-lg" id="btnCheck">
+                            <span class="fa fa-arrow-circle-o-right " aria-hidden="true" title="Check"></span>
+                        </a>
+                    </div>
+                    @*<div class="col-xs-2 text-left">
+                        <a href="#" class="btn btn-primary btn-lg" id="btnAdd" onclick="">
+                            <span class="fa fa-plus" aria-hidden="true" title="Add"></span>
+                        </a>
+                    </div>*@
+                </div>
+
+                <hr />
+                @*<div class="form-horizontal row text-center col-xs-11">
+                    <div class="control-label col-xs-1" style="text-align:left;" id="txtCount">
+
+                    </div>
+                    <input id="NoteTotal" type="hidden" value="">
+                </div>
+                <div class="form-horizontal row spacer-xs col-xs-11">
+
+                    <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
+                        <thead>
+                            <tr>
+                                <th>Dispatch Note</th>
+                                <th>Lot</th>
+                                <th>Qty</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>*@
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    //000000000000024||10|0|A2-0001-210115||24
+    function ValidateBarcode() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        var str = document.getElementById('txtBarcode').value;
+        //If Megasoft Barcode
+        if (str.indexOf("|") > 0) {
+            var Values = document.getElementById('txtBarcode').value.split("|");
+            //document.getElementById('txtLot').value = Values[4];
+            //document.getElementById('txtQuantity').value = Values[2];
+
+
+            var mydata = [];
+            var myObject = new Object();
+            myObject.Dispatchnote = Values[0];
+            myObject.LotNumber = Values[4];
+            myObject.Quantity = Values[2]
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "DispatchVerification/ValidateDetails",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                if (response != "") {
+                    //document.getElementById('txtBarcode').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('txtBarcode').focus();
+                }
+                else {
+                    document.getElementById("txtBarcode").focus();
+                    //AddLine(Values);
+
+                }
+
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('txtBarcode').value = "";
+                    document.getElementById('txtDispatchNote').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('txtBarcode').focus();
+                }
+                else {
+                    document.getElementById("btnPost").focus();
+                }
+            }
+        }
+        else {
+            //GetPalletItems(document.getElementById('txtBarcode').value, SourceWarehouse, DestinationWarehouse);
+        }
+    }
+
+    function ValidateDispatchNote() {
+        alert("validating..");
+
+        var myString = JSON.stringify({ DispatchNote: document.getElementById('txtDispatchNote').value });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ValidateDispatchNote", "DispatchVerification")",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            //alert(response);
+            if (response != "") {
+                if (response.match("^Error")) {
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    alert(response);
+                }
+                else {
+                    document.getElementById('txtDispatchNote').focus();
+                    //document.getElementById("txtBarcode").focus();
+                }
+                //document.getElementById('txtDispatchNote').value = "";
+                //document.getElementById('txtDispatchNote').focus();
+            }
+            else {
+                //document.getElementById('txtDispatchNote').value = "";
+                document.getElementById("txtBarcode").focus();
+            }
+        }
+
+        function OnErrorCall(response) {
+            if (response != "") {
+                document.getElementById('txtDispatchNote').value = "";
+                alert(response);
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+                document.getElementById('txtDispatchNote').focus();
+            }
+            else {
+                document.getElementById("txtDispatchNote").focus();
+
+            }
+        }
+    }
+
+    function btnComplete() {
+
+        var str = document.getElementById('txtBarcode').value;
+        if (str.indexOf("|") > 0) {
+            var Values = document.getElementById('txtBarcode').value.split("|");
+            var mydata = [];
+            var myObject = new Object();
+            myObject.Dispatchnote = Values[0];
+            myObject.LotNumber = Values[4];
+            myObject.Quantity = Values[2]
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "DispatchVerification/Verification",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+
+            function OnErrorCall(response) {
+                $('#errordiv').text(response);
+                $('#errordiv').addClass("alert alert-danger");
+            }
+        }
+    }
+
+    //function AddLine(Barcode) {
+    //    $('#errordiv').text("");
+    //    $('#errordiv').removeClass("alert alert-danger");
+    //    showprogressbar();
+
+
+
+    //    var DispatchNote = Barcode[0];//document.getElementById('txtBarcode').value;
+    //    var Lot = Barcode[4];//document.getElementById('txtLot').value;
+    //    var Quantity = Barcode[2];//document.getElementById('txtQuantity').value;
+    //    var AddReel = true;
+
+    //    if (Quantity.trim() == "") {
+    //        alert("Quantity missing.");
+    //        AddReel = false;
+    //    }
+
+    //    $("#tblLines > tbody > tr ").each(function (i, el) {
+    //        var $tds = $(this).find('td');
+    //        var ReelNumber = $tds.eq(1).text();
+    //        if (Lot == ReelNumber) {
+    //            AddReel = false;
+    //            alert("Reel " + Lot + " already scanned.");
+    //            return;
+    //        }
+    //    });
+
+
+    //    if (AddReel == true) {
+    //        $('#tblLines tbody').append("<tr class='nr'><td>" + DispatchNote +
+    //            "</td><td>" + Lot + "</td><td>" + Quantity +
+    //            "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+    //    }
+
+
+    //    document.getElementById('txtBarcode').value = "";
+    //    //document.getElementById('txtDispatchNote').value = "";
+    //    document.getElementById('txtBarcode').focus();
+
+    //    var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+    //    $('#txtCount').html('Total:' + rows);
+
+    //    hideprogressbar();
+    //}
+
+    $(document).ready(function () {
+
+        //change page title text
+        $('#megasoftTitle').text(' Megasoft - Verification');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+        $('#txtBarcode').on('change', function (e) {
+            //btnCheck(); //Commented out as scanner does tab and enter on scan.
+            ValidateBarcode();
+        });
+
+        //$('#btnCheck').on('click', function (e) {
+        //    btnCheck();
+        //});
+
+        $('#btnValidate').on('click', function (e) {
+            ValidateDispatchNote();
+        });
+
+        $('#txtQuantity').on('change', function (e) {
+            if ($('#hdSupplier').val() == "MON007")
+            {
+                var str = document.getElementById('txtQuantity').value;
+                document.getElementById('txtQuantity').value = str.substring(9, 13);
+            }
+        });
+
+        //$('#tblLines').on("click", ".delLine", function () {
+        //    $(this).closest("tr").remove();
+        //    var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        //    $('#txtCount').html('Total:' + rows);
+        //});
+
+    });
+
+    $('#btnPost').on('click', function (e) {
+        btnComplete();
+    });
+</script>
