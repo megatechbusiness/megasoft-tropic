@@ -851,16 +851,18 @@ namespace Megasoft2.BusinessLogic
                 if (model.ChargeCustomer.ToString() == "Y")
                 {
                     Document.Append("<LedgerCode>" + Supplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
+                    Document.Append("<ProductClass>" + Supplier.CustomerExpenseProductClass.Trim() + "</ProductClass>");
                 }
                 else
                 {
                     Document.Append("<LedgerCode>" + Supplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
+                    Document.Append("<ProductClass>" + Supplier.ProductClass.Trim() + "</ProductClass>");
                 }
                 //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                 Document.Append("<PasswordForLedgerCode/>");
                 Document.Append("<SubcontractOp/>");
                 Document.Append("<InspectionReqd/>");
-                Document.Append("<ProductClass>OTH</ProductClass>");
+
                 Document.Append("<NonsUnitMass/>");
                 Document.Append("<NonsUnitVol/>");
                 Document.Append("<BlanketPurchaseOrder/>");
@@ -1037,10 +1039,12 @@ namespace Megasoft2.BusinessLogic
                         if (model.ChargeCustomer.ToString() == "Y")
                         {
                             Document.Append("<LedgerCode>" + Supplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
+                            Document.Append("<ProductClass>" + Supplier.CustomerExpenseProductClass.Trim() + "</ProductClass>");
                         }
                         else
                         {
                             Document.Append("<LedgerCode>" + Supplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
+                            Document.Append("<ProductClass>" + Supplier.ProductClass.Trim() + "</ProductClass>");
                         }
                         //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                     }
@@ -1079,7 +1083,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<PasswordForLedgerCode/>");
                     Document.Append("<SubcontractOp/>");
                     Document.Append("<InspectionReqd/>");
-                    Document.Append("<ProductClass>OTH</ProductClass>");
+
                     Document.Append("<NonsUnitMass/>");
                     Document.Append("<NonsUnitVol/>");
                     Document.Append("<BlanketPurchaseOrder/>");
