@@ -288,6 +288,7 @@
     <Compile Include="BusinessLogic\Customer.cs" />
     <Compile Include="BusinessLogic\DatabaseSwitcher.cs" />
     <Compile Include="BusinessLogic\DespatchBL.cs" />
+    <Compile Include="BusinessLogic\DispatchVerificationBL.cs" />
     <Compile Include="BusinessLogic\Email.cs" />
     <Compile Include="BusinessLogic\InkSystem.cs" />
     <Compile Include="BusinessLogic\InvoiceExtractBL.cs" />
@@ -320,6 +321,7 @@
     <Compile Include="BusinessLogic\TransportSystem.cs" />
     <Compile Include="BusinessLogic\TransportSystemBL.cs" />
     <Compile Include="BusinessLogic\WhseManProductionReceipt.cs" />
+    <Compile Include="BusinessLogic\WickettLabelDeleteBL.cs" />
     <Compile Include="Controllers\AccessDeniedController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AspChartsController.cs" />
@@ -339,6 +341,7 @@
     <Compile Include="Controllers\DemoCameraController.cs" />
     <Compile Include="Controllers\DepartmentMasterController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DispatchVerificationController.cs" />
     <Compile Include="Controllers\GlCodeTagController.cs" />
     <Compile Include="Controllers\GrnEnquiryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -433,6 +436,7 @@
     <Compile Include="Controllers\WhseManProductionLabelController.cs" />
     <Compile Include="Controllers\WhseManProductionReceiptController.cs" />
     <Compile Include="Controllers\WhseManScanCardController.cs" />
+    <Compile Include="Controllers\WhseManWickettLabelDeleteController.cs" />
     <Compile Include="Controllers\WhsManProductionMaterialIssueLabelPrintController.cs" />
     <Compile Include="Controllers\WmsDespatchController.cs" />
     <Compile Include="Controllers\WmsPickingController.cs" />
@@ -530,6 +534,7 @@
     <Compile Include="Models\ChangePassword.cs" />
     <Compile Include="Models\CustomerInvoiceDetail.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\DispatchVerification.cs" />
     <Compile Include="Models\EntityChanges.cs" />
     <Compile Include="Models\ExportFile.cs" />
     <Compile Include="Models\GrnFilter.cs" />
@@ -573,6 +578,7 @@
     <Compile Include="Models\WhseManDeliveryFile.cs" />
     <Compile Include="Models\WhseManJobLabel.cs" />
     <Compile Include="Models\WhseManJobReceipt.cs" />
+    <Compile Include="Models\WickettLabelDelete.cs" />
     <Compile Include="mtApSupplier.cs">
       <DependentUpon>Syspro.tt</DependentUpon>
     </Compile>
@@ -608,6 +614,9 @@
     </Compile>
     <Compile Include="mtDepartment.cs">
       <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtDispatchVerification.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtDistributionSetup.cs">
       <DependentUpon>Megasoft.tt</DependentUpon>
@@ -1006,6 +1015,9 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_DirectExpenseByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_GetDetailLot_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_GetFlagPrintTropicHeader_Result.cs">
@@ -2899,6 +2911,8 @@
     <Content Include="Views\MasterCardStockCodeBomSetup\BomOperationMasterCard.cshtml" />
     <Content Include="Views\WhseManExpenseIssue\GLSearch.cshtml" />
     <Content Include="Views\InventoryQuery\Index.cshtml" />
+    <Content Include="Views\DispatchVerification\Index.cshtml" />
+    <Content Include="Views\WhseManWickettLabelDelete\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

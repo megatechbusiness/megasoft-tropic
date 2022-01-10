@@ -124,6 +124,17 @@ namespace Megasoft2.Controllers
                     string Job = model.JobDetails.Job.PadLeft(15, '0');
                     string StockCode = model.JobDetails.StockCode;
 
+                    if (ProgramAccess("AllowOverPrintLabels") == false)
+                    {
+                        decimal LabelQtyPrinted = Convert.ToDecimal(model.JobDetails.LabelsPrinted);
+                        decimal NoOfLabel = Convert.ToDecimal(model.JobDetails.NumberofLabels);
+                        decimal LabelOutstanding = Convert.ToDecimal(model.JobDetails.OutstandingLabels);
+                        if (NoOfLabel > LabelOutstanding)
+                        {
+                            return Json("You have exceeded the maximum number of labels printed for Lot : "+ model.Lot, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+
                     int NextNo = 1;
                     var NextPallet = wdb.sp_GetMaxJobPalletNumber(model.JobDetails.Job.PadLeft(15, '0')).ToList();
                     if (NextPallet.Count > 0)
@@ -274,6 +285,25 @@ namespace Megasoft2.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
 
+        }
+        public bool ProgramAccess(string ProgramFunction)
+        {
+            try
+            {
+                var HasAccess = (from a in mdb.mtOpFunctions where a.Username == HttpContext.User.Identity.Name.ToUpper() && a.Program == "Production" && a.ProgramFunction == ProgramFunction select a).ToList();
+                if (HasAccess.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

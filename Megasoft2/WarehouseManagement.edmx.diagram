@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="762bb2e1066c4431a1934920c6305775" Name="Diagram1" ZoomLevel="67">
+      <Diagram DiagramId="762bb2e1066c4431a1934920c6305775" Name="Diagram1" ZoomLevel="34">
         <EntityTypeShape EntityType="WarehouseManagementModel.InvWarehouse" Width="1.5" PointX="6" PointY="25.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WarehouseManagementModel.InvWhBin" Width="1.5" PointX="3" PointY="29.5" IsExpanded="true" />
         <EntityTypeShape EntityType="WarehouseManagementModel.LotDetail" Width="1.5" PointX="8.25" PointY="34.875" IsExpanded="true" />
@@ -191,7 +191,11 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionPalletWeight" Width="1.5" PointX="0.75" PointY="45.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabel" Width="1.5" PointX="10.375" PointY="44.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtWhseManSetting" Width="1.5" PointX="0.75" PointY="0.75" />
+
         <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSupplier" Width="2.875" PointX="45.375" PointY="27.75" />
+
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtDispatchVerification" Width="1.5" PointX="45.375" PointY="39.75" />
+
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

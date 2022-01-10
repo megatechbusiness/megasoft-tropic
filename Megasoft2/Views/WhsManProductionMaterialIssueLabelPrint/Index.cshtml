@@ -144,148 +144,174 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-horizontal row">
-                            <div class="form-group">
-
-                                <div class="col-sm-6">
-                                    <div class="control-label col-sm-4" style="text-align:left;">
-                                        Prod. Qty
-                                    </div>
-                                    <div class="editor-field input-sm col-sm-8">
-                                        @Html.TextBoxFor(model => model.JobDetails.ProdQty, new { @class = "form-control input-sm", @Id="JobDetails_ProductionQty" })
-                                        @Html.ValidationMessageFor(model => model.JobDetails.ProdQty)
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="control-label col-sm-4" style="text-align:left;">
-                                        Batch Qty
-                                    </div>
-                                    <div class="editor-field input-sm col-sm-8">
-                                        @Html.TextBoxFor(model => model.JobDetails.BatchQty, new { @class = "form-control input-sm" })
-                                        @Html.ValidationMessageFor(model => model.JobDetails.BatchQty)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-horizontal row">
-                            <div class="form-group">
-
-                                <div class="col-sm-6">
-                                    <div class="control-label col-sm-4" style="text-align:left;">
-                                        Last Batch
-                                    </div>
-                                    <div class="editor-field input-sm col-sm-8">
-                                        @Html.TextBoxFor(model => model.LastBatch, new { @class = "form-control input-sm" })
-                                        @Html.ValidationMessageFor(model => model.LastBatch)
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="control-label col-sm-4" style="text-align:left;">
-                                        No. Of Labels
-                                    </div>
-                                    <div class="editor-field input-sm col-sm-8">
-                                        @Html.TextBoxFor(model => model.JobDetails.NumberofLabels, new { @class = "form-control input-sm", @id="JobDetails_NoOfLabels" })
-                                        @Html.ValidationMessageFor(model => model.JobDetails.NumberofLabels)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @if (ViewBag.AddField == true)
+                        @if (Model.JobDetails != null)
                         {
                             <div class="form-horizontal row">
                                 <div class="form-group">
+
                                     <div class="col-sm-6">
                                         <div class="control-label col-sm-4" style="text-align:left;">
-                                            Operator
+                                            Label Qty. Printed
                                         </div>
                                         <div class="editor-field input-sm col-sm-8">
-                                            @Html.DropDownListFor(n => n.JobDetails.Operator, new SelectList(ViewBag.OperatorList, "Value", "Text"), "Select Operator", new { @class = " select2" })
+                                            @Html.TextBoxFor(model => model.JobDetails.LabelsPrinted, new { @class = "form-control input-sm", @id = "JobDetails_LabelsPrinted" })
+                                            @Html.ValidationMessageFor(model => model.JobDetails.LabelsPrinted)
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="control-label col-sm-4" style="text-align:left;">
-                                            Machine
+                                            Labels Outstanding
                                         </div>
                                         <div class="editor-field input-sm col-sm-8">
-                                            @Html.DropDownListFor(n => n.JobDetails.WorkCentre, new SelectList(ViewBag.WorkCentreList, "Value", "Text"), "Select Work Centre", new { @class = " select2" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-horizontal row">
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <div class="control-label col-sm-4" style="text-align:left;">
-                                            Packer
-                                        </div>
-                                        <div class="editor-field input-sm col-sm-8">
-                                            @Html.DropDownListFor(n => n.JobDetails.Packer, new SelectList(ViewBag.PackerList, "Value", "Text"), "Select Packer", new { @class = " select2" })
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="control-label col-sm-4" style="text-align:left;">
-                                            QC1
-                                        </div>
-                                        <div class="editor-field input-sm col-sm-8">
-                                            @Html.DropDownListFor(n => n.JobDetails.QC1, new SelectList(ViewBag.QcList, "Value", "Text"), "Select QC", new { @class = " select2" })
+                                            @Html.TextBoxFor(model => model.JobDetails.OutstandingLabels, new { @class = "form-control input-sm", @id = "JobDetails_OutstandingLabels" })
+                                            @Html.ValidationMessageFor(model => model.JobDetails.OutstandingLabels)
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         }
+                            <div class="form-horizontal row">
+                                <div class="form-group">
 
-                        <div class="form-horizontal row">
-                            <div class="form-group">
-                                @if (ViewBag.AddField == true)
-                                {
                                     <div class="col-sm-6">
                                         <div class="control-label col-sm-4" style="text-align:left;">
-                                            Supervisor
+                                            Prod. Qty
                                         </div>
                                         <div class="editor-field input-sm col-sm-8">
-                                            @Html.DropDownListFor(n => n.JobDetails.Supervisor, new SelectList(ViewBag.Supervisor, "Value", "Text"), "Select Supervisor", new { @class = " select2" })
+                                            @Html.TextBoxFor(model => model.JobDetails.ProdQty, new { @class = "form-control input-sm", @Id = "JobDetails_ProductionQty" })
+                                            @Html.ValidationMessageFor(model => model.JobDetails.ProdQty)
                                         </div>
                                     </div>
-                                    <div class="col-sm-6  pull-right">
+                                    <div class="col-sm-6">
                                         <div class="control-label col-sm-4" style="text-align:left;">
-                                            Reference
+                                            Batch Qty
                                         </div>
                                         <div class="editor-field input-sm col-sm-8">
-                                            @Html.TextBoxFor(model => model.JobDetails.Reference, new { @class = "form-control input-sm", @maxLength = "100" })
-                                            @Html.ValidationMessageFor(model => model.JobDetails.Reference)
+                                            @Html.TextBoxFor(model => model.JobDetails.BatchQty, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.JobDetails.BatchQty)
                                         </div>
                                     </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="form-horizontal row">
-                            <div class="form-group">
-                                <div class="col-sm-6">
-                                    <div class="control-label col-sm-4 " style="text-align:left;">
-                                        Printer
-                                    </div>
-                                    <div class="editor-field input-sm col-sm-8">
-                                        @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
-                                    </div>
                                 </div>
+                            </div>
+                            <div class="form-horizontal row">
+                                <div class="form-group">
 
-                                <div class="col-sm-6">
-                                    <div class="control-label col-sm-4 " style="text-align:left;">
-                                        Job
+                                    <div class="col-sm-6">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            Last Batch
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.LastBatch, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => model.LastBatch)
+                                        </div>
                                     </div>
-                                    <div class="editor-field input-sm col-sm-8">
-                                        @Html.TextBoxFor(model => model.JobDetails.Job, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                        @Html.ValidationMessageFor(model => model.JobDetails.Job)
+                                    <div class="col-sm-6">
+                                        <div class="control-label col-sm-4" style="text-align:left;">
+                                            No. Of Labels
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.JobDetails.NumberofLabels, new { @class = "form-control input-sm", @id = "JobDetails_NoOfLabels" })
+                                            @Html.ValidationMessageFor(model => model.JobDetails.NumberofLabels)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            @if (ViewBag.AddField == true)
+                            {
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Operator
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                @Html.DropDownListFor(n => n.JobDetails.Operator, new SelectList(ViewBag.OperatorList, "Value", "Text"), "Select Operator", new { @class = " select2" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Machine
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                @Html.DropDownListFor(n => n.JobDetails.WorkCentre, new SelectList(ViewBag.WorkCentreList, "Value", "Text"), "Select Work Centre", new { @class = " select2" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal row">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Packer
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                @Html.DropDownListFor(n => n.JobDetails.Packer, new SelectList(ViewBag.PackerList, "Value", "Text"), "Select Packer", new { @class = " select2" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                QC1
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                @Html.DropDownListFor(n => n.JobDetails.QC1, new SelectList(ViewBag.QcList, "Value", "Text"), "Select QC", new { @class = " select2" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    @if (ViewBag.AddField == true)
+                                    {
+                                        <div class="col-sm-6">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Supervisor
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                @Html.DropDownListFor(n => n.JobDetails.Supervisor, new SelectList(ViewBag.Supervisor, "Value", "Text"), "Select Supervisor", new { @class = " select2" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6  pull-right">
+                                            <div class="control-label col-sm-4" style="text-align:left;">
+                                                Reference
+                                            </div>
+                                            <div class="editor-field input-sm col-sm-8">
+                                                @Html.TextBoxFor(model => model.JobDetails.Reference, new { @class = "form-control input-sm", @maxLength = "100" })
+                                                @Html.ValidationMessageFor(model => model.JobDetails.Reference)
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-horizontal row">
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <div class="control-label col-sm-4 " style="text-align:left;">
+                                            Printer
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="control-label col-sm-4 " style="text-align:left;">
+                                            Job
+                                        </div>
+                                        <div class="editor-field input-sm col-sm-8">
+                                            @Html.TextBoxFor(model => model.JobDetails.Job, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.JobDetails.Job)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-default btn-sm" id="btnPrintlbl" name="action:PrintLabel" value="PrintLabel">
+                                    <i class="fa fa-print" aria-hidden="true">  PRINT </i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-default btn-sm" id="btnPrintlbl" name="action:PrintLabel" value="PrintLabel">
-                                <i class="fa fa-print" aria-hidden="true">  PRINT </i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
