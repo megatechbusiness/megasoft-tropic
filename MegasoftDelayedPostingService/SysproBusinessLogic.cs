@@ -13,6 +13,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static MegasoftDelayedPostingService.MegasoftDelayedPosting;
 
@@ -41,17 +42,17 @@ namespace MegasoftDelayedPostingService
                 Document.Append("<PostInvBinTransfers xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"INVTMBDOC.XSD\">");
 
                 Document.Append(this.BuildBinTransferDocument(model.FromWarehouse, model.FromBin, model.StockCode, model.Lot, model.Quantity.ToString(), model.ToBin));
-                
+
                 Document.Append("</PostInvBinTransfers>");
 
                 Parameter = this.BuildBinTransferParameter();
-                XmlOut = objSyspro.SysproPost(Guid, Parameter, Document.ToString(), "INVTMB");                
+                XmlOut = objSyspro.SysproPost(Guid, Parameter, Document.ToString(), "INVTMB");
                 ErrorMessage = objSyspro.GetXmlErrors(XmlOut);
                 string Journal = objSyspro.GetFirstXmlValue(XmlOut, "Journal");
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     db.sp_SaveInvTransfer("Bin", model.FromWarehouse, model.FromBin, model.ToWarehouse, model.ToBin, model.StockCode, model.Lot, model.Quantity, Journal, "", model.Username);
-                    using(var udb = new SysproEntities())
+                    using (var udb = new SysproEntities())
                     {
                         var result = (from a in udb.mtInvDelayedPostings where a.TrnId == model.TrnId select a).FirstOrDefault();
                         result.Journal = Journal;
@@ -76,7 +77,7 @@ namespace MegasoftDelayedPostingService
                     ErrorEventLog.WriteErrorLog("E", "Bin Transfer Error : Delayed Posting Id :" + model.TrnId + " - " + ErrorMessage);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -168,7 +169,7 @@ namespace MegasoftDelayedPostingService
                 Document.Append("-->");
                 Document.Append("<PostInvWhTransferOut xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"INVTMODOC.XSD\">");
 
-                Document.Append(this.BuildWarehouseTransferDocument(model.FromWarehouse, model.FromBin, model.StockCode, model.Lot, model.Quantity.ToString(), model.ToWarehouse, model.ToBin));                
+                Document.Append(this.BuildWarehouseTransferDocument(model.FromWarehouse, model.FromBin, model.StockCode, model.Lot, model.Quantity.ToString(), model.ToWarehouse, model.ToBin));
                 Document.Append("</PostInvWhTransferOut>");
 
                 Parameter = this.BuildWarehouseTransferParameter();
@@ -204,7 +205,7 @@ namespace MegasoftDelayedPostingService
                     ErrorEventLog.WriteErrorLog("E", "Immediate Transfer Error : Delayed Posting Id :" + model.TrnId + " - " + ErrorMessage);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -308,7 +309,7 @@ namespace MegasoftDelayedPostingService
 
         public void PostJobReceiptByBatch(string PalletNo, string Guid)
         {
-           
+
             try
             {
                 ErrorEventLog.WriteErrorLog("I", "0");
@@ -321,7 +322,7 @@ namespace MegasoftDelayedPostingService
                     return;// "No unposted data found.";
                 }
 
-                
+
 
                 List<WhseManJobReceipt> result = JobsToPost.GroupBy(l => l.Job).Select(cl => new WhseManJobReceipt { Job = cl.First().Job, Quantity = Convert.ToInt32(cl.Sum(c => c.NetQty)), Lot = cl.First().PalletNo }).ToList();
                 //string Journal = "Pallet: " + PalletNo + ", Job Receipt Completed Successfully. Journal : ";
@@ -1027,6 +1028,28 @@ namespace MegasoftDelayedPostingService
 
         }
 
+
+        public void DeleteSingleFile(string FilePath)
+        {
+            try
+            {
+                Thread.Sleep(5000);
+                if (File.Exists(FilePath))
+                {
+                    File.Delete(FilePath);
+                }
+                else
+                {
+                    ErrorEventLog.WriteErrorLog("E", "Could not find file " + FilePath);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ErrorEventLog.WriteErrorLog("E", "Error deleting file" + ex.Message);
+            }
+        }
+
         public string ExportPdf(string Report)
         {
             try
@@ -1034,7 +1057,7 @@ namespace MegasoftDelayedPostingService
                 string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string filePathRelativeToAssembly = Path.Combine(assemblyPath, @"..\MegasoftDelayedPostingService\ReportAutomation\PDF\");
                 string normalizedPath = Path.GetFullPath(filePathRelativeToAssembly);
-                ErrorEventLog.WriteErrorLog("I", normalizedPath);
+                //ErrorEventLog.WriteErrorLog("I", normalizedPath);
                 string[] files = Directory.GetFiles(normalizedPath);
 
                 foreach (string delFile in files)
@@ -1060,7 +1083,7 @@ namespace MegasoftDelayedPostingService
 
                 ReportDocument rpt = new ReportDocument();
                 rpt.Load(ReportDet.ReportPath);
-                ErrorEventLog.WriteErrorLog("I", "Loaded");
+                //ErrorEventLog.WriteErrorLog("I", "Loaded");
                 ConnectionStringSettings sysproSettings = ConfigurationManager.ConnectionStrings["SysproEntities"];
                 if (sysproSettings == null || string.IsNullOrEmpty(sysproSettings.ConnectionString))
                 {
@@ -1074,15 +1097,15 @@ namespace MegasoftDelayedPostingService
                 string userId = sqlConnectionStringBuilder.UserID;
 
                 rpt.SetDatabaseLogon(userId, password);
-                ErrorEventLog.WriteErrorLog("I", "Logged in");
+                //ErrorEventLog.WriteErrorLog("I", "Logged in");
 
                 string FileName = ReportDet.Report + "-" + DateTime.Now.ToString("_MMddyyyy_HHmmss") + ".pdf";
 
                 string OutputPath = Path.Combine(FilePath, FileName);
-                ErrorEventLog.WriteErrorLog("I", OutputPath);
+                //ErrorEventLog.WriteErrorLog("I", OutputPath);
 
                 rpt.ExportToDisk(ExportFormatType.PortableDocFormat, OutputPath);
-                ErrorEventLog.WriteErrorLog("I", "Exported");
+                //ErrorEventLog.WriteErrorLog("I", "Exported");
                 rpt.Close();
                 rpt.Dispose();
                 GC.Collect();

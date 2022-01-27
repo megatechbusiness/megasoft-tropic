@@ -45,9 +45,34 @@ namespace MegasoftDelayedPostingService
             try
             {
                 timer1.Stop();
-                DoProcessing();
-                DoProductionPosting();
-                ReportAutomation();
+                try
+                {
+                    DoProcessing();
+                }
+                catch (Exception dp)
+                {
+                    ErrorEventLog.WriteErrorLog("I", "Failure on delayed posting transaction. " + dp.Message);
+                }
+
+                try
+                {
+                    DoProductionPosting();
+                }
+                catch (Exception pp)
+                {
+                    ErrorEventLog.WriteErrorLog("I", "Failure on production posting transaction. " + pp.Message);
+                }
+
+                try
+                {
+                    ReportAutomation();
+                }
+                catch (Exception ra)
+                {
+                    ErrorEventLog.WriteErrorLog("I", "Failure on report automation. " + ra.Message);
+                }
+
+
                 timer1.Start();
 
             }
@@ -65,20 +90,20 @@ namespace MegasoftDelayedPostingService
 
                 //Inventory Movements
                 var result = sdb.sp_GetDelayedPostingData(Properties.Settings.Default.CompanyId).ToList();
-                if(result.Count > 0)
+                if (result.Count > 0)
                 {
                     string Guid = objSyspro.SysproLogin();
                     if (string.IsNullOrEmpty(Guid))
                     {
                         throw new Exception("Failed to Log in to Syspro.");
                     }
-                    foreach(var item in result)
+                    foreach (var item in result)
                     {
-                        if(item.MovementType == "Bin")
+                        if (item.MovementType == "Bin")
                         {
                             BL.PostBinTransfer(item, Guid);
                         }
-                        else if(item.MovementType == "Immediate")
+                        else if (item.MovementType == "Immediate")
                         {
                             BL.PostWarehouseTransfer(item, Guid);
                         }
@@ -116,7 +141,7 @@ namespace MegasoftDelayedPostingService
                         throw new Exception("Failed to Log in to Syspro.");
                     }
 
-                    foreach(var item in result)
+                    foreach (var item in result)
                     {
                         BL.PostJobReceiptByBatch(item.PalletNo, Guid);
                     }
@@ -134,26 +159,26 @@ namespace MegasoftDelayedPostingService
         {
             try
             {
-                ErrorEventLog.WriteErrorLog("I", "1");
                 var mtReportAutomations = (from a in sdb.mtReportAutomations where a.ServiceActive == "Y" select a).ToList();
-                ErrorEventLog.WriteErrorLog("I", "2");
+
                 foreach (var item in mtReportAutomations)
                 {
+
                     DateTime LastRunTime = (DateTime)item.LastRunDate;
-                    ErrorEventLog.WriteErrorLog("I", item.LastRunDate.ToString());
+
                     if (LastRunTime.Date < DateTime.Now.Date)
                     {
-                        ErrorEventLog.WriteErrorLog("I", "Start Processing");
+
                         bool okToRun = false;
                         DateTime NextRunDate;
                         //Determine next run time
                         if (item.ServiceScheduleMode == "Daily")
                         {
-                            ErrorEventLog.WriteErrorLog("I", "Daily");
+
                             //Since mode is daily we just append the scheduled run time with todays date, 
                             //then compare NextRunDate to Current DateTime to determine if we need to run.
                             NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
-                            ErrorEventLog.WriteErrorLog("I", "Next Run Time " + NextRunDate);
+
                             if (DateTime.Now >= NextRunDate)
                             {
                                 //Run Extract
@@ -166,7 +191,7 @@ namespace MegasoftDelayedPostingService
                             if (DateTime.Now.DayOfWeek.ToString() == item.ServiceWeeklyDay)
                             {
                                 NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
-                                ErrorEventLog.WriteErrorLog("I", "Next Run Time " + NextRunDate);
+
                                 if (DateTime.Now >= NextRunDate)
                                 {
                                     //Run Extract
@@ -192,7 +217,7 @@ namespace MegasoftDelayedPostingService
                             if (DateTime.Now.Day == DayInMonthToRun)
                             {
                                 NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
-                                ErrorEventLog.WriteErrorLog("I", "Next Run Time " + NextRunDate);
+
                                 if (DateTime.Now >= NextRunDate)
                                 {
                                     //Run Extract
@@ -202,10 +227,13 @@ namespace MegasoftDelayedPostingService
                         }
 
 
-                        ErrorEventLog.WriteErrorLog("I", "OK to run " + okToRun.ToString());
+
 
                         if (okToRun)
                         {
+
+                            ErrorEventLog.WriteErrorLog("I", "Extracting Report " + item.Report);
+
                             var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
 
                             Mail objMail = new Mail();
@@ -216,14 +244,33 @@ namespace MegasoftDelayedPostingService
                             objMail.CC = emailSettings.FromAddress;
 
                             List<string> attachments = new List<string>();
-                            attachments.Add(BL.ExportPdf(item.Report));
 
-                            //Email _email = new Email();
-                            BL.SendEmail(objMail, attachments);
+                            string AttachmentPath = "";
 
-                            var updateRuntime = (from a in sdb.mtReportAutomations where a.Report == item.Report select a).FirstOrDefault();
-                            updateRuntime.LastRunDate = DateTime.Now;
-                            sdb.SaveChanges();
+                            try
+                            {
+                                AttachmentPath = BL.ExportPdf(item.Report);
+                                attachments.Add(AttachmentPath);
+
+                                //Email _email = new Email();
+                                BL.SendEmail(objMail, attachments);
+
+                                var updateRuntime = (from a in sdb.mtReportAutomations where a.Report == item.Report select a).FirstOrDefault();
+                                updateRuntime.LastRunDate = DateTime.Now;
+                                sdb.SaveChanges();
+                            }
+                            catch (Exception emailFail)
+                            {
+                                ErrorEventLog.WriteErrorLog("E", emailFail.Message);
+                                if (!string.IsNullOrWhiteSpace(AttachmentPath))
+                                {
+                                    BL.DeleteSingleFile(AttachmentPath);
+                                }
+
+                                ErrorEventLog.WriteErrorLog("E", "Deleting file " + AttachmentPath + " due to send failure.");
+                                continue;
+                            }
+
                         }
                     }
 
