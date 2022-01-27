@@ -1245,18 +1245,22 @@
         </EntityType>
         <EntityType Name="mtDispatchVerification">
           <Key>
+            <PropertyRef Name="TrackId" />
             <PropertyRef Name="DispatchNote" />
             <PropertyRef Name="DispatchNoteLine" />
             <PropertyRef Name="SalesOrder" />
             <PropertyRef Name="SalesOrderLine" />
             <PropertyRef Name="Lot" />
+            <PropertyRef Name="Pallet" />
           </Key>
+          <Property Name="TrackId" Type="int" Nullable="false" />
           <Property Name="DispatchNote" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DispatchNoteLine" Type="decimal" Precision="4" Scale="0" Nullable="false" />
           <Property Name="SalesOrder" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="SalesOrderLine" Type="decimal" Precision="4" Scale="0" Nullable="false" />
           <Property Name="Lot" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="StockQtyToShip" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Pallet" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="ScanDate" Type="datetime" />
           <Property Name="VerificationComplete" Type="varchar" MaxLength="1" />
@@ -2861,6 +2865,7 @@
           <Property Name="MaterCardMultimediaPath" Type="varchar" MaxLength="500" />
           <Property Name="RepairsAndMaintenanceJobClass" Type="varchar" MaxLength="10" />
           <Property Name="PrintLabelOnMaterialIssueReturn" Type="bit" />
+          <Property Name="DispatchNoteVerification" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="mtWmsDeletedItems">
           <Key>
@@ -7762,7 +7767,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <FunctionImport Name="mt_GetFlagPrintTropicHeader" ReturnType="Collection(WarehouseManagementModel.mt_GetFlagPrintTropicHeader_Result)">
             <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
           <FunctionImport Name="mt_InvQueryStockCodeDetails" ReturnType="Collection(WarehouseManagementModel.mt_InvQueryStockCodeDetails_Result)">
             <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
@@ -7773,16 +7777,21 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Job" Mode="In" Type="String" />
 
           </FunctionImport>
-          <EntitySet Name="mtDispatchVerifications" EntityType="WarehouseManagementModel.mtDispatchVerification" />
           <FunctionImport Name="mt_GetDetailLot" ReturnType="Collection(WarehouseManagementModel.mt_GetDetailLot_Result)">
             <Parameter Name="DispatchNote" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetDispatchNote" ReturnType="Collection(String)">
+
             <Parameter Name="DispatchNote" Mode="In" Type="String" />
 
           </FunctionImport>
-          <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
-        </EntityContainer>
+          
+
+		  <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
+          <EntitySet Name="mtDispatchVerifications" EntityType="WarehouseManagementModel.mtDispatchVerification" />
+          <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
+          </EntityContainer>
+
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Warehouse" Nullable="false" MaxLength="10" />
@@ -14336,25 +14345,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Property Type="String" Name="InvoiceDim" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="BarCode" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <EntityType Name="mtWhseManSetting">
-          <Key>
-            <PropertyRef Name="SettingId" />
-          </Key>
-          <Property Name="SettingId" Type="Int32" Nullable="false" />
-          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
-          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
-          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
-          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
-          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
-          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
-          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
-          <Property Name="MaterCardMultimediaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="RepairsAndMaintenanceJobClass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PrintLabelOnMaterialIssueReturn" Type="Boolean" />
-        </EntityType>
         <ComplexType Name="mt_InvQueryStockCodeDetails_Result">
           <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
@@ -14392,20 +14382,37 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Property Name="CustomerExpenseProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
 
+        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
+          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="mt_GetDetailLot_Result">
+          <Property Type="String" Name="DispatchNote" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="DispatchNoteLine" Nullable="false" Precision="4" Scale="0" />
+          <Property Type="String" Name="SalesOrder" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="SalesOrderLine" Nullable="false" Precision="4" Scale="0" />
+          <Property Type="Decimal" Name="StockQtyToShip" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="String" Name="PalletId" Nullable="true" MaxLength="40" />
+        </ComplexType>
         <EntityType Name="mtDispatchVerification">
           <Key>
+            <PropertyRef Name="TrackId" />
             <PropertyRef Name="DispatchNote" />
             <PropertyRef Name="DispatchNoteLine" />
             <PropertyRef Name="SalesOrder" />
             <PropertyRef Name="SalesOrderLine" />
             <PropertyRef Name="Lot" />
+            <PropertyRef Name="Pallet" />
           </Key>
+          <Property Name="TrackId" Type="Int32" Nullable="false" />
           <Property Name="DispatchNote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DispatchNoteLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
           <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="SalesOrderLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
           <Property Name="Lot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StockQtyToShip" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Pallet" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ScanDate" Type="DateTime" Precision="3" />
           <Property Name="VerificationComplete" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
@@ -14420,6 +14427,27 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
         </ComplexType>
 
       </Schema>
+        <EntityType Name="mtWhseManSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="Int32" Nullable="false" />
+          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
+          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
+          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
+          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
+          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
+          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
+          <Property Name="MaterCardMultimediaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RepairsAndMaintenanceJobClass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PrintLabelOnMaterialIssueReturn" Type="Boolean" />
+          <Property Name="DispatchNoteVerification" Type="Boolean" Nullable="false" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -21153,26 +21181,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="mtWhseManSettings">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWhseManSetting">
-              <MappingFragment StoreEntitySet="mtWhseManSettings">
-                <ScalarProperty Name="PrintLabelOnMaterialIssueReturn" ColumnName="PrintLabelOnMaterialIssueReturn" />
-                <ScalarProperty Name="RepairsAndMaintenanceJobClass" ColumnName="RepairsAndMaintenanceJobClass" />
-                <ScalarProperty Name="MaterCardMultimediaPath" ColumnName="MaterCardMultimediaPath" />
-                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
-                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
-                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
-                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
-                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
-                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
-                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
-                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
-                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
-                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
-                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_mtReqGetRequisitionHeaderCustomForm" FunctionName="WarehouseManagementModel.Store.sp_mtReqGetRequisitionHeaderCustomForm">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.sp_mtReqGetRequisitionHeaderCustomForm_Result">
@@ -21222,21 +21230,67 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_GetDetailLot" FunctionName="WarehouseManagementModel.Store.mt_GetDetailLot">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetDetailLot_Result">
+                <ScalarProperty Name="DispatchNote" ColumnName="DispatchNote" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="DispatchNoteLine" ColumnName="DispatchNoteLine" />
+                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
+                <ScalarProperty Name="StockQtyToShip" ColumnName="StockQtyToShip" />
+                <ScalarProperty Name="PalletId" ColumnName="PalletId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_GetDispatchNote" FunctionName="WarehouseManagementModel.Store.mt_GetDispatchNote" />
           <EntitySetMapping Name="mtDispatchVerifications">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchVerification">
               <MappingFragment StoreEntitySet="mtDispatchVerification">
                 <ScalarProperty Name="VerificationComplete" ColumnName="VerificationComplete" />
                 <ScalarProperty Name="ScanDate" ColumnName="ScanDate" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
                 <ScalarProperty Name="StockQtyToShip" ColumnName="StockQtyToShip" />
                 <ScalarProperty Name="Lot" ColumnName="Lot" />
                 <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
                 <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
                 <ScalarProperty Name="DispatchNoteLine" ColumnName="DispatchNoteLine" />
                 <ScalarProperty Name="DispatchNote" ColumnName="DispatchNote" />
+                <ScalarProperty Name="TrackId" ColumnName="TrackId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="mtWhseManSettings">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWhseManSetting">
+              <MappingFragment StoreEntitySet="mtWhseManSettings">
+                <ScalarProperty Name="DispatchNoteVerification" ColumnName="DispatchNoteVerification" />
+                <ScalarProperty Name="PrintLabelOnMaterialIssueReturn" ColumnName="PrintLabelOnMaterialIssueReturn" />
+                <ScalarProperty Name="RepairsAndMaintenanceJobClass" ColumnName="RepairsAndMaintenanceJobClass" />
+                <ScalarProperty Name="MaterCardMultimediaPath" ColumnName="MaterCardMultimediaPath" />
+                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
+                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
+                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
+                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
+                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
+                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
+                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
+                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
+                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
+                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+
           <FunctionImportMapping FunctionImportName="mt_GetDetailLot" FunctionName="WarehouseManagementModel.Store.mt_GetDetailLot">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetDetailLot_Result">

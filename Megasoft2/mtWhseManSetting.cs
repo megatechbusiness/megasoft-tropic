@@ -28,5 +28,6 @@ namespace Megasoft2
         public string MaterCardMultimediaPath { get; set; }
         public string RepairsAndMaintenanceJobClass { get; set; }
         public Nullable<bool> PrintLabelOnMaterialIssueReturn { get; set; }
+        public bool DispatchNoteVerification { get; set; }
     }
 }

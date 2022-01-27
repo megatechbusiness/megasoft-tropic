@@ -19,5 +19,6 @@ namespace Megasoft2
         public string SalesOrder { get; set; }
         public decimal SalesOrderLine { get; set; }
         public decimal StockQtyToShip { get; set; }
+        public string PalletId { get; set; }
     }
 }

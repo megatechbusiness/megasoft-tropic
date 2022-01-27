@@ -28,6 +28,17 @@
                 <div class="form-horizontal row spacer-xs">
 
                     <div class="control-label col-xs-3" style="text-align:left;">
+                        <h4>Track ID</h4>
+                    </div>
+                    <div class="editor-field col-xs-6">
+                        @Html.TextBoxFor(model => model.TrackId, new { @class = "form-control input-lg", @id = "txtTrackId" })
+                        @Html.ValidationMessageFor(model => model.TrackId)
+
+                    </div>
+                </div>
+                <div class="form-horizontal row spacer-xs">
+
+                    <div class="control-label col-xs-3" style="text-align:left;">
                         <h4>Dispatch Note</h4>
                     </div>
                     <div class="editor-field col-xs-6">
@@ -63,7 +74,7 @@
                 </div>
 
                 <hr />
-                @*<div class="form-horizontal row text-center col-xs-11">
+                <div class="form-horizontal row text-center col-xs-11">
                     <div class="control-label col-xs-1" style="text-align:left;" id="txtCount">
 
                     </div>
@@ -74,8 +85,10 @@
                     <table class="table table-hover table-striped table-condensed table-responsive table-bordered" id="tblLines" style="font-size:xx-small">
                         <thead>
                             <tr>
+                                <th>Track ID</th>
                                 <th>Dispatch Note</th>
                                 <th>Lot</th>
+                                <th>Pallet</th>
                                 <th>Qty</th>
                                 <th></th>
                             </tr>
@@ -83,7 +96,7 @@
                         <tbody></tbody>
                     </table>
 
-                </div>*@
+                </div>
             </div>
         </div>
     </fieldset>
@@ -97,16 +110,13 @@
         $('#errordiv').text("");
         $('#errordiv').removeClass("alert alert-danger");
         var str = document.getElementById('txtBarcode').value;
-        //If Megasoft Barcode
+        
         if (str.indexOf("|") > 0) {
             var Values = document.getElementById('txtBarcode').value.split("|");
-            //document.getElementById('txtLot').value = Values[4];
-            //document.getElementById('txtQuantity').value = Values[2];
-
 
             var mydata = [];
             var myObject = new Object();
-            myObject.Dispatchnote = Values[0];
+            myObject.Dispatchnote =$('#txtDispatchNote').val();
             myObject.LotNumber = Values[4];
             myObject.Quantity = Values[2]
 
@@ -127,21 +137,82 @@
 
             function OnSuccess(response) {
                 if (response != "") {
-                    //document.getElementById('txtBarcode').value = "";
+                    document.getElementById('txtBarcode').value = "";
+                    //document.getElementById('txtDispatchNote').value = "";
+                    //document.getElementById('txtTrackId').value = "";
                     $('#errordiv').text(response);
                     $('#errordiv').addClass("alert alert-danger");
                     document.getElementById('txtBarcode').focus();
                 }
                 else {
                     document.getElementById("txtBarcode").focus();
-                    //AddLine(Values);
-
                 }
-
+                GetItemsScanned();
             }
 
             function OnErrorCall(response) {
                 if (response != "") {
+                    document.getElementById('txtTrackId').value = "";
+                    document.getElementById('txtBarcode').value = "";
+                    document.getElementById('txtDispatchNote').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('txtBarcode').focus();
+                }
+                else {
+                    document.getElementById("btnPost").focus();
+                }
+            }
+        }
+        else {
+            GetPalletItems();
+        }
+    }
+
+    function GetPalletItems() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        var str = document.getElementById('txtBarcode').value;
+        
+        if (str != "") {
+            var Values = str;
+
+            var mydata = [];
+            var myObject = new Object();
+            myObject.Dispatchnote = $('#txtDispatchNote').val();
+            myObject.LotNumber = Values;
+
+            mydata.push(myObject);
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "DispatchVerification/ValidateDetails",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                if (response != "") {
+                    document.getElementById('txtBarcode').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById('txtBarcode').focus();
+                }
+                else {
+                    document.getElementById("txtBarcode").focus();
+                }
+                GetItemsScanned();
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('txtTrackId').value = "";
                     document.getElementById('txtBarcode').value = "";
                     document.getElementById('txtDispatchNote').value = "";
                     $('#errordiv').text(response);
@@ -159,11 +230,10 @@
     }
 
     function ValidateDispatchNote() {
-        alert("validating..");
 
-        var myString = JSON.stringify({ DispatchNote: document.getElementById('txtDispatchNote').value });
+        var myString = JSON.stringify({ DispatchNote: document.getElementById('txtDispatchNote').value, TrackId: document.getElementById('txtTrackId').value });
         var exportdata = myString;
-
+        
         $.ajax({
             type: "POST",
             url: "@Url.Action("ValidateDispatchNote", "DispatchVerification")",
@@ -173,9 +243,9 @@
             success: OnSuccess,
             failure: OnErrorCall
         });
-
+        
         function OnSuccess(response) {
-            //alert(response);
+            
             if (response != "") {
                 if (response.match("^Error")) {
                     $('#errordiv').text(response);
@@ -184,27 +254,26 @@
                 }
                 else {
                     document.getElementById('txtDispatchNote').focus();
-                    //document.getElementById("txtBarcode").focus();
                 }
-                //document.getElementById('txtDispatchNote').value = "";
-                //document.getElementById('txtDispatchNote').focus();
             }
             else {
-                //document.getElementById('txtDispatchNote').value = "";
                 document.getElementById("txtBarcode").focus();
             }
+
+            GetItemsScanned();
         }
 
         function OnErrorCall(response) {
             if (response != "") {
                 document.getElementById('txtDispatchNote').value = "";
+                document.getElementById('txtTrackId').value = "";
                 alert(response);
                 $('#errordiv').text(response);
                 $('#errordiv').addClass("alert alert-danger");
-                document.getElementById('txtDispatchNote').focus();
+                document.getElementById('txtTrackId').focus();
             }
             else {
-                document.getElementById("txtDispatchNote").focus();
+                document.getElementById("txtTrackId").focus();
 
             }
         }
@@ -212,86 +281,136 @@
 
     function btnComplete() {
 
-        var str = document.getElementById('txtBarcode').value;
-        if (str.indexOf("|") > 0) {
-            var Values = document.getElementById('txtBarcode').value.split("|");
-            var mydata = [];
-            var myObject = new Object();
-            myObject.Dispatchnote = Values[0];
-            myObject.LotNumber = Values[4];
-            myObject.Quantity = Values[2]
+        var TrackId = document.getElementById('txtTrackId').value;
+        var DispactchNote = document.getElementById('txtDispatchNote').value;
 
-            mydata.push(myObject);
+        var mydata = [];
+        var myObject = new Object();
+        myObject.TrackId = TrackId;
+        myObject.Dispatchnote = DispactchNote;
 
-            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
-            var exportdata = myString;
+        mydata.push(myObject);
 
-            $.ajax({
-                type: "POST",
-                url: "DispatchVerification/Verification",
-                data: exportdata,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: OnSuccess,
-                failure: OnErrorCall
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "DispatchVerification/Verification",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+
+        function OnErrorCall(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+    }
+
+    function GetItemsScanned() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        $("#tblLines tbody>tr").remove();
+
+        var myString = JSON.stringify({
+            TrackId: $('#txtTrackId').val(),
+            DispatchNote: $('#txtDispatchNote').val()
+        });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "DispatchVerification/GetItemsScanned",
+            contentType: "application/json; charset=utf-8",
+            data: exportdata,
+            dataType: "json",
+            success: OnSuccess,
+            failure: function () {
+                alert(response);
+            }
+        });
+
+        function OnSuccess(response) {
+            var trHTML = '';
+            $.each(response, function (index) {
+                trHTML += '<tr><td class="nowrap">' + response[index].TrackId + '</td><td class="nowrap">' + response[index].DispatchNote + '</td><td class="nowrap">' + response[index].Lot + '</td><td class="nowrap">' + response[index].Pallet + '</td><td class="nowrap" >' + response[index].StockQtyToShip + ' </td >' +
+                    '<td><a href="#" class="delLine btn btn-danger btn-xs" tabindex="-1"><span class="fa fa-trash-o aria-hidden="true" title="Delete Line" tabindex="-1"></span></a></td></tr>';
             });
 
-            function OnSuccess(response) {
+
+            $('#tblLines').append(trHTML);
+            $("#txtBarcode").focus();
+        }
+    }
+
+    $('#tblLines').on("click", ".delLine", function () {
+
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+
+        var $row = $(this).closest("tr").attr('TrackId');    // Find the row
+
+        var TrackId = $(this).closest("tr").find('td:eq(0)').text()
+        var DispatchNote = $(this).closest("tr").find('td:eq(1)').text()
+        var Lot = $(this).closest("tr").find('td:eq(2)').text()
+        var Pallet = $(this).closest("tr").find('td:eq(3)').text()
+        var Quantity = $(this).closest("tr").find('td:eq(4)').text()
+
+        var mydata = [];
+        var myObject = new Object();
+
+        myObject.TrackId = TrackId;
+        myObject.Dispatchnote = DispatchNote;
+        myObject.Lot = Lot;
+        myObject.Pallet = Pallet;
+        myObject.Quantity = Quantity;
+
+        mydata.push(myObject);
+
+        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        var exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url: "DispatchVerification/DeleteScannedItem",
+            data: exportdata,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function () {
+                alert(response);
+            }
+        });
+
+        function OnSuccess(response) {
+            if (response == "Deleted Successfully.") {
+
                 $('#errordiv').text(response);
                 $('#errordiv').addClass("alert alert-danger");
-            }
 
-            function OnErrorCall(response) {
+                $("#tblLines tbody>tr").remove();
+                GetItemsScanned();
+
+            }
+            else {
                 $('#errordiv').text(response);
                 $('#errordiv').addClass("alert alert-danger");
             }
         }
-    }
-
-    //function AddLine(Barcode) {
-    //    $('#errordiv').text("");
-    //    $('#errordiv').removeClass("alert alert-danger");
-    //    showprogressbar();
-
-
-
-    //    var DispatchNote = Barcode[0];//document.getElementById('txtBarcode').value;
-    //    var Lot = Barcode[4];//document.getElementById('txtLot').value;
-    //    var Quantity = Barcode[2];//document.getElementById('txtQuantity').value;
-    //    var AddReel = true;
-
-    //    if (Quantity.trim() == "") {
-    //        alert("Quantity missing.");
-    //        AddReel = false;
-    //    }
-
-    //    $("#tblLines > tbody > tr ").each(function (i, el) {
-    //        var $tds = $(this).find('td');
-    //        var ReelNumber = $tds.eq(1).text();
-    //        if (Lot == ReelNumber) {
-    //            AddReel = false;
-    //            alert("Reel " + Lot + " already scanned.");
-    //            return;
-    //        }
-    //    });
-
-
-    //    if (AddReel == true) {
-    //        $('#tblLines tbody').append("<tr class='nr'><td>" + DispatchNote +
-    //            "</td><td>" + Lot + "</td><td>" + Quantity +
-    //            "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
-    //    }
-
-
-    //    document.getElementById('txtBarcode').value = "";
-    //    //document.getElementById('txtDispatchNote').value = "";
-    //    document.getElementById('txtBarcode').focus();
-
-    //    var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
-    //    $('#txtCount').html('Total:' + rows);
-
-    //    hideprogressbar();
-    //}
+        if (count > 0) {
+            count = count - 1;
+            $('#txtCount').html('Total:' + count);
+        }
+    });
 
     $(document).ready(function () {
 
@@ -321,11 +440,11 @@
             }
         });
 
-        //$('#tblLines').on("click", ".delLine", function () {
-        //    $(this).closest("tr").remove();
-        //    var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
-        //    $('#txtCount').html('Total:' + rows);
-        //});
+        $('#tblLines').on("click", ".delLine", function () {
+            $(this).closest("tr").remove();
+            var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            $('#txtCount').html('Total:' + rows);
+        });
 
     });
 

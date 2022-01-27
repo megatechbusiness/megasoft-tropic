@@ -14,12 +14,14 @@ namespace Megasoft2
     
     public partial class mtDispatchVerification
     {
+        public int TrackId { get; set; }
         public string DispatchNote { get; set; }
         public decimal DispatchNoteLine { get; set; }
         public string SalesOrder { get; set; }
         public decimal SalesOrderLine { get; set; }
         public string Lot { get; set; }
         public Nullable<decimal> StockQtyToShip { get; set; }
+        public string Pallet { get; set; }
         public string Username { get; set; }
         public Nullable<System.DateTime> ScanDate { get; set; }
         public string VerificationComplete { get; set; }

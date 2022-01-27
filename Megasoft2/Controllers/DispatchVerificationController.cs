@@ -38,11 +38,11 @@ namespace Megasoft2.Controllers
 
         [HttpPost]
         //[CustomAuthorize(Activity: "DispatchVerification")]
-        public ActionResult ValidateDispatchNote(string DispatchNote)
+        public ActionResult ValidateDispatchNote(string DispatchNote, int TrackId)
         {
             try
             {
-                return Json(BL.ValidateDispatchNote(DispatchNote), JsonRequestBehavior.AllowGet);
+                return Json(BL.ValidateDispatchNote(DispatchNote, TrackId), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -55,7 +55,37 @@ namespace Megasoft2.Controllers
         {
             try
             {
-                return Json(BL.btnComplete(details), JsonRequestBehavior.AllowGet);
+                string result = BL.btnComplete(details);
+                ModelState.AddModelError("", result);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
+
+        //[CustomAuthorize(Activity: "DispatchVerification")]
+        public ActionResult GetItemsScanned(int TrackId, string DispatchNote)
+        {
+           
+            try
+            {
+
+                return Json(BL.GetScansByTrackIdDispatch(DispatchNote, TrackId), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult DeleteScannedItem(string details)
+        {
+            try
+            {
+                return Json(BL.DeleteScanByTrackIdDispatch(details), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
