@@ -16,9 +16,9 @@
             <div class="form-horizontal row">
                 <div class="col-xs-10 text-right">
                     @*<a href="#" class="btn btn-primary btn-lg" onclick="" id="btnPost">
-                        <span class="fa fa-save" aria-hidden="true" title="Post"></span>
-                    </a>*@
-                    <button id="btnPost" type="submit" UseSubmitBehavior="false" @*name="action:DispVerification" value="DispVerification"*@ class="btn-success btn-sm">
+                            <span class="fa fa-save" aria-hidden="true" title="Post"></span>
+                        </a>*@
+                    <button id="btnPost" type="button" @*name="action:DispVerification" value="DispVerification"*@ class="btn-success btn-sm">
                         <i class="fa fa-save" aria-hidden="true" title="Post"></i> Complete
                     </button>
                 </div>
@@ -67,10 +67,10 @@
                         </a>
                     </div>
                     @*<div class="col-xs-2 text-left">
-                        <a href="#" class="btn btn-primary btn-lg" id="btnAdd" onclick="">
-                            <span class="fa fa-plus" aria-hidden="true" title="Add"></span>
-                        </a>
-                    </div>*@
+                            <a href="#" class="btn btn-primary btn-lg" id="btnAdd" onclick="">
+                                <span class="fa fa-plus" aria-hidden="true" title="Add"></span>
+                            </a>
+                        </div>*@
                 </div>
 
                 <hr />
@@ -110,7 +110,7 @@
         $('#errordiv').text("");
         $('#errordiv').removeClass("alert alert-danger");
         var str = document.getElementById('txtBarcode').value;
-        
+
         if (str.indexOf("|") > 0) {
             var Values = document.getElementById('txtBarcode').value.split("|");
 
@@ -173,7 +173,7 @@
         $('#errordiv').text("");
         $('#errordiv').removeClass("alert alert-danger");
         var str = document.getElementById('txtBarcode').value;
-        
+
         if (str != "") {
             var Values = str;
 
@@ -230,10 +230,11 @@
     }
 
     function ValidateDispatchNote() {
-
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
         var myString = JSON.stringify({ DispatchNote: document.getElementById('txtDispatchNote').value, TrackId: document.getElementById('txtTrackId').value });
         var exportdata = myString;
-        
+
         $.ajax({
             type: "POST",
             url: "@Url.Action("ValidateDispatchNote", "DispatchVerification")",
@@ -243,9 +244,9 @@
             success: OnSuccess,
             failure: OnErrorCall
         });
-        
+
         function OnSuccess(response) {
-            
+
             if (response != "") {
                 if (response.match("^Error")) {
                     $('#errordiv').text(response);
@@ -280,7 +281,8 @@
     }
 
     function btnComplete() {
-
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
         var TrackId = document.getElementById('txtTrackId').value;
         var DispactchNote = document.getElementById('txtDispatchNote').value;
 
@@ -316,8 +318,7 @@
     }
 
     function GetItemsScanned() {
-        $('#errordiv').text("");
-        $('#errordiv').removeClass("alert alert-danger");
+
 
         $("#tblLines tbody>tr").remove();
 
@@ -414,6 +415,9 @@
 
     $(document).ready(function () {
 
+
+
+
         //change page title text
         $('#megasoftTitle').text(' Megasoft - Verification');
         var span = document.getElementById("megasoftTitle");
@@ -446,9 +450,11 @@
             $('#txtCount').html('Total:' + rows);
         });
 
+        $('#btnPost').on('click', function (e) {
+            btnComplete();
+        });
+
     });
 
-    $('#btnPost').on('click', function (e) {
-        btnComplete();
-    });
+
 </script>

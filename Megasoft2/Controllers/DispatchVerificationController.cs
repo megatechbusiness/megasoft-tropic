@@ -14,7 +14,7 @@ namespace Megasoft2.Controllers
         // GET: /DispatchVerification/
         DispatchVerificationBL BL = new DispatchVerificationBL();
 
-        //[CustomAuthorize(Activity: "DispatchVerification")]
+        [CustomAuthorize(Activity: "DispatchVerification")]
         public ActionResult Index()
         {
             var Company = BL.GetCompany();
@@ -64,12 +64,12 @@ namespace Megasoft2.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
 
         //[CustomAuthorize(Activity: "DispatchVerification")]
         public ActionResult GetItemsScanned(int TrackId, string DispatchNote)
         {
-           
+
             try
             {
 

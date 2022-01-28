@@ -4,7 +4,8 @@
 }
 
 
-<h4 style="font-weight:bold;" class="text-center">Transport System - Waybill Entry</h4><hr />
+<h4 style="font-weight:bold;" class="text-center">Transport System - Waybill Entry</h4>
+<hr />
 
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmTransportMain" }))
@@ -34,6 +35,19 @@
                     {
                         <button type="submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
                     }
+
+
+                    if (Model.PrintVerificationPdf != null)
+                    {
+                        <a href="@Model.PrintVerificationPdf.FilePath" target="_blank" class="btn btn-default btn-sm pull-right right">
+                            <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PrintVerificationPdf.FileName</span></span>
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintLoadVerification" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> Dispatch Verification</span></button>
+                    }
+
                 }
                 else
                 {

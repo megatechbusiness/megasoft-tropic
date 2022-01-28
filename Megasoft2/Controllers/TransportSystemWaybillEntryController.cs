@@ -434,6 +434,16 @@ namespace Megasoft2.Controllers
             return View("Index", model);
         }
 
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "PrintLoadVerification")]
+        public ActionResult PrintLoadVerification(TransportSystemWaybillEntryViewModel model)
+        {
+            model.PrintVerificationPdf = ExportLoadVerfificationPdf(model.TrackId);
+            ViewBag.CanSavePOD = CanSavePOD();
+            ViewBag.IsValidTrackId = true;
+            return View("Index", model);
+        }
+
         public void PdfCleanup()
         {
             try
@@ -479,6 +489,57 @@ namespace Megasoft2.Controllers
                 string FilePath = HttpContext.Server.MapPath("~/Reports/TransportSystem/TransportSchedule/");
 
                 string FileName = TrackId + ".pdf";
+
+                string OutputPath = Path.Combine(FilePath, FileName);
+
+                //rpt.ExportToHttpResponse(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, true, Report + "_" + DateTime.Now.Date);
+                rpt.ExportToDisk(ExportFormatType.PortableDocFormat, OutputPath);
+                rpt.Close();
+                rpt.Dispose();
+                GC.Collect();
+
+                ExportFile file = new ExportFile();
+                file.FileName = FileName;
+                file.FilePath = @"..\Reports\TransportSystem\TransportSchedule\" + FileName;
+                //file.FilePath = HttpContext.Current.Server.MapPath("~/RequisitionSystem/RequestForQuote/") + FileName;
+                //file.FilePath = OutputPath;
+                PdfCleanup();
+                return file;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public ExportFile ExportLoadVerfificationPdf(int TrackId)
+        {
+            try
+            {
+                var ReportPath = (from a in wdb.mtReportMasters where a.Program == "DynamicReports" && a.Report == "TransportLoadVerification" select a.ReportPath).FirstOrDefault().Trim();
+                ReportDocument rpt = new ReportDocument();
+                rpt.Load(ReportPath);
+
+                ConnectionStringSettings sysproSettings = ConfigurationManager.ConnectionStrings["SysproEntities"];
+                if (sysproSettings == null || string.IsNullOrEmpty(sysproSettings.ConnectionString))
+                {
+                    throw new Exception("Fatal error: Missing connection string 'SysproEntities' in web.config file");
+                }
+                string sysproConnectionString = sysproSettings.ConnectionString;
+                EntityConnectionStringBuilder entityConnectionStringBuilder = new EntityConnectionStringBuilder(sysproConnectionString);
+                SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder(entityConnectionStringBuilder.ProviderConnectionString);
+
+                string password = sqlConnectionStringBuilder.Password;
+                string userId = sqlConnectionStringBuilder.UserID;
+
+                rpt.SetDatabaseLogon(userId, password);
+
+                rpt.SetParameterValue("@TrackId", TrackId);
+
+                string FilePath = HttpContext.Server.MapPath("~/Reports/TransportSystem/TransportSchedule/");
+
+                string FileName = "LoadVerification " + TrackId + ".pdf";
 
                 string OutputPath = Path.Combine(FilePath, FileName);
 

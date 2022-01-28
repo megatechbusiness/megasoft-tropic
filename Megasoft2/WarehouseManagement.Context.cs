@@ -147,9 +147,9 @@ namespace Megasoft2
         public DbSet<mtRequisitionDeletedLine> mtRequisitionDeletedLines { get; set; }
         public DbSet<mtProductionPalletWeight> mtProductionPalletWeights { get; set; }
         public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
+        public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
         public DbSet<mtStereoSupplier> mtStereoSuppliers { get; set; }
         public DbSet<mtDispatchVerification> mtDispatchVerifications { get; set; }
-        public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -3139,15 +3139,6 @@ namespace Megasoft2
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRequisitionHeaderCustomForm_Result>("sp_mtReqGetRequisitionHeaderCustomForm", requisitionParameter);
         }
     
-        public virtual ObjectResult<mt_MaterialIssueGetWorkCentreByJob_Result> mt_MaterialIssueGetWorkCentreByJob(string job)
-        {
-            var jobParameter = job != null ?
-                new ObjectParameter("Job", job) :
-                new ObjectParameter("Job", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_MaterialIssueGetWorkCentreByJob_Result>("mt_MaterialIssueGetWorkCentreByJob", jobParameter);
-        }
-    
         public virtual ObjectResult<mt_GetDetailLot_Result> mt_GetDetailLot(string dispatchNote)
         {
             var dispatchNoteParameter = dispatchNote != null ?
@@ -3164,6 +3155,15 @@ namespace Megasoft2
                 new ObjectParameter("DispatchNote", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("mt_GetDispatchNote", dispatchNoteParameter);
+        }
+    
+        public virtual ObjectResult<mt_MaterialIssueGetWorkCentreByJob_Result> mt_MaterialIssueGetWorkCentreByJob(string job)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_MaterialIssueGetWorkCentreByJob_Result>("mt_MaterialIssueGetWorkCentreByJob", jobParameter);
         }
     }
 }

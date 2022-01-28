@@ -41,6 +41,6 @@ namespace Megasoft2.ViewModel
         public Nullable<DateTime> PODDate { get; set; }
         public string PODComment { get; set; }
         public ExportFile PrintPdf { get; set; }
-
+        public ExportFile PrintVerificationPdf { get; set; }
     }
 }

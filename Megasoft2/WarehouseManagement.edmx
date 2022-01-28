@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WarehouseManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WarehouseManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdmFormControl">
           <Key>
             <PropertyRef Name="FormType" />
@@ -5535,192 +5535,176 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="WipJobClass" EntityType="Self.WipJobClass" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WipMaster" EntityType="Self.WipMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_InvWhControl" EntityType="Self.vw_InvWhControl" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [vw_InvWhControl].[Warehouse] AS [Warehouse],
-              [vw_InvWhControl].[Description] AS [Description],
-              [vw_InvWhControl].[MtdTrnsVar] AS [MtdTrnsVar],
-              [vw_InvWhControl].[NextTicketNo] AS [NextTicketNo],
-              [vw_InvWhControl].[StockTakeFlag] AS [StockTakeFlag],
-              [vw_InvWhControl].[WhLdgCtlAcc] AS [WhLdgCtlAcc],
-              [vw_InvWhControl].[WhVarLdg] AS [WhVarLdg],
-              [vw_InvWhControl].[TrnMonth] AS [TrnMonth],
-              [vw_InvWhControl].[TrnYear] AS [TrnYear],
-              [vw_InvWhControl].[GrnLdgAcc] AS [GrnLdgAcc],
-              [vw_InvWhControl].[DeliveryAddr1] AS [DeliveryAddr1],
-              [vw_InvWhControl].[DeliveryAddr2] AS [DeliveryAddr2],
-              [vw_InvWhControl].[DeliveryAddr3] AS [DeliveryAddr3],
-              [vw_InvWhControl].[DeliveryAddr3Loc] AS [DeliveryAddr3Loc],
-              [vw_InvWhControl].[DeliveryAddr4] AS [DeliveryAddr4],
-              [vw_InvWhControl].[DeliveryAddr5] AS [DeliveryAddr5],
-              [vw_InvWhControl].[PostalCode] AS [PostalCode],
-              [vw_InvWhControl].[DeliveryGpsLat] AS [DeliveryGpsLat],
-              [vw_InvWhControl].[DeliveryGpsLong] AS [DeliveryGpsLong],
-              [vw_InvWhControl].[NegStockAllow] AS [NegStockAllow],
-              [vw_InvWhControl].[GtrCtlAccl] AS [GtrCtlAccl],
-              [vw_InvWhControl].[GtrPrefix] AS [GtrPrefix],
-              [vw_InvWhControl].[GtrNextNo] AS [GtrNextNo],
-              [vw_InvWhControl].[Branch] AS [Branch],
-              [vw_InvWhControl].[Area] AS [Area],
-              [vw_InvWhControl].[FaxContact] AS [FaxContact],
-              [vw_InvWhControl].[Fax] AS [Fax],
-              [vw_InvWhControl].[FaxDocIwsFlag] AS [FaxDocIwsFlag],
-              [vw_InvWhControl].[GitAdjAcc] AS [GitAdjAcc],
-              [vw_InvWhControl].[WhForComp] AS [WhForComp],
-              [vw_InvWhControl].[Route] AS [Route],
-              [vw_InvWhControl].[InclPlanning] AS [InclPlanning],
-              [vw_InvWhControl].[UseMultipleBins] AS [UseMultipleBins],
-              [vw_InvWhControl].[CostingMethod] AS [CostingMethod],
-              [vw_InvWhControl].[UseFifoBuckets] AS [UseFifoBuckets],
-              [vw_InvWhControl].[PoPrefix] AS [PoPrefix],
-              [vw_InvWhControl].[PoNextNumber] AS [PoNextNumber],
-              [vw_InvWhControl].[GrnPrefix] AS [GrnPrefix],
-              [vw_InvWhControl].[GrnNextNumber] AS [GrnNextNumber],
-              [vw_InvWhControl].[WipInspectGlCode] AS [WipInspectGlCode],
-              [vw_InvWhControl].[Nationality] AS [Nationality],
-              [vw_InvWhControl].[SoDefaultDoc] AS [SoDefaultDoc],
-              [vw_InvWhControl].[RouteCode] AS [RouteCode],
-              [vw_InvWhControl].[RouteDistance] AS [RouteDistance],
-              [vw_InvWhControl].[WipControlGlCode] AS [WipControlGlCode],
-              [vw_InvWhControl].[WipVarCtlGlCode] AS [WipVarCtlGlCode],
-              [vw_InvWhControl].[WipAutoVarGlCode] AS [WipAutoVarGlCode],
-              [vw_InvWhControl].[SiteId] AS [SiteId],
-              [vw_InvWhControl].[RollParentGl] AS [RollParentGl],
-              [vw_InvWhControl].[WmsActive] AS [WmsActive],
-              [vw_InvWhControl].[PickLeadHours] AS [PickLeadHours],
-              [vw_InvWhControl].[StockTakeUpdate] AS [StockTakeUpdate],
-              [vw_InvWhControl].[NonStockedGl] AS [NonStockedGl],
-              [vw_InvWhControl].[State] AS [State],
-              [vw_InvWhControl].[CountyZip] AS [CountyZip],
-              [vw_InvWhControl].[City] AS [City],
-              [vw_InvWhControl].[LanguageCode] AS [LanguageCode],
-              [vw_InvWhControl].[ShippingLocation] AS [ShippingLocation],
-              [vw_InvWhControl].[DeliveryTerms] AS [DeliveryTerms]
-              FROM [dbo].[vw_InvWhControl] AS [vw_InvWhControl]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[vw_InvWhControl].[Warehouse] AS [Warehouse], 
+[vw_InvWhControl].[Description] AS [Description], 
+[vw_InvWhControl].[MtdTrnsVar] AS [MtdTrnsVar], 
+[vw_InvWhControl].[NextTicketNo] AS [NextTicketNo], 
+[vw_InvWhControl].[StockTakeFlag] AS [StockTakeFlag], 
+[vw_InvWhControl].[WhLdgCtlAcc] AS [WhLdgCtlAcc], 
+[vw_InvWhControl].[WhVarLdg] AS [WhVarLdg], 
+[vw_InvWhControl].[TrnMonth] AS [TrnMonth], 
+[vw_InvWhControl].[TrnYear] AS [TrnYear], 
+[vw_InvWhControl].[GrnLdgAcc] AS [GrnLdgAcc], 
+[vw_InvWhControl].[DeliveryAddr1] AS [DeliveryAddr1], 
+[vw_InvWhControl].[DeliveryAddr2] AS [DeliveryAddr2], 
+[vw_InvWhControl].[DeliveryAddr3] AS [DeliveryAddr3], 
+[vw_InvWhControl].[DeliveryAddr3Loc] AS [DeliveryAddr3Loc], 
+[vw_InvWhControl].[DeliveryAddr4] AS [DeliveryAddr4], 
+[vw_InvWhControl].[DeliveryAddr5] AS [DeliveryAddr5], 
+[vw_InvWhControl].[PostalCode] AS [PostalCode], 
+[vw_InvWhControl].[DeliveryGpsLat] AS [DeliveryGpsLat], 
+[vw_InvWhControl].[DeliveryGpsLong] AS [DeliveryGpsLong], 
+[vw_InvWhControl].[NegStockAllow] AS [NegStockAllow], 
+[vw_InvWhControl].[GtrCtlAccl] AS [GtrCtlAccl], 
+[vw_InvWhControl].[GtrPrefix] AS [GtrPrefix], 
+[vw_InvWhControl].[GtrNextNo] AS [GtrNextNo], 
+[vw_InvWhControl].[Branch] AS [Branch], 
+[vw_InvWhControl].[Area] AS [Area], 
+[vw_InvWhControl].[FaxContact] AS [FaxContact], 
+[vw_InvWhControl].[Fax] AS [Fax], 
+[vw_InvWhControl].[FaxDocIwsFlag] AS [FaxDocIwsFlag], 
+[vw_InvWhControl].[GitAdjAcc] AS [GitAdjAcc], 
+[vw_InvWhControl].[WhForComp] AS [WhForComp], 
+[vw_InvWhControl].[Route] AS [Route], 
+[vw_InvWhControl].[InclPlanning] AS [InclPlanning], 
+[vw_InvWhControl].[UseMultipleBins] AS [UseMultipleBins], 
+[vw_InvWhControl].[CostingMethod] AS [CostingMethod], 
+[vw_InvWhControl].[UseFifoBuckets] AS [UseFifoBuckets], 
+[vw_InvWhControl].[PoPrefix] AS [PoPrefix], 
+[vw_InvWhControl].[PoNextNumber] AS [PoNextNumber], 
+[vw_InvWhControl].[GrnPrefix] AS [GrnPrefix], 
+[vw_InvWhControl].[GrnNextNumber] AS [GrnNextNumber], 
+[vw_InvWhControl].[WipInspectGlCode] AS [WipInspectGlCode], 
+[vw_InvWhControl].[Nationality] AS [Nationality], 
+[vw_InvWhControl].[SoDefaultDoc] AS [SoDefaultDoc], 
+[vw_InvWhControl].[RouteCode] AS [RouteCode], 
+[vw_InvWhControl].[RouteDistance] AS [RouteDistance], 
+[vw_InvWhControl].[WipControlGlCode] AS [WipControlGlCode], 
+[vw_InvWhControl].[WipVarCtlGlCode] AS [WipVarCtlGlCode], 
+[vw_InvWhControl].[WipAutoVarGlCode] AS [WipAutoVarGlCode], 
+[vw_InvWhControl].[SiteId] AS [SiteId], 
+[vw_InvWhControl].[RollParentGl] AS [RollParentGl], 
+[vw_InvWhControl].[WmsActive] AS [WmsActive], 
+[vw_InvWhControl].[PickLeadHours] AS [PickLeadHours], 
+[vw_InvWhControl].[StockTakeUpdate] AS [StockTakeUpdate], 
+[vw_InvWhControl].[NonStockedGl] AS [NonStockedGl], 
+[vw_InvWhControl].[State] AS [State], 
+[vw_InvWhControl].[CountyZip] AS [CountyZip], 
+[vw_InvWhControl].[City] AS [City], 
+[vw_InvWhControl].[LanguageCode] AS [LanguageCode], 
+[vw_InvWhControl].[ShippingLocation] AS [ShippingLocation], 
+[vw_InvWhControl].[DeliveryTerms] AS [DeliveryTerms]
+FROM [dbo].[vw_InvWhControl] AS [vw_InvWhControl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwJobMatData" EntityType="Self.vwJobMatData" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [vwJobMatData].[Job] AS [Job],
-              [vwJobMatData].[StockCode] AS [StockCode],
-              [vwJobMatData].[Viscosity] AS [Viscosity],
-              [vwJobMatData].[Reducer] AS [Reducer],
-              [vwJobMatData].[Retarder] AS [Retarder]
-              FROM [dbo].[vwJobMatData] AS [vwJobMatData]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[vwJobMatData].[Job] AS [Job], 
+[vwJobMatData].[StockCode] AS [StockCode], 
+[vwJobMatData].[Viscosity] AS [Viscosity], 
+[vwJobMatData].[Reducer] AS [Reducer], 
+[vwJobMatData].[Retarder] AS [Retarder]
+FROM [dbo].[vwJobMatData] AS [vwJobMatData]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwJobSalesOrder" EntityType="Self.vwJobSalesOrder" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [vwJobSalesOrder].[Job] AS [Job],
-              [vwJobSalesOrder].[StockCode] AS [StockCode],
-              [vwJobSalesOrder].[SalesOrder] AS [SalesOrder],
-              [vwJobSalesOrder].[SalesOrderLine] AS [SalesOrderLine],
-              [vwJobSalesOrder].[CustomerPoNumber] AS [CustomerPoNumber],
-              [vwJobSalesOrder].[SystemOrderDate] AS [SystemOrderDate],
-              [vwJobSalesOrder].[OrderDate] AS [OrderDate],
-              [vwJobSalesOrder].[HeaderShipDate] AS [HeaderShipDate],
-              [vwJobSalesOrder].[MLineShipDate] AS [MLineShipDate],
-              [vwJobSalesOrder].[MCustRequestDat] AS [MCustRequestDat],
-              [vwJobSalesOrder].[Width] AS [Width],
-              [vwJobSalesOrder].[Length] AS [Length],
-              [vwJobSalesOrder].[QtyAcross] AS [QtyAcross],
-              [vwJobSalesOrder].[QtyAround] AS [QtyAround],
-              [vwJobSalesOrder].[CylinderCircu] AS [CylinderCircu],
-              [vwJobSalesOrder].[NumberUp] AS [NumberUp],
-              [vwJobSalesOrder].[YieldLm] AS [YieldLm],
-              [vwJobSalesOrder].[TemplateNumber] AS [TemplateNumber],
-              [vwJobSalesOrder].[DieRefNumber] AS [DieRefNumber],
-              [vwJobSalesOrder].[PrintingCode] AS [PrintingCode],
-              [vwJobSalesOrder].[StockUom] AS [StockUom],
-              [vwJobSalesOrder].[QtyToMake] AS [QtyToMake],
-              [vwJobSalesOrder].[ProductClass] AS [ProductClass],
-              [vwJobSalesOrder].[PackQty] AS [PackQty],
-              [vwJobSalesOrder].[NumOfPacks] AS [NumOfPacks]
-              FROM [dbo].[vwJobSalesOrder] AS [vwJobSalesOrder]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[vwJobSalesOrder].[Job] AS [Job], 
+[vwJobSalesOrder].[StockCode] AS [StockCode], 
+[vwJobSalesOrder].[SalesOrder] AS [SalesOrder], 
+[vwJobSalesOrder].[SalesOrderLine] AS [SalesOrderLine], 
+[vwJobSalesOrder].[CustomerPoNumber] AS [CustomerPoNumber], 
+[vwJobSalesOrder].[SystemOrderDate] AS [SystemOrderDate], 
+[vwJobSalesOrder].[OrderDate] AS [OrderDate], 
+[vwJobSalesOrder].[HeaderShipDate] AS [HeaderShipDate], 
+[vwJobSalesOrder].[MLineShipDate] AS [MLineShipDate], 
+[vwJobSalesOrder].[MCustRequestDat] AS [MCustRequestDat], 
+[vwJobSalesOrder].[Width] AS [Width], 
+[vwJobSalesOrder].[Length] AS [Length], 
+[vwJobSalesOrder].[QtyAcross] AS [QtyAcross], 
+[vwJobSalesOrder].[QtyAround] AS [QtyAround], 
+[vwJobSalesOrder].[CylinderCircu] AS [CylinderCircu], 
+[vwJobSalesOrder].[NumberUp] AS [NumberUp], 
+[vwJobSalesOrder].[YieldLm] AS [YieldLm], 
+[vwJobSalesOrder].[TemplateNumber] AS [TemplateNumber], 
+[vwJobSalesOrder].[DieRefNumber] AS [DieRefNumber], 
+[vwJobSalesOrder].[PrintingCode] AS [PrintingCode], 
+[vwJobSalesOrder].[StockUom] AS [StockUom], 
+[vwJobSalesOrder].[QtyToMake] AS [QtyToMake], 
+[vwJobSalesOrder].[ProductClass] AS [ProductClass], 
+[vwJobSalesOrder].[PackQty] AS [PackQty], 
+[vwJobSalesOrder].[NumOfPacks] AS [NumOfPacks]
+FROM [dbo].[vwJobSalesOrder] AS [vwJobSalesOrder]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VwSalesRegister" EntityType="Self.VwSalesRegister" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [VwSalesRegister].[Register] AS [Register],
-              [VwSalesRegister].[GlYear] AS [GlYear],
-              [VwSalesRegister].[GlPeriod] AS [GlPeriod],
-              [VwSalesRegister].[Company] AS [Company],
-              [VwSalesRegister].[Branch] AS [Branch],
-              [VwSalesRegister].[BranchDesc] AS [BranchDesc],
-              [VwSalesRegister].[Customer] AS [Customer],
-              [VwSalesRegister].[Name] AS [Name],
-              [VwSalesRegister].[InvoiceDate] AS [InvoiceDate],
-              [VwSalesRegister].[Document] AS [Document],
-              [VwSalesRegister].[DocumentType] AS [DocumentType],
-              [VwSalesRegister].[Invoice] AS [Invoice],
-              [VwSalesRegister].[StockCode] AS [StockCode],
-              [VwSalesRegister].[NetSalesValue] AS [NetSalesValue],
-              [VwSalesRegister].[TaxValue] AS [TaxValue],
-              [VwSalesRegister].[Total] AS [Total],
-              [VwSalesRegister].[QtyInvoiced] AS [QtyInvoiced],
-              [VwSalesRegister].[CostValue] AS [CostValue]
-              FROM [dbo].[VwSalesRegister] AS [VwSalesRegister]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[VwSalesRegister].[Register] AS [Register], 
+[VwSalesRegister].[GlYear] AS [GlYear], 
+[VwSalesRegister].[GlPeriod] AS [GlPeriod], 
+[VwSalesRegister].[Company] AS [Company], 
+[VwSalesRegister].[Branch] AS [Branch], 
+[VwSalesRegister].[BranchDesc] AS [BranchDesc], 
+[VwSalesRegister].[Customer] AS [Customer], 
+[VwSalesRegister].[Name] AS [Name], 
+[VwSalesRegister].[InvoiceDate] AS [InvoiceDate], 
+[VwSalesRegister].[Document] AS [Document], 
+[VwSalesRegister].[DocumentType] AS [DocumentType], 
+[VwSalesRegister].[Invoice] AS [Invoice], 
+[VwSalesRegister].[StockCode] AS [StockCode], 
+[VwSalesRegister].[NetSalesValue] AS [NetSalesValue], 
+[VwSalesRegister].[TaxValue] AS [TaxValue], 
+[VwSalesRegister].[Total] AS [Total], 
+[VwSalesRegister].[QtyInvoiced] AS [QtyInvoiced], 
+[VwSalesRegister].[CostValue] AS [CostValue]
+FROM [dbo].[VwSalesRegister] AS [VwSalesRegister]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VwSorContPrice" EntityType="Self.VwSorContPrice" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [VwSorContPrice].[ContractType] AS [ContractType],
-              [VwSorContPrice].[CustomerBuyGrp] AS [CustomerBuyGrp],
-              [VwSorContPrice].[StockCode] AS [StockCode],
-              [VwSorContPrice].[Contract] AS [Contract],
-              [VwSorContPrice].[StartDate] AS [StartDate],
-              [VwSorContPrice].[ExpiryDate] AS [ExpiryDate],
-              [VwSorContPrice].[PriceMethod] AS [PriceMethod],
-              [VwSorContPrice].[FixedUom] AS [FixedUom],
-              [VwSorContPrice].[FixedPriceCode] AS [FixedPriceCode],
-              [VwSorContPrice].[FixedPrice] AS [FixedPrice],
-              [VwSorContPrice].[Discount1] AS [Discount1],
-              [VwSorContPrice].[Discount2] AS [Discount2],
-              [VwSorContPrice].[Discount3] AS [Discount3],
-              [VwSorContPrice].[CustListPrice] AS [CustListPrice],
-              [VwSorContPrice].[QtyBreak] AS [QtyBreak],
-              [VwSorContPrice].[QtyPrice] AS [QtyPrice]
-              FROM [dbo].[VwSorContPrice] AS [VwSorContPrice]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[VwSorContPrice].[ContractType] AS [ContractType], 
+[VwSorContPrice].[CustomerBuyGrp] AS [CustomerBuyGrp], 
+[VwSorContPrice].[StockCode] AS [StockCode], 
+[VwSorContPrice].[Contract] AS [Contract], 
+[VwSorContPrice].[StartDate] AS [StartDate], 
+[VwSorContPrice].[ExpiryDate] AS [ExpiryDate], 
+[VwSorContPrice].[PriceMethod] AS [PriceMethod], 
+[VwSorContPrice].[FixedUom] AS [FixedUom], 
+[VwSorContPrice].[FixedPriceCode] AS [FixedPriceCode], 
+[VwSorContPrice].[FixedPrice] AS [FixedPrice], 
+[VwSorContPrice].[Discount1] AS [Discount1], 
+[VwSorContPrice].[Discount2] AS [Discount2], 
+[VwSorContPrice].[Discount3] AS [Discount3], 
+[VwSorContPrice].[CustListPrice] AS [CustListPrice], 
+[VwSorContPrice].[QtyBreak] AS [QtyBreak], 
+[VwSorContPrice].[QtyPrice] AS [QtyPrice]
+FROM [dbo].[VwSorContPrice] AS [VwSorContPrice]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwWipJobLotCtl" EntityType="Self.vwWipJobLotCtl" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [vwWipJobLotCtl].[Job] AS [Job],
-              [vwWipJobLotCtl].[Complete] AS [Complete],
-              [vwWipJobLotCtl].[LotReqd] AS [LotReqd],
-              [vwWipJobLotCtl].[QtyOnHand] AS [QtyOnHand]
-              FROM [dbo].[vwWipJobLotCtl] AS [vwWipJobLotCtl]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[vwWipJobLotCtl].[Job] AS [Job], 
+[vwWipJobLotCtl].[Complete] AS [Complete], 
+[vwWipJobLotCtl].[LotReqd] AS [LotReqd], 
+[vwWipJobLotCtl].[QtyOnHand] AS [QtyOnHand]
+FROM [dbo].[vwWipJobLotCtl] AS [vwWipJobLotCtl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwWipJobLots" EntityType="Self.vwWipJobLots" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [vwWipJobLots].[Job] AS [Job],
-              [vwWipJobLots].[StockCode] AS [StockCode],
-              [vwWipJobLots].[Warehouse] AS [Warehouse],
-              [vwWipJobLots].[Bin] AS [Bin],
-              [vwWipJobLots].[Lot] AS [Lot],
-              [vwWipJobLots].[QtyOnHand] AS [QtyOnHand]
-              FROM [dbo].[vwWipJobLots] AS [vwWipJobLots]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[vwWipJobLots].[Job] AS [Job], 
+[vwWipJobLots].[StockCode] AS [StockCode], 
+[vwWipJobLots].[Warehouse] AS [Warehouse], 
+[vwWipJobLots].[Bin] AS [Bin], 
+[vwWipJobLots].[Lot] AS [Lot], 
+[vwWipJobLots].[QtyOnHand] AS [QtyOnHand]
+FROM [dbo].[vwWipJobLots] AS [vwWipJobLots]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwWipJobMatSpec" EntityType="Self.vwWipJobMatSpec" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [vwWipJobMatSpec].[SequenceNum] AS [SequenceNum],
-              [vwWipJobMatSpec].[Job] AS [Job],
-              [vwWipJobMatSpec].[StockCode] AS [StockCode],
-              [vwWipJobMatSpec].[AvgReelLength] AS [AvgReelLength],
-              [vwWipJobMatSpec].[Gsm] AS [Gsm],
-              [vwWipJobMatSpec].[Width] AS [Width],
-              [vwWipJobMatSpec].[CostCentre] AS [CostCentre]
-              FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+[vwWipJobMatSpec].[SequenceNum] AS [SequenceNum], 
+[vwWipJobMatSpec].[Job] AS [Job], 
+[vwWipJobMatSpec].[StockCode] AS [StockCode], 
+[vwWipJobMatSpec].[AvgReelLength] AS [AvgReelLength], 
+[vwWipJobMatSpec].[Gsm] AS [Gsm], 
+[vwWipJobMatSpec].[Width] AS [Width], 
+[vwWipJobMatSpec].[CostCentre] AS [CostCentre]
+FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="Syspro_FK_BomCostCentre_SalProductClassDes" Association="Self.Syspro_FK_BomCostCentre_SalProductClassDes">
             <End Role="SalProductClassDes" EntitySet="SalProductClassDes" />
@@ -5991,8 +5975,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="WipMaster" EntitySet="WipMaster" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WarehouseManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -6506,23 +6489,23 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Bin" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetBins" ReturnType="Collection(WarehouseManagementModel.sp_GetBins_Result)">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetGlCodes" ReturnType="Collection(WarehouseManagementModel.sp_GetGlCodes_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetGrnSuspenseAccByPoLine" ReturnType="Collection(WarehouseManagementModel.sp_GetGrnSuspenseAccByPoLine_Result)">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
             <Parameter Name="Line" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetGtrDetailByReference" ReturnType="Collection(WarehouseManagementModel.sp_GetGtrDetailByReference_Result)">
-            <Parameter Name="GtrReference" Mode="In" Type="String" />
+          <Parameter Name="GtrReference" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetGtrReferenceByWarehouse" ReturnType="Collection(WarehouseManagementModel.sp_GetGtrReferenceByWarehouse_Result)">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetJobDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetJobDetails_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetMaxReelNumber" ReturnType="Collection(WarehouseManagementModel.sp_GetMaxReelNumber_Result)">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
@@ -6560,13 +6543,13 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetPurchaseOrderListForLabels" ReturnType="Collection(WarehouseManagementModel.sp_GetPurchaseOrderListForLabels_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStockCodeBySupplierCode" ReturnType="Collection(WarehouseManagementModel.sp_GetStockCodeBySupplierCode_Result)">
-            <Parameter Name="SupplierCode" Mode="In" Type="String" />
+          <Parameter Name="SupplierCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSuppliers" ReturnType="Collection(WarehouseManagementModel.sp_GetSuppliers_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetUserWarehouses" ReturnType="Collection(WarehouseManagementModel.sp_GetUserWarehouses_Result)">
             <Parameter Name="Company" Mode="In" Type="String" />
@@ -6680,7 +6663,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStockTakeCaptureByWarehouse" ReturnType="Collection(WarehouseManagementModel.sp_GetStockTakeCaptureByWarehouse_Result)">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetKitLabourToIssue" ReturnType="Collection(WarehouseManagementModel.sp_GetKitLabourToIssue_Result)">
             <Parameter Name="Job" Mode="In" Type="String" />
@@ -6704,7 +6687,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="WipJobAllMat" EntitySet="WipJobAllMats" />
           </AssociationSet>
           <FunctionImport Name="sp_GetStockReview" ReturnType="Collection(WarehouseManagementModel.sp_GetStockReview_Result)">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetAutoDepleteLots" ReturnType="Collection(WarehouseManagementModel.sp_GetAutoDepleteLots_Result)">
             <Parameter Name="StockCode" Mode="In" Type="String" />
@@ -6737,21 +6720,21 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_PalletAuditPurge">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStockCodesByCustomer" ReturnType="Collection(WarehouseManagementModel.sp_GetStockCodesByCustomer_Result)">
-            <Parameter Name="Customer" Mode="In" Type="String" />
+          <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtTransportWaybillHdrs" EntityType="WarehouseManagementModel.mtTransportWaybillHdr" />
           <FunctionImport Name="sp_GetTransporterPoLines" ReturnType="Collection(WarehouseManagementModel.sp_GetTransporterPoLines_Result)">
-            <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
+          <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetAPPostingPeriod" ReturnType="Collection(WarehouseManagementModel.sp_GetAPPostingPeriod_Result)">
             <Parameter Name="GrnYear" Mode="In" Type="Int32" />
             <Parameter Name="GrnMonth" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetLotsToAdjust" ReturnType="Collection(WarehouseManagementModel.sp_GetLotsToAdjust_Result)">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="GrnDetails" EntityType="WarehouseManagementModel.GrnDetail" />
           <AssociationSet Name="Syspro_FK_GrnDetails_InvWarehouse" Association="WarehouseManagementModel.Syspro_FK_GrnDetails_InvWarehouse">
@@ -6767,27 +6750,27 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="GrnDetail" EntitySet="GrnDetails" />
           </AssociationSet>
           <FunctionImport Name="sp_GetTransCustomers" ReturnType="Collection(WarehouseManagementModel.sp_GetTransCustomers_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransDispatchNotes" ReturnType="Collection(WarehouseManagementModel.sp_GetTransDispatchNotes_Result)">
             <Parameter Name="Customer" Mode="In" Type="String" />
             <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransGlCodes" ReturnType="Collection(WarehouseManagementModel.sp_GetTransGlCodes_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransRateCodes" ReturnType="Collection(WarehouseManagementModel.sp_GetTransRateCodes_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransVehicleReg" ReturnType="Collection(WarehouseManagementModel.sp_GetTransVehicleReg_Result)">
             <Parameter Name="Transporter" Mode="In" Type="String" />
             <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransWaybillsPoEntry" ReturnType="Collection(WarehouseManagementModel.sp_GetTransWaybillsPoEntry_Result)">
-            <Parameter Name="Supplier" Mode="In" Type="String" />
+          <Parameter Name="Supplier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransporters" ReturnType="Collection(WarehouseManagementModel.sp_GetTransporters_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_TransUpdateWaybill">
             <Parameter Name="TrackId" Mode="In" Type="Int32" />
@@ -6799,7 +6782,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="PoCreatedBy" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransSuppliers" ReturnType="Collection(WarehouseManagementModel.sp_GetTransSuppliers_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtTransporters" EntityType="WarehouseManagementModel.mtTransporter" />
           <FunctionImport Name="sp_GetTransApTaxValue" ReturnType="Collection(WarehouseManagementModel.sp_GetTransApTaxValue_Result)">
@@ -6808,13 +6791,13 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <EntitySet Name="mtTransportSettings" EntityType="WarehouseManagementModel.mtTransportSetting" />
           <FunctionImport Name="sp_TransSaveCustomForms">
-            <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
+          <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSupplierTermsCode" ReturnType="Collection(WarehouseManagementModel.sp_GetSupplierTermsCode_Result)">
-            <Parameter Name="Supplier" Mode="In" Type="String" />
+          <Parameter Name="Supplier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransPvJournal" ReturnType="Collection(WarehouseManagementModel.sp_GetTransPvJournal_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="InvMasters" EntityType="WarehouseManagementModel.InvMaster" />
           <AssociationSet Name="Syspro_FK_GrnDetails_InvMaster" Association="WarehouseManagementModel.Syspro_FK_GrnDetails_InvMaster">
@@ -6846,7 +6829,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="WipMaster" EntitySet="WipMasters" />
           </AssociationSet>
           <FunctionImport Name="sp_GetTransWaybillDetailByTrackId" ReturnType="Collection(WarehouseManagementModel.sp_GetTransWaybillDetailByTrackId_Result)">
-            <Parameter Name="TrackId" Mode="In" Type="Int32" />
+          <Parameter Name="TrackId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="AdmTaxes" EntityType="WarehouseManagementModel.AdmTax" />
           <AssociationSet Name="Syspro_FK_GrnDetails_AdmTax" Association="WarehouseManagementModel.Syspro_FK_GrnDetails_AdmTax">
@@ -6878,7 +6861,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="TrnDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_GetInvoiceExtractCustomerContactDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetInvoiceExtractCustomerContactDetails_Result)">
-            <Parameter Name="Customer" Mode="In" Type="String" />
+          <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_SaveInvoiceExtractLog">
             <Parameter Name="Customer" Mode="In" Type="String" />
@@ -6894,7 +6877,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtTransporterRates" EntityType="WarehouseManagementModel.mtTransporterRate" />
           <FunctionImport Name="sp_GetTransLocations" ReturnType="Collection(WarehouseManagementModel.sp_GetTransLocations_Result)" />
           <FunctionImport Name="sp_GetDelayedPostingWarehouses" ReturnType="Collection(WarehouseManagementModel.sp_GetDelayedPostingWarehouses_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_SaveDelayedPostingWarehouse">
             <Parameter Name="Company" Mode="In" Type="String" />
@@ -6908,7 +6891,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <EntitySet Name="mtPurchaseOrderLabels" EntityType="WarehouseManagementModel.mtPurchaseOrderLabel" />
           <FunctionImport Name="sp_CopyPalletAuditToStockTake">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtStereoDetails" EntityType="WarehouseManagementModel.mtStereoDetail" />
           <FunctionImport Name="sp_GetStereoApTaxValue" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoApTaxValue_Result)">
@@ -6916,28 +6899,28 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoCustomers" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoCustomers_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoGlCodes" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoGlCodes_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoPlateCategory" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoPlateCategory_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoProductClass" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoProductClass_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoStockCodes" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoStockCodes_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoSysproSupplier" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoSysproSupplier_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoTaxCode" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoTaxCode_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_StereoPoLinesForGrn" ReturnType="Collection(WarehouseManagementModel.sp_StereoPoLinesForGrn_Result)">
-            <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
+          <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_StereoUpdateApLine">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
@@ -6963,18 +6946,18 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="ReqNo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoSupplier" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoSupplier_Result)">
-            <Parameter Name="FilterText" Mode="In" Type="String" />
+          <Parameter Name="FilterText" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtStereoSettings" EntityType="WarehouseManagementModel.mtStereoSetting" />
           <FunctionImport Name="sp_GetStereoCustomerName" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoCustomerName_Result)">
-            <Parameter Name="Customer" Mode="In" Type="String" />
+          <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_TransUpdatePurchaseOrderCatalogue">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
             <Parameter Name="Line" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetTransPoLinesForMaintenance" ReturnType="Collection(WarehouseManagementModel.sp_GetTransPoLinesForMaintenance_Result)">
-            <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
+          <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtPorDeliveryImports" EntityType="WarehouseManagementModel.mtPorDeliveryImport" />
           <EntitySet Name="AdmFormDatas" EntityType="WarehouseManagementModel.AdmFormData" />
@@ -7015,7 +6998,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Length" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="sp_GetMaxJobPalletNumber" ReturnType="Collection(WarehouseManagementModel.sp_GetMaxJobPalletNumber_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_UpdateLabelReceipted">
             <Parameter Name="Job" Mode="In" Type="String" />
@@ -7025,7 +7008,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetLabelsPrintedForJob" ReturnType="Collection(WarehouseManagementModel.sp_GetLabelsPrintedForJob_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_DeleteProductionLabel">
             <Parameter Name="Job" Mode="In" Type="String" />
@@ -7033,7 +7016,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoPoCommentLines" ReturnType="Collection(Decimal)">
-            <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
+          <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_StereoUpdateGrnLine">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
@@ -7055,21 +7038,21 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <FunctionImport Name="sp_BaggingLabelEmployees" ReturnType="Collection(WarehouseManagementModel.sp_BaggingLabelEmployees_Result)" />
           <EntitySet Name="mtStereoHdrs" EntityType="WarehouseManagementModel.mtStereoHdr" />
           <FunctionImport Name="sp_GetProductionJobs" ReturnType="Collection(WarehouseManagementModel.sp_GetProductionJobs_Result)">
-            <Parameter Name="CostCentre" Mode="In" Type="String" />
+          <Parameter Name="CostCentre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetUserScales" ReturnType="Collection(WarehouseManagementModel.sp_GetUserScales_Result)">
             <Parameter Name="Company" Mode="In" Type="String" />
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProductionJobDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetProductionJobDetails_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetUserScaleAccess" ReturnType="Collection(WarehouseManagementModel.sp_GetUserScaleAccess_Result)">
             <Parameter Name="Company" Mode="In" Type="String" />
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetScalesJobDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetScalesJobDetails_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetScalesMaxJobPalletNumber" ReturnType="Collection(WarehouseManagementModel.sp_GetScalesMaxJobPalletNumber_Result)">
             <Parameter Name="Job" Mode="In" Type="String" />
@@ -7080,7 +7063,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Line" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetBackOrderReleaseLines" ReturnType="Collection(WarehouseManagementModel.sp_GetBackOrderReleaseLines_Result)">
-            <Parameter Name="SalesOrder" Mode="In" Type="String" />
+          <Parameter Name="SalesOrder" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProductionDepartments" ReturnType="Collection(WarehouseManagementModel.sp_GetProductionDepartments_Result)">
             <Parameter Name="Job" Mode="In" Type="String" />
@@ -7088,14 +7071,14 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProductionBomOperations" ReturnType="Collection(WarehouseManagementModel.sp_GetProductionBomOperations_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetUserDepartments" ReturnType="Collection(WarehouseManagementModel.sp_GetUserDepartments_Result)">
             <Parameter Name="Company" Mode="In" Type="String" />
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetReportsByUser" ReturnType="Collection(WarehouseManagementModel.sp_GetReportsByUser_Result)">
-            <Parameter Name="Username" Mode="In" Type="String" />
+          <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetReportsByUserAndGroup" ReturnType="Collection(WarehouseManagementModel.sp_GetReportsByUserAndGroup_Result)">
             <Parameter Name="Username" Mode="In" Type="String" />
@@ -7110,11 +7093,11 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="SalesOrderLine" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetWmsBackOrderReleaseLines" ReturnType="Collection(WarehouseManagementModel.sp_GetWmsBackOrderReleaseLines_Result)">
-            <Parameter Name="WmsId" Mode="In" Type="Int32" />
+          <Parameter Name="WmsId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="GenControls" EntityType="WarehouseManagementModel.GenControl" />
           <FunctionImport Name="sp_GetWmsNextOrderForPicker" ReturnType="Collection(WarehouseManagementModel.sp_GetWmsNextOrderForPicker_Result)">
-            <Parameter Name="Picker" Mode="In" Type="String" />
+          <Parameter Name="Picker" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetWmsItemsForPicking" ReturnType="Collection(WarehouseManagementModel.sp_GetWmsItemsForPicking_Result)">
             <Parameter Name="WmsId" Mode="In" Type="Int32" />
@@ -7159,10 +7142,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtLabourPostControls" EntityType="WarehouseManagementModel.mtLabourPostControl" />
           <EntitySet Name="mtShifts" EntityType="WarehouseManagementModel.mtShift" />
           <FunctionImport Name="sp_GetCostCentreControl" ReturnType="Collection(WarehouseManagementModel.sp_GetCostCentreControl_Result)">
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
+          <Parameter Name="Date" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_GetJobStockMass" ReturnType="Collection(WarehouseManagementModel.sp_GetJobStockMass_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProductionReturnPalletDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetProductionReturnPalletDetails_Result)">
             <Parameter Name="Item" Mode="In" Type="String" />
@@ -7174,10 +7157,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Shift" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetReversalJobsInfo" ReturnType="Collection(WarehouseManagementModel.sp_GetReversalJobsInfo_Result)">
-            <Parameter Name="Guid" Mode="In" Type="Guid" />
+          <Parameter Name="Guid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="sp_GetReversalScrap" ReturnType="Collection(WarehouseManagementModel.sp_GetReversalScrap_Result)">
-            <Parameter Name="Guid" Mode="In" Type="Guid" />
+          <Parameter Name="Guid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="sp_SaveCostCentreControl">
             <Parameter Name="CostCentre" Mode="In" Type="String" />
@@ -7190,7 +7173,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Pallet" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProductionCostBasis" ReturnType="Collection(String)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_SaveReturnedProductionBatch">
             <Parameter Name="Job" Mode="In" Type="String" />
@@ -7203,7 +7186,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="ScaleModelId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetActiveSchedule" ReturnType="Collection(WarehouseManagementModel.sp_GetActiveSchedule_Result)">
-            <Parameter Name="WorkCentre" Mode="In" Type="String" />
+          <Parameter Name="WorkCentre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Schedule_JobsToSchedule" ReturnType="Collection(WarehouseManagementModel.sp_Schedule_JobsToSchedule_Result)">
             <Parameter Name="CostCentre" Mode="In" Type="String" />
@@ -7224,14 +7207,14 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_CheckJobCardExpectedCost" ReturnType="Collection(WarehouseManagementModel.sp_CheckJobCardExpectedCost_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="PorMasterDetail_" EntityType="WarehouseManagementModel.PorMasterDetail_" />
           <FunctionImport Name="sp_GetSplitPalletDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetSplitPalletDetails_Result)">
-            <Parameter Name="PalletNo" Mode="In" Type="String" />
+          <Parameter Name="PalletNo" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetBatchDetailsForBatchSplit" ReturnType="Collection(WarehouseManagementModel.sp_GetBatchDetailsForBatchSplit_Result)">
-            <Parameter Name="BatchId" Mode="In" Type="String" />
+          <Parameter Name="BatchId" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetOustandingPoQty" ReturnType="Collection(WarehouseManagementModel.sp_GetOustandingPoQty_Result)">
             <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
@@ -7239,7 +7222,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <EntitySet Name="mtMasterCardPrintingColours" EntityType="WarehouseManagementModel.mtMasterCardPrintingColour" />
           <FunctionImport Name="sp_GetDelayedPostingData" ReturnType="Collection(WarehouseManagementModel.sp_GetDelayedPostingData_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSalesOrderDetailLine" ReturnType="Collection(WarehouseManagementModel.sp_GetSalesOrderDetailLine_Result)">
             <Parameter Name="SalesOrder" Mode="In" Type="String" />
@@ -7264,15 +7247,15 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtMasterCardCustomers" EntityType="WarehouseManagementModel.mtMasterCardCustomer" />
           <EntitySet Name="mtMasterCardOthers" EntityType="WarehouseManagementModel.mtMasterCardOther" />
           <FunctionImport Name="sp_GetDelayedPostingCueData" ReturnType="Collection(WarehouseManagementModel.sp_GetDelayedPostingCueData_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetScaleRolls" ReturnType="Collection(WarehouseManagementModel.sp_GetScaleRolls_Result)">
-            <Parameter Name="PalletNo" Mode="In" Type="String" />
+          <Parameter Name="PalletNo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtProductionLabelsDeleteds" EntityType="WarehouseManagementModel.mtProductionLabelsDeleted" />
           <EntitySet Name="mtReportAutomations" EntityType="WarehouseManagementModel.mtReportAutomation" />
           <FunctionImport Name="sp_MasterCardGetAllStockCodes" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetAllStockCodes_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_MasterCardGetSysproBomStructure" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetSysproBomStructure_Result)">
             <Parameter Name="ParentPart" Mode="In" Type="String" />
@@ -7315,10 +7298,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetMasterCardNewStockCode" ReturnType="Collection(WarehouseManagementModel.sp_GetMasterCardNewStockCode_Result)">
-            <Parameter Name="Customer" Mode="In" Type="String" />
+          <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoDetails" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoDetails_Result)">
-            <Parameter Name="ReqNo" Mode="In" Type="Int32" />
+          <Parameter Name="ReqNo" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="vwJobMatDatas" EntityType="WarehouseManagementModel.vwJobMatData" />
           <EntitySet Name="vwJobSalesOrders" EntityType="WarehouseManagementModel.vwJobSalesOrder" />
@@ -7330,7 +7313,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="PorMasterHdr_" EntityType="WarehouseManagementModel.PorMasterHdr_" />
           <EntitySet Name="mtMasterCardLaminations" EntityType="WarehouseManagementModel.mtMasterCardLamination" />
           <FunctionImport Name="sp_GetTimeCodes" ReturnType="Collection(WarehouseManagementModel.sp_GetTimeCodes_Result)">
-            <Parameter Name="CostCentre" Mode="In" Type="String" />
+          <Parameter Name="CostCentre" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtNonStockMasters" EntityType="WarehouseManagementModel.mtNonStockMaster" />
           <EntitySet Name="mtMasterCardStockCodeWarehouses" EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" />
@@ -7386,10 +7369,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="WipMaster" EntitySet="WipMasters" />
           </AssociationSet>
           <FunctionImport Name="sp_MasterCardGetCustomFormData" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetCustomFormData_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_MasterCardGetStockCodeCopyData" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetStockCodeCopyData_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="InvPrices" EntityType="WarehouseManagementModel.InvPrice" />
           <AssociationSet Name="Syspro_FK_InvMaster_InvPrice_1" Association="WarehouseManagementModel.Syspro_FK_InvMaster_InvPrice_1">
@@ -7401,16 +7384,16 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="InvPrice" EntitySet="InvPrices" />
           </AssociationSet>
           <FunctionImport Name="sp_MasterCardGetStockCodeCustomFormData" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetStockCodeCustomFormData_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_MasterCardGetBomStructureForPosting" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetBomStructureForPosting_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_MasterCardGetBomOperationsForPosting" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetBomOperationsForPosting_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_MasterCardGetWorkCentreDetails" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetWorkCentreDetails_Result)">
-            <Parameter Name="WorkCentre" Mode="In" Type="String" />
+          <Parameter Name="WorkCentre" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtMasterCardBomStructures" EntityType="WarehouseManagementModel.mtMasterCardBomStructure" />
           <EntitySet Name="mtMasterCardBaggings" EntityType="WarehouseManagementModel.mtMasterCardBagging" />
@@ -7426,7 +7409,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </AssociationSet>
           <EntitySet Name="mtMasterCardBomOperations" EntityType="WarehouseManagementModel.mtMasterCardBomOperation" />
           <FunctionImport Name="sp_MasterCardGetBomNarrationsForPosting" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetBomNarrationsForPosting_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="mtMasterCardExtrusions" EntityType="WarehouseManagementModel.mtMasterCardExtrusion" />
           <FunctionImport Name="sp_MasterCardGetSysproBomOperations" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetSysproBomOperations_Result)">
@@ -7437,10 +7420,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtMasterCardHeaders" EntityType="WarehouseManagementModel.mtMasterCardHeader" />
           <EntitySet Name="AdmMultimedias" EntityType="WarehouseManagementModel.AdmMultimedia" />
           <FunctionImport Name="sp_MasterCardGetNextStockCode" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetNextStockCode_Result)">
-            <Parameter Name="Customer" Mode="In" Type="String" />
+          <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetBinsByWarehouse" ReturnType="Collection(WarehouseManagementModel.sp_GetBinsByWarehouse_Result)">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtTransportWaybillDetails" EntityType="WarehouseManagementModel.mtTransportWaybillDetail" />
           <FunctionImport Name="sp_GetExpenseIssueMatrix" ReturnType="Collection(WarehouseManagementModel.sp_GetExpenseIssueMatrix_Result)" />
@@ -7454,15 +7437,15 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtMasterCardArtworks" EntityType="WarehouseManagementModel.mtMasterCardArtwork" />
           <FunctionImport Name="mtMasterCardArtworkUMasterCardHeader" ReturnType="Collection(WarehouseManagementModel.mtMasterCardArtworkUMasterCardHeader_Result)" />
           <FunctionImport Name="sp_MasterCardGetStockCodeArtwork" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetStockCodeArtwork_Result)" >
-            <Parameter Name="Customer" Mode="In" Type="String" />
+          <Parameter Name="Customer" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtSorSchedulers" EntityType="WarehouseManagementModel.mtSorScheduler" />
           <EntitySet Name="mtStockLabels" EntityType="WarehouseManagementModel.mtStockLabel" />
           <FunctionImport Name="sp_DeleteStockTakeByWarehouse">
-            <Parameter Name="Warehouse" Mode="In" Type="String" />
+          <Parameter Name="Warehouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSupContractsStockCodesBySupplier" ReturnType="Collection(WarehouseManagementModel.sp_GetSupContractsStockCodesBySupplier_Result)">
-            <Parameter Name="Supplier" Mode="In" Type="String" />
+          <Parameter Name="Supplier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSupplierContractsPricingData" ReturnType="Collection(WarehouseManagementModel.sp_GetSupplierContractsPricingData_Result)">
             <Parameter Name="Supplier" Mode="In" Type="String" />
@@ -7525,10 +7508,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtMasterCardUpdateAudits" EntityType="WarehouseManagementModel.mtMasterCardUpdateAudit" />
           <EntitySet Name="mtScales" EntityType="WarehouseManagementModel.mtScale" />
           <FunctionImport Name="sp_MasterCardGetBomNarrationsForPostingUpdate" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetBomNarrationsForPostingUpdate_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetStereoByPurchaseOrder" ReturnType="Collection(WarehouseManagementModel.sp_GetStereoByPurchaseOrder_Result)">
-            <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
+          <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtReqBranches" EntityType="WarehouseManagementModel.mtReqBranch" />
           <EntitySet Name="mtReqBranchCostCentres" EntityType="WarehouseManagementModel.mtReqBranchCostCentre" />
@@ -7542,7 +7525,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <FunctionImport Name="sp_mtReqGetActiveJobs" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetActiveJobs_Result)" />
           <FunctionImport Name="sp_mtReqGetActiveSubContractJobs" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetActiveSubContractJobs_Result)" />
           <FunctionImport Name="sp_mtReqGetGenMaster" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetGenMaster_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetGlCodes" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetGlCodes_Result)">
             <Parameter Name="CompanyCode" Mode="In" Type="String" />
@@ -7558,7 +7541,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="CostCentre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionHeader" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionHeader_Result)">
-            <Parameter Name="Requisition" Mode="In" Type="String" />
+          <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionLinesForPo" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionLinesForPo_Result)">
             <Parameter Name="Requisition" Mode="In" Type="String" />
@@ -7601,16 +7584,16 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionComments" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionComments_Result)">
-            <Parameter Name="Requisition" Mode="In" Type="String" />
+          <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetUserBranch" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetUserBranch_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetUserBranchCostCentreAccess" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetUserBranchCostCentreAccess_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetUserCostCentres" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetUserCostCentres_Result)">
-            <Parameter Name="Company" Mode="In" Type="String" />
+          <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="InvBuyers" EntityType="WarehouseManagementModel.InvBuyer" />
           <AssociationSet Name="Syspro_FK_InvMaster_InvBuyer" Association="WarehouseManagementModel.Syspro_FK_InvMaster_InvBuyer">
@@ -7639,7 +7622,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
             <End Role="PorMasterHdr" EntitySet="PorMasterHdrs" />
           </AssociationSet>
           <FunctionImport Name="sp_GetPurchaseOrderLinesBySupplier" ReturnType="Collection(WarehouseManagementModel.sp_GetPurchaseOrderLinesBySupplier_Result)">
-            <Parameter Name="Supplier" Mode="In" Type="String" />
+          <Parameter Name="Supplier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_SupplierDeliveryGetLogByReciever" ReturnType="Collection(WarehouseManagementModel.sp_SupplierDeliveryGetLogByReciever_Result)">
             <Parameter Name="Date" Mode="In" Type="DateTime" />
@@ -7647,12 +7630,12 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <EntitySet Name="mtInvMasterImages" EntityType="WarehouseManagementModel.mtInvMasterImage" />
           <FunctionImport Name="sp_GetStockCodeDescriptionByStockCode" ReturnType="Collection(WarehouseManagementModel.sp_GetStockCodeDescriptionByStockCode_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtSuppDeliveryLogs" EntityType="WarehouseManagementModel.mtSuppDeliveryLog" />
           <EntitySet Name="mtMegasoftAlerts" EntityType="WarehouseManagementModel.mtMegasoftAlert" />
           <FunctionImport Name="mt_GetLast5PurchasesByStockCode" ReturnType="Collection(WarehouseManagementModel.mt_GetLast5PurchasesByStockCode_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionEnquiry" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionEnquiry_Result)">
             <Parameter Name="ReqOrPONumber" Mode="In" Type="String" />
@@ -7681,14 +7664,14 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </AssociationSet>
           <EntitySet Name="mtMasterCardAttachments" EntityType="WarehouseManagementModel.mtMasterCardAttachment" />
           <FunctionImport Name="sp_MasterCardGetAttachmentsByStockCode" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetAttachmentsByStockCode_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetKitMaterialToIssue" ReturnType="Collection(WarehouseManagementModel.sp_GetKitMaterialToIssue_Result1)">
             <Parameter Name="Job" Mode="In" Type="String" />
             <Parameter Name="Quantity" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetQtyOnHandByStockCode" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetQtyOnHandByStockCode_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtInkSystemGetBomComponentType" ReturnType="Collection(WarehouseManagementModel.sp_mtInkSystemGetBomComponentType_Result)" />
           <FunctionImport Name="sp_mtInkSystemGetBomNarrationsForPostingUpdate" ReturnType="Collection(WarehouseManagementModel.sp_mtInkSystemGetBomNarrationsForPostingUpdate_Result)">
@@ -7698,10 +7681,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <FunctionImport Name="sp_mtInkSystemGetBomRoute" ReturnType="Collection(WarehouseManagementModel.sp_mtInkSystemGetBomRoute_Result)" />
           <FunctionImport Name="sp_mtInkSystemGetWorkCentreDetails" ReturnType="Collection(WarehouseManagementModel.sp_mtInkSystemGetWorkCentreDetails_Result)">
-            <Parameter Name="WorkCentre" Mode="In" Type="String" />
+          <Parameter Name="WorkCentre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtInksGetAllStockCodes" ReturnType="Collection(WarehouseManagementModel.sp_mtInksGetAllStockCodes_Result)">
-            <Parameter Name="Supplier" Mode="In" Type="String" />
+          <Parameter Name="Supplier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtInksGetBomStructureByParentPart" ReturnType="Collection(WarehouseManagementModel.sp_mtInksGetBomStructureByParentPart_Result)">
             <Parameter Name="ParentPart" Mode="In" Type="String" />
@@ -7713,27 +7696,27 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <EntitySet Name="mtRequisitionDeletedLines" EntityType="WarehouseManagementModel.mtRequisitionDeletedLine" />
           <FunctionImport Name="sp_mtReqGetLinesForCancellation" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetLinesForCancellation_Result)">
-            <Parameter Name="Requisition" Mode="In" Type="String" />
+          <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtInksGetSysproBomStructure" ReturnType="Collection(WarehouseManagementModel.sp_mtInksGetSysproBomStructure_Result)">
             <Parameter Name="ParentPart" Mode="In" Type="String" />
             <Parameter Name="Route" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtInksGetNumberOfColours" ReturnType="Collection(WarehouseManagementModel.sp_mtInksGetNumberOfColours_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetStockCodeDetailsByStockCode" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetStockCodeDetailsByStockCode_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtInksGetPrintingParentStockCodes" ReturnType="Collection(WarehouseManagementModel.sp_mtInksGetPrintingParentStockCodes_Result)" />
           <FunctionImport Name="sp_GetScaleOperators" ReturnType="Collection(WarehouseManagementModel.sp_GetScaleOperators_Result)">
-            <Parameter Name="CostCenter" Mode="In" Type="String" />
+          <Parameter Name="CostCenter" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetPalletDetailsByPalletId" ReturnType="Collection(WarehouseManagementModel.mt_GetPalletDetailsByPalletId_Result)">
-            <Parameter Name="PalletNo" Mode="In" Type="String" />
+          <Parameter Name="PalletNo" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetMicronDimensionByPalletNo" ReturnType="Collection(WarehouseManagementModel.mt_GetMicronDimensionByPalletNo_Result)">
-            <Parameter Name="PalletNo" Mode="In" Type="String" />
+          <Parameter Name="PalletNo" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetPalletItemsByPalletNumberAndWarehouse" ReturnType="Collection(WarehouseManagementModel.mt_GetPalletItemsByPalletNumberAndWarehouse_Result)">
             <Parameter Name="Pallet" Mode="In" Type="String" />
@@ -7747,51 +7730,45 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           </FunctionImport>
           <FunctionImport Name="mt_ProductionMaterialIssueLots" ReturnType="Collection(WarehouseManagementModel.mt_ProductionMaterialIssueLots_Result)" />
           <FunctionImport Name="mt_ProductionLotDetails" ReturnType="Collection(WarehouseManagementModel.mt_ProductionLotDetails_Result)">
-            <Parameter Name="Lot" Mode="In" Type="String" />
+          <Parameter Name="Lot" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtProductionLabels" EntityType="WarehouseManagementModel.mtProductionLabel" />
           <FunctionImport Name="mt_GetProductionDetailsByLot" ReturnType="Collection(WarehouseManagementModel.mt_GetProductionDetailsByLot_Result)">
-            <Parameter Name="Lot" Mode="In" Type="String" />
+          <Parameter Name="Lot" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetPrintScaleOperatorInitial" ReturnType="Collection(WarehouseManagementModel.sp_GetPrintScaleOperatorInitial_Result)">
-            <Parameter Name="Name" Mode="In" Type="String" />
+          <Parameter Name="Name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_MasterCardGetUnitRunTime" ReturnType="Collection(WarehouseManagementModel.sp_MasterCardGetUnitRunTime_Result)">
             <Parameter Name="WorkCentre" Mode="In" Type="String" />
             <Parameter Name="Mass" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="mt_DirectExpenseByStockCode" ReturnType="Collection(WarehouseManagementModel.mt_DirectExpenseByStockCode_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetGLCodes" ReturnType="Collection(WarehouseManagementModel.mt_GetGLCodes_Result)" />
           <FunctionImport Name="mt_GetFlagPrintTropicHeader" ReturnType="Collection(WarehouseManagementModel.mt_GetFlagPrintTropicHeader_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
           <FunctionImport Name="mt_InvQueryStockCodeDetails" ReturnType="Collection(WarehouseManagementModel.mt_InvQueryStockCodeDetails_Result)">
-            <Parameter Name="StockCode" Mode="In" Type="String" />
+          <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionHeaderCustomForm" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionHeaderCustomForm_Result)">
-            <Parameter Name="Requisition" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="mt_MaterialIssueGetWorkCentreByJob" ReturnType="Collection(WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
-
+          <Parameter Name="Requisition" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetDetailLot" ReturnType="Collection(WarehouseManagementModel.mt_GetDetailLot_Result)">
-            <Parameter Name="DispatchNote" Mode="In" Type="String" />
+          <Parameter Name="DispatchNote" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_GetDispatchNote" ReturnType="Collection(String)">
-
-            <Parameter Name="DispatchNote" Mode="In" Type="String" />
-
+          <Parameter Name="DispatchNote" Mode="In" Type="String" />
           </FunctionImport>
-          
-
-		  <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
+          <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           <EntitySet Name="mtDispatchVerifications" EntityType="WarehouseManagementModel.mtDispatchVerification" />
-          <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
-          </EntityContainer>
-
+          <FunctionImport Name="mt_MaterialIssueGetWorkCentreByJob" ReturnType="Collection(WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result)">
+            <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Warehouse" Nullable="false" MaxLength="10" />
@@ -14345,6 +14322,26 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Property Type="String" Name="InvoiceDim" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="BarCode" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="mtWhseManSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="Int32" Nullable="false" />
+          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
+          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
+          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
+          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
+          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
+          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
+          <Property Name="MaterCardMultimediaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RepairsAndMaintenanceJobClass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PrintLabelOnMaterialIssueReturn" Type="Boolean" />
+          <Property Name="DispatchNoteVerification" Type="Boolean" Nullable="false" />
+        </EntityType>
         <ComplexType Name="mt_InvQueryStockCodeDetails_Result">
           <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
@@ -14364,10 +14361,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Property Type="String" Name="RequestedBy2" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="RequestedBy3" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
-          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="mtStereoSupplier">
           <Key>
             <PropertyRef Name="Supplier" />
@@ -14381,11 +14374,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Property Name="InternalExpenseGlCode" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
           <Property Name="CustomerExpenseProductClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-
-        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
-          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="mt_GetDetailLot_Result">
           <Property Type="String" Name="DispatchNote" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
@@ -14417,37 +14405,12 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Property Name="ScanDate" Type="DateTime" Precision="3" />
           <Property Name="VerificationComplete" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="mt_GetDetailLot_Result">
-          <Property Type="String" Name="DispatchNote" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="DispatchNoteLine" Nullable="false" Precision="4" Scale="0" />
-          <Property Type="String" Name="SalesOrder" Nullable="false" MaxLength="20" />
-          <Property Type="Decimal" Name="SalesOrderLine" Nullable="false" Precision="4" Scale="0" />
-          <Property Type="Decimal" Name="StockQtyToShip" Nullable="false" Precision="18" Scale="6" />
+        <ComplexType Name="mt_MaterialIssueGetWorkCentreByJob_Result">
+          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
         </ComplexType>
 
       </Schema>
-        <EntityType Name="mtWhseManSetting">
-          <Key>
-            <PropertyRef Name="SettingId" />
-          </Key>
-          <Property Name="SettingId" Type="Int32" Nullable="false" />
-          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
-          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
-          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
-          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
-          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
-          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
-          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
-          <Property Name="MaterCardMultimediaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="RepairsAndMaintenanceJobClass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PrintLabelOnMaterialIssueReturn" Type="Boolean" />
-          <Property Name="DispatchNoteVerification" Type="Boolean" Nullable="false" />
-        </EntityType>
-        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -21181,6 +21144,27 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="mtWhseManSettings">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWhseManSetting">
+              <MappingFragment StoreEntitySet="mtWhseManSettings">
+                <ScalarProperty Name="DispatchNoteVerification" ColumnName="DispatchNoteVerification" />
+                <ScalarProperty Name="PrintLabelOnMaterialIssueReturn" ColumnName="PrintLabelOnMaterialIssueReturn" />
+                <ScalarProperty Name="RepairsAndMaintenanceJobClass" ColumnName="RepairsAndMaintenanceJobClass" />
+                <ScalarProperty Name="MaterCardMultimediaPath" ColumnName="MaterCardMultimediaPath" />
+                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
+                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
+                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
+                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
+                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
+                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
+                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
+                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
+                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
+                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_mtReqGetRequisitionHeaderCustomForm" FunctionName="WarehouseManagementModel.Store.sp_mtReqGetRequisitionHeaderCustomForm">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.sp_mtReqGetRequisitionHeaderCustomForm_Result">
@@ -21208,14 +21192,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
-                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="mtStereoSuppliers">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtStereoSupplier">
               <MappingFragment StoreEntitySet="mtStereoSupplier">
@@ -21230,14 +21206,6 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
-                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="mt_GetDetailLot" FunctionName="WarehouseManagementModel.Store.mt_GetDetailLot">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetDetailLot_Result">
@@ -21269,41 +21237,14 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="mtWhseManSettings">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWhseManSetting">
-              <MappingFragment StoreEntitySet="mtWhseManSettings">
-                <ScalarProperty Name="DispatchNoteVerification" ColumnName="DispatchNoteVerification" />
-                <ScalarProperty Name="PrintLabelOnMaterialIssueReturn" ColumnName="PrintLabelOnMaterialIssueReturn" />
-                <ScalarProperty Name="RepairsAndMaintenanceJobClass" ColumnName="RepairsAndMaintenanceJobClass" />
-                <ScalarProperty Name="MaterCardMultimediaPath" ColumnName="MaterCardMultimediaPath" />
-                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
-                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
-                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
-                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
-                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
-                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
-                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
-                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
-                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
-                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
-                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-
-          <FunctionImportMapping FunctionImportName="mt_GetDetailLot" FunctionName="WarehouseManagementModel.Store.mt_GetDetailLot">
+          <FunctionImportMapping FunctionImportName="mt_MaterialIssueGetWorkCentreByJob" FunctionName="WarehouseManagementModel.Store.mt_MaterialIssueGetWorkCentreByJob">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetDetailLot_Result">
-                <ScalarProperty Name="DispatchNote" ColumnName="DispatchNote" />
-                <ScalarProperty Name="Lot" ColumnName="Lot" />
-                <ScalarProperty Name="DispatchNoteLine" ColumnName="DispatchNoteLine" />
-                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
-                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
-                <ScalarProperty Name="StockQtyToShip" ColumnName="StockQtyToShip" />
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result">
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="mt_GetDispatchNote" FunctionName="WarehouseManagementModel.Store.mt_GetDispatchNote" />
 
         </EntityContainerMapping>
       </Mapping>
