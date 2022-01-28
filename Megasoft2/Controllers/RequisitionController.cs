@@ -3193,7 +3193,7 @@ namespace Megasoft2.Controllers
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment><![CDATA[.]]></Comment>");
+                Document.Append("<Comment><![CDATA[.]]></Comment>");////////   \\DESKTOP-TKO1Q82\ZSyspro
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");

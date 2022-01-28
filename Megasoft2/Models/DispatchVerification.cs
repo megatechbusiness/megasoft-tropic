@@ -14,5 +14,6 @@ namespace Megasoft2.Models
         public decimal DispatchNoteLine { get; set; }
         public string SalesOrder { get; set; }
         public decimal SalesOrderLine { get; set; }
+        public int TrackId { get; set; }
     }
 }

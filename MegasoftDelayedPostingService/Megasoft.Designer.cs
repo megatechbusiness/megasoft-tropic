@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Sylvainp\Source\Workspaces\Workspace\Megasoft_2\Megasoft2\MegasoftDelayedPostingService\Megasoft.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\jarodreddy\source\Git\Megasoft2_Tropic\MegasoftDelayedPostingService\Megasoft.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -3139,15 +3139,6 @@ namespace Megasoft2
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRequisitionHeaderCustomForm_Result>("sp_mtReqGetRequisitionHeaderCustomForm", requisitionParameter);
         }
     
-        public virtual ObjectResult<mt_MaterialIssueGetWorkCentreByJob_Result> mt_MaterialIssueGetWorkCentreByJob(string job)
-        {
-            var jobParameter = job != null ?
-                new ObjectParameter("Job", job) :
-                new ObjectParameter("Job", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_MaterialIssueGetWorkCentreByJob_Result>("mt_MaterialIssueGetWorkCentreByJob", jobParameter);
-        }
-    
         public virtual ObjectResult<mt_GetDetailLot_Result> mt_GetDetailLot(string dispatchNote)
         {
             var dispatchNoteParameter = dispatchNote != null ?
@@ -3164,6 +3155,15 @@ namespace Megasoft2
                 new ObjectParameter("DispatchNote", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("mt_GetDispatchNote", dispatchNoteParameter);
+        }
+    
+        public virtual ObjectResult<mt_MaterialIssueGetWorkCentreByJob_Result> mt_MaterialIssueGetWorkCentreByJob(string job)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_MaterialIssueGetWorkCentreByJob_Result>("mt_MaterialIssueGetWorkCentreByJob", jobParameter);
         }
     }
 }
