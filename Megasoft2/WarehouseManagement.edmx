@@ -5371,6 +5371,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="Requisition" Type="varchar" Mode="In" />
           <Parameter Name="UserCode" Type="varchar" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Company" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_mtReqGetRequisitionLinesForPo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Requisition" Type="varchar" Mode="In" />
@@ -6961,7 +6962,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="mtPorDeliveryImports" EntityType="WarehouseManagementModel.mtPorDeliveryImport" />
           <EntitySet Name="AdmFormDatas" EntityType="WarehouseManagementModel.AdmFormData" />
-          <EntitySet Name="AdmFormControls" EntityType="WarehouseManagementModel.AdmFormControl" />
           <EntitySet Name="mtTransporterRateCodes" EntityType="WarehouseManagementModel.mtTransporterRateCode" />
           <EntitySet Name="BomWorkCentres" EntityType="WarehouseManagementModel.BomWorkCentre" />
           <FunctionImport Name="sp_TransUpdatePurchaseOrderLine">
@@ -7582,6 +7582,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
             <Parameter Name="Requisition" Mode="In" Type="String" />
             <Parameter Name="UserCode" Mode="In" Type="String" />
             <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Company" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetRequisitionComments" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRequisitionComments_Result)">
           <Parameter Name="Requisition" Mode="In" Type="String" />
@@ -7766,8 +7767,9 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySet Name="mtStereoSuppliers" EntityType="WarehouseManagementModel.mtStereoSupplier" />
           <EntitySet Name="mtDispatchVerifications" EntityType="WarehouseManagementModel.mtDispatchVerification" />
           <FunctionImport Name="mt_MaterialIssueGetWorkCentreByJob" ReturnType="Collection(WarehouseManagementModel.mt_MaterialIssueGetWorkCentreByJob_Result)">
-            <Parameter Name="Job" Mode="In" Type="String" />
+          <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="AdmFormControls" EntityType="WarehouseManagementModel.AdmFormControl" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -9672,26 +9674,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="AlphaValue" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="NumericValue" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="DateValue" Type="DateTime" Precision="3" />
-          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
-        <EntityType Name="AdmFormControl">
-          <Key>
-            <PropertyRef Name="FormType" />
-            <PropertyRef Name="SequenceNumber" />
-          </Key>
-          <Property Name="FormType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="SequenceNumber" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
-          <Property Name="FieldName" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="FieldDescription" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="FieldType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FieldLength" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
-          <Property Name="FieldDecimals" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
-          <Property Name="DefaultValue" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AllowNull" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
-          <Property Name="TableName" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
-          <Property Name="FormNumber" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
-          <Property Name="ColumnName" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
-          <Property Name="IndexFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="mtTransporterRateCode">
@@ -13536,6 +13518,16 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="CurrentHolder" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="ReqnStatus" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ContractPriceLine" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="DetCustomForm" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="AnalysisCode1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AnalysisCode2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AnalysisCode3" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AnalysisCode4" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AnalysisCode5" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AnalysisCodes" Nullable="true" MaxLength="524" />
+          <Property Type="String" Name="AnalysisRequired" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="PoComment" Nullable="true" MaxLength="Max" />
         </ComplexType>
         <ComplexType Name="sp_mtReqGetRequisitionComments_Result">
           <Property Type="String" Name="Company" Nullable="false" MaxLength="4" />
@@ -14409,6 +14401,26 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="AdmFormControl">
+          <Key>
+            <PropertyRef Name="FormType" />
+            <PropertyRef Name="SequenceNumber" />
+          </Key>
+          <Property Name="FormType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="SequenceNumber" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
+          <Property Name="FieldName" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="FieldDescription" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FieldType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FieldLength" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="FieldDecimals" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="DefaultValue" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AllowNull" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="FormNumber" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
+          <Property Name="ColumnName" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="IndexFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -16560,26 +16572,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="AlphaValue" ColumnName="AlphaValue" />
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
                 <ScalarProperty Name="KeyField" ColumnName="KeyField" />
-                <ScalarProperty Name="FormType" ColumnName="FormType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AdmFormControls">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.AdmFormControl">
-              <MappingFragment StoreEntitySet="AdmFormControl">
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="IndexFlag" ColumnName="IndexFlag" />
-                <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
-                <ScalarProperty Name="FormNumber" ColumnName="FormNumber" />
-                <ScalarProperty Name="TableName" ColumnName="TableName" />
-                <ScalarProperty Name="AllowNull" ColumnName="AllowNull" />
-                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
-                <ScalarProperty Name="FieldDecimals" ColumnName="FieldDecimals" />
-                <ScalarProperty Name="FieldLength" ColumnName="FieldLength" />
-                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
-                <ScalarProperty Name="FieldDescription" ColumnName="FieldDescription" />
-                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
-                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
                 <ScalarProperty Name="FormType" ColumnName="FormType" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -20353,6 +20345,16 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="CurrentHolder" ColumnName="CurrentHolder" />
                 <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
                 <ScalarProperty Name="ReqnStatus" ColumnName="ReqnStatus" />
+                <ScalarProperty Name="ContractPriceLine" ColumnName="ContractPriceLine" />
+                <ScalarProperty Name="DetCustomForm" ColumnName="DetCustomForm" />
+                <ScalarProperty Name="AnalysisCode1" ColumnName="AnalysisCode1" />
+                <ScalarProperty Name="AnalysisCode2" ColumnName="AnalysisCode2" />
+                <ScalarProperty Name="AnalysisCode3" ColumnName="AnalysisCode3" />
+                <ScalarProperty Name="AnalysisCode4" ColumnName="AnalysisCode4" />
+                <ScalarProperty Name="AnalysisCode5" ColumnName="AnalysisCode5" />
+                <ScalarProperty Name="AnalysisCodes" ColumnName="AnalysisCodes" />
+                <ScalarProperty Name="AnalysisRequired" ColumnName="AnalysisRequired" />
+                <ScalarProperty Name="PoComment" ColumnName="PoComment" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -21245,6 +21247,26 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="AdmFormControls">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.AdmFormControl">
+              <MappingFragment StoreEntitySet="AdmFormControl">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="IndexFlag" ColumnName="IndexFlag" />
+                <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
+                <ScalarProperty Name="FormNumber" ColumnName="FormNumber" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="AllowNull" ColumnName="AllowNull" />
+                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+                <ScalarProperty Name="FieldDecimals" ColumnName="FieldDecimals" />
+                <ScalarProperty Name="FieldLength" ColumnName="FieldLength" />
+                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
+                <ScalarProperty Name="FieldDescription" ColumnName="FieldDescription" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
+                <ScalarProperty Name="FormType" ColumnName="FormType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
 
         </EntityContainerMapping>
       </Mapping>

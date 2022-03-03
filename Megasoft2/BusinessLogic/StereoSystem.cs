@@ -88,7 +88,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<SwitchOnGRNMatching>N</SwitchOnGRNMatching>");
                     //Document.Append("<GRNNumber></GRNNumber>");
 
-                    Document.Append("<Reference>" + model.Invoice + "</Reference>");
+                    Document.Append("<Reference><![CDATA[" + model.Invoice + "]]></Reference>");
                     Document.Append("<GRNSource>1</GRNSource>");
                     Document.Append("<UseSingleTypeABCElements>N</UseSingleTypeABCElements>");
                     //Document.Append("<Lot />");
@@ -765,7 +765,7 @@ namespace Megasoft2.BusinessLogic
             Document.Append("<OrderHeader>");
             Document.Append("<OrderActionType>A</OrderActionType>");
 
-            Document.Append("<Supplier>" + Header.SupplierReference.ToString() + "</Supplier>");
+            Document.Append("<Supplier><![CDATA[" + Header.SupplierReference.ToString() + "]]></Supplier>");
             Document.Append("<ExchRateFixed/>");
             Document.Append("<ExchangeRate/>");
             Document.Append("<OrderType>L</OrderType>");
@@ -804,8 +804,8 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<StockLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<StockCode>" + item.StockCode.Trim().ToUpper() + "</StockCode>");
-                Document.Append("<StockDescription>" + Header.PrintDescription + "</StockDescription>");
+                Document.Append("<StockCode><![CDATA[" + item.StockCode.Trim().ToUpper() + "]]></StockCode>");
+                Document.Append("<StockDescription><![CDATA[" + Header.PrintDescription + "]]></StockDescription>");
                 //string PrintDescrip = Header.PrintDescription;
                 //int len = PrintDescrip.Length + item.Colour.Length+1;
                 //if (len > 50)
@@ -850,13 +850,13 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<RescheduleDueDate/>");
                 if (model.ChargeCustomer.ToString() == "Y")
                 {
-                    Document.Append("<LedgerCode>" + Supplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
-                    Document.Append("<ProductClass>" + Supplier.CustomerExpenseProductClass.Trim() + "</ProductClass>");
+                    Document.Append("<LedgerCode><![CDATA[" + Supplier.CustomerExpenseGlCode.Trim() + "]]></LedgerCode>");
+                    Document.Append("<ProductClass><![CDATA[" + Supplier.CustomerExpenseProductClass.Trim() + "]]></ProductClass>");
                 }
                 else
                 {
-                    Document.Append("<LedgerCode>" + Supplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
-                    Document.Append("<ProductClass>" + Supplier.ProductClass.Trim() + "</ProductClass>");
+                    Document.Append("<LedgerCode><![CDATA[" + Supplier.InternalExpenseGlCode.Trim() + "]]></LedgerCode>");
+                    Document.Append("<ProductClass><![CDATA[" + Supplier.ProductClass.Trim() + "]]></ProductClass>");
                 }
                 //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                 Document.Append("<PasswordForLedgerCode/>");
@@ -885,7 +885,7 @@ namespace Megasoft2.BusinessLogic
             Document.Append("<CommentLine>");
             Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
             Document.Append("<LineActionType>A</LineActionType>");
-            Document.Append("<Comment>DEPT : STEREO PURCHASES    " + Detail.FirstOrDefault().GlCode + "</Comment>");
+            Document.Append("<Comment><![CDATA[DEPT : STEREO PURCHASES    " + Detail.FirstOrDefault().GlCode + "]]></Comment>");
             Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
             Document.Append("<DeleteAttachedCommentLines/>");
             Document.Append("<ChangeSingleCommentLine/>");
@@ -899,7 +899,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<CommentLine>");
                     Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                     Document.Append("<LineActionType>A</LineActionType>");
-                    Document.Append("<Comment>CUSTOMER : " + Customer.FirstOrDefault().Name + "</Comment>");
+                    Document.Append("<Comment><![CDATA[CUSTOMER : " + Customer.FirstOrDefault().Name + "]]></Comment>");
                     Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                     Document.Append("<DeleteAttachedCommentLines/>");
                     Document.Append("<ChangeSingleCommentLine/>");
@@ -911,7 +911,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>QUOTE NO: " + Header.Quotation + "</Comment>");
+                Document.Append("<Comment><![CDATA[QUOTE NO: " + Header.Quotation + "]]></Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");
@@ -923,7 +923,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>TERMS : " + TermsCode.Description + " FROM DATE OF STATEMENT</Comment>");
+                Document.Append("<Comment><![CDATA[TERMS : " + TermsCode.Description + " FROM DATE OF STATEMENT]]></Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");
@@ -944,7 +944,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>     " + Email.FirstOrDefault().Trim() + "</Comment>");
+                Document.Append("<Comment><![CDATA[     " + Email.FirstOrDefault().Trim() + "]]></Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");
@@ -1031,20 +1031,20 @@ namespace Megasoft2.BusinessLogic
                         //ADD NEW LINE
                         Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                         Document.Append("<LineActionType>A</LineActionType>");
-                        Document.Append("<StockCode>" + item.StockCode.Trim().ToUpper() + "</StockCode>");
-                        Document.Append("<StockDescription>" + Header.PrintDescription + "</StockDescription>");
+                        Document.Append("<StockCode><![CDATA[" + item.StockCode.Trim().ToUpper() + "]]></StockCode>");
+                        Document.Append("<StockDescription<![CDATA[>" + Header.PrintDescription + "]]></StockDescription>");
                         Document.Append("<Warehouse>**</Warehouse>");
                         Document.Append("<SupCatalogue>" + item.Line + "</SupCatalogue>");
                         Document.Append("<PriceMethod>M</PriceMethod>");
                         if (model.ChargeCustomer.ToString() == "Y")
                         {
-                            Document.Append("<LedgerCode>" + Supplier.CustomerExpenseGlCode.Trim() + "</LedgerCode>");
-                            Document.Append("<ProductClass>" + Supplier.CustomerExpenseProductClass.Trim() + "</ProductClass>");
+                            Document.Append("<LedgerCode><![CDATA[" + Supplier.CustomerExpenseGlCode.Trim() + "]]></LedgerCode>");
+                            Document.Append("<ProductClass><![CDATA[" + Supplier.CustomerExpenseProductClass.Trim() + "]]></ProductClass>");
                         }
                         else
                         {
-                            Document.Append("<LedgerCode>" + Supplier.InternalExpenseGlCode.Trim() + "</LedgerCode>");
-                            Document.Append("<ProductClass>" + Supplier.ProductClass.Trim() + "</ProductClass>");
+                            Document.Append("<LedgerCode><![CDATA[" + Supplier.InternalExpenseGlCode.Trim() + "]]></LedgerCode>");
+                            Document.Append("<ProductClass><![CDATA[" + Supplier.ProductClass.Trim() + "]]></ProductClass>");
                         }
                         //Document.Append("<LedgerCode>" + item.GlCode.Trim() + "</LedgerCode>");
                     }
@@ -1052,7 +1052,7 @@ namespace Megasoft2.BusinessLogic
                     {
                         //UPDATE EXISTING
 
-                        Document.Append("<StockDescription>" + Header.PrintDescription + "</StockDescription>");
+                        Document.Append("<StockDescription><![CDATA[" + Header.PrintDescription + "]]></StockDescription>");
                         Document.Append("<PurchaseOrderLine>" + item.SysproPurchaseOrderLine + "</PurchaseOrderLine>");
                         Document.Append("<LineActionType>C</LineActionType>");
                     }
@@ -1106,7 +1106,7 @@ namespace Megasoft2.BusinessLogic
             Document.Append("<CommentLine>");
             Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
             Document.Append("<LineActionType>A</LineActionType>");
-            Document.Append("<Comment>DEPT : STEREO PURCHASES    " + Detail.FirstOrDefault().GlCode + "</Comment>");
+            Document.Append("<Comment><![CDATA[DEPT : STEREO PURCHASES    " + Detail.FirstOrDefault().GlCode + "]]></Comment>");
             Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
             Document.Append("<DeleteAttachedCommentLines/>");
             Document.Append("<ChangeSingleCommentLine/>");
@@ -1120,7 +1120,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<CommentLine>");
                     Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                     Document.Append("<LineActionType>A</LineActionType>");
-                    Document.Append("<Comment>CUSTOMER : " + Customer.FirstOrDefault().Name + "</Comment>");
+                    Document.Append("<Comment><![CDATA[CUSTOMER : " + Customer.FirstOrDefault().Name + "]]></Comment>");
                     Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                     Document.Append("<DeleteAttachedCommentLines/>");
                     Document.Append("<ChangeSingleCommentLine/>");
@@ -1132,7 +1132,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>QUOTE NO: " + Header.Quotation + "</Comment>");
+                Document.Append("<Comment><![CDATA[QUOTE NO: " + Header.Quotation + "]]></Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");
@@ -1144,7 +1144,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>TERMS : " + TermsCode.Description + " FROM DATE OF STATEMENT</Comment>");
+                Document.Append("<Comment><![CDATA[TERMS : " + TermsCode.Description + " FROM DATE OF STATEMENT]]></Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");
@@ -1165,7 +1165,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<CommentLine>");
                 Document.Append("<PurchaseOrderLine></PurchaseOrderLine>");
                 Document.Append("<LineActionType>A</LineActionType>");
-                Document.Append("<Comment>     " + Email.FirstOrDefault().Trim() + "</Comment>");
+                Document.Append("<Comment><![CDATA[     " + Email.FirstOrDefault().Trim() + "]]></Comment>");
                 Document.Append("<AttachedToStkLineNumber></AttachedToStkLineNumber>");
                 Document.Append("<DeleteAttachedCommentLines/>");
                 Document.Append("<ChangeSingleCommentLine/>");

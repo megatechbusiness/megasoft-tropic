@@ -34,5 +34,19 @@ namespace Megasoft2
         public string ReqAPIAddress { get; set; }
         public Nullable<bool> ReqAutoApprovalContractPricing { get; set; }
         public string ReqAutoApprovalUserCode { get; set; }
+        public Nullable<int> TrackId { get; set; }
+        public Nullable<bool> RequisitionJobBossRequired { get; set; }
+        public bool StockTakeServiceActive { get; set; }
+        public Nullable<bool> ReqNumberPadZeros { get; set; }
+        public string TransportReqPurchaseCategory { get; set; }
+        public string TransportReqCostCentre { get; set; }
+        public string TransportReqCategory { get; set; }
+        public string TransportReqBranch { get; set; }
+        public Nullable<bool> TransportSystemCreateReq { get; set; }
+        public Nullable<bool> ReqProdClassGlCodeMandatory { get; set; }
+        public Nullable<bool> ReqGlCodeFilterByBranch { get; set; }
+        public string TransportReqUserCode { get; set; }
+        public string TransportSystemRouteToUser { get; set; }
+        public string TransportSystemNotificationEmail { get; set; }
     }
 }

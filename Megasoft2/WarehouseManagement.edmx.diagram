@@ -50,7 +50,6 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSetting" Width="1.5" PointX="13.375" PointY="14.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtPorDeliveryImport" Width="1.75" PointX="14.5" PointY="9.125" />
         <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormData" Width="1.5" PointX="16.375" PointY="16.75" />
-        <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormControl" Width="1.5" PointX="17.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtTransporterRateCode" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.BomWorkCentre" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoHdr" Width="1.5" PointX="22.625" PointY="22.75" />
@@ -195,6 +194,7 @@
 
         <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSupplier" Width="2.875" PointX="45.375" PointY="27.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtDispatchVerification" Width="1.5" PointX="45.375" PointY="39.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormControl" Width="1.5" PointX="15.375" PointY="0.75" />
 
       </Diagram>
     </edmx:Diagrams>

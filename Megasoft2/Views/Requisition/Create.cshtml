@@ -71,13 +71,13 @@
                                 <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Branch</label>
                                 <div class="input-group add-on col-md-8">
                                     @*@if (string.IsNullOrWhiteSpace(Model.Header.Requisition))
-                                    {*@
-                                        @Html.DropDownListFor(model => model.Header.Branch, new SelectList(ViewBag.BranchList, "Branch", "Description"), new { @class = "form-control input-sm" })
+                                        {*@
+                                    @Html.DropDownListFor(model => model.Header.Branch, new SelectList(ViewBag.BranchList, "Branch", "Description"), new { @class = "form-control input-sm" })
                                     @*}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(model => model.Header.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                    }*@
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.Header.Branch, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        }*@
                                 </div>
                             </div>
 
@@ -85,13 +85,13 @@
                                 <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Cost Centre</label>
                                 <div class="input-group add-on col-md-8">
                                     @*@if (string.IsNullOrWhiteSpace(Model.Header.Requisition))
-                                    {*@
-                                        @Html.DropDownListFor(model => model.Header.CostCentre, new SelectList(ViewBag.CostCentreList, "Value", "Text"), new { @class = "form-control input-sm" })
+                                        {*@
+                                    @Html.DropDownListFor(model => model.Header.CostCentre, new SelectList(ViewBag.CostCentreList, "Value", "Text"), new { @class = "form-control input-sm" })
                                     @*}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(model => model.Header.CostCentre, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                    }*@
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.Header.CostCentre, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                        }*@
 
                                 </div>
                             </div>
@@ -239,14 +239,12 @@
 
                             }
 
-                            @if (ViewBag.CanRoute == false)
+
+                            @if (ViewBag.CanAlternateRoute == true)
                             {
-                                if (ViewBag.CanAlternateRoute == true)
-                                {
-                                    <a id="btnRoute" href="@Url.Action("RequisitionAltRouting", "Requisition", new { Requisition = @Model.Header.Requisition })" class="modal-link btn btn-primary btn-sm">
-                                        <span class="fa fa-envelope-square" aria-hidden="true" title="Route"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Route</span></span>
-                                    </a>
-                                }
+                                <a id="btnRoute" href="@Url.Action("RequisitionAltRouting", "Requisition", new { Requisition = @Model.Header.Requisition })" class="modal-link btn btn-primary btn-sm">
+                                    <span class="fa fa-envelope-square" aria-hidden="true" title="Route"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Route</span></span>
+                                </a>
                             }
 
 

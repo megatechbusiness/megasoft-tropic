@@ -45,6 +45,20 @@
           <Property Name="ReqAPIAddress" Type="varchar" MaxLength="250" />
           <Property Name="ReqAutoApprovalContractPricing" Type="bit" />
           <Property Name="ReqAutoApprovalUserCode" Type="varchar" MaxLength="20" />
+          <Property Name="TrackId" Type="int" />
+          <Property Name="RequisitionJobBossRequired" Type="bit" />
+          <Property Name="StockTakeServiceActive" Type="bit" Nullable="false" />
+          <Property Name="ReqNumberPadZeros" Type="bit" />
+          <Property Name="TransportReqPurchaseCategory" Type="varchar" MaxLength="100" />
+          <Property Name="TransportReqCostCentre" Type="varchar" MaxLength="100" />
+          <Property Name="TransportReqCategory" Type="varchar" MaxLength="100" />
+          <Property Name="TransportReqBranch" Type="varchar" MaxLength="100" />
+          <Property Name="TransportSystemCreateReq" Type="bit" />
+          <Property Name="ReqProdClassGlCodeMandatory" Type="bit" />
+          <Property Name="ReqGlCodeFilterByBranch" Type="bit" />
+          <Property Name="TransportReqUserCode" Type="varchar" MaxLength="20" />
+          <Property Name="TransportSystemRouteToUser" Type="varchar" MaxLength="4" />
+          <Property Name="TransportSystemNotificationEmail" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="mtLabelPrinter">
           <Key>
@@ -121,10 +135,12 @@
             <PropertyRef Name="Company" />
             <PropertyRef Name="Username" />
             <PropertyRef Name="CostCentre" />
+            <PropertyRef Name="Category" />
           </Key>
           <Property Name="Company" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CostCentre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SpendLimit" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Currency" Type="varchar" MaxLength="3" />
           <Property Name="LocalCurrency" Type="varchar" MaxLength="1" />
@@ -691,10 +707,10 @@
           <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtReqCostCentres" EntityType="MegasoftModel.mtReqCostCentre" />
-          <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
           <EntitySet Name="mtLabelPrinters" EntityType="MegasoftModel.mtLabelPrinter" />
           <EntitySet Name="mtReqRoutingTrackings" EntityType="MegasoftModel.mtReqRoutingTracking" />
           <EntitySet Name="mtReqUserCostCentreSpendLimits" EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" />
+          <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
         </EntityContainer>
         <ComplexType Name="sp_GetRoleAccess_Result">
           <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
@@ -1124,31 +1140,6 @@
           <Property Name="CostCentre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="mtDistributionSetup">
-          <Key>
-            <PropertyRef Name="CompanyCode" />
-          </Key>
-          <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="SalesContractPricingServiceActive" Type="Boolean" Nullable="false" />
-          <Property Name="SalesContractPricingImportFilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="SalesContractPricingNotificationLetterPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="SalesContractPricingDoSalesOrderUpdate" Type="Boolean" Nullable="false" />
-          <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
-          <Property Name="UserLastUpdated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SalesOrderPackagingRequired" Type="Boolean" Nullable="false" />
-          <Property Name="SalesOrderNumberOfCharacters" Type="Int32" />
-          <Property Name="RequisitionSystemActive" Type="Boolean" Nullable="false" />
-          <Property Name="RequisitionFromEmailAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="RequisitionLocalCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="RequisitionNotificationLimit" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="RequisitionNotificationCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="RequisitionNotificationExchangeRate" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="RequisitionNotificationEmailAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="ViewUrlAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ReqAPIAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ReqAutoApprovalContractPricing" Type="Boolean" />
-          <Property Name="ReqAutoApprovalUserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="mtLabelPrinter">
           <Key>
             <PropertyRef Name="PrinterName" />
@@ -1180,6 +1171,7 @@
             <PropertyRef Name="Company" />
             <PropertyRef Name="Username" />
             <PropertyRef Name="CostCentre" />
+            <PropertyRef Name="Category" />
           </Key>
           <Property Name="Company" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -1187,6 +1179,46 @@
           <Property Name="SpendLimit" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="LocalCurrency" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtDistributionSetup">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="SalesContractPricingServiceActive" Type="Boolean" Nullable="false" />
+          <Property Name="SalesContractPricingImportFilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SalesContractPricingNotificationLetterPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SalesContractPricingDoSalesOrderUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="UserLastUpdated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SalesOrderPackagingRequired" Type="Boolean" Nullable="false" />
+          <Property Name="SalesOrderNumberOfCharacters" Type="Int32" />
+          <Property Name="RequisitionSystemActive" Type="Boolean" Nullable="false" />
+          <Property Name="RequisitionFromEmailAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RequisitionLocalCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RequisitionNotificationLimit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RequisitionNotificationCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RequisitionNotificationExchangeRate" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="RequisitionNotificationEmailAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ViewUrlAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ReqAPIAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ReqAutoApprovalContractPricing" Type="Boolean" />
+          <Property Name="ReqAutoApprovalUserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TrackId" Type="Int32" />
+          <Property Name="RequisitionJobBossRequired" Type="Boolean" />
+          <Property Name="StockTakeServiceActive" Type="Boolean" Nullable="false" />
+          <Property Name="ReqNumberPadZeros" Type="Boolean" />
+          <Property Name="TransportReqPurchaseCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TransportReqCostCentre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TransportReqCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TransportReqBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TransportSystemCreateReq" Type="Boolean" />
+          <Property Name="ReqProdClassGlCodeMandatory" Type="Boolean" />
+          <Property Name="ReqGlCodeFilterByBranch" Type="Boolean" />
+          <Property Name="TransportReqUserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TransportSystemRouteToUser" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="TransportSystemNotificationEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1645,32 +1677,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="mtDistributionSetups">
-            <EntityTypeMapping TypeName="MegasoftModel.mtDistributionSetup">
-              <MappingFragment StoreEntitySet="mtDistributionSetup">
-                <ScalarProperty Name="ReqAutoApprovalUserCode" ColumnName="ReqAutoApprovalUserCode" />
-                <ScalarProperty Name="ReqAutoApprovalContractPricing" ColumnName="ReqAutoApprovalContractPricing" />
-                <ScalarProperty Name="ReqAPIAddress" ColumnName="ReqAPIAddress" />
-                <ScalarProperty Name="ViewUrlAddress" ColumnName="ViewUrlAddress" />
-                <ScalarProperty Name="RequisitionNotificationEmailAddress" ColumnName="RequisitionNotificationEmailAddress" />
-                <ScalarProperty Name="RequisitionNotificationExchangeRate" ColumnName="RequisitionNotificationExchangeRate" />
-                <ScalarProperty Name="RequisitionNotificationCurrency" ColumnName="RequisitionNotificationCurrency" />
-                <ScalarProperty Name="RequisitionNotificationLimit" ColumnName="RequisitionNotificationLimit" />
-                <ScalarProperty Name="RequisitionLocalCurrency" ColumnName="RequisitionLocalCurrency" />
-                <ScalarProperty Name="RequisitionFromEmailAddress" ColumnName="RequisitionFromEmailAddress" />
-                <ScalarProperty Name="RequisitionSystemActive" ColumnName="RequisitionSystemActive" />
-                <ScalarProperty Name="SalesOrderNumberOfCharacters" ColumnName="SalesOrderNumberOfCharacters" />
-                <ScalarProperty Name="SalesOrderPackagingRequired" ColumnName="SalesOrderPackagingRequired" />
-                <ScalarProperty Name="UserLastUpdated" ColumnName="UserLastUpdated" />
-                <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
-                <ScalarProperty Name="SalesContractPricingDoSalesOrderUpdate" ColumnName="SalesContractPricingDoSalesOrderUpdate" />
-                <ScalarProperty Name="SalesContractPricingNotificationLetterPath" ColumnName="SalesContractPricingNotificationLetterPath" />
-                <ScalarProperty Name="SalesContractPricingImportFilePath" ColumnName="SalesContractPricingImportFilePath" />
-                <ScalarProperty Name="SalesContractPricingServiceActive" ColumnName="SalesContractPricingServiceActive" />
-                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="mtLabelPrinters">
             <EntityTypeMapping TypeName="MegasoftModel.mtLabelPrinter">
               <MappingFragment StoreEntitySet="mtLabelPrinter">
@@ -1702,12 +1708,53 @@
           <EntitySetMapping Name="mtReqUserCostCentreSpendLimits">
             <EntityTypeMapping TypeName="MegasoftModel.mtReqUserCostCentreSpendLimit">
               <MappingFragment StoreEntitySet="mtReqUserCostCentreSpendLimit">
+                <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="LocalCurrency" ColumnName="LocalCurrency" />
                 <ScalarProperty Name="Currency" ColumnName="Currency" />
                 <ScalarProperty Name="SpendLimit" ColumnName="SpendLimit" />
                 <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Company" ColumnName="Company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtDistributionSetups">
+            <EntityTypeMapping TypeName="MegasoftModel.mtDistributionSetup">
+              <MappingFragment StoreEntitySet="mtDistributionSetup">
+                <ScalarProperty Name="TransportSystemNotificationEmail" ColumnName="TransportSystemNotificationEmail" />
+                <ScalarProperty Name="TransportSystemRouteToUser" ColumnName="TransportSystemRouteToUser" />
+                <ScalarProperty Name="TransportReqUserCode" ColumnName="TransportReqUserCode" />
+                <ScalarProperty Name="ReqGlCodeFilterByBranch" ColumnName="ReqGlCodeFilterByBranch" />
+                <ScalarProperty Name="ReqProdClassGlCodeMandatory" ColumnName="ReqProdClassGlCodeMandatory" />
+                <ScalarProperty Name="TransportSystemCreateReq" ColumnName="TransportSystemCreateReq" />
+                <ScalarProperty Name="TransportReqBranch" ColumnName="TransportReqBranch" />
+                <ScalarProperty Name="TransportReqCategory" ColumnName="TransportReqCategory" />
+                <ScalarProperty Name="TransportReqCostCentre" ColumnName="TransportReqCostCentre" />
+                <ScalarProperty Name="TransportReqPurchaseCategory" ColumnName="TransportReqPurchaseCategory" />
+                <ScalarProperty Name="ReqNumberPadZeros" ColumnName="ReqNumberPadZeros" />
+                <ScalarProperty Name="StockTakeServiceActive" ColumnName="StockTakeServiceActive" />
+                <ScalarProperty Name="RequisitionJobBossRequired" ColumnName="RequisitionJobBossRequired" />
+                <ScalarProperty Name="TrackId" ColumnName="TrackId" />
+                <ScalarProperty Name="ReqAutoApprovalUserCode" ColumnName="ReqAutoApprovalUserCode" />
+                <ScalarProperty Name="ReqAutoApprovalContractPricing" ColumnName="ReqAutoApprovalContractPricing" />
+                <ScalarProperty Name="ReqAPIAddress" ColumnName="ReqAPIAddress" />
+                <ScalarProperty Name="ViewUrlAddress" ColumnName="ViewUrlAddress" />
+                <ScalarProperty Name="RequisitionNotificationEmailAddress" ColumnName="RequisitionNotificationEmailAddress" />
+                <ScalarProperty Name="RequisitionNotificationExchangeRate" ColumnName="RequisitionNotificationExchangeRate" />
+                <ScalarProperty Name="RequisitionNotificationCurrency" ColumnName="RequisitionNotificationCurrency" />
+                <ScalarProperty Name="RequisitionNotificationLimit" ColumnName="RequisitionNotificationLimit" />
+                <ScalarProperty Name="RequisitionLocalCurrency" ColumnName="RequisitionLocalCurrency" />
+                <ScalarProperty Name="RequisitionFromEmailAddress" ColumnName="RequisitionFromEmailAddress" />
+                <ScalarProperty Name="RequisitionSystemActive" ColumnName="RequisitionSystemActive" />
+                <ScalarProperty Name="SalesOrderNumberOfCharacters" ColumnName="SalesOrderNumberOfCharacters" />
+                <ScalarProperty Name="SalesOrderPackagingRequired" ColumnName="SalesOrderPackagingRequired" />
+                <ScalarProperty Name="UserLastUpdated" ColumnName="UserLastUpdated" />
+                <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+                <ScalarProperty Name="SalesContractPricingDoSalesOrderUpdate" ColumnName="SalesContractPricingDoSalesOrderUpdate" />
+                <ScalarProperty Name="SalesContractPricingNotificationLetterPath" ColumnName="SalesContractPricingNotificationLetterPath" />
+                <ScalarProperty Name="SalesContractPricingImportFilePath" ColumnName="SalesContractPricingImportFilePath" />
+                <ScalarProperty Name="SalesContractPricingServiceActive" ColumnName="SalesContractPricingServiceActive" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
