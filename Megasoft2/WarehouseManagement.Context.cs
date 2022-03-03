@@ -57,7 +57,6 @@ namespace Megasoft2
         public DbSet<mtStereoSetting> mtStereoSettings { get; set; }
         public DbSet<mtPorDeliveryImport> mtPorDeliveryImports { get; set; }
         public DbSet<AdmFormData> AdmFormDatas { get; set; }
-        public DbSet<AdmFormControl> AdmFormControls { get; set; }
         public DbSet<mtTransporterRateCode> mtTransporterRateCodes { get; set; }
         public DbSet<BomWorkCentre> BomWorkCentres { get; set; }
         public DbSet<mtStereoHdr> mtStereoHdrs { get; set; }
@@ -150,6 +149,7 @@ namespace Megasoft2
         public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
         public DbSet<mtStereoSupplier> mtStereoSuppliers { get; set; }
         public DbSet<mtDispatchVerification> mtDispatchVerifications { get; set; }
+        public DbSet<AdmFormControl> AdmFormControls { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -2743,7 +2743,7 @@ namespace Megasoft2
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_mtReqUpdateRequisitionStatus", requisitionParameter, companyParameter);
         }
     
-        public virtual ObjectResult<sp_mtReqGetRequisitionLines_Result> sp_mtReqGetRequisitionLines(string requisition, string userCode, string username)
+        public virtual ObjectResult<sp_mtReqGetRequisitionLines_Result> sp_mtReqGetRequisitionLines(string requisition, string userCode, string username, string company)
         {
             var requisitionParameter = requisition != null ?
                 new ObjectParameter("Requisition", requisition) :
@@ -2757,7 +2757,11 @@ namespace Megasoft2
                 new ObjectParameter("Username", username) :
                 new ObjectParameter("Username", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRequisitionLines_Result>("sp_mtReqGetRequisitionLines", requisitionParameter, userCodeParameter, usernameParameter);
+            var companyParameter = company != null ?
+                new ObjectParameter("Company", company) :
+                new ObjectParameter("Company", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRequisitionLines_Result>("sp_mtReqGetRequisitionLines", requisitionParameter, userCodeParameter, usernameParameter, companyParameter);
         }
     
         public virtual ObjectResult<sp_mtReqGetRequisitionComments_Result> sp_mtReqGetRequisitionComments(string requisition)

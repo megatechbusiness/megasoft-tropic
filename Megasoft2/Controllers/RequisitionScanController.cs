@@ -182,7 +182,7 @@ namespace Megasoft2.Controllers
                     PostReqCustomFormUpdate(Guid, Requisition, Request, model.Urgent);
                     Thread.Sleep(3000); //Wait 3 seconds for replication
 
-                    var detail = db.sp_mtReqGetRequisitionLines(Requisition, requser, Username).ToList();
+                    var detail = db.sp_mtReqGetRequisitionLines(Requisition, requser, Username, Company).ToList();
                     model.Lines = detail;
 
                     sys.SysproLogoff(Guid);
@@ -395,10 +395,11 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "RequisitionRouting")]
         public ActionResult RequisitionRouting(RequsitionScanViewModel model)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
                 string Username = HttpContext.User.Identity.Name.ToUpper();
                 bool OkToApprove = true;
                 var WhList = db.sp_GetUserWarehouses(Company, Username).ToList();
@@ -575,7 +576,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = db.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = db.sp_mtReqGetRequisitionLines(model.Requisition, requser, Username).ToList();
+                    var detail = db.sp_mtReqGetRequisitionLines(model.Requisition, requser, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -589,7 +590,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = db.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = db.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username).ToList();
+                    var detail = db.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -686,7 +687,7 @@ namespace Megasoft2.Controllers
             var Username = HttpContext.User.Identity.Name.ToUpper();
             var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
             var Header = db.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-            var detail = db.sp_mtReqGetRequisitionLines(Requisition, RoutedTo, Username).ToList();
+            var detail = db.sp_mtReqGetRequisitionLines(Requisition, RoutedTo, Username, Company).ToList();
 
             bool CanApprove = RoutedToCanApprove(Requisition, RoutedTo);
             var RoutedByName = (from a in db.sp_mtReqGetRequisitionUsers() where a.UserCode == RoutedBy select a).FirstOrDefault().UserName;
@@ -1024,7 +1025,7 @@ namespace Megasoft2.Controllers
                     {
                         ABL.SaveMegasoftAlert("Requisition : " + Req + " Deleted in Syspro.");
                     }
-                    var detail = db.sp_mtReqGetRequisitionLines(Requisition, Requser, Username).ToList();
+                    var detail = db.sp_mtReqGetRequisitionLines(Requisition, Requser, Username, Company).ToList();
                     model.Lines = detail;
                     sys.SysproLogoff(Guid);
                     ModelState.AddModelError("", "Deleted successfully");
@@ -1032,7 +1033,7 @@ namespace Megasoft2.Controllers
                 }
                 else
                 {
-                    var detail = db.sp_mtReqGetRequisitionLines(Requisition, Requser, Username).ToList();
+                    var detail = db.sp_mtReqGetRequisitionLines(Requisition, Requser, Username, Company).ToList();
                     model.Lines = detail;
                     sys.SysproLogoff(Guid);
                     ModelState.AddModelError("", "Syspro Error: " + ErrorMessage);
@@ -1042,7 +1043,7 @@ namespace Megasoft2.Controllers
             catch (Exception ex)
             {
                 var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
-                var detail = db.sp_mtReqGetRequisitionLines(Requisition, Requser, Username).ToList();
+                var detail = db.sp_mtReqGetRequisitionLines(Requisition, Requser, Username, Company).ToList();
                 model.Lines = detail;
                 ModelState.AddModelError("", ex.Message);
                 return View("Index");

@@ -41,5 +41,15 @@ namespace Megasoft2
         public string CurrentHolder { get; set; }
         public string WorkCentre { get; set; }
         public string ReqnStatus { get; set; }
+        public string ContractPriceLine { get; set; }
+        public string DetCustomForm { get; set; }
+        public string AnalysisCode1 { get; set; }
+        public string AnalysisCode2 { get; set; }
+        public string AnalysisCode3 { get; set; }
+        public string AnalysisCode4 { get; set; }
+        public string AnalysisCode5 { get; set; }
+        public string AnalysisCodes { get; set; }
+        public string AnalysisRequired { get; set; }
+        public string PoComment { get; set; }
     }
 }

@@ -131,7 +131,7 @@ namespace Megasoft2.Controllers
                         decimal LabelOutstanding = Convert.ToDecimal(model.JobDetails.OutstandingLabels);
                         if (NoOfLabel > LabelOutstanding)
                         {
-                            return Json("You have exceeded the maximum number of labels printed for Lot : "+ model.Lot, JsonRequestBehavior.AllowGet);
+                            return Json("You have exceeded the maximum number of labels printed for Lot : " + model.Lot, JsonRequestBehavior.AllowGet);
                         }
                     }
 
