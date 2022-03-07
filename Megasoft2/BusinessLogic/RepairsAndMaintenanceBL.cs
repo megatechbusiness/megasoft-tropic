@@ -1627,7 +1627,7 @@ namespace Megasoft2.BusinessLogic
         {
 
             var Header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, RoutedTo, HttpContext.Current.User.Identity.Name.ToUpper()).ToList();
+            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, RoutedTo, HttpContext.Current.User.Identity.Name.ToUpper(), Company).ToList();
 
             // bool CanApprove = RoutedToCanApprove(Requisition, RoutedTo);
             var RoutedByName = (from a in wdb.sp_mtReqGetRequisitionUsers() where a.UserCode == RoutedBy select a).FirstOrDefault().UserName;

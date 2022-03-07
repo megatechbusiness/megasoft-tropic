@@ -56,10 +56,10 @@ namespace Megasoft2
         public DbSet<mtUserBuyerStat> mtUserBuyerStats { get; set; }
         public DbSet<mtSysproAdmin> mtSysproAdmins { get; set; }
         public DbSet<mtReqCostCentre> mtReqCostCentres { get; set; }
-        public DbSet<mtDistributionSetup> mtDistributionSetups { get; set; }
         public DbSet<mtLabelPrinter> mtLabelPrinters { get; set; }
         public DbSet<mtReqRoutingTracking> mtReqRoutingTrackings { get; set; }
         public DbSet<mtReqUserCostCentreSpendLimit> mtReqUserCostCentreSpendLimits { get; set; }
+        public DbSet<mtDistributionSetup> mtDistributionSetups { get; set; }
     
         public virtual ObjectResult<sp_GetRoleAccess_Result> sp_GetRoleAccess(string role)
         {

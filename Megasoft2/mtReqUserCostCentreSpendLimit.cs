@@ -20,5 +20,6 @@ namespace Megasoft2
         public Nullable<decimal> SpendLimit { get; set; }
         public string Currency { get; set; }
         public string LocalCurrency { get; set; }
+        public string Category { get; set; }
     }
 }

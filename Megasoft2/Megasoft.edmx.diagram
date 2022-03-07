@@ -33,10 +33,10 @@
         <EntityTypeShape EntityType="MegasoftModel.mtUserBuyerStat" Width="1.5" PointX="14.375" PointY="3.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtSysproAdmin" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtReqCostCentre" Width="1.5" PointX="13.375" PointY="15.75" />
-        <EntityTypeShape EntityType="MegasoftModel.mtDistributionSetup" Width="3.125" PointX="16.375" PointY="0.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtLabelPrinter" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtReqRoutingTracking" Width="1.5" PointX="15.375" PointY="15.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" Width="1.5" PointX="16.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtDistributionSetup" Width="1.5" PointX="17.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

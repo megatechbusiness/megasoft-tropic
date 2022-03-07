@@ -61,7 +61,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -99,17 +99,18 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "AddLine")]
         public ActionResult AddLine(RequisitionViewModel model)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             var sysSettings = (from a in mdb.mtSystemSettings where a.Id == 1 select a).FirstOrDefault();
             model.LocalCurrency = sysSettings.LocalCurrency;
             string Username = HttpContext.User.Identity.Name.ToUpper();
             var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
-            var detail = wdb.sp_mtReqGetRequisitionLines(model.Header.Requisition, UserCode, Username).ToList();
+            var detail = wdb.sp_mtReqGetRequisitionLines(model.Header.Requisition, UserCode, Username, Company).ToList();
             model.Lines = detail;
             model.LineMethod = "Add";
             sp_mtReqGetRequisitionLines_Result line = new sp_mtReqGetRequisitionLines_Result();
             model.Line = line;
-            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
 
             var WhList = wdb.sp_GetUserWarehouses(Company, Username).ToList();
             ViewBag.WarehouseList = (from a in WhList where a.Allowed == true select new { Warehouse = a.Warehouse, Description = a.Warehouse + " - " + a.Description }).ToList();
@@ -148,11 +149,13 @@ namespace Megasoft2.Controllers
 
         public ActionResult ChangeLine(string Requisition, int Line)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             string Username = HttpContext.User.Identity.Name.ToUpper();
             var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
             RequisitionViewModel model = new RequisitionViewModel();
             var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username).ToList().Where(a => a.Line == Line).FirstOrDefault();
+            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username, Company).ToList().Where(a => a.Line == Line).FirstOrDefault();
             model.Header = header;
             model.Line = detail;
             model.LineMethod = "Change";
@@ -310,6 +313,8 @@ namespace Megasoft2.Controllers
         public ActionResult PostLine(RequisitionViewModel model)
         {
             ModelState.Clear();
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             string Username = HttpContext.User.Identity.Name.ToUpper();
             ViewBag.PriceMethodList = LoadPriceMethods();
             ViewBag.BuyerList = (from a in wdb.InvBuyers select new { Buyer = a.Buyer, Description = a.Buyer + " - " + a.Name }).ToList();
@@ -332,7 +337,7 @@ namespace Megasoft2.Controllers
             {
                 if (!string.IsNullOrWhiteSpace(model.Header.Requisition))
                 {
-                    var check = (from a in wdb.sp_mtReqGetRequisitionLines(model.Header.Requisition, UserCode, Username)
+                    var check = (from a in wdb.sp_mtReqGetRequisitionLines(model.Header.Requisition, UserCode, Username, Company)
                                  where a.Line == 1
                                  select a).FirstOrDefault();
                     if (check != null)
@@ -527,7 +532,7 @@ namespace Megasoft2.Controllers
                     ViewBag.CanAlternateRoute = CanAlternateRoute(Requisition);
 
                     var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
 
@@ -936,7 +941,7 @@ namespace Megasoft2.Controllers
                 bool isAdmin = User.Administrator;
                 var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
                 var PoUser = (from a in wdb.sp_mtReqGetRequisitionUsers() where a.UserCode == requser select a).FirstOrDefault();
-                var LineStatus = (from a in wdb.sp_mtReqGetRequisitionLines(Requisition, requser, Username) where a.ReqnStatus == "R" select a).ToList();
+                var LineStatus = (from a in wdb.sp_mtReqGetRequisitionLines(Requisition, requser, Username, Company) where a.ReqnStatus == "R" select a).ToList();
                 if (header == null)
                 {
                     ModelState.AddModelError("", "Megasoft: Reading replication data. Unable to find requisition header.");
@@ -1094,7 +1099,7 @@ namespace Megasoft2.Controllers
                 var requser = User.ReqPrefix.Trim();
                 bool isAdmin = User.Administrator;
                 var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-                var LineHolderCheck = (from a in wdb.sp_mtReqGetRequisitionLines(Requisition, requser, Username) select a).ToList();
+                var LineHolderCheck = (from a in wdb.sp_mtReqGetRequisitionLines(Requisition, requser, Username, Company) select a).ToList();
 
                 var Tracking = (from a in mdb.mtReqRoutingTrackings where a.Requisition == Requisition && a.RoutedTo == requser && a.Company == Company && a.GuidActive == "Y" select a).ToList();
                 if (header.OriginatorCode.Trim() == requser)
@@ -1209,6 +1214,7 @@ namespace Megasoft2.Controllers
                 var requser = User.ReqPrefix;
                 bool isAdmin = User.Administrator;
                 var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
+                var ReqDetailHolder = wdb.sp_mtReqGetRequisitionLines(Requisition, requser, Username, Company).ToList();
                 var Tracking = (from a in mdb.mtReqRoutingTrackings where a.Requisition == Requisition && a.RoutedTo == requser && a.Company == Company && a.GuidActive == "Y" select a).ToList();
                 if (header.ReqnStatus == "P")
                 {
@@ -1220,7 +1226,8 @@ namespace Megasoft2.Controllers
                     return true;
                 }
 
-                if (Tracking.Count > 0 && (header.ReqHolder != header.OriginatorCode || header.ReqnStatus == "R"))
+                //if (Tracking.Count > 0 && (header.ReqHolder != header.OriginatorCode || header.ReqnStatus == "R"))
+                if (ReqDetailHolder.Count > 0)
                 {
                     return true;
                 }
@@ -1283,10 +1290,11 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "RequisitionAltRouting")]
         public ActionResult RequisitionAltRouting(RequisitionViewModel model)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
                 var Username = HttpContext.User.Identity.Name.ToUpper();
                 var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
@@ -1392,7 +1400,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1412,7 +1420,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1450,10 +1458,11 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "RequisitionRouting")]
         public ActionResult RequisitionRouting(RequisitionViewModel model)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
                 string Username = HttpContext.User.Identity.Name.ToUpper();
                 var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 bool OkToApprove = true;
@@ -1616,7 +1625,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1636,7 +1645,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1705,11 +1714,12 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "RequisitionApproval")]
         public ActionResult RequisitionApproval(RequisitionViewModel model)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
                 string Username = HttpContext.User.Identity.Name.ToUpper();
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
                 var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
 
                 bool OkToApprove = false;
@@ -1839,7 +1849,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1873,7 +1883,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1892,12 +1902,13 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "RequisitionClear")]
         public ActionResult RequisitionClear(RequisitionViewModel model)
         {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
                 string sysGuid = sys.SysproLogin();
                 string Username = HttpContext.User.Identity.Name.ToUpper();
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
 
                 var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 if (!string.IsNullOrWhiteSpace(ReqName))
@@ -1924,7 +1935,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -1956,7 +1967,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -2066,11 +2077,12 @@ namespace Megasoft2.Controllers
         public ActionResult PostPo(RequisitionViewModel model)
         {
             ModelState.Clear();
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
                 model.Requisition = model.Header.Requisition;
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
                 string Username = HttpContext.User.Identity.Name.ToUpper();
                 var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 var LocalCurrency = (from a in mdb.mtSystemSettings where a.Id == 1 select a.LocalCurrency).FirstOrDefault();
@@ -2101,7 +2113,7 @@ namespace Megasoft2.Controllers
                                         if (!string.IsNullOrWhiteSpace(model.Requisition))
                                         {
                                             var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                                            var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                                            var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                                             model.Header = header;
                                             model.Lines = detail;
                                         }
@@ -2313,7 +2325,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -2337,7 +2349,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -2359,7 +2371,7 @@ namespace Megasoft2.Controllers
             string Username = HttpContext.User.Identity.Name.ToUpper();
             var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
             var Header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, RoutedTo, Username).ToList();
+            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, RoutedTo, Username, Company).ToList();
 
             bool CanApprove = RoutedToCanApprove(Requisition, RoutedTo);
             var RoutedByName = (from a in wdb.sp_mtReqGetRequisitionUsers() where a.UserCode == RoutedBy select a).FirstOrDefault().UserName;
@@ -2706,7 +2718,7 @@ namespace Megasoft2.Controllers
             string Username = HttpContext.User.Identity.Name.ToUpper();
             var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
             var Header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username).ToList();
+            var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username, Company).ToList();
 
 
             //Declaration
@@ -3077,7 +3089,7 @@ namespace Megasoft2.Controllers
                     ViewBag.CostCentreList = (from a in wdb.sp_mtReqGetUserCostCentres(Company).ToList() select new { CostCentre = a.CostCentre, Description = a.Description }).ToList();
                     ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, Requser, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, Requser, Username, Company).ToList();
                     if (!string.IsNullOrWhiteSpace(model.Requisition))
                     {
 
@@ -3143,7 +3155,7 @@ namespace Megasoft2.Controllers
 
                     sys.SysproLogoff(Guid);
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, Requser, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, Requser, Username, Company).ToList();
                     ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                     ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
                     ViewBag.CanRoute = CanRoute(model.Requisition);
@@ -3281,11 +3293,12 @@ namespace Megasoft2.Controllers
         public ActionResult PostHeaderCustomForms(RequisitionViewModel model)
         {
             ModelState.Clear();
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             try
             {
                 model.Requisition = model.Header.Requisition;
-                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
-                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
                 var Username = HttpContext.User.Identity.Name.ToUpper();
                 var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
@@ -3368,7 +3381,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
@@ -3389,7 +3402,7 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
-                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username).ToList();
+                    var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
                 }
