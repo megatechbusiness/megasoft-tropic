@@ -19,12 +19,17 @@ namespace Megasoft2.BusinessLogic
             {
                 var settings = (from a in wdb.mtWhseManSettings where a.SettingId == 1 select a).FirstOrDefault();
 
+                string Branch = "TROPIC";
+                decimal ExchangeRate = 0;
+                string ActionType = "A";
+
                 if (Warehouse == "**")
                 {
                     string Requisition = "";
                     string ReqError = PostRequisition(Guid, ScannedStockCode, Quantity, Warehouse, " ", Notes, ref Requisition, Company);
                     if (string.IsNullOrWhiteSpace(ReqError))
                     {
+                        PostReqCustomForm(Guid, CostCentre, Requisition, Branch, ExchangeRate, ActionType);
                         return "Created. Job linked to Requisition :" + Requisition;
                     }
                     else
@@ -94,6 +99,7 @@ namespace Megasoft2.BusinessLogic
                             string ReqError = PostRequisition(Guid, StockCode, Quantity, Warehouse, JobNumber, Notes, ref Requisition, Company);
                             if (string.IsNullOrWhiteSpace(ReqError))
                             {
+                                PostReqCustomForm(Guid, CostCentre, Requisition, Branch, ExchangeRate, ActionType);
                                 return "Posted successfully. Job : " + JobNumber + " Created. Job linked to Requisition :" + Requisition;
                             }
                             else
@@ -115,6 +121,131 @@ namespace Megasoft2.BusinessLogic
                 {
                     return "Failed to create Job. " + ErrorMessage;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string PostReqCustomForm(string Guid, string CostCentre, string Requisition, string Branch, decimal ExchangeRate, string ActionType)
+        {
+            try
+            {
+
+                //SYSPRO 6.1
+
+                //Declaration
+                //StringBuilder Document = new StringBuilder();
+
+                ////Building Document content
+                //Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                //Document.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
+                //Document.Append("<!--");
+                //Document.Append("Sample XML for the Custom Form Setup Business Object");
+                //Document.Append("-->");
+                //Document.Append("<SetupCustomForm xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"COMSFMDOC.XSD\">");
+                //Document.Append("<Item>");
+                //Document.Append("<Key>");
+                //Document.Append("<FormType>REQ</FormType>");
+                //Document.Append("<KeyField><![CDATA[" + Requisition + "]]></KeyField>");
+                //Document.Append("<FieldName>COS001</FieldName>");
+                //Document.Append("</Key>");
+                //Document.Append("<AlphaValue><![CDATA[" + CostCentre + "]]></AlphaValue>");
+                //Document.Append("</Item>");
+
+                //Document.Append("<Item>");
+                //Document.Append("<Key>");
+                //Document.Append("<FormType>REQ</FormType>");
+                //Document.Append("<KeyField><![CDATA[" + Requisition + "]]></KeyField>");
+                //Document.Append("<FieldName>BRA001</FieldName>");
+                //Document.Append("</Key>");
+                //Document.Append("<AlphaValue><![CDATA[" + Branch + "]]></AlphaValue>");
+                //Document.Append("</Item>");
+
+                //Document.Append("<Item>");
+                //Document.Append("<Key>");
+                //Document.Append("<FormType>REQ</FormType>");
+                //Document.Append("<KeyField><![CDATA[" + Requisition + "]]></KeyField>");
+                //Document.Append("<FieldName>EXC001</FieldName>");
+                //Document.Append("</Key>");
+                //Document.Append("<AlphaValue><![CDATA[" + ExchangeRate + "]]></AlphaValue>");
+                //Document.Append("</Item>");
+
+                //Document.Append("</SetupCustomForm>");
+
+                ////Declaration
+                //StringBuilder Parameter = new StringBuilder();
+
+                ////Building Parameter content
+                //Parameter.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                //Parameter.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
+                //Parameter.Append("<!--");
+                //Parameter.Append("Sample XML for the Custom Form Setup Business Object");
+                //Parameter.Append("-->");
+                //Parameter.Append("<SetupCustomForm xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"COMSFM.XSD\">");
+                //Parameter.Append("<Parameters>");
+                //Parameter.Append("<ValidateOnly>N</ValidateOnly>");
+                //Parameter.Append("</Parameters>");
+                //Parameter.Append("</SetupCustomForm>");
+
+                //string XmlOut = sys.SysproSetupAdd(Guid, Parameter.ToString(), Document.ToString(), "COMSFM");
+                //return sys.GetXmlErrors(XmlOut);
+
+
+                ////SYSPRO 7
+
+                ////Declaration
+                StringBuilder Document = new StringBuilder();
+                CostCentre = "MAIN";
+                Branch = "TROPIC";
+                ExchangeRate = 0;
+                ActionType = "A";
+
+                //Building Document content
+                Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                Document.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
+                Document.Append("<!--");
+                Document.Append("Sample XML for the Custom Form Post Business Object");
+                Document.Append("-->");
+                Document.Append("<PostCustomForm xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"COMTFMDOC.XSD\">");
+                Document.Append("<Item>");
+                Document.Append("<Key>");
+                Document.Append("<FormType>REQ</FormType>");
+                Document.Append("<KeyFields>");
+                Document.Append("<Requisition><![CDATA[" + Requisition + "]]></Requisition>");
+                Document.Append("</KeyFields>");
+                Document.Append("</Key>");
+                Document.Append("<Fields>");
+                Document.Append("<CostCentre><![CDATA[" + CostCentre + "]]></CostCentre>");
+                Document.Append("<Branch><![CDATA[" + Branch + "]]></Branch>");
+                Document.Append("<ExchangeRate><![CDATA[" + ExchangeRate + "]]></ExchangeRate>");
+                Document.Append("</Fields>");
+                Document.Append("</Item>");
+                Document.Append("</PostCustomForm>");
+
+                //Declaration
+                StringBuilder Parameter = new StringBuilder();
+
+                //Building Parameter content
+                Parameter.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                Parameter.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
+                Parameter.Append("<!--");
+                Parameter.Append("Sample XML for the Parameters used in the Custom Form Post Business Object");
+                Parameter.Append("-->");
+                Parameter.Append("<PostCustomForm xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"COMTFM.XSD\">");
+                Parameter.Append("<Parameters>");
+                Parameter.Append("<Function>" + ActionType + "</Function>");
+                Parameter.Append("<ValidateOnly>N</ValidateOnly>");
+                Parameter.Append("<ApplyIfEntireDocumentValid>N</ApplyIfEntireDocumentValid>");
+                Parameter.Append("</Parameters>");
+                Parameter.Append("</PostCustomForm>");
+
+
+
+                string XmlOut = sys.SysproPost(Guid, Parameter.ToString(), Document.ToString(), "COMTFM");
+                return sys.GetXmlErrors(XmlOut);
+
             }
             catch (Exception ex)
             {
@@ -455,6 +586,34 @@ namespace Megasoft2.BusinessLogic
                 //Declaration
                 StringBuilder Document = new StringBuilder();
 
+                var newName = Operator.Split('-');
+                string prefix = newName[1].Substring(0, 1);
+
+                var splitBySpace = newName[1].Split(' ');
+
+                List<string> x = new List<string>();
+
+                foreach (var item in splitBySpace)
+                {
+                    if (!item.Contains('('))
+                    {
+                        x.Add(item);
+                    }
+                }
+
+                var newOperator = "";
+
+                if (x.Count == 1)
+                {
+                    newOperator = x[0];
+                }
+
+                else
+                {
+                    newOperator = prefix + ". " + x[x.Count - 1];
+                }
+                
+
                 //Building Document content
                 Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
                 Document.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
@@ -470,7 +629,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<StockCode><![CDATA[" + StockCode + "]]></StockCode>");
                 Document.Append("<Line>00</Line>");
                 Document.Append("<QtyIssued><![CDATA[" + Quantity + "]]></QtyIssued>");
-                Document.Append("<Reference><![CDATA[" + WorkCentre + "-" + Operator + "]]></Reference>");
+                Document.Append("<Reference><![CDATA[" + WorkCentre + "-" + newOperator + "]]></Reference>");
                 Document.Append("<Notation><![CDATA[" + WorkCentre + "-" + Operator + "]]></Notation>");
                 //Document.Append("<LedgerCode>00-4530</LedgerCode>");
                 //Document.Append("<PasswordForLedgerCode />");
@@ -628,7 +787,7 @@ namespace Megasoft2.BusinessLogic
                 if (string.IsNullOrWhiteSpace(ErrorMessage))
                 {
                     Requisition = sys.GetFirstXmlValue(XmlOut, "Requisition");
-                    ReqRouting(Requisition, Company, Username);
+                    ReqRouting(Guid, Requisition, Company, Username);
                 }
 
                 return ErrorMessage;
@@ -639,7 +798,7 @@ namespace Megasoft2.BusinessLogic
             }
         }
 
-        public string ReqRouting(string Requisition, string Company, string Username)
+        public string ReqRouting(string sysGuid, string Requisition, string Company, string Username)
         {
             var Tracking = (from a in mdb.mtReqRoutingTrackings where a.Requisition == Requisition && a.Company == Company && a.GuidActive == "Y" select a).ToList();
             var reqheader = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
@@ -648,7 +807,7 @@ namespace Megasoft2.BusinessLogic
                         select a).ToList();
             if (reqheader != null)
             {
-                string sysGuid = sys.SysproLogin();
+               
 
                 //Declaration
                 StringBuilder Document = new StringBuilder();
@@ -693,7 +852,7 @@ namespace Megasoft2.BusinessLogic
 
 
                 string XmlOut = sys.SysproPost(sysGuid, Parameter.ToString(), Document.ToString(), "PORTRR");
-                sys.SysproLogoff(sysGuid);
+                
                 string ErrorMessage = sys.GetXmlErrors(XmlOut);
                 if (string.IsNullOrWhiteSpace(ErrorMessage))
                 {

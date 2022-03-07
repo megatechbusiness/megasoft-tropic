@@ -239,15 +239,14 @@
 
                             }
 
-                            @if (ViewBag.CanRoute == false)
-                            {
-                                if (ViewBag.CanAlternateRoute == true)
+                        
+                                @if (ViewBag.CanAlternateRoute == true)
                                 {
                                     <a id="btnRoute" href="@Url.Action("RequisitionAltRouting", "Requisition", new { Requisition = @Model.Header.Requisition })" class="modal-link btn btn-primary btn-sm">
                                         <span class="fa fa-envelope-square" aria-hidden="true" title="Route"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  Route</span></span>
                                     </a>
                                 }
-                            }
+                            
 
 
                             @if (Model != null)
