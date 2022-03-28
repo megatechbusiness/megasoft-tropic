@@ -269,7 +269,7 @@ namespace Megasoft2.BusinessLogic
             try
             {
                 detail = (from a in detail where a.PostFlag == true select a).OrderBy(a => a.Line).ToList();
-                if (detail.Count>0)
+                if (detail.Count > 0)
                 {
                     string XmlOut, ErrorMessage;
                     string Guid = sys.SysproLogin();
@@ -285,7 +285,7 @@ namespace Megasoft2.BusinessLogic
                     Document.Append("<PostInvExpenseIssues xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"INVTMEDOC.XSD\">");
 
 
-                   
+
                     //var GlCode = (from a in wdb.mtExpenseIssueMatrices where a.CostCentre == CostCentre && a.WorkCentre == WorkCentre && a.ProductClass == TraceableType.ProductClass select a.GlCode).FirstOrDefault();
 
 
@@ -295,7 +295,7 @@ namespace Megasoft2.BusinessLogic
                         var MultiBins = (from a in wdb.vw_InvWhControl where a.Warehouse.Equals(PoLine.MWarehouse) select a.UseMultipleBins).FirstOrDefault();
                         var TraceableType = (from a in wdb.InvMasters where a.StockCode.Equals(item.StockCode) select new { TraceableType = a.TraceableType, SerialMethod = a.SerialMethod, ProductClass = a.ProductClass }).FirstOrDefault();
                         var DirectExpese = wdb.mt_DirectExpenseByStockCode(item.StockCode).FirstOrDefault();
-                        if (DirectExpese!=null)
+                        if (DirectExpese != null)
                         {
                             if (DirectExpese.DirectExpenseIssue == "Y")
                             {
@@ -358,7 +358,7 @@ namespace Megasoft2.BusinessLogic
                                 //}
 
 
-                                var Reference = PoLine.MWarehouse + "-" + item.StockCode;
+                                var Reference = PoLine.PurchaseOrder + "-" + item.Line;
                                 if (!string.IsNullOrWhiteSpace(Reference))
                                 {
                                     if (Reference.Length > 30)
@@ -375,12 +375,12 @@ namespace Megasoft2.BusinessLogic
                                 Document.Append("</Item>");
                             }
                         }
-                        
+
                         else
                         {
                             return "Stock Not Flagged As Direct Expense";
                         }
-                        
+
                     }
 
 
@@ -415,7 +415,7 @@ namespace Megasoft2.BusinessLogic
                     if (string.IsNullOrEmpty(ErrorMessage))
                     {
                         string Journal = sys.GetXmlValue(XmlOut, "Journal");
-                        ErrorMessage = "Direct Expense Issue Posted Successfully! Journal: "+ Journal;
+                        ErrorMessage = "Direct Expense Issue Posted Successfully! Journal: " + Journal;
                     }
                     return ErrorMessage;
                 }
@@ -617,16 +617,16 @@ namespace Megasoft2.BusinessLogic
                         Template = Template.Replace("<<SupCode>>", "");
                         Template = Template.Replace("<<Mass>>", item.ReelQuantity.ToString());
                         Template = Template.Replace("<<Mtr>>", "");
-                        if (item.Warehouse!="**")
+                        if (item.Warehouse != "**")
                         {
                             Template = Template.Replace("<<Barcode>>", item.StockCode.Trim() + "|" + "|" + item.ReelQuantity + "|0|" + item.ReelNumber.Trim() + "|" + Sup.TrimStart(new Char[] { '0' }).Trim()); //"B100|MON240560|600.5|200.678|1234567|V00123|012558"
-                            Template = Template.Replace("<<NonStocked>>", "");                            
+                            Template = Template.Replace("<<NonStocked>>", "");
                         }
                         else
                         {
                             Template = Template.Replace("<<Barcode>>", ""); //"B100|MON240560|600.5|200.678|1234567|V00123|012558"
                             Template = Template.Replace("<<NonStocked>>", "**Non-Stocked**");
-                            
+
 
                         }
                         Template = Template.Replace("<<NoOfLabels>>", item.NoOfLables.ToString().Trim());
@@ -826,12 +826,12 @@ namespace Megasoft2.BusinessLogic
                         }
 
                         string Template = reader.ReadToEnd();
-                        if (Department=="Bag")
+                        if (Department == "Bag")
                         {
                             var PrintFlag = (from a in wdb.mt_GetFlagPrintTropicHeader(JobDetail.StockCode) select a).FirstOrDefault();
-                            if (PrintFlag!=null)
+                            if (PrintFlag != null)
                             {
-                                if (PrintFlag.PrintTropicHeader=="YES")
+                                if (PrintFlag.PrintTropicHeader == "YES")
                                 {
                                     Template = Template.Replace("<<HEADER>>", "TROPIC PLASTIC (PTY) LTD");
                                     Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
