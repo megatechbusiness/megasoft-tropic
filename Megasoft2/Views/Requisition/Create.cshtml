@@ -396,7 +396,7 @@
                                             <a href="@Url.Action("PurchaseHistory", new {StockCode=line.StockCode })" class="modal-link btn btn-info btn-xs text-center" style="background-color: lightslategrey;"><span class="fa fa-history"></span></a>
                                         </td>
                                         <td>
-                                            <a href="@Url.Action("QuantityOnHand", new {StockCode=line.StockCode })" class="modal-link btn btn-info btn-xs text-center" style="background-color: lightslategrey;"><span class="fa fa-history"></span></a>
+                                            <a href="@Url.Action("QuantityOnHand", new {StockCode=line.StockCode })" class="modal-link text-center" ><span> @string.Format("{0: ## ###.00}", line.TotalOnHand)</span></a>
                                         </td>
 
                                         <td>

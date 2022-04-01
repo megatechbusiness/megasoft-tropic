@@ -13528,6 +13528,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="AnalysisCodes" Nullable="true" MaxLength="524" />
           <Property Type="String" Name="AnalysisRequired" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="PoComment" Nullable="true" MaxLength="Max" />
+          <Property Type="Decimal" Name="TotalOnHand" Nullable="true" Precision="38" Scale="6" />
         </ComplexType>
         <ComplexType Name="sp_mtReqGetRequisitionComments_Result">
           <Property Type="String" Name="Company" Nullable="false" MaxLength="4" />
@@ -20355,6 +20356,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="AnalysisCodes" ColumnName="AnalysisCodes" />
                 <ScalarProperty Name="AnalysisRequired" ColumnName="AnalysisRequired" />
                 <ScalarProperty Name="PoComment" ColumnName="PoComment" />
+                <ScalarProperty Name="TotalOnHand" ColumnName="TotalOnHand" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
