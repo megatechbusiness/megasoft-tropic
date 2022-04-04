@@ -531,10 +531,14 @@ namespace Megasoft2.Controllers
                     ViewBag.CanApprove = CanApprove(Requisition);
                     ViewBag.CanAlternateRoute = CanAlternateRoute(Requisition);
 
+                    //rebuild header and drop downs
                     var header = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
                     var detail = wdb.sp_mtReqGetRequisitionLines(Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
 
                     sys.SysproLogoff(Guid);
                     ModelState.AddModelError("", "Posted successfully");
@@ -1403,6 +1407,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1423,6 +1430,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1628,6 +1638,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1644,10 +1657,14 @@ namespace Megasoft2.Controllers
                 var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 if (!string.IsNullOrWhiteSpace(model.Requisition))
                 {
+                    //rebuild header and drop downs
                     var header = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1656,6 +1673,162 @@ namespace Megasoft2.Controllers
                 ViewBag.CanApprove = CanApprove(model.Requisition);
                 ViewBag.CanAlternateRoute = CanAlternateRoute(model.Requisition);
                 return View("Create", model);
+            }
+        }
+
+        public string RequisitionRoutingAfterApproval(RequisitionViewModel model)
+        {
+            HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+            var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+            try
+            {
+                string Username = HttpContext.User.Identity.Name.ToUpper();
+                var UserCode = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
+                bool OkToApprove = true;
+
+                var Tracking = (from a in mdb.mtReqRoutingTrackings where a.Requisition == model.Requisition && a.Company == Company && a.GuidActive == "Y" select a).ToList();
+                if (Tracking.Count > 0)
+                {
+                    if (Tracking.FirstOrDefault().NoOfApprovals <= 1)
+                    {
+                        OkToApprove = true;
+                        foreach (var tr in Tracking)
+                        {
+                            tr.Approved = "Y";
+                            tr.DateApproved = DateTime.Now;
+                            tr.GuidActive = "N";
+                            mdb.Entry(tr).State = System.Data.EntityState.Modified;
+                            mdb.SaveChanges();
+                        }
+                    }
+                    else if (Tracking.FirstOrDefault().NoOfApprovals > 1)
+                    {
+                        var ApprovalsOutstanding = (from a in Tracking where a.Approved == "N" select a).ToList();
+                        if (ApprovalsOutstanding.Count == 1)
+                        {
+                            OkToApprove = true; // only 1 approval outstanding which is the current approval
+                        }
+                        else
+                        {
+                            OkToApprove = false;
+                        }
+
+                        var ItemToFlag = (from a in ApprovalsOutstanding where a.RoutedTo == Username select a).FirstOrDefault();
+                        ItemToFlag.Approved = "Y";
+                        ItemToFlag.DateApproved = DateTime.Now;
+                        ItemToFlag.GuidActive = "N";
+                        mdb.Entry(ItemToFlag).State = System.Data.EntityState.Modified;
+                        mdb.SaveChanges();
+                    }
+                }
+
+                if (OkToApprove)
+                {
+                    var reqheader = wdb.sp_mtReqGetRequisitionHeader(model.Requisition).FirstOrDefault();
+                    if (reqheader != null)
+                    {
+                        string sysGuid = sys.SysproLogin();
+
+                        model.RouteNote = "Requisition Approved";
+
+                        //Declaration
+                        StringBuilder Document = new StringBuilder();
+
+                        //Building Document content
+                        Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                        Document.Append("<!-- Copyright 1994-2010 SYSPRO Ltd.-->");
+                        Document.Append("<!--");
+                        Document.Append("This is an example XML instance to demonstrate");
+                        Document.Append("use of the Requisition Route To User Posting Business Object");
+                        Document.Append("-->");
+                        Document.Append("<PostReqRoute xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"PORTRRDOC.XSD\">");
+                        Document.Append("<Item>");
+                        Document.Append("<User><![CDATA[" + reqheader.OriginatorCode + "]]></User>");
+                        Document.Append("<UserPassword/>");
+                        Document.Append("<RequisitionNumber><![CDATA[" + model.Requisition + "]]></RequisitionNumber>");
+                        Document.Append("<RequisitionLine>0</RequisitionLine>");
+                        Document.Append("<RouteToUser><![CDATA[" + model.RouteTo + "]]></RouteToUser>");
+                        Document.Append("<RouteNotation><![CDATA[" + model.RouteNote + "]]></RouteNotation>");
+                        Document.Append("</Item>");
+                        Document.Append("</PostReqRoute>");
+
+                        //Declaration
+                        StringBuilder Parameter = new StringBuilder();
+
+                        //Building Parameter content
+                        Parameter.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                        Parameter.Append("<!-- Copyright 1994-2010 SYSPRO Ltd.-->");
+                        Parameter.Append("<!--");
+                        Parameter.Append("This is an example XML instance to demonstrate");
+                        Parameter.Append("use of the Requisition Route To User Posting Business Object");
+                        Parameter.Append("There are no parameters required");
+                        Parameter.Append("-->");
+                        Parameter.Append("<PostReqRoute xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"PORTRR.XSD\">");
+                        Parameter.Append("<Parameters>");
+                        Parameter.Append("<ValidateOnly>N</ValidateOnly>");
+                        Parameter.Append("<ApplyIfEntireDocumentValid>N</ApplyIfEntireDocumentValid>");
+                        Parameter.Append("</Parameters>");
+                        Parameter.Append("</PostReqRoute>");
+
+                        string XmlOut = sys.SysproPost(sysGuid, Parameter.ToString(), Document.ToString(), "PORTRR");
+                        sys.SysproLogoff(sysGuid);
+                        string ErrorMessage = sys.GetXmlErrors(XmlOut);
+                        if (string.IsNullOrWhiteSpace(ErrorMessage))
+                        {
+                            ClearActiveTracking(model.Requisition, Company);
+                            using (var edb = new MegasoftEntities())
+                            {
+                                Guid eGuid = Guid.NewGuid();
+                                mtReqRoutingTracking obj = new mtReqRoutingTracking();
+                                obj.MegasoftGuid = eGuid;
+                                obj.Company = Company;
+                                obj.Requisition = model.Requisition;
+                                obj.Originator = reqheader.OriginatorCode.Trim();
+                                obj.RoutedTo = model.RouteTo.Trim();
+                                obj.DateRouted = DateTime.Now;
+                                obj.Username = Username;
+                                obj.RouteNote = model.RouteNote;
+                                obj.GuidActive = "Y";
+                                obj.NoOfApprovals = 1;
+                                obj.Approved = "N";
+                                obj.ProcessApiRequest = "N";
+                                edb.Entry(obj).State = System.Data.EntityState.Added;
+                                edb.SaveChanges();
+
+                                SendEmail(model.Requisition, reqheader.OriginatorCode.Trim(), model.RouteTo.Trim(), eGuid, model.RouteNote);
+                            }
+
+                            return "";
+                        }
+                        else
+                        {
+                            //Approval failed so we need last tracking to become active again
+                            using (var ldb = new MegasoftEntities())
+                            {
+                                var LastTracking = (from a in ldb.mtReqRoutingTrackings where a.Requisition == model.Requisition && a.Company == Company && a.GuidActive == "N" select a).OrderByDescending(a => a.Id).FirstOrDefault();
+                                LastTracking.GuidActive = "Y";
+                                LastTracking.Approved = "N";
+                                LastTracking.DateApproved = null;
+                                ldb.Entry(LastTracking).State = System.Data.EntityState.Modified;
+                                ldb.SaveChanges();
+                            }
+
+                            return ErrorMessage;
+                        }
+                    }
+                    else
+                    {
+                        return "Failed to get requisition details.";
+                    }
+                }
+                else
+                {
+                    return "Routing request denied due to invalid tracking information found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 
@@ -1671,12 +1844,10 @@ namespace Megasoft2.Controllers
                 HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
                 var Routing = wdb.sp_mtReqGetRouteOnUsers(Username, Company).ToList();
-
                 var ReqTotal = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault().ReqnValue;
-
                 var CostCentre = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault().CostCentre;
-
                 var SpendLimit = (from a in mdb.mtReqUserCostCentreSpendLimits where a.Company == Company && a.Username == Username && a.CostCentre == CostCentre select a.SpendLimit).FirstOrDefault();
+                var DistSetup = (from a in mdb.mtDistributionSetups where a.CompanyCode == Company select a).FirstOrDefault();
 
                 RequisitionViewModel model = new RequisitionViewModel();
                 model.Requisition = Requisition;
@@ -1696,8 +1867,11 @@ namespace Megasoft2.Controllers
                     model.RouteOn = Routing;
                 }
 
-
-
+                //allow routing to a user for Purchase Order creation
+                if (model.FinalApproval == true)
+                {
+                    ViewBag.RouteToList = (from a in wdb.sp_mtReqGetRequisitionUsers() select new { UserCode = a.UserCode, Name = a.UserName }).ToList();
+                }
 
                 return PartialView("RequisitionApproval", model);
             }
@@ -1723,6 +1897,7 @@ namespace Megasoft2.Controllers
                 var ReqName = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
 
                 bool OkToApprove = false;
+                bool OkToRoute = false;
 
                 var Tracking = (from a in mdb.mtReqRoutingTrackings where a.Requisition == model.Requisition && a.Company == Company && a.GuidActive == "Y" select a).ToList();
                 if (Tracking.Count > 0)
@@ -1760,9 +1935,6 @@ namespace Megasoft2.Controllers
                     }
                 }
 
-
-
-
                 if (OkToApprove)
                 {
                     string sysGuid = sys.SysproLogin();
@@ -1795,6 +1967,12 @@ namespace Megasoft2.Controllers
                             //JR - 2021-06-03 - Added tracking for Po creation  user. This will allow Po user to route to alternate user.
                             var RouteTo = (from a in wdb.sp_mtReqGetRequisitionUsers() where a.UserCode == ReqName select a.UserForPorder).FirstOrDefault();
 
+                            //if selected potential PO user is the same as the Requisition User's UserForPorder, then don't route.
+                            if (RouteTo != model.RouteTo)
+                            {
+                                OkToRoute = true;
+                            }
+
                             ClearActiveTracking(model.Requisition, Company);
 
                             Guid eGuid = Guid.NewGuid();
@@ -1804,7 +1982,7 @@ namespace Megasoft2.Controllers
                                 obj.MegasoftGuid = eGuid;
                                 obj.Company = Company;
                                 obj.Requisition = model.Requisition;
-                                obj.Originator = ReqName.Trim();
+                                obj.Originator = ReqHeader.Originator.Trim();
                                 obj.RoutedTo = RouteTo.Trim();
                                 obj.DateRouted = DateTime.Now;
                                 obj.Username = HttpContext.User.Identity.Name.ToUpper();
@@ -1816,6 +1994,14 @@ namespace Megasoft2.Controllers
                                 edb.SaveChanges();
                             }
 
+                            //won't route, so send an email notifying about approval
+                            if (OkToRoute == false)
+                            {
+                                if (!string.IsNullOrEmpty(RouteTo.Trim())) //only send email to PO user if they exist for the approval user
+                                {
+                                    SendEmail(model.Requisition, ReqName, RouteTo.Trim(), eGuid, model.RouteNote);
+                                }
+                            }
                         }
                         else
                         {
@@ -1832,13 +2018,34 @@ namespace Megasoft2.Controllers
 
                             ModelState.AddModelError("", ErrorMessage);
                         }
+
+                        sys.SysproLogoff(sysGuid);
+
+                        //route requisition to PO user if approval successful
+                        if (OkToRoute)
+                        {
+                            if (string.IsNullOrEmpty(ErrorMessage))
+                            {
+                                ErrorMessage = RequisitionRoutingAfterApproval(model); //route requisition to PO user
+
+                                //successfully routed
+                                if (string.IsNullOrEmpty(ErrorMessage))
+                                {
+                                    ModelState.AddModelError("", "Requisition routed.");
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("", ErrorMessage);
+                                }
+                            }
+                        }
                     }
                     else
                     {
+                        sys.SysproLogoff(sysGuid);
                         ModelState.AddModelError("", "Requisition Username not found for " + Username);
                     }
 
-                    sys.SysproLogoff(sysGuid);
                 }
                 else
                 {
@@ -1852,6 +2059,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1859,15 +2069,6 @@ namespace Megasoft2.Controllers
                 ViewBag.CanMaintainReq = CanMaintainReq(model.Requisition);
                 ViewBag.CanApprove = CanApprove(model.Requisition);
                 ViewBag.CanAlternateRoute = CanAlternateRoute(model.Requisition);
-
-                //if (model.Header.ApprovedBy == model.Header.Holder)
-                //{
-                //    return View("Create", model);
-                //}
-                //else
-                //{
-
-                //}
 
                 var reqList = wdb.sp_mtReqGetRequisitionList(ReqName, Company).ToList();
                 model.ReqList = reqList;
@@ -1886,6 +2087,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1938,6 +2142,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, ReqName, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -1970,6 +2177,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);
@@ -2352,6 +2562,9 @@ namespace Megasoft2.Controllers
                     var detail = wdb.sp_mtReqGetRequisitionLines(model.Requisition, UserCode, Username, Company).ToList();
                     model.Header = header;
                     model.Lines = detail;
+                    var CostCentreList = wdb.sp_GetUserDepartments(Company, Username).Where(a => a.Allowed == true).ToList();
+                    ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
+                    ViewBag.BranchList = (from a in wdb.sp_mtReqGetUserBranch(Company).ToList() select new { Branch = a.Branch, Description = a.Description }).ToList();
                 }
                 ViewBag.CanChangeAddress = CanCreatePo(model.Requisition);
                 ViewBag.CanCreatePo = CanCreatePo(model.Requisition);

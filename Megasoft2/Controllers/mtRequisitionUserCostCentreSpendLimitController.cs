@@ -81,6 +81,7 @@ namespace Megasoft2.Controllers
                 if (Supp == null)
                 {
                     model.UserSpendLimit.Company = Company;
+                    model.UserSpendLimit.Category = "";
                     mdb.Entry(model.UserSpendLimit).State = System.Data.EntityState.Added;
                     mdb.SaveChanges();
                 }
@@ -90,6 +91,7 @@ namespace Megasoft2.Controllers
                     Supp.SpendLimit = model.UserSpendLimit.SpendLimit;
                     Supp.Currency = model.UserSpendLimit.Currency;
                     Supp.LocalCurrency = model.UserSpendLimit.LocalCurrency;
+                    model.UserSpendLimit.Category = "";
                     mdb.Entry(Supp).State = System.Data.EntityState.Modified;
                     mdb.SaveChanges();
 
