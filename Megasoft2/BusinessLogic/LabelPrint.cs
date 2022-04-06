@@ -1412,6 +1412,22 @@ namespace Megasoft2.BusinessLogic
                             reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/JobLabel.txt").ToString());
                         }
 
+
+                        var ReelNo = "";
+                        var PrintOpRef = "";
+                        string operatorRef = "";
+
+                        if (!string.IsNullOrWhiteSpace(item.LotIssued))
+                        {
+                            var result = wdb.mt_GetProductionDetailsByLot(item.LotIssued).ToList();
+                            if (result.Count > 0)
+                            {
+                                ReelNo = result.FirstOrDefault().BatchId;
+                                PrintOpRef = result.FirstOrDefault().PrintOpReference;
+                            }
+
+                        }
+
                         string Template = reader.ReadToEnd();
                         Template = Template.Replace("<<DATE>>", DateTime.Now.Date.ToString("yyyy-MM-dd"));
                         Template = Template.Replace("<<JOBNO>>", item.Job.TrimStart(new Char[] { '0' }).Trim());
@@ -1487,6 +1503,9 @@ namespace Megasoft2.BusinessLogic
                             Template = Template.Replace("<<SUPERVISOR>>", item.Supervisor);
                             Template = Template.Replace("<<SETTER>>", item.Supervisor);
                             Template = Template.Replace("<<BAILNO>>", item.BatchId);
+                            Template = Template.Replace("<<REEL>>", ReelNo.ToString());
+                            Template = Template.Replace("<<PRINTOP>>", PrintOpRef.ToString());
+
                         }
                         reader.Close();
                         StreamWriter writer;

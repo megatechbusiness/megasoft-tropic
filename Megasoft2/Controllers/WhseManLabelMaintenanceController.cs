@@ -108,6 +108,8 @@ namespace Megasoft2.Controllers
                         {
                             obj.BatchId = result.FirstOrDefault().BatchId;
                         }
+
+                        obj.LotIssued = result.FirstOrDefault().LotIssued;
                         LabelDetail.Add(obj);
 
                         var Traceable = (from Z in wdb.WipMasters where Z.Job == Job && Z.TraceableType != "T" select Z).ToList();
