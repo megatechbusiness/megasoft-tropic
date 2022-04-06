@@ -56,7 +56,7 @@
     $(document).ready(function () {
         $('#ReqCustomFormSearch').on("click", "._stk", function () {
             var rCode = $(this).attr('id');
-            alert(rCode);
+            //alert(rCode);
             if (rCode == "Requ1") {
                 $('#Header_RequestedBy1').val($('td', this).eq(0).text().trim());
             }
