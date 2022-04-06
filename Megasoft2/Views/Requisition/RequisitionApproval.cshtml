@@ -62,6 +62,16 @@
                         </div>
 
                         <div class="form-horizontal row spacer">
+                            <label class="col-md-3 control-label input-sm-label" style="text-align:left;">Route To For PO</label>
+
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.RouteTo, new SelectList(ViewBag.RouteToList, "UserCode", "Name"), new { @class = "form-control input-sm" })
+                                @Html.HiddenFor(model => model.RouteTo)
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-horizontal row spacer">
                             <div class="col-md-3"></div>
 
                             <div class="col-md-6">
