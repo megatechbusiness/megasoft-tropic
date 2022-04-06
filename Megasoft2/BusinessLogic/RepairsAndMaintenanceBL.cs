@@ -29,7 +29,11 @@ namespace Megasoft2.BusinessLogic
                     string ReqError = PostRequisition(Guid, ScannedStockCode, Quantity, Warehouse, " ", Notes, ref Requisition, Company);
                     if (string.IsNullOrWhiteSpace(ReqError))
                     {
-                        PostReqCustomForm(Guid, CostCentre, Requisition, Branch, ExchangeRate, ActionType);
+                        string CustomFormError = PostReqCustomForm(Guid, CostCentre, Requisition, Branch, ExchangeRate, ActionType);
+                        if (!string.IsNullOrWhiteSpace(CustomFormError))
+                        {
+                            return "Created. Job linked to Requisition :" + Requisition + ". Failed to update requisition Custom Forms.";
+                        }
                         return "Created. Job linked to Requisition :" + Requisition;
                     }
                     else
@@ -99,7 +103,12 @@ namespace Megasoft2.BusinessLogic
                             string ReqError = PostRequisition(Guid, StockCode, Quantity, Warehouse, JobNumber, Notes, ref Requisition, Company);
                             if (string.IsNullOrWhiteSpace(ReqError))
                             {
-                                PostReqCustomForm(Guid, CostCentre, Requisition, Branch, ExchangeRate, ActionType);
+
+                                string CustomFormError = PostReqCustomForm(Guid, CostCentre, Requisition, Branch, ExchangeRate, ActionType);
+                                if (!string.IsNullOrWhiteSpace(CustomFormError))
+                                {
+                                    return "Posted successfully. Job : " + JobNumber + " Created. Job linked to Requisition :" + Requisition + ". Failed to update requisition Custom Forms.";
+                                }
                                 return "Posted successfully. Job : " + JobNumber + " Created. Job linked to Requisition :" + Requisition;
                             }
                             else
@@ -612,7 +621,7 @@ namespace Megasoft2.BusinessLogic
                 {
                     newOperator = prefix + ". " + x[x.Count - 1];
                 }
-                
+
 
                 //Building Document content
                 Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
@@ -807,7 +816,7 @@ namespace Megasoft2.BusinessLogic
                         select a).ToList();
             if (reqheader != null)
             {
-               
+
 
                 //Declaration
                 StringBuilder Document = new StringBuilder();
@@ -852,7 +861,7 @@ namespace Megasoft2.BusinessLogic
 
 
                 string XmlOut = sys.SysproPost(sysGuid, Parameter.ToString(), Document.ToString(), "PORTRR");
-                
+
                 string ErrorMessage = sys.GetXmlErrors(XmlOut);
                 if (string.IsNullOrWhiteSpace(ErrorMessage))
                 {
