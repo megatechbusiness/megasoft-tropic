@@ -101,7 +101,7 @@ namespace Megasoft2.Controllers
                             obj.WorkCentre = result.FirstOrDefault().WorkCentre;
                             obj.Operator = result.FirstOrDefault().Operator;
                             obj.Packer = result.FirstOrDefault().Packer;
-                            obj.QC1 = result.FirstOrDefault().QC1;
+                            obj.QC1 = result.FirstOrDefault().QC1;                            
                             obj.Reference = result.FirstOrDefault().Reference;
                         }
                         else

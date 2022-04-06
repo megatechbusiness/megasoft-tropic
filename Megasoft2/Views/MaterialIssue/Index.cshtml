@@ -656,14 +656,14 @@
                 }
 
                 if (BarcodeCheck != "P|") {
-                    document.getElementById('txtStockCode').value = StockCode;
+                    document.getElementById('txtStockCode').value = StockCode.trim();
                     document.getElementById('txtLot').value = Lot;
                     document.getElementById('txtQuantity').value = Quantity;
 
 
                     var mydata = [];
                     var myObject = new Object();
-
+                    myObject.Job = document.getElementById('txtJob').value;
                     myObject.SourceWarehouse = SourceWarehouse;
                     myObject.StockCode = StockCode;
                     myObject.LotNumber = Lot;

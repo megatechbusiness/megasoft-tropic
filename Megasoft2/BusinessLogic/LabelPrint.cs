@@ -1399,9 +1399,13 @@ namespace Megasoft2.BusinessLogic
                     foreach (var item in detail)
                     {
                         StreamReader reader;
-                        if (Department == "WICKET")
+                        if (Department == "Wicket")
                         {
                             reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WicketLabel/JobLabel.txt").ToString());
+                        }
+                        else if (Department == "WICKET")
+                        {
+                            reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WICKET/JobLabel.txt").ToString());
                         }
                         else if (Department == "BAG")
                         {
@@ -1499,6 +1503,7 @@ namespace Megasoft2.BusinessLogic
                             Template = Template.Replace("<<BAILQTY>>", BatchQty);
                             Template = Template.Replace("<<OPNO>>", item.Operator);
                             Template = Template.Replace("<<QC1>>", item.QC1);
+                            Template = Template.Replace("<<QC2>>", "");
                             Template = Template.Replace("<<PACKER>>", item.Packer);
                             Template = Template.Replace("<<SUPERVISOR>>", item.Supervisor);
                             Template = Template.Replace("<<SETTER>>", item.Supervisor);
@@ -1509,9 +1514,13 @@ namespace Megasoft2.BusinessLogic
                         }
                         reader.Close();
                         StreamWriter writer;
-                        if (Department == "WICKET")
+                        if (Department == "Wicket")
                         {
                             writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WicketLabel/JobLabelTemp.zpl").ToString(), false);
+                        }
+                        else if (Department == "WICKET")
+                        {
+                            writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WICKET/JobLabelTemp.zpl").ToString(), false);
                         }
                         else if (Department == "BAG")
                         {
@@ -1524,9 +1533,13 @@ namespace Megasoft2.BusinessLogic
                         writer.WriteLine(Template);
                         writer.Close();
                         string PrinterPath = (from a in mdb.mtLabelPrinters where a.PrinterName == Printer select a.PrinterPath).FirstOrDefault();
-                        if (Department == "WICKET")
+                        if (Department == "Wicket")
                         {
                             File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WicketLabel/JobLabelTemp.zpl").ToString(), PrinterPath, true);
+                        }
+                        else if (Department == "WICKET")
+                        {
+                            File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WICKET/JobLabelTemp.zpl").ToString(), PrinterPath, true);
                         }
                         else if (Department == "BAG")
                         {
