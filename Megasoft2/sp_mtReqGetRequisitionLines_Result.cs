@@ -51,5 +51,6 @@ namespace Megasoft2
         public string AnalysisCodes { get; set; }
         public string AnalysisRequired { get; set; }
         public string PoComment { get; set; }
+        public Nullable<decimal> TotalOnHand { get; set; }
     }
 }
