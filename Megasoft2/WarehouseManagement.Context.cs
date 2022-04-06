@@ -146,10 +146,10 @@ namespace Megasoft2
         public DbSet<mtRequisitionDeletedLine> mtRequisitionDeletedLines { get; set; }
         public DbSet<mtProductionPalletWeight> mtProductionPalletWeights { get; set; }
         public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
-        public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
         public DbSet<mtStereoSupplier> mtStereoSuppliers { get; set; }
         public DbSet<mtDispatchVerification> mtDispatchVerifications { get; set; }
         public DbSet<AdmFormControl> AdmFormControls { get; set; }
+        public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {

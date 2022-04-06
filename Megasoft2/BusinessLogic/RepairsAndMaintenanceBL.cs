@@ -1196,33 +1196,33 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<SetupInvMaster xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"INVSSTDOC.XSD\">");
                         Document.Append("<Item>");
                         Document.Append("<Key>");
-                        Document.Append("<StockCode>" + StockCode + "</StockCode>");//
+                        Document.Append("<StockCode><![CDATA[" + StockCode + "]]></StockCode>");//
                         Document.Append("</Key>");
-                        Document.Append("<Description>" + Desc + "</Description>");//
-                        Document.Append("<LongDesc>" + LongDesc + "</LongDesc>");
-                        Document.Append("<AlternateKey1>" + StockCodeCheck.AlternateKey1.ToString().Trim() + "</AlternateKey1>");
-                        Document.Append("<AlternateKey2>" + StockCodeCheck.AlternateKey2.ToString().Trim() + "</AlternateKey2>");
+                        Document.Append("<Description><![CDATA[" + Desc + "]]></Description>");//
+                        Document.Append("<LongDesc><![CDATA[" + LongDesc + "]]></LongDesc>");
+                        Document.Append("<AlternateKey1><![CDATA[" + StockCodeCheck.AlternateKey1.ToString().Trim() + "]]></AlternateKey1>");
+                        Document.Append("<AlternateKey2><![CDATA[" + StockCodeCheck.AlternateKey2.ToString().Trim() + "]]></AlternateKey2>");
                         Document.Append("<EccUser/>");
-                        Document.Append("<StockUom>" + StockCodeCheck.StockUom.ToString().Trim() + "</StockUom>");//
-                        Document.Append("<AlternateUom>" + StockCodeCheck.AlternateUom.ToString().Trim() + "</AlternateUom>");//
-                        Document.Append("<OtherUom>" + StockCodeCheck.OtherUom.ToString().Trim() + "</OtherUom>");//
-                        Document.Append("<ConvFactAltUom>" + StockCodeCheck.ConvFactAltUom.ToString().Trim() + "</ConvFactAltUom>");//
-                        Document.Append("<ConvMulDiv>" + StockCodeCheck.ConvMulDiv.ToString().Trim() + "</ConvMulDiv>");//
-                        Document.Append("<ConvFactOthUom>" + StockCodeCheck.ConvFactOthUom.ToString().Trim() + "</ConvFactOthUom>");//
-                        Document.Append("<MulDiv>" + StockCodeCheck.MulDiv.ToString().Trim() + "</MulDiv>");//
-                        Document.Append("<Mass>" + StockCodeCheck.Mass.ToString().Trim() + "</Mass>");//
-                        Document.Append("<Volume>" + StockCodeCheck.Volume.ToString().Trim() + "</Volume>");//
-                        Document.Append("<Decimals>" + StockCodeCheck.Decimals.ToString().Trim() + "</Decimals>");//
-                        Document.Append("<PriceCategory>" + StockCodeCheck.PriceCategory.ToString().Trim() + "</PriceCategory>");//
-                        Document.Append("<PriceMethod>" + StockCodeCheck.PriceMethod.ToString().Trim() + "</PriceMethod>");//
+                        Document.Append("<StockUom><![CDATA[" + StockCodeCheck.StockUom.ToString().Trim() + "]]></StockUom>");//
+                        Document.Append("<AlternateUom><![CDATA[" + StockCodeCheck.AlternateUom.ToString().Trim() + "]]></AlternateUom>");//
+                        Document.Append("<OtherUom><![CDATA[" + StockCodeCheck.OtherUom.ToString().Trim() + "]]></OtherUom>");//
+                        Document.Append("<ConvFactAltUom><![CDATA[" + StockCodeCheck.ConvFactAltUom.ToString().Trim() + "]]></ConvFactAltUom>");//
+                        Document.Append("<ConvMulDiv><![CDATA[" + StockCodeCheck.ConvMulDiv.ToString().Trim() + "]]></ConvMulDiv>");//
+                        Document.Append("<ConvFactOthUom><![CDATA[" + StockCodeCheck.ConvFactOthUom.ToString().Trim() + "]]></ConvFactOthUom>");//
+                        Document.Append("<MulDiv><![CDATA[" + StockCodeCheck.MulDiv.ToString().Trim() + "]]></MulDiv>");//
+                        Document.Append("<Mass><![CDATA[" + StockCodeCheck.Mass.ToString().Trim() + "]]></Mass>");//
+                        Document.Append("<Volume><![CDATA[" + StockCodeCheck.Volume.ToString().Trim() + "]]></Volume>");//
+                        Document.Append("<Decimals><![CDATA[" + StockCodeCheck.Decimals.ToString().Trim() + "]]></Decimals>");//
+                        Document.Append("<PriceCategory><![CDATA[" + StockCodeCheck.PriceCategory.ToString().Trim() + "]]></PriceCategory>");//
+                        Document.Append("<PriceMethod><![CDATA[" + StockCodeCheck.PriceMethod.ToString().Trim() + "]]></PriceMethod>");//
                         //Document.Append("<ReturnableItem>N</ReturnableItem>");
-                        Document.Append("<Supplier>" + StockCodeCheck.Supplier.ToString().Trim() + "</Supplier>");//
+                        Document.Append("<Supplier><![CDATA[" + StockCodeCheck.Supplier.ToString().Trim() + "]]></Supplier>");//
                         Document.Append("<CycleCount>0</CycleCount>");
-                        Document.Append("<ProductClass>" + StockCodeCheck.ProductClass.ToString().Trim() + "</ProductClass>");//
-                        Document.Append("<TaxCode>" + StockCodeCheck.TaxCode.ToString().Trim() + "</TaxCode>");//
-                        Document.Append("<OtherTaxCode>" + StockCodeCheck.OtherTaxCode.ToString().Trim() + "</OtherTaxCode>");//
+                        Document.Append("<ProductClass><![CDATA[" + StockCodeCheck.ProductClass.ToString().Trim() + "]]></ProductClass>");//
+                        Document.Append("<TaxCode><![CDATA[" + StockCodeCheck.TaxCode.ToString().Trim() + "]]></TaxCode>");//
+                        Document.Append("<OtherTaxCode><![CDATA[" + StockCodeCheck.OtherTaxCode.ToString().Trim() + "]]></OtherTaxCode>");//
                         Document.Append("<AddListPrice>Y</AddListPrice>");
-                        Document.Append("<ListPriceCode>" + StockCodeCheck.ListPriceCode.ToString().Trim() + "</ListPriceCode>");//
+                        Document.Append("<ListPriceCode><![CDATA[" + StockCodeCheck.ListPriceCode.ToString().Trim() + "]]></ListPriceCode>");//
                         //Document.Append("<SellingPrice>" + StockCodeCheck.ToString().Trim() + "</SellingPrice>");//INVPRICE JOIN ON LIST PRICE
                         //Document.Append("<PriceBasis>" + StockCodeCheck.PriceBasis.ToString().Trim() + "</PriceBasis>");//INVPRICE
                         Document.Append("<CommissionCode>0</CommissionCode>");
@@ -1230,32 +1230,32 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<SerialPrefix/>");
                         Document.Append("<SerialSuffix/>");
                         Document.Append("<KitType>N</KitType>");
-                        Document.Append("<Buyer>" + StockCodeCheck.Buyer.ToString().Trim() + "</Buyer>");//
-                        Document.Append("<Planner>" + StockCodeCheck.Planner.ToString().Trim() + "</Planner>");//
-                        Document.Append("<TraceableType>" + StockCodeCheck.TraceableType.ToString().Trim() + "</TraceableType>");//
-                        Document.Append("<InspectionFlag>" + StockCodeCheck.InspectionFlag.ToString().Trim() + "</InspectionFlag>");//
-                        Document.Append("<MpsFlag>" + StockCodeCheck.MpsFlag.ToString().Trim() + "</MpsFlag>");//
+                        Document.Append("<Buyer><![CDATA[" + StockCodeCheck.Buyer.ToString().Trim() + "]]></Buyer>");//
+                        Document.Append("<Planner><![CDATA[" + StockCodeCheck.Planner.ToString().Trim() + "]]></Planner>");//
+                        Document.Append("<TraceableType><![CDATA[" + StockCodeCheck.TraceableType.ToString().Trim() + "]]></TraceableType>");//
+                        Document.Append("<InspectionFlag><![CDATA[" + StockCodeCheck.InspectionFlag.ToString().Trim() + "]]></InspectionFlag>");//
+                        Document.Append("<MpsFlag><![CDATA[" + StockCodeCheck.MpsFlag.ToString().Trim() + "]]></MpsFlag>");//
                         Document.Append("<BulkIssueFlag>N</BulkIssueFlag>");
-                        Document.Append("<LeadTime>" + StockCodeCheck.LeadTime.ToString().Trim() + "</LeadTime>");//
+                        Document.Append("<LeadTime><![CDATA[" + StockCodeCheck.LeadTime.ToString().Trim() + "]]></LeadTime>");//
                         Document.Append("<StockMovementReq>Y</StockMovementReq>");
                         Document.Append("<ClearingFlag>N</ClearingFlag>");
                         Document.Append("<SupercessionDate></SupercessionDate>");
                         Document.Append("<AbcAnalysisReq>Y</AbcAnalysisReq>");
                         Document.Append("<AbcCostingReq>N</AbcCostingReq>");
                         Document.Append("<ManualCostFlag>N</ManualCostFlag>");
-                        Document.Append("<CostUom>" + StockCodeCheck.CostUom.ToString().Trim() + "</CostUom>");//
+                        Document.Append("<CostUom><![CDATA[" + StockCodeCheck.CostUom.ToString().Trim() + "]]></CostUom>");//
                         Document.Append("<MinPricePct/>");
                         Document.Append("<LabourCost/>");
                         Document.Append("<MaterialCost/>");
                         Document.Append("<FixOverhead/>");
                         Document.Append("<SubContractCost/>");
                         Document.Append("<VariableOverhead/>");
-                        Document.Append("<PartCategory>" + StockCodeCheck.PartCategory.ToString().Trim() + "</PartCategory>");//
+                        Document.Append("<PartCategory><![CDATA[" + StockCodeCheck.PartCategory.ToString().Trim() + "]]></PartCategory>");//
                         Document.Append("<DrawOfficeNum/>");
-                        Document.Append("<WarehouseToUse>" + StockCodeCheck.WarehouseToUse.ToString().Trim() + "</WarehouseToUse>");//CHECK PRESS RETURN
-                        Document.Append("<BuyingRule>" + StockCodeCheck.BuyingRule.ToString().Trim() + "</BuyingRule>");//
-                        Document.Append("<SpecificGravity>" + StockCodeCheck.SpecificGravity.ToString().Trim() + "</SpecificGravity>");//
-                        Document.Append("<Ebq>" + StockCodeCheck.Ebq.ToString().Trim() + "</Ebq>");//
+                        Document.Append("<WarehouseToUse><![CDATA[" + StockCodeCheck.WarehouseToUse.ToString().Trim() + "]]></WarehouseToUse>");//CHECK PRESS RETURN
+                        Document.Append("<BuyingRule><![CDATA[" + StockCodeCheck.BuyingRule.ToString().Trim() + "]]></BuyingRule>");//
+                        Document.Append("<SpecificGravity><![CDATA[" + StockCodeCheck.SpecificGravity.ToString().Trim() + "]]></SpecificGravity>");//
+                        Document.Append("<Ebq><![CDATA[" + StockCodeCheck.Ebq.ToString().Trim() + "]]></Ebq>");//
                         Document.Append("<FixTimePeriod>1</FixTimePeriod>");
                         Document.Append("<PanSize>0.000</PanSize>");
                         Document.Append("<DockToStock>0</DockToStock>");
@@ -1295,9 +1295,9 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<ProductGroup/>");
                         Document.Append("<PriceType/>");
                         Document.Append("<Basis/>");
-                        Document.Append("<ManufactureUom>" + StockCodeCheck.ManufactureUom.ToString().Trim() + "</ManufactureUom>");//
-                        Document.Append("<ConvFactMuM>" + StockCodeCheck.ConvFactMuM.ToString().Trim() + "</ConvFactMuM>");//
-                        Document.Append("<ManMulDiv>" + StockCodeCheck.ManMulDiv.ToString().Trim() + "</ManMulDiv>");//
+                        Document.Append("<ManufactureUom><![CDATA[" + StockCodeCheck.ManufactureUom.ToString().Trim() + "]]></ManufactureUom>");//
+                        Document.Append("<ConvFactMuM><![CDATA[" + StockCodeCheck.ConvFactMuM.ToString().Trim() + "]]></ConvFactMuM>");//
+                        Document.Append("<ManMulDiv><![CDATA[" + StockCodeCheck.ManMulDiv.ToString().Trim() + "]]></ManMulDiv>");//
                         //Document.Append("<PhantomIfComp/>");
                         //Document.Append("<AltMethodFlag/>");
                         //Document.Append("<AltSisoFlag/>");
@@ -1374,14 +1374,14 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<SetupInvWarehouse xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"INVSWSDOC.XSD\">");
                 Document.Append("<Item>");
                 Document.Append("<Key>");
-                Document.Append("<StockCode>" + StockCode + "</StockCode>");
-                Document.Append("<Warehouse>" + Warehouse + "</Warehouse>");
+                Document.Append("<StockCode><![CDATA[" + StockCode + "]]></StockCode>");
+                Document.Append("<Warehouse><![CDATA[" + Warehouse + "]]></Warehouse>");
                 Document.Append("</Key>");
                 Document.Append("<CostMultiplier>1.000</CostMultiplier>");
                 Document.Append("<MinimumQty/>");
                 Document.Append("<MaximumQty/>");
                 Document.Append("<UnitCost>0</UnitCost>");
-                Document.Append("<DefaultBin>" + Warehouse + "</DefaultBin>");
+                Document.Append("<DefaultBin><![CDATA[" + Warehouse + "]]></DefaultBin>");
                 Document.Append("<SafetyStockQty/>");
                 Document.Append("<ReOrderQty/>");
                 Document.Append("<PalletQty/>");

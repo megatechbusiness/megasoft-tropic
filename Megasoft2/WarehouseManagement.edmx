@@ -2866,6 +2866,8 @@
           <Property Name="RepairsAndMaintenanceJobClass" Type="varchar" MaxLength="10" />
           <Property Name="PrintLabelOnMaterialIssueReturn" Type="bit" />
           <Property Name="DispatchNoteVerification" Type="bit" Nullable="false" />
+          <Property Name="JobNumberPadZeros" Type="bit" />
+          <Property Name="MaterialIssueValidateComponent" Type="bit" />
         </EntityType>
         <EntityType Name="mtWmsDeletedItems">
           <Key>
@@ -7751,7 +7753,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <FunctionImport Name="mt_GetFlagPrintTropicHeader" ReturnType="Collection(WarehouseManagementModel.mt_GetFlagPrintTropicHeader_Result)">
           <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
           <FunctionImport Name="mt_InvQueryStockCodeDetails" ReturnType="Collection(WarehouseManagementModel.mt_InvQueryStockCodeDetails_Result)">
           <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
@@ -7770,6 +7771,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="AdmFormControls" EntityType="WarehouseManagementModel.AdmFormControl" />
+          <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14315,26 +14317,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="InvoiceDim" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="BarCode" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <EntityType Name="mtWhseManSetting">
-          <Key>
-            <PropertyRef Name="SettingId" />
-          </Key>
-          <Property Name="SettingId" Type="Int32" Nullable="false" />
-          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
-          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
-          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
-          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
-          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
-          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
-          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
-          <Property Name="MaterCardMultimediaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="RepairsAndMaintenanceJobClass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PrintLabelOnMaterialIssueReturn" Type="Boolean" />
-          <Property Name="DispatchNoteVerification" Type="Boolean" Nullable="false" />
-        </EntityType>
         <ComplexType Name="mt_InvQueryStockCodeDetails_Result">
           <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
@@ -14421,6 +14403,28 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="ColumnName" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
           <Property Name="IndexFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="mtWhseManSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="Int32" Nullable="false" />
+          <Property Name="TransferInScanItem" Type="Boolean" Nullable="false" />
+          <Property Name="ShortagesAllowedForKits" Type="Boolean" Nullable="false" />
+          <Property Name="LabelDateFormat" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="JobLabelAddField1" Type="Boolean" Nullable="false" />
+          <Property Name="PalletNoReq" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultPalletNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PostLabour" Type="Boolean" Nullable="false" />
+          <Property Name="PostMaterialIssue" Type="Boolean" Nullable="false" />
+          <Property Name="JobReceiptTolerance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="SalesReleaseAutoAllocation" Type="Boolean" Nullable="false" />
+          <Property Name="MaterCardMultimediaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RepairsAndMaintenanceJobClass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PrintLabelOnMaterialIssueReturn" Type="Boolean" />
+          <Property Name="DispatchNoteVerification" Type="Boolean" Nullable="false" />
+          <Property Name="JobNumberPadZeros" Type="Boolean" />
+          <Property Name="MaterialIssueValidateComponent" Type="Boolean" />
         </EntityType>
 
       </Schema>
@@ -21148,27 +21152,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="mtWhseManSettings">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWhseManSetting">
-              <MappingFragment StoreEntitySet="mtWhseManSettings">
-                <ScalarProperty Name="DispatchNoteVerification" ColumnName="DispatchNoteVerification" />
-                <ScalarProperty Name="PrintLabelOnMaterialIssueReturn" ColumnName="PrintLabelOnMaterialIssueReturn" />
-                <ScalarProperty Name="RepairsAndMaintenanceJobClass" ColumnName="RepairsAndMaintenanceJobClass" />
-                <ScalarProperty Name="MaterCardMultimediaPath" ColumnName="MaterCardMultimediaPath" />
-                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
-                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
-                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
-                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
-                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
-                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
-                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
-                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
-                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
-                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
-                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_mtReqGetRequisitionHeaderCustomForm" FunctionName="WarehouseManagementModel.Store.sp_mtReqGetRequisitionHeaderCustomForm">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.sp_mtReqGetRequisitionHeaderCustomForm_Result">
@@ -21266,6 +21249,29 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
                 <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
                 <ScalarProperty Name="FormType" ColumnName="FormType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtWhseManSettings">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWhseManSetting">
+              <MappingFragment StoreEntitySet="mtWhseManSettings">
+                <ScalarProperty Name="MaterialIssueValidateComponent" ColumnName="MaterialIssueValidateComponent" />
+                <ScalarProperty Name="JobNumberPadZeros" ColumnName="JobNumberPadZeros" />
+                <ScalarProperty Name="DispatchNoteVerification" ColumnName="DispatchNoteVerification" />
+                <ScalarProperty Name="PrintLabelOnMaterialIssueReturn" ColumnName="PrintLabelOnMaterialIssueReturn" />
+                <ScalarProperty Name="RepairsAndMaintenanceJobClass" ColumnName="RepairsAndMaintenanceJobClass" />
+                <ScalarProperty Name="MaterCardMultimediaPath" ColumnName="MaterCardMultimediaPath" />
+                <ScalarProperty Name="SalesReleaseAutoAllocation" ColumnName="SalesReleaseAutoAllocation" />
+                <ScalarProperty Name="JobReceiptTolerance" ColumnName="JobReceiptTolerance" />
+                <ScalarProperty Name="PostMaterialIssue" ColumnName="PostMaterialIssue" />
+                <ScalarProperty Name="PostLabour" ColumnName="PostLabour" />
+                <ScalarProperty Name="DefaultPalletNo" ColumnName="DefaultPalletNo" />
+                <ScalarProperty Name="PalletNoReq" ColumnName="PalletNoReq" />
+                <ScalarProperty Name="JobLabelAddField1" ColumnName="JobLabelAddField1" />
+                <ScalarProperty Name="LabelDateFormat" ColumnName="LabelDateFormat" />
+                <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
+                <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
