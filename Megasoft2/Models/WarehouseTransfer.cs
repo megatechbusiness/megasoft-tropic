@@ -15,7 +15,8 @@ namespace Megasoft2.Models
         public string LotNumber { get; set; }
         public string DestinationWarehouse { get; set; }
         public string DestinationBin { get; set; }
-        
+        public string Job { get; set; }
+        public string Reference { get; set; }
     }
 
     

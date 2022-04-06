@@ -29,5 +29,7 @@ namespace Megasoft2
         public string RepairsAndMaintenanceJobClass { get; set; }
         public Nullable<bool> PrintLabelOnMaterialIssueReturn { get; set; }
         public bool DispatchNoteVerification { get; set; }
+        public Nullable<bool> JobNumberPadZeros { get; set; }
+        public Nullable<bool> MaterialIssueValidateComponent { get; set; }
     }
 }

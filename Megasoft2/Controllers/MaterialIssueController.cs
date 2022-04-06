@@ -485,37 +485,36 @@ namespace Megasoft2.Controllers
                                 {
                                     return "Lot " + item.LotNumber + " not found for StockCode " + item.StockCode + " in Warehouse " + item.SourceWarehouse + "!";
                                 }
-                                else
-                                {
-                                    //var LotQtyCheck = db.LotDetails.Where(a => a.StockCode.Equals(item.StockCode)
-                                    //                                        && a.Warehouse.Equals(item.SourceWarehouse)
-                                    //                                        && a.Lot.Equals(item.LotNumber)
-                                    //                                      ).Select(a => a.QtyOnHand).Sum();
-                                    //if (LotQtyCheck < item.Quantity)
-                                    //{
-                                    //    return "Quantity on hand is less than Quantity to transfer for Lot " + item.LotNumber + "!";
-                                    //}
-                                    //else
-                                    //{
-                                    return "";
-                                    //}
-                                }
+                            }
+                        }
+
+                        var AppSettings = (from a in db.mtWhseManSettings where a.SettingId == 1 select a).FirstOrDefault();
+                        string Job = "";
+
+                        if (AppSettings.MaterialIssueValidateComponent == true)
+                        {
+                            if (AppSettings.JobNumberPadZeros == true)
+                            {
+                                Job = item.Job.PadLeft(15, '0');
+                            }
+                            else
+                            {
+                                Job = item.Job;
+                            }
+                            var ComponentCheck = (from a in db.WipJobAllMats where a.Job == Job && a.StockCode == item.StockCode select a).FirstOrDefault();
+
+                            if (ComponentCheck == null)
+                            {
+                                return "Component: " + item.StockCode + " Not Found Against Job Allocation:" + Job + " !";
+                            }
+                            else
+                            {
+                                return "";
                             }
                         }
                         else
                         {
-                            //StockCode is not Traceable -- Check Quantity
-                            //var QtyCheck = db.InvWarehouses.Where(a => a.StockCode.Equals(item.StockCode)
-                            //                                              && a.Warehouse.Equals(item.SourceWarehouse)
-                            //                                              ).Select(a => a.QtyOnHand).Sum();
-                            //if (QtyCheck < item.Quantity)
-                            //{
-                            //    return "Quantity on hand is less than Quantity to transfer for StockCode " + item.StockCode + "!";
-                            //}
-                            //else
-                            //{
                             return "";
-                            //}
                         }
                     }
                 }
