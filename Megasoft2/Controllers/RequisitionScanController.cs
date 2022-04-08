@@ -408,7 +408,7 @@ namespace Megasoft2.Controllers
                 ViewBag.CostCentreList = new SelectList(CostCentreList.ToList(), "CostCentre", "Description");
                 var requser = (from a in mdb.mtUsers where a.Username == Username select a.ReqPrefix).FirstOrDefault();
                 ViewBag.Holder = from a in db.sp_mtReqGetRequisitionList(requser, Company) select new { Holder = a.Holder };
-                var code = (from a in db.sp_mtReqGetRouteOnUsers(Username, Company)
+                var code = (from a in db.sp_mtReqGetRouteOnUsers(Username, Company, null, null)
                             where a.Username == Username
                             select a).ToList();
 

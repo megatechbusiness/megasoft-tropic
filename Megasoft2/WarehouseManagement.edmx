@@ -5387,6 +5387,8 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
         <Function Name="sp_mtReqGetRouteOnUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="varchar" Mode="In" />
           <Parameter Name="CompanyCode" Type="varchar" Mode="In" />
+          <Parameter Name="Category" Type="varchar" Mode="In" />
+          <Parameter Name="CostCentre" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_mtReqGetStockCodeDetailsByStockCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
@@ -7142,7 +7144,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="mtPalletControls" EntityType="WarehouseManagementModel.mtPalletControl" />
           <EntitySet Name="mtLabourPostControls" EntityType="WarehouseManagementModel.mtLabourPostControl" />
-          <EntitySet Name="mtShifts" EntityType="WarehouseManagementModel.mtShift" />
           <FunctionImport Name="sp_GetCostCentreControl" ReturnType="Collection(WarehouseManagementModel.sp_GetCostCentreControl_Result)">
           <Parameter Name="Date" Mode="In" Type="DateTime" />
           </FunctionImport>
@@ -7557,6 +7558,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <FunctionImport Name="sp_mtReqGetRouteOnUsers" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetRouteOnUsers_Result)">
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="CompanyCode" Mode="In" Type="String" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="CostCentre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_mtReqGetStockCodes" ReturnType="Collection(WarehouseManagementModel.sp_mtReqGetStockCodes_Result)">
             <Parameter Name="CompanyCode" Mode="In" Type="String" />
@@ -7772,6 +7775,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="AdmFormControls" EntityType="WarehouseManagementModel.AdmFormControl" />
           <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
+          <EntitySet Name="mtShifts" EntityType="WarehouseManagementModel.mtShift" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -10386,18 +10390,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="CostCentre" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Status" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="mtShift">
-          <Key>
-            <PropertyRef Name="ShiftID" />
-          </Key>
-          <Property Name="ShiftID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Shift" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="StartTime" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="EndTime" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="Reference" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
-          <Property Name="Duration" Type="Int32" />
-          <Property Name="NextDay" Type="Boolean" />
         </EntityType>
         <ComplexType Name="sp_GetCostCentreControl_Result">
           <Property Type="String" Name="CostCentre" Nullable="false" MaxLength="30" />
@@ -14426,6 +14418,18 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="JobNumberPadZeros" Type="Boolean" />
           <Property Name="MaterialIssueValidateComponent" Type="Boolean" />
         </EntityType>
+        <EntityType Name="mtShift">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+          </Key>
+          <Property Name="ShiftID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Shift" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="EndTime" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Reference" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="NextDay" Type="Boolean" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -17409,19 +17413,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="mtShifts">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtShift">
-              <MappingFragment StoreEntitySet="mtShifts">
-                <ScalarProperty Name="NextDay" ColumnName="NextDay" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="Shift" ColumnName="Shift" />
-                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -21272,6 +21263,19 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="ShortagesAllowedForKits" ColumnName="ShortagesAllowedForKits" />
                 <ScalarProperty Name="TransferInScanItem" ColumnName="TransferInScanItem" />
                 <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtShifts">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtShift">
+              <MappingFragment StoreEntitySet="mtShifts">
+                <ScalarProperty Name="NextDay" ColumnName="NextDay" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Shift" ColumnName="Shift" />
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

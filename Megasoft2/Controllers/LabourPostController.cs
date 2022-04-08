@@ -607,6 +607,25 @@ namespace Megasoft2.Controllers
                 DateTime start = Convert.ToDateTime(Date);
                 Date = start.ToString("yyyy/MM/dd");
 
+                DateTime UserEntryDate = Convert.ToDateTime(model.Date);
+
+                //check CostCentre and Date combo
+                var CostCentre = (from a in wdb.BomWorkCentres where a.WorkCentre == model.WorkCentre select a.CostCentre).FirstOrDefault();
+                var LabourPostControlCheck = (from a in wdb.mtLabourPostControls
+                                   where (a.CostCentre == CostCentre && a.Date == UserEntryDate)
+                                   select a).FirstOrDefault();
+
+                //do not allow post if already closed
+                if (LabourPostControlCheck != null)
+                {
+                    if (LabourPostControlCheck.Status == true)
+                    {
+                        ViewBag.ShiftList = (from a in wdb.mtShifts select new { Text = a.Shift, Value = a.ShiftID }).ToList();
+                        ModelState.AddModelError("", "Posting for this Department is Closed. Contact administrator.");
+                        return View("LabourPostReversal", model);
+                    }
+                }
+
                 if (dt.Rows.Count > 0)
                 {
                     string XmlOut = objSyspro.SysproPost(Guid, objLabourPost.BuildLabourPostParameter(Date), objLabourPost.BuildLabourPostReversalDocument(dt, ds), "WIPTLP");
