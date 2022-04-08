@@ -811,7 +811,7 @@ namespace Megasoft2.BusinessLogic
         {
             var Tracking = (from a in mdb.mtReqRoutingTrackings where a.Requisition == Requisition && a.Company == Company && a.GuidActive == "Y" select a).ToList();
             var reqheader = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
-            var code = (from a in wdb.sp_mtReqGetRouteOnUsers(Username, Company)
+            var code = (from a in wdb.sp_mtReqGetRouteOnUsers(Username, Company, reqheader.PurchaseCategory, reqheader.CostCentre)
                         where a.Username == Username
                         select a).ToList();
             if (reqheader != null)

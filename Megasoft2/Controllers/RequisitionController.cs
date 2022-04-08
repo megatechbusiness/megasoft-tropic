@@ -1250,8 +1250,8 @@ namespace Megasoft2.Controllers
             {
                 HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
-                var Routing = wdb.sp_mtReqGetRouteOnUsers(HttpContext.User.Identity.Name.ToUpper(), Company).ToList();
                 var ReqHeader = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault();
+                var Routing = wdb.sp_mtReqGetRouteOnUsers(HttpContext.User.Identity.Name.ToUpper(), Company, ReqHeader.PurchaseCategory, ReqHeader.CostCentre).ToList();
 
 
                 RequisitionViewModel model = new RequisitionViewModel();
@@ -1843,9 +1843,9 @@ namespace Megasoft2.Controllers
 
                 HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
-                var Routing = wdb.sp_mtReqGetRouteOnUsers(Username, Company).ToList();
                 var ReqTotal = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault().ReqnValue;
                 var CostCentre = wdb.sp_mtReqGetRequisitionHeader(Requisition).FirstOrDefault().CostCentre;
+                var Routing = wdb.sp_mtReqGetRouteOnUsers(Username, Company, null, CostCentre).ToList();
                 var SpendLimit = (from a in mdb.mtReqUserCostCentreSpendLimits where a.Company == Company && a.Username == Username && a.CostCentre == CostCentre select a.SpendLimit).FirstOrDefault();
                 var DistSetup = (from a in mdb.mtDistributionSetups where a.CompanyCode == Company select a).FirstOrDefault();
 

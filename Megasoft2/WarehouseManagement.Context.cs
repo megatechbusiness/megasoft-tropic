@@ -70,7 +70,6 @@ namespace Megasoft2
         public DbSet<mtWmsDeletedItem> mtWmsDeletedItems { get; set; }
         public DbSet<mtPalletControl> mtPalletControls { get; set; }
         public DbSet<mtLabourPostControl> mtLabourPostControls { get; set; }
-        public DbSet<mtShift> mtShifts { get; set; }
         public DbSet<PorMasterDetail_> PorMasterDetail_ { get; set; }
         public DbSet<mtMasterCardPrintingColour> mtMasterCardPrintingColours { get; set; }
         public DbSet<BomCostCentre> BomCostCentres { get; set; }
@@ -150,6 +149,7 @@ namespace Megasoft2
         public DbSet<mtDispatchVerification> mtDispatchVerifications { get; set; }
         public DbSet<AdmFormControl> AdmFormControls { get; set; }
         public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
+        public DbSet<mtShift> mtShifts { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -2657,7 +2657,7 @@ namespace Megasoft2
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRequisitionUsers_Result>("sp_mtReqGetRequisitionUsers");
         }
     
-        public virtual ObjectResult<sp_mtReqGetRouteOnUsers_Result> sp_mtReqGetRouteOnUsers(string username, string companyCode)
+        public virtual ObjectResult<sp_mtReqGetRouteOnUsers_Result> sp_mtReqGetRouteOnUsers(string username, string companyCode, string category, string costCentre)
         {
             var usernameParameter = username != null ?
                 new ObjectParameter("Username", username) :
@@ -2667,7 +2667,15 @@ namespace Megasoft2
                 new ObjectParameter("CompanyCode", companyCode) :
                 new ObjectParameter("CompanyCode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRouteOnUsers_Result>("sp_mtReqGetRouteOnUsers", usernameParameter, companyCodeParameter);
+            var categoryParameter = category != null ?
+                new ObjectParameter("Category", category) :
+                new ObjectParameter("Category", typeof(string));
+    
+            var costCentreParameter = costCentre != null ?
+                new ObjectParameter("CostCentre", costCentre) :
+                new ObjectParameter("CostCentre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_mtReqGetRouteOnUsers_Result>("sp_mtReqGetRouteOnUsers", usernameParameter, companyCodeParameter, categoryParameter, costCentreParameter);
         }
     
         public virtual ObjectResult<sp_mtReqGetStockCodes_Result> sp_mtReqGetStockCodes(string companyCode, string costCentre, string warehouse)
