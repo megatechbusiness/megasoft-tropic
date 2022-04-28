@@ -43,6 +43,7 @@ namespace Megasoft2.Controllers
             }
         }
 
+        [CustomAuthorize(Activity: "BinTransfer")]
         public ActionResult DesktopIndex()
         {
             HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
