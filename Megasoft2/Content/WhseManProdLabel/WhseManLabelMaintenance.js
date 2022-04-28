@@ -1,7 +1,7 @@
 ﻿function LoadGrid() {
     $('#tblLines tbody').empty();
     var Job = $('#txtJob').val();
-    $.getJSON('WhseManLabelMaintenance/GetGridData?Job=' + Job, function (data) {
+    $.getJSON('/WhseManLabelMaintenance/GetGridData?Job=' + Job, function (data) {
         $.each(data, function (i, job) {
             var disabled = ""
             if (job.LabelReceipted == "Y" && job.TraceableType != 'T') {
@@ -13,16 +13,14 @@
             else {
                 $('#tblLines tbody').append("<tr><td><input type='checkbox'></td><td>" + parseInt(job.Job) + "</td><td>" + job.BatchId + "</td><td ><input type='text' class='form-control input-sm tdtextbox' style='max-width: 150px; text-align:right;' value='" + parseFloat(job.BatchQty) + "'></input></td><td>" + job.PalletNo + "</td><td><a href='#' class='delLine btn btn-danger btn-xs'  ><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line'></span></a></td></tr>");
             }
-            
+
         });
     });
 }
 
 
-function calcNoOfLabels()
-
-{
-    var Qty ='';
+function calcNoOfLabels() {
+    var Qty = '';
     if ($('#JobDetails_BatchQty').val().indexOf('=') >= 0) {
         //alert('here')
         var input = $('#JobDetails_BatchQty').val();
@@ -30,10 +28,10 @@ function calcNoOfLabels()
         Qty = BAILQTY[1];
     }
     else {
-       // alert($('#JobDetails_BatchQty').val());
+        // alert($('#JobDetails_BatchQty').val());
         Qty = $('#JobDetails_BatchQty').val();
     }
-   // alert(Qty);
+    // alert(Qty);
     var BatchQty = parseFloat(Qty);
     var ProductionQty = parseFloat($('#JobDetails_ProductionQty').val());
     if (Qty != 0 || Qty != "") { //Dont use converted variables here in case of blanks
@@ -42,31 +40,39 @@ function calcNoOfLabels()
             $('#JobDetails_NoOfLabels').val(NoOfLabels);
             var LastBatch = BatchQty;
             var TotalBatch = NoOfLabels * BatchQty;
-            if (TotalBatch != ProductionQty)
-            {
-                if (BatchQty >= ProductionQty)
-                {
+            if (TotalBatch != ProductionQty) {
+                if (BatchQty >= ProductionQty) {
                     LastBatch = ProductionQty;
                     //alert('1');
                 }
-                else
-                {
+                else {
                     LastBatch = ProductionQty - ((NoOfLabels - 1) * BatchQty);
                     //alert('2');
                 }
-                
+
             }
             $('#LastBatch').val(parseFloat(LastBatch).toFixed(2));
         }
         else {
             alert('Please enter a production quantity.');
         }
-        
+
     }
 }
 
 
 $(document).ready(function () {
+
+    $('#txtSearch').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var $rows = $('#tblLines .nr');
+        $rows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+
+
     $('#JobDetails_BatchQty').on('change', function (e) {
         calcNoOfLabels();
     });
@@ -190,9 +196,9 @@ $(document).ready(function () {
                     var Job = $tds.eq(1).text();
                     var BatchId = $tds.eq(2).text();
                     var BatchQty = $tds.eq(3).find(":input[type=text]").val();
-                 //   alert(BailQty);
-                 //   return false;
-                   
+                    //   alert(BailQty);
+                    //   return false;
+
 
                     var PrintLabel = $tds.eq(0).find("input[type='checkbox']").is(":checked");
 
@@ -209,7 +215,7 @@ $(document).ready(function () {
                 var myString = JSON.stringify({ details: JSON.stringify(mydata) });
                 var exportdata = myString;
                 $.ajax({
-                    type: "POST",                  
+                    type: "POST",
                     url: "WhseManLabelMaintenance/PrintLabel",
                     data: exportdata,
                     contentType: "application/json; charset=utf-8",
@@ -235,4 +241,3 @@ $(document).ready(function () {
     });
 });
 
-        
