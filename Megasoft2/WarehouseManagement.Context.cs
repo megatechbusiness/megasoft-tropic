@@ -3177,5 +3177,27 @@ namespace Megasoft2
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_MaterialIssueGetWorkCentreByJob_Result>("mt_MaterialIssueGetWorkCentreByJob", jobParameter);
         }
+    
+        public virtual ObjectResult<mt_ProductionGetDeletedLots_Result> mt_ProductionGetDeletedLots(string palletNo)
+        {
+            var palletNoParameter = palletNo != null ?
+                new ObjectParameter("PalletNo", palletNo) :
+                new ObjectParameter("PalletNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_ProductionGetDeletedLots_Result>("mt_ProductionGetDeletedLots", palletNoParameter);
+        }
+    
+        public virtual int mt_ProductionRestoreDeletedBatch(string job, string batchId)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            var batchIdParameter = batchId != null ?
+                new ObjectParameter("BatchId", batchId) :
+                new ObjectParameter("BatchId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("mt_ProductionRestoreDeletedBatch", jobParameter, batchIdParameter);
+        }
     }
 }

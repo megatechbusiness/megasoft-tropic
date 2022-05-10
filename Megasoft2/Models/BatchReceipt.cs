@@ -19,6 +19,8 @@ namespace Megasoft2.Models
 
         public List<sp_GetProductionReturnPalletDetails_Result> PalletDetails { get; set; }
         public List<sp_GetProductionReturnPalletDetails_Result> JobPalletDetails { get; set; }
+        public List<mt_ProductionGetDeletedLots_Result> DeletedLots { get; set; }
+        
 
         public List<sp_GetSplitPalletDetails_Result> SplitPalletDetails { get; set; }
         public List<sp_GetSplitPalletDetails_Result> PalletTransferedTo { get; set; }

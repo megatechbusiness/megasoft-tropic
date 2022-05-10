@@ -2264,6 +2264,37 @@
           <Property Name="DeletedBy" Type="varchar" MaxLength="50" />
           <Property Name="DateDeleted" Type="datetime" />
           <Property Name="TrnType" Type="varchar" MaxLength="1" />
+          <Property Name="BatchSequence" Type="int" />
+          <Property Name="GrossQty" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NetQty" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="DatePrinted" Type="datetime" />
+          <Property Name="LabelPrinted" Type="varchar" MaxLength="1" />
+          <Property Name="ReprintCount" Type="int" />
+          <Property Name="LabelReceipted" Type="varchar" MaxLength="1" />
+          <Property Name="Journal" Type="varchar" MaxLength="30" />
+          <Property Name="ReceiptedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ReceiptDate" Type="datetime" />
+          <Property Name="Customer" Type="varchar" MaxLength="15" />
+          <Property Name="Supervisor" Type="varchar" MaxLength="20" />
+          <Property Name="Operator" Type="varchar" MaxLength="200" />
+          <Property Name="Packer" Type="varchar" MaxLength="20" />
+          <Property Name="QC1" Type="varchar" MaxLength="20" />
+          <Property Name="WorkCentre" Type="varchar" MaxLength="20" />
+          <Property Name="PalletNo" Type="varchar" MaxLength="40" />
+          <Property Name="Scanned" Type="varchar" MaxLength="1" />
+          <Property Name="ScannedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ScanDate" Type="datetime" />
+          <Property Name="Core" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Tare" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Reference" Type="varchar" MaxLength="100" />
+          <Property Name="PreviousWorkCentre" Type="varchar" MaxLength="20" />
+          <Property Name="Department" Type="varchar" MaxLength="20" />
+          <Property Name="ScaleModelId" Type="int" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+          <Property Name="PrintOpReference" Type="varchar" MaxLength="50" />
+          <Property Name="LotIssued" Type="varchar" MaxLength="40" />
         </EntityType>
         <EntityType Name="mtProductionPalletWeight">
           <Key>
@@ -4557,6 +4588,9 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
         <Function Name="mt_MaterialIssueGetWorkCentreByJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Job" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="mt_ProductionGetDeletedLots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PalletNo" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="mt_ProductionLabelCalc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
           <Parameter Name="Job" Type="varchar" Mode="In" />
@@ -4566,6 +4600,10 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="Lot" Type="varchar" Mode="In" />
         </Function>
         <Function Name="mt_ProductionMaterialIssueLots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mt_ProductionRestoreDeletedBatch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+          <Parameter Name="BatchId" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_ArchiveStockTake" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Warehouse" Type="varchar" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -7776,6 +7814,13 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySet Name="AdmFormControls" EntityType="WarehouseManagementModel.AdmFormControl" />
           <EntitySet Name="mtWhseManSettings" EntityType="WarehouseManagementModel.mtWhseManSetting" />
           <EntitySet Name="mtShifts" EntityType="WarehouseManagementModel.mtShift" />
+          <FunctionImport Name="mt_ProductionGetDeletedLots" ReturnType="Collection(WarehouseManagementModel.mt_ProductionGetDeletedLots_Result)">
+          <Parameter Name="PalletNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="mt_ProductionRestoreDeletedBatch">
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="BatchId" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -10821,6 +10866,37 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="DeletedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DateDeleted" Type="DateTime" Precision="3" />
           <Property Name="TrnType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="BatchSequence" Type="Int32" />
+          <Property Name="GrossQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NetQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DatePrinted" Type="DateTime" Precision="3" />
+          <Property Name="LabelPrinted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ReprintCount" Type="Int32" />
+          <Property Name="LabelReceipted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Journal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiptedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiptDate" Type="DateTime" Precision="3" />
+          <Property Name="Customer" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Supervisor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Packer" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="QC1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PalletNo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Scanned" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ScannedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ScanDate" Type="DateTime" Precision="3" />
+          <Property Name="Core" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Tare" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PreviousWorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Department" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ScaleModelId" Type="Int32" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PrintOpReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="mtReportAutomation">
           <Key>
@@ -14430,6 +14506,13 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="Duration" Type="Int32" />
           <Property Name="NextDay" Type="Boolean" />
         </EntityType>
+        <ComplexType Name="mt_ProductionGetDeletedLots_Result">
+          <Property Type="Boolean" Name="Selected" Nullable="false" />
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="BatchId" Nullable="false" MaxLength="40" />
+          <Property Type="Decimal" Name="GrossQty" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="NetQty" Nullable="true" Precision="18" Scale="3" />
+        </ComplexType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -17915,6 +17998,37 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="mtProductionLabelsDeleteds">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionLabelsDeleted">
               <MappingFragment StoreEntitySet="mtProductionLabelsDeleted">
+                <ScalarProperty Name="LotIssued" ColumnName="LotIssued" />
+                <ScalarProperty Name="PrintOpReference" ColumnName="PrintOpReference" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="ScaleModelId" ColumnName="ScaleModelId" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="PreviousWorkCentre" ColumnName="PreviousWorkCentre" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Tare" ColumnName="Tare" />
+                <ScalarProperty Name="Core" ColumnName="Core" />
+                <ScalarProperty Name="ScanDate" ColumnName="ScanDate" />
+                <ScalarProperty Name="ScannedBy" ColumnName="ScannedBy" />
+                <ScalarProperty Name="Scanned" ColumnName="Scanned" />
+                <ScalarProperty Name="PalletNo" ColumnName="PalletNo" />
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="QC1" ColumnName="QC1" />
+                <ScalarProperty Name="Packer" ColumnName="Packer" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
+                <ScalarProperty Name="ReceiptedBy" ColumnName="ReceiptedBy" />
+                <ScalarProperty Name="Journal" ColumnName="Journal" />
+                <ScalarProperty Name="LabelReceipted" ColumnName="LabelReceipted" />
+                <ScalarProperty Name="ReprintCount" ColumnName="ReprintCount" />
+                <ScalarProperty Name="LabelPrinted" ColumnName="LabelPrinted" />
+                <ScalarProperty Name="DatePrinted" ColumnName="DatePrinted" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
+                <ScalarProperty Name="NetQty" ColumnName="NetQty" />
+                <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
+                <ScalarProperty Name="BatchSequence" ColumnName="BatchSequence" />
                 <ScalarProperty Name="TrnType" ColumnName="TrnType" />
                 <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
                 <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
@@ -21279,6 +21393,18 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_ProductionGetDeletedLots" FunctionName="WarehouseManagementModel.Store.mt_ProductionGetDeletedLots">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_ProductionGetDeletedLots_Result">
+                <ScalarProperty Name="Selected" ColumnName="Selected" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
+                <ScalarProperty Name="NetQty" ColumnName="NetQty" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_ProductionRestoreDeletedBatch" FunctionName="WarehouseManagementModel.Store.mt_ProductionRestoreDeletedBatch" />
 
         </EntityContainerMapping>
       </Mapping>

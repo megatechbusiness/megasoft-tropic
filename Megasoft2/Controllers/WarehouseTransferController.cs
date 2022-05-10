@@ -208,7 +208,7 @@ namespace Megasoft2.Controllers
 
         public JsonResult StockCodeList(string Warehouse)
         {
-            var result = (from a in db.InvWarehouses.AsNoTracking() join b in db.InvMasters on a.StockCode equals b.StockCode where a.Warehouse == Warehouse select new { MStockCode = a.StockCode, MStockDes = b.Description, MStockingUom = b.StockUom, ProductClass = b.ProductClass, WarehouseToUse = b.WarehouseToUse }).Distinct().ToList();
+            var result = (from a in db.InvWarehouses.AsNoTracking() join b in db.InvMasters on a.StockCode equals b.StockCode where  (a.Warehouse == Warehouse && b.StockOnHold == "") select new { MStockCode = a.StockCode, MStockDes = b.Description, MStockingUom = b.StockUom, ProductClass = b.ProductClass, WarehouseToUse = b.WarehouseToUse }).Distinct().ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

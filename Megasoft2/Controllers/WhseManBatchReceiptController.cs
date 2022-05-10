@@ -619,6 +619,9 @@ namespace Megasoft2.Controllers
 
         }
 
+        
+
+
         [CustomAuthorize(Activity: "SplitPallet")]
         public ActionResult SplitPallet(BatchReceipt model)
         {
@@ -819,6 +822,53 @@ namespace Megasoft2.Controllers
             {
                 throw new Exception("Failed to load pallet information report: " + ex.Message + " PalletNo: " + PalletNo);
             }
+        }
+        //ProductionLabelRestore
+
+        [CustomAuthorize(Activity: "ProductionLabelRestore")]
+        public ActionResult ProductionLabelRestore()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "ProductionLabelRestore")]
+        public ActionResult ProductionLabelRestore(BatchReceipt model)
+        {
+            //ModelState.Clear();
+            var Details = db.mt_ProductionGetDeletedLots(model.PalletNo).ToList();
+            model.DeletedLots = Details;
+            
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "PostProductionLabelRestore")]
+        public ActionResult PostProductionLabelRestore(BatchReceipt model)
+        {
+            //ModelState.Clear();
+            
+            try
+            {
+                var BatchToRestore = model.DeletedLots.Where(l => l.Selected == true).ToList();
+                
+                foreach (var line in BatchToRestore)
+                {
+                    db.mt_ProductionRestoreDeletedBatch(line.Job, line.BatchId);
+                }
+
+                var Message = "Batch Restored Successfully";
+                ModelState.AddModelError("", Message);
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+
+            return View("ProductionLabelRestore");
         }
     }
 }
