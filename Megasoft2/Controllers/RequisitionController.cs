@@ -2002,6 +2002,10 @@ namespace Megasoft2.Controllers
                                     SendEmail(model.Requisition, ReqName, RouteTo.Trim(), eGuid, model.RouteNote);
                                 }
                             }
+
+                            //S.R 2022/05/09 Added email to orignator
+                            SendEmail(model.Requisition, ReqName.Trim(), ReqOriginator.Trim(), new Guid(), "Requisition Approved.");
+
                         }
                         else
                         {

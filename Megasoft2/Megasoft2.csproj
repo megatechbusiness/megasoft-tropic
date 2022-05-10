@@ -1041,6 +1041,9 @@
     <Compile Include="mt_MaterialIssueGetWorkCentreByJob_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mt_ProductionGetDeletedLots_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="mt_ProductionLabelCalc_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
@@ -2907,6 +2910,7 @@
     <Content Include="Views\InventoryQuery\Index.cshtml" />
     <Content Include="Views\DispatchVerification\Index.cshtml" />
     <Content Include="Views\WhseManWickettLabelDelete\Index.cshtml" />
+    <Content Include="Views\WhseManBatchReceipt\ProductionLabelRestore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
