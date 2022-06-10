@@ -30,5 +30,6 @@ namespace Megasoft2
         public string Comments { get; set; }
         public string SupplierRef { get; set; }
         public string Description { get; set; }
+        public string ValidPO { get; set; }
     }
 }

@@ -38,6 +38,8 @@ namespace Megasoft2.Controllers
         [HttpPost]
         public ActionResult Index(SuppDeliveryLogViewModel model)
         {
+            ModelState.Clear();
+
             var Employees = db.sp_BaggingLabelEmployees().ToList();
             ViewBag.EmployeeList = (from a in Employees where a.ProcessTask == "RECEIVER" select new { Employee = a.Employee, Description = a.Employee }).ToList();
             HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
@@ -45,6 +47,12 @@ namespace Megasoft2.Controllers
             var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             string Po = model.PurchaseOrder.PadLeft(15, '0');
             var result = db.sp_GetPoLabelLines(Po, Username, Company).ToList();
+
+            //modify invalid PO numbers
+            if (model.SuppLog.ValidPO == "N")
+            {
+                model.PurchaseOrder = model.PurchaseOrder + "-NO PO";
+            }
 
             try
             {
@@ -68,7 +76,8 @@ namespace Megasoft2.Controllers
                     Reciever = model.Employee,
                     Comments = model.SuppLog.Comments,
                     SupplierRef = model.SuppLog.SupplierRef,
-                    Description = model.SuppLog.Description
+                    Description = model.SuppLog.Description,
+                    ValidPO = model.SuppLog.ValidPO
                 };
 
                 db.mtSuppDeliveryLogs.Add(obj);
@@ -172,6 +181,23 @@ namespace Megasoft2.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult PoLineSearch()
+        {
+            return PartialView();
+        }
+
+        public ActionResult PoLineList(string PurchaseOrder)
+        {
+            var result = (from a in db.PorMasterDetails
+                          join b in db.PorMasterHdrs
+                          on a.PurchaseOrder equals b.PurchaseOrder
+                          where b.PurchaseOrder == PurchaseOrder
+                          select new {a.PurchaseOrder, a.Line, a.MStockCode, a.MStockDes, a.MWarehouse, a.MOrderUom, a.MOrderQty, a.MReceivedQty, OutstandingQty = a.MOrderQty - a.MReceivedQty, b.Supplier })
+                          .ToList();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "PrintPdf")]
@@ -234,6 +260,40 @@ namespace Megasoft2.Controllers
             }
         }
 
+        public ActionResult PurchaseOrderValidation(string PurchaseOrder)
+        {
+            var check = (from a in db.PorMasterHdrs where a.PurchaseOrder == PurchaseOrder select a).ToList();
+            bool valid = false;
 
+            if (check.Count > 0)
+            {
+                valid = true;
+            }
+
+            return Json(valid, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetSupplierForPo(string PurchaseOrder)
+        {
+            var supplier = (from a in db.PorMasterHdrs where a.PurchaseOrder == PurchaseOrder select a.Supplier).FirstOrDefault();
+            return Json(supplier, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SupplierDeliveryReport()
+        {
+            SuppDeliveryLogViewModel model = new SuppDeliveryLogViewModel();
+
+            try
+            {
+                var result = db.mt_SupplierDeliveryLogReport().ToList();
+                model.ReportList = result;
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+            return View(model);
+        }
     }
 }

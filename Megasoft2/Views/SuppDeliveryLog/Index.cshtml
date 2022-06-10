@@ -19,7 +19,6 @@
         </div>
     }
 
-    @*@Html.HiddenFor(model => model.SuppLog.Id)*@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-sm-12">
@@ -37,21 +36,21 @@
                             </div>
 
                             <div class="col-sm-6">
+
                                 <div class="control-label col-sm-4" style="text-align:left;">
-                                    Supplier
+                                    Purchase Order
                                 </div>
                                 <div class="input-group col-sm-8">
-                                    @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-xs" })
+                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-xs" })
                                     <div class="input-group-btn">
-                                        <a href="@Url.Action("SupplierSearch", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
+                                        <a href="@Url.Action("SupplierPO", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox  btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
+
                                     </div>
+
+                                    @Html.HiddenFor(model => model.SuppLog.ValidPO)
                                 </div>
 
                             </div>
-
-
-
-
 
                         </div>
                     </div>
@@ -81,7 +80,7 @@
                                     Time
                                 </div>
                                 <div class="input-group col-sm-8">
-                                    @Html.TextBoxFor(model => model.Time, new { @class = "timepicker form-control input-xs" })
+                                    @Html.TextBoxFor(model => model.Time, new { @class = "timepicker form-control input-xs", @type="time" })
                                     @Html.ValidationMessageFor(model => model.Time)
 
                                 </div>
@@ -95,16 +94,14 @@
                             <div class="col-sm-6">
 
                                 <div class="control-label col-sm-4" style="text-align:left;">
-                                    Purchase Order
+                                    Supplier
                                 </div>
                                 <div class="input-group col-sm-8">
-                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-xs" })
-                                    <div class="input-group-btn">
-                                        <a href="@Url.Action("SupplierPO", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox  btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
-
+                                    @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-xs" })
+                                    <div class="input-group-btn" id="btnSupplier">
+                                        <a href="@Url.Action("SupplierSearch", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
                                     </div>
                                 </div>
-
 
                             </div>
 
@@ -115,6 +112,9 @@
                                 <div class="input-group add-on col-sm-8">
                                     @Html.TextBoxFor(model => model.SuppLog.Line, new { @class = "form-control input-xs" })
                                     @Html.ValidationMessageFor(model => model.SuppLog.Line)
+                                    <div class="input-group-btn" id="btnLineSearch">
+                                        <a href="@Url.Action("PoLineSearch", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -309,6 +309,9 @@
                                         <th style="width:80px">
                                             Purchase Order
                                         </th>
+                                        <th style="width:40px">
+                                            Valid Purchase Order
+                                        </th>
                                         <th style="width:50px">
                                             StockCode
                                         </th>
@@ -378,6 +381,10 @@
                                                     <td>
                                                         @Model.GetLogReciever[i].PurchaseOrder
                                                         @Html.HiddenFor(model => Model.GetLogReciever[i].PurchaseOrder)
+                                                    </td>
+                                                    <td>
+                                                        @Model.GetLogReciever[i].ValidPO
+                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].ValidPO)
                                                     </td>
                                                     <td>
                                                         @Model.GetLogReciever[i].StockCode
@@ -480,19 +487,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
     <script type="text/javascript">
-        //$("#tblSo").DataTable({
-        //    dom: 'Bfrtip',
-        //    "ordering": false,
-        //    "iDisplayLength": 100,
-        //    "fixedHeader": true,
-        //    "scrollY": 350,
-        //    "scrollX": "100%",
-        //    "responsive": true,
-        //    "paging": false,
-        //    buttons: [
-        //        'excelHtml5'
-        //    ]
-        //});
+
         $(document).ready(function () {
 
             $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
@@ -510,20 +505,71 @@
                 ],
                 "orderClasses": false
             });
+
+            PurchaseOrderValidation();
+
+            //events
+            $('#PurchaseOrder').change(PurchaseOrderValidation);
+
+            //clear line, description and uom if value changes
+            $('#Supplier').change(function () {
+                $('#SuppLog_StockCode').val('');
+                $('#SuppLog_Uom').val('');
+                $('#SuppLog_Line').val('');
+                $('#SuppLog_Description').val('');
+            });
+
         });
 
+        //check if purchase order number exists
+        //disable fields based on result
+        function PurchaseOrderValidation() {
+            $.getJSON('@Url.Action("PurchaseOrderValidation", "SuppDeliveryLog")?PurchaseOrder=' + $('#PurchaseOrder').val(), function (data) {
 
-        //$('.timepicker').timepicker({
-        //    timeFormat: 'h:mm:ss ',
-        //    interval: 60,
-        //    minTime: '01',
-        //    maxTime: '12:00',
-        //    defaultTime: '01',
-        //    startTime: '08:00',
-        //    dynamic: true,
-        //    dropdown: true,
-        //    scrollbar: true
-        //});
+                if (data === true) { //PO is valid
+
+                    //disable supplier field and buttons
+                    $('#Supplier').prop("readonly", true);
+                    $('#btnSupplier').hide()
+
+                    //allow searching of lines
+                    $('#btnLineSearch').show();
+
+                }
+                else { //invalid PO
+
+                    //enable supplier field and buttons
+                    $('#Supplier').prop("readonly", false);
+                    $('#btnSupplier').show()
+
+                    //don't allow searching of lines
+                    $('#btnLineSearch').hide();
+                }
+
+            });
+
+            //clear fields
+            $('#SuppLog_StockCode').val('');
+            $('#SuppLog_Uom').val('');
+            $('#SuppLog_Line').val('');
+            $('#SuppLog_Description').val('');
+
+            GetSupplier();
+        }
+
+        function GetSupplier() {
+
+            $.getJSON('@Url.Action("GetSupplierForPo", "SuppDeliveryLog")?PurchaseOrder=' + $('#PurchaseOrder').val(), function (data) {
+
+                $('#Supplier').val(data);
+                $('#SuppLog_ValidPO').val('Y'); //set ValidPO flag to Y
+
+                return;
+            })
+
+            $('#Supplier').val('');
+            $('#SuppLog_ValidPO').val('N'); //set ValidPO flag to N
+        }
 
         //Product Condition
         if ($('#SuppLog_ProductCondition').val()) {

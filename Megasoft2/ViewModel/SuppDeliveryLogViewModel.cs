@@ -19,5 +19,6 @@ namespace Megasoft2.ViewModel
         public List<sp_SupplierDeliveryGetLogByReciever_Result> GetLogReciever { get; set; }
 
         public ExportFile PrintPdf { get; set; }
+        public List<mt_SupplierDeliveryLogReport_Result> ReportList { get; set; }
     }
 }

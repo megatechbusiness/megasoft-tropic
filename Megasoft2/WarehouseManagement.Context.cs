@@ -138,7 +138,6 @@ namespace Megasoft2
         public DbSet<InvBuyer> InvBuyers { get; set; }
         public DbSet<ApSupplier> ApSuppliers { get; set; }
         public DbSet<mtInvMasterImage> mtInvMasterImages { get; set; }
-        public DbSet<mtSuppDeliveryLog> mtSuppDeliveryLogs { get; set; }
         public DbSet<mtMegasoftAlert> mtMegasoftAlerts { get; set; }
         public DbSet<PorSupStkInfo> PorSupStkInfoes { get; set; }
         public DbSet<mtMasterCardAttachment> mtMasterCardAttachments { get; set; }
@@ -150,6 +149,7 @@ namespace Megasoft2
         public DbSet<AdmFormControl> AdmFormControls { get; set; }
         public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
         public DbSet<mtShift> mtShifts { get; set; }
+        public DbSet<mtSuppDeliveryLog> mtSuppDeliveryLogs { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -3198,6 +3198,11 @@ namespace Megasoft2
                 new ObjectParameter("BatchId", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("mt_ProductionRestoreDeletedBatch", jobParameter, batchIdParameter);
+        }
+    
+        public virtual ObjectResult<mt_SupplierDeliveryLogReport_Result> mt_SupplierDeliveryLogReport()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_SupplierDeliveryLogReport_Result>("mt_SupplierDeliveryLogReport");
         }
     }
 }
