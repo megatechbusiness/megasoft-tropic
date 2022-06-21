@@ -1,4 +1,4 @@
-﻿<div class="panel panel-primary modal-body">
+﻿<div class="panel panel-primary modal-body modal-open" id="suppModal">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <div class="panel-heading">
         <h4 class="panel-title">
@@ -61,7 +61,12 @@
         $('#SupplierResults').on("click", ".nr", function () {
             var rCode = $(this).attr('id');
             //do something with id
-            $('#Supplier').val(rCode);
+            if ('@ViewBag.IsValid') {
+                $('#SuppLog_Supplier').val(rCode);
+            }
+            else {
+                $('#Supplier').val(rCode);
+            }
             window.setTimeout(function () {
             }, 500);
         });

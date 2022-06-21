@@ -35,7 +35,7 @@
 <script type="text/javascript">
     function GetSuppliers()
     {
-        $.getJSON('@Url.Action("PoLineList", "SuppDeliveryLog")?PurchaseOrder=' + $('#PurchaseOrder').val(), function (data) {
+        $.getJSON('@Url.Action("PoLineList", "SuppDeliveryLog")?PurchaseOrder=' + $('#SuppLog_PurchaseOrder').val(), function (data) {
             var items = '<table id="PoLineSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><tr><th>PurchaseOrder</th><th>Line</th><th>MStockCode</th><th>MStockDes</th><th>MWarehouse</th><th>MOrderUom</th><th>MOrderQty</th><th>MReceivedQty</th><th>OutstandingQty</th><th>Supplier</th>';
             $.each(data, function (i, x) {
                 items += "<tr class='nr' id=" + x.PurchaseOrder + "  data-dismiss='modal'><td><a href=#>" + x.PurchaseOrder + "</a></td><td>" + x.Line + "</td><td>" + x.MStockCode + "</td><td>" + x.MStockDes + "</td><td>" + x.MWarehouse + "</td><td>" + x.MOrderUom + "</td><td>" + x.MOrderQty + "</td><td>" + x.MReceivedQty + "</td><td>" + x.OutstandingQty + "</td><td>" + x.Supplier + "</td>" ;
@@ -65,12 +65,12 @@
             var MOrderUom = $(this).closest("tr").find('td:eq(5)').text();
             var Supplier = $(this).closest("tr").find('td:eq(9)').text();
 
-            $('#PurchaseOrder').val(rCode);
+            $('#SuppLog_PurchaseOrder').val(rCode);
             $('#SuppLog_StockCode').val(MStockCode);
             $('#SuppLog_Uom').val(MOrderUom);
             $('#SuppLog_Line').val(Line);
             $('#SuppLog_Description').val(MStockDes);
-            $('#Supplier').val(Supplier);
+            $('#SuppLog_PurchaseOrder').val(Supplier);
 
             window.setTimeout(function () {
             }, 500);
@@ -78,21 +78,5 @@
         $('#txtSupplierSearch').focus();
 
     });
-
-    //$('#PurchaseOrder').on("click", ".nr", function () {
-
-    //    var Line = $(this).closest("tr").find('td:eq(2)').text();
-    //    var StockCode = $(this).closest("tr").find('td:eq(3)').text();
-    //    var MOrderUom = $(this).closest("tr").find('td:eq(6)').text();
-    //    var MOrderQty = $(this).closest("tr").find('td:eq(7)').text();
-
-    //    $('#Line').val(rCode);
-    //    $('#Line').val(Line);
-    //    $('#StockCode').val(StockCode);
-    //    $('#MOrderUom').val(MOrderUom);
-    //    $('#MOrderQty').val(MOrderQty);
-    //});
-
-
 
 </script>

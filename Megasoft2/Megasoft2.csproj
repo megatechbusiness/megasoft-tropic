@@ -2916,6 +2916,7 @@
     <Content Include="Views\WhseManBatchReceipt\ProductionLabelRestore.cshtml" />
     <Content Include="Views\SuppDeliveryLog\PoLineSearch.cshtml" />
     <Content Include="Views\SuppDeliveryLog\SupplierDeliveryReport.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\LogEntry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

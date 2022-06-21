@@ -11,139 +11,248 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
 
 namespace Megasoft2.Controllers
 {
     public class SuppDeliveryLogController : Controller
     {
-        //
-        // GET: /SuppDeliveryLog/
         MegasoftEntities mdb = new MegasoftEntities();
         WarehouseManagementEntities db = new WarehouseManagementEntities("");
 
-        [HttpGet]
         [CustomAuthorize(Activity: "SupplierDeliveryLog")]
-        public ActionResult Index()
+        public ActionResult Index(string Supplier = null, string DeliveryNote = null)
         {
-            var Employees = db.sp_BaggingLabelEmployees().ToList();
-            ViewBag.EmployeeList = (from a in Employees where a.ProcessTask == "RECEIVER" select new { Employee = a.Employee, Description = a.Employee }).ToList();
             SuppDeliveryLogViewModel model = new SuppDeliveryLogViewModel();
-            model.Date = DateTime.Now;
-            ViewBag.Access = false;
+
+            try
+            {
+                if (!string.IsNullOrEmpty(Supplier) && !string.IsNullOrEmpty(DeliveryNote))
+                {
+                    model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == Supplier && a.SupplierRef == DeliveryNote) select a).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+            SetViewBags(model);
             return View(model);
         }
 
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [MultipleButton(Name = "action", Argument = "Index")]
-        [HttpPost]
         public ActionResult Index(SuppDeliveryLogViewModel model)
         {
             ModelState.Clear();
 
-            var Employees = db.sp_BaggingLabelEmployees().ToList();
-            ViewBag.EmployeeList = (from a in Employees where a.ProcessTask == "RECEIVER" select new { Employee = a.Employee, Description = a.Employee }).ToList();
             HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
             string Username = HttpContext.User.Identity.Name.ToUpper();
             var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
-            string Po = model.PurchaseOrder.PadLeft(15, '0');
-            var result = db.sp_GetPoLabelLines(Po, Username, Company).ToList();
-
-            //modify invalid PO numbers
-            if (model.SuppLog.ValidPO == "N")
-            {
-                model.PurchaseOrder = model.PurchaseOrder + "-NO PO";
-            }
 
             try
             {
-
-                var obj = new mtSuppDeliveryLog()
+                //make sure user inputs supplier and delivery note values
+                if (string.IsNullOrEmpty(model.Supplier) || string.IsNullOrEmpty(model.DeliveryNote))
                 {
-                    Supplier = model.Supplier,
-                    TransactionDate = model.Date.Date + ((DateTime)model.Time).TimeOfDay,
-                    PurchaseOrder = model.PurchaseOrder,
-                    StockCode = model.SuppLog.StockCode,
-                    Quantity = model.SuppLog.Quantity,
-                    Uom = model.SuppLog.Uom,
-                    Line = model.SuppLog.Line,
-                    ProductApperance = model.SuppLog.ProductApperance,
-                    ProductCondition = model.SuppLog.ProductCondition,
-                    DeliveryTruckCondition = model.SuppLog.DeliveryTruckCondition,
-                    AcceptedRejected = model.SuppLog.AcceptedRejected,
-                    lblPrint = model.SuppLog.lblPrint,
-                    Username = Username,
-                    SystemDate = DateTime.Now,
-                    Reciever = model.Employee,
-                    Comments = model.SuppLog.Comments,
-                    SupplierRef = model.SuppLog.SupplierRef,
-                    Description = model.SuppLog.Description,
-                    ValidPO = model.SuppLog.ValidPO
-                };
+                    throw new Exception("Please enter BOTH a Supplier and Delivery Note");
+                }
 
-                db.mtSuppDeliveryLogs.Add(obj);
-                db.SaveChanges();
+                //check if supplier exists
+                var suppCheck = db.sp_GetSuppliers("").Where(a => a.Supplier == model.Supplier).FirstOrDefault();
+                if (suppCheck == null)
+                {
+                    throw new Exception("Supplier does not exist");
+                }
 
-                var ListResult = db.sp_SupplierDeliveryGetLogByReciever(obj.TransactionDate, obj.Reciever).ToList();
-                model.GetLogReciever = ListResult;
-                model.Date = obj.TransactionDate;
-                model.Employee = obj.Reciever;
-                ModelState.AddModelError("", "Capture Logged Successfully");
-                return View(model);
-
+                //load entries
+                if (!string.IsNullOrEmpty(model.Supplier) && !string.IsNullOrEmpty(model.DeliveryNote))
+                {
+                    model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+                }
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
             }
+
+            SetViewBags(model);
             return View(model);
         }
 
-        [MultipleButton(Name = "action", Argument = "LoadReciever")]
-        [HttpPost]
-        public ActionResult LoadReciever(SuppDeliveryLogViewModel model)
+        public ActionResult LogEntry(int Id)
         {
-            var Employees = db.sp_BaggingLabelEmployees().ToList();
-            ViewBag.EmployeeList = (from a in Employees where a.ProcessTask == "RECEIVER" select new { Employee = a.Employee, Description = a.Employee }).ToList();
+            SuppDeliveryLogViewModel model = new SuppDeliveryLogViewModel();
 
             try
             {
-                var result = db.sp_SupplierDeliveryGetLogByReciever(model.Date, model.Employee).ToList();
-                model.GetLogReciever = result;
-                ModelState.AddModelError("", "Logs Loaded Successfully");
-                return View("Index", model);
+                //build drop down
+                model.EmployeeList = (from a in db.sp_BaggingLabelEmployees() where a.ProcessTask == "RECEIVER" select a).ToList();
+                
+                model.SuppLog = new mtSuppDeliveryLog();
+
+                //fill field values
+                if (Id != -1)
+                {
+                    var entry = (from a in db.mtSuppDeliveryLogs where a.Id == Id select a).FirstOrDefault();
+
+                    if (entry != null)
+                    {
+                        model.SuppLog = entry;
+                    }
+
+                    model.SuppLog.ValidPO = "N";
+                }
+                else
+                {
+                    model.SuppLog.TransactionDate = DateTime.Now;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "SaveLogEntry")]
+        public ActionResult SaveLogEntry(SuppDeliveryLogViewModel model)
+        {
+            try
+            {
+                HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
+                string Username = HttpContext.User.Identity.Name.ToUpper();
+
+                //check if entry already exists
+                var check = (from a in db.mtSuppDeliveryLogs where a.Id == model.SuppLog.Id select a).FirstOrDefault();
+
+                if (check != null) //update existing
+                {
+                    //add -NO PO to purchase order if not valid
+                    if (model.SuppLog.ValidPO == "N")
+                    {
+                        if (!model.SuppLog.PurchaseOrder.Contains("-NO PO"))
+                        {
+                            model.SuppLog.PurchaseOrder = model.SuppLog.PurchaseOrder.TrimStart('0');
+                            model.SuppLog.PurchaseOrder += "-NO PO";
+                            model.SuppLog.PurchaseOrder = model.SuppLog.PurchaseOrder.PadLeft(15, '0');
+                        }
+                    }
+
+                    check.Supplier = model.SuppLog.Supplier;
+                    check.TransactionDate = model.SuppLog.TransactionDate;
+                    check.PurchaseOrder = model.SuppLog.PurchaseOrder;
+                    check.StockCode = model.SuppLog.StockCode;
+                    check.Quantity = model.SuppLog.Quantity;
+                    check.Uom = model.SuppLog.Uom;
+                    check.Line = model.SuppLog.Line;
+                    check.ProductApperance = model.SuppLog.ProductApperance;
+                    check.ProductCondition = model.SuppLog.ProductCondition;
+                    check.DeliveryTruckCondition = model.SuppLog.DeliveryTruckCondition;
+                    check.AcceptedRejected = model.SuppLog.AcceptedRejected;
+                    check.lblPrint = model.SuppLog.lblPrint;
+                    check.Username = Username;
+                    check.SystemDate = DateTime.Now;
+                    check.Reciever = model.SuppLog.Reciever;
+                    check.Comments = model.SuppLog.Comments;
+                    check.SupplierRef = model.SuppLog.SupplierRef;
+                    check.Description = model.SuppLog.Description;
+                    check.ValidPO = model.SuppLog.ValidPO;
+
+                    db.Entry(check).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    var obj = new mtSuppDeliveryLog()
+                    {
+                        Supplier = model.SuppLog.Supplier,
+                        TransactionDate = model.SuppLog.TransactionDate,
+                        PurchaseOrder = model.SuppLog.PurchaseOrder,
+                        StockCode = model.SuppLog.StockCode,
+                        Quantity = model.SuppLog.Quantity,
+                        Uom = model.SuppLog.Uom,
+                        Line = model.SuppLog.Line,
+                        ProductApperance = model.SuppLog.ProductApperance,
+                        ProductCondition = model.SuppLog.ProductCondition,
+                        DeliveryTruckCondition = model.SuppLog.DeliveryTruckCondition,
+                        AcceptedRejected = model.SuppLog.AcceptedRejected,
+                        lblPrint = model.SuppLog.lblPrint,
+                        Username = Username,
+                        SystemDate = DateTime.Now,
+                        Reciever = model.SuppLog.Reciever,
+                        Comments = model.SuppLog.Comments,
+                        SupplierRef = model.SuppLog.SupplierRef,
+                        Description = model.SuppLog.Description,
+                        ValidPO = model.SuppLog.ValidPO
+                    };
+
+                    db.mtSuppDeliveryLogs.Add(obj);
+                    db.SaveChanges();
+                }
+
+                //rebuild log list
+                if (!string.IsNullOrEmpty(model.Supplier) && !string.IsNullOrEmpty(model.DeliveryNote))
+                {
+                    model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+                }
+                else
+                {
+                    model.Supplier = model.SuppLog.Supplier;
+                    model.DeliveryNote = model.SuppLog.SupplierRef;
+                    model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.SuppLog.Supplier && a.SupplierRef == model.SuppLog.SupplierRef) select a).ToList();
+                }
+
+                ModelState.AddModelError("", "Capture Logged Successfully");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View("Index", model);
+
+                //rebuild log list
+                if (!string.IsNullOrEmpty(model.Supplier) && !string.IsNullOrEmpty(model.DeliveryNote))
+                {
+                    model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+                }
+                else
+                {
+                    model.Supplier = model.SuppLog.Supplier;
+                    model.DeliveryNote = model.SuppLog.SupplierRef;
+                    model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.SuppLog.Supplier && a.SupplierRef == model.SuppLog.SupplierRef) select a).ToList();
+                }
             }
 
+            SetViewBags(model);
+            return View("Index", model);
         }
 
         public ActionResult DeleteDetailLine(int Id)
         {
-            SuppDeliveryLogViewModel Vmodel = new SuppDeliveryLogViewModel();
-            var Employees = db.sp_BaggingLabelEmployees().ToList();
-            ViewBag.EmployeeList = (from a in Employees where a.ProcessTask == "RECEIVER" select new { Employee = a.Employee, Description = a.Employee }).ToList();
+            SuppDeliveryLogViewModel model = new SuppDeliveryLogViewModel();
 
             try
             {
                 var DeleteLine = db.mtSuppDeliveryLogs.Find(Id);
                 db.mtSuppDeliveryLogs.Remove(DeleteLine);
                 db.SaveChanges();
+                
+                model.Supplier = DeleteLine.Supplier;
+                model.DeliveryNote = DeleteLine.SupplierRef;
 
-                var ListResult = db.sp_SupplierDeliveryGetLogByReciever(DeleteLine.TransactionDate, DeleteLine.Reciever).ToList();
-                Vmodel.GetLogReciever = ListResult;
-                Vmodel.Date = DeleteLine.TransactionDate;
-                Vmodel.Employee = DeleteLine.Reciever;
-                return View("Index", Vmodel);
+                //rebuild log list
+                model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == DeleteLine.Supplier && a.SupplierRef == DeleteLine.SupplierRef) select a).ToList();
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View("Index", Vmodel);
             }
 
+            SetViewBags(model);
+            return View("Index", model);
         }
 
         public ActionResult SupplierSearch()
@@ -192,7 +301,7 @@ namespace Megasoft2.Controllers
                           join b in db.PorMasterHdrs
                           on a.PurchaseOrder equals b.PurchaseOrder
                           where b.PurchaseOrder == PurchaseOrder
-                          select new {a.PurchaseOrder, a.Line, a.MStockCode, a.MStockDes, a.MWarehouse, a.MOrderUom, a.MOrderQty, a.MReceivedQty, OutstandingQty = a.MOrderQty - a.MReceivedQty, b.Supplier })
+                          select new { a.PurchaseOrder, a.Line, a.MStockCode, a.MStockDes, a.MWarehouse, a.MOrderUom, a.MOrderQty, a.MReceivedQty, OutstandingQty = a.MOrderQty - a.MReceivedQty, b.Supplier })
                           .ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -203,10 +312,7 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "PrintPdf")]
         public ActionResult PrintPdf(SuppDeliveryLogViewModel model)
         {
-            var Employees = db.sp_BaggingLabelEmployees().ToList();
-            ViewBag.EmployeeList = (from a in Employees where a.ProcessTask == "RECEIVER" select new { Employee = a.Employee, Description = a.Employee }).ToList();
-
-            model.PrintPdf = ExportPdf(model.Date, model.Employee);
+            model.PrintPdf = ExportPdf(model.SuppLog.TransactionDate, model.SuppLog.Reciever);
             return View("Index", model);
         }
 
@@ -240,7 +346,7 @@ namespace Megasoft2.Controllers
                 string FileName = "DeliveryLog_" + DateTime.Now.ToString("yyyy_MM_dd") + ".pdf";
 
                 string OutputPath = Path.Combine(FilePath, FileName);
-                ViewBag.Access = true;
+                //ViewBag.Access = true;
                 //rpt.ExportToHttpResponse(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, true, Report + "_" + DateTime.Now.Date);
                 rpt.ExportToDisk(ExportFormatType.PortableDocFormat, OutputPath);
                 rpt.Close();
@@ -262,6 +368,8 @@ namespace Megasoft2.Controllers
 
         public ActionResult PurchaseOrderValidation(string PurchaseOrder)
         {
+            PurchaseOrder = PurchaseOrder.PadLeft(15, '0');
+
             var check = (from a in db.PorMasterHdrs where a.PurchaseOrder == PurchaseOrder select a).ToList();
             bool valid = false;
 
@@ -275,6 +383,8 @@ namespace Megasoft2.Controllers
 
         public ActionResult GetSupplierForPo(string PurchaseOrder)
         {
+            PurchaseOrder = PurchaseOrder.PadLeft(15, '0');
+
             var supplier = (from a in db.PorMasterHdrs where a.PurchaseOrder == PurchaseOrder select a.Supplier).FirstOrDefault();
             return Json(supplier, JsonRequestBehavior.AllowGet);
         }
@@ -294,6 +404,33 @@ namespace Megasoft2.Controllers
             }
 
             return View(model);
+        }
+
+        public void SetViewBags(SuppDeliveryLogViewModel model)
+        {
+            //can show table or not
+            if (model.DeliveryLogList != null)
+            {
+                ViewBag.ShowTable = true;
+            }
+
+            //search field values are valid
+            if (!string.IsNullOrEmpty(model.Supplier) && !string.IsNullOrEmpty(model.DeliveryNote))
+            {
+                var suppCheck = db.sp_GetSuppliers("").Where(a => a.Supplier == model.Supplier).FirstOrDefault();
+                if (suppCheck == null)
+                {
+                    ViewBag.IsValid = false;
+                }
+                else
+                {
+                    ViewBag.IsValid = true;
+                }
+            }
+            else
+            {
+                ViewBag.IsValid = false;
+            }
         }
     }
 }
