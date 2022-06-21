@@ -27,7 +27,7 @@
             <div class="col-md-4">
                 <section class="login-form">
 
-                    @using (Html.BeginForm("Index", "Login",
+                    @using (Html.BeginForm("Index", "Login", new { ReturnUrl = Request.QueryString["ReturnUrl"] },
                                FormMethod.Post,
                                new { @class = "login", role = "login", @id="frmLogin" }))
                     {

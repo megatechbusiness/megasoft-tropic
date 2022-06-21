@@ -13,7 +13,7 @@ namespace Megasoft2.BusinessLogic
         SysproCore objSyspro = new SysproCore();
         public string PostMaterialIssue(string details)
         {
-            try 
+            try
             {
                 List<MaterialIssue> myDeserializedObjList = (List<MaterialIssue>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<MaterialIssue>));
                 if (myDeserializedObjList.Count > 0)
@@ -25,10 +25,45 @@ namespace Megasoft2.BusinessLogic
                     }
 
 
-                    if (!string.IsNullOrEmpty(this.AddMaterialAllocation(myDeserializedObjList, Guid)))
+
+                    var AppSettings = (from a in db.mtWhseManSettings where a.SettingId == 1 select a).FirstOrDefault();
+
+
+                    if (AppSettings.MaterialIssueValidateComponent == true)
                     {
-                        return "Failed to Add Material Allocation. Cannot Issue Material!";
+                        foreach (var item in myDeserializedObjList)
+                        {
+                            string Job = "";
+                            if (AppSettings.JobNumberPadZeros == true)
+                            {
+                                Job = item.Job.PadLeft(15, '0');
+                            }
+                            else
+                            {
+                                Job = item.Job;
+                            }
+                            var ComponentCheck = (from a in db.WipJobAllMats where a.Job == Job && a.StockCode == item.StockCode select a).FirstOrDefault();
+
+                            if (ComponentCheck == null)
+                            {
+                                return "Component: " + item.StockCode + " Not Found Against Job Allocation:" + Job + " !";
+                            }
+                            else
+                            {
+                                //All good
+                            }
+                        }
+
                     }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(this.AddMaterialAllocation(myDeserializedObjList, Guid)))
+                        {
+                            return "Failed to Add Material Allocation. Cannot Issue Material!";
+                        }
+                    }
+
+
 
                     string Parameter, XmlOut, ErrorMessage;
                     //Declaration

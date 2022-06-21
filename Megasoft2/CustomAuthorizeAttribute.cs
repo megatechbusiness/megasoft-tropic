@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace Megasoft2
 {
-    public class CustomAuthorizeAttribute : AuthorizeAttribute  
+    public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         MegasoftEntities sc = new MegasoftEntities();
         private readonly string[] allowedActivities;
@@ -25,8 +25,13 @@ namespace Megasoft2
                 return false;
             }
 
+            if (HttpContext.Current.Request.Cookies["SysproDatabase"] == null)
+            {
+                return false;
+            }
+
             var IsAdmin = (from a in sc.mtUsers where a.Username == HttpContext.Current.User.Identity.Name.ToUpper() select a.Administrator).FirstOrDefault();
-            if(IsAdmin == true)
+            if (IsAdmin == true)
             {
                 return true;
             }
@@ -36,7 +41,7 @@ namespace Megasoft2
             var Sysprodb = HttpContext.Current.Request.Cookies["SysproDatabase"].Value;
 
             var UseRoles = (from a in sc.mtSystemSettings select a).FirstOrDefault();
-            if(UseRoles.UseRoles == true)
+            if (UseRoles.UseRoles == true)
             {
                 foreach (var role in allowedActivities)
                 {
@@ -66,17 +71,52 @@ namespace Megasoft2
                     }
                 }
             }
-            
-           
 
-            
+
+
+
             return authorize;
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            //filterContext.Result = new HttpUnauthorizedResult();
-            filterContext.Result = new RedirectToRouteResult(
+            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                var returnurl = filterContext.HttpContext.Request.Url;
+
+                filterContext.Result = new RedirectToRouteResult(
+                new RouteValueDictionary(
+                    new
+                    {
+                        controller = "Login",
+                        action = "Index",
+                        //ReturnUrl = returnurl
+                        ReturnUrl = filterContext.HttpContext.Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped)
+
+                    })
+                );
+
+            }
+            else
+            {
+                if (HttpContext.Current.Request.Cookies["SysproDatabase"] == null)
+                {
+
+                    filterContext.Result = new RedirectToRouteResult(
+                new RouteValueDictionary(
+                    new
+                    {
+                        controller = "Login",
+                        action = "Index",
+                        //ReturnUrl = returnurl
+                        ReturnUrl = filterContext.HttpContext.Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped)
+
+                    })
+                );
+                }
+                else
+                {
+                    filterContext.Result = new RedirectToRouteResult(
                 new RouteValueDictionary(
                     new
                     {
@@ -84,6 +124,9 @@ namespace Megasoft2
                         action = "Index"
                     })
                 );
-        } 
+                }
+
+            }
+        }
     }
 }
