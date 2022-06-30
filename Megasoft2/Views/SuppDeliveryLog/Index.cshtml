@@ -3,11 +3,8 @@
     ViewBag.Title = "Index";
 }
 
-<h2 class="text-center">Supplier Delivery Log</h2>
 
-<a href="@Url.Action("Index", "SuppDeliveryLog")" class="btn btn-default active-right">
-    <span class="fa fa-refresh" aria-hidden="true"> </span>
-</a>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "SupplierLog" }))
 {
 
@@ -19,430 +16,282 @@
         </div>
     }
 
-    @*@Html.HiddenFor(model => model.SuppLog.Id)*@
     <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="text-center">Supplier Delivery Log</h2>
+
+            <hr />
+
+            <div class="row">
+                <a href="@Url.Action("Index", "SuppDeliveryLog")" class="btn btn-default active-right" title="Reload Search">
+                    <span class="fa fa-refresh" aria-hidden="true"> </span>
+                </a>
+
+                <a href="@Url.Action("LogEntry", "SuppDeliveryLog", new { Id = -1 })" class="btn btn-info active-right modal-link" title="New Log Entry">
+                    <span class="fa fa-plus-circle" aria-hidden="true"> </span>
+                </a>
+
+            </div>
+        </div>
+
         <div class="panel-body">
             <div class="col-sm-12">
                 <div class="form-group">
 
-                    <div class="form-horizontal row" style="font-size:12px;">
-                        <div class="form-group">
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Reciever
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.DropDownListFor(model => model.Employee, new SelectList(ViewBag.EmployeeList, "Employee", "Description"), new { @class = "form-control input-xs", @style = "font-size:x-small;" })
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Supplier
-                                </div>
-                                <div class="input-group col-sm-8">
-                                    @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-xs" })
-                                    <div class="input-group-btn">
-                                        <a href="@Url.Action("SupplierSearch", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-
-
-
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal row" style="font-size:12px;">
+                    <!--Initial search-->
+                    <div class="row">
                         <div class="form-group">
 
                             <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Date
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.Date, "{0:yyyy-MM-dd}", new { @class = "datepicker datepicker-inline form-control input-xs" })
-                                    <div class="input-group-btn">
-                                        <span class="input-group-btn ">
-                                            <button class="btn btn-default btn-xs" id="btnLoadReciever" type="submit" aria-label="Left Align" name="action:LoadReciever" value="LoadReciever">
-                                                <i class="fa fa-arrow-circle-right"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Time
-                                </div>
-                                <div class="input-group col-sm-8">
-                                    @Html.TextBoxFor(model => model.Time, new { @class = "timepicker form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.Time)
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal row" style="font-size:12px;">
-                        <div class="form-group">
-                            <div class="col-sm-6">
-
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Purchase Order
-                                </div>
-                                <div class="input-group col-sm-8">
-                                    @Html.TextBoxFor(model => model.PurchaseOrder, new { @class = "form-control input-xs" })
-                                    <div class="input-group-btn">
-                                        <a href="@Url.Action("SupplierPO", "SuppDeliveryLog")" class="btn btn-sm btn-info  modal-link searchbox  btn-xs"><span class="fa fa-search" aria-hidden="true"> </span> </a>
-
+                                <div class="col-sm-4">
+                                    <div class="control-label">
+                                        Supplier
                                     </div>
                                 </div>
 
-
-                            </div>
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Line
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.SuppLog.Line, new { @class = "form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.SuppLog.Line)
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal row" style="font-size:12px;">
-                        <div class="form-group">
-
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Stock Code
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.SuppLog.StockCode, new { @class = "form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.SuppLog.StockCode)
+                                <div class="col-sm-8 input-group">
+                                    @if (ViewBag.IsValid != null)
+                                    {
+                                        if (ViewBag.IsValid)
+                                        {
+                                            @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-xs", @readonly = "readonly" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.Supplier, new { @class = "form-control input-xs" })
+                                            <div class="input-group-btn">
+                                                <a href="@Url.Action("SupplierSearch", "SuppDeliveryLog")" class="btn btn-sm btn-info modal-link searchbox  btn-xs">
+                                                    <span class="fa fa-search" aria-hidden="true"></span>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="control-label col-sm-4" style="text-align:left;">
-                                    Description
+                                    Del. Note/Supp. Ref
                                 </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.SuppLog.Description, new { @class = "form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.SuppLog.Description)
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal row" style="font-size:12px;">
-                        <div class="form-group">
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Quantity
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.SuppLog.Quantity, new { @class = "form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.SuppLog.Quantity)
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Uom
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.SuppLog.Uom, new { @class = "form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.SuppLog.Uom)
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                    <div class="form-horizontal row" style="font-size:12px;">
-                        <div class="form-group">
-
-                            <div class="col-sm-6">
-                                <div class="control-label col-sm-4" style="text-align:left;">
-                                    Supplier Ref
-                                </div>
-                                <div class="input-group add-on col-sm-8">
-                                    @Html.TextBoxFor(model => model.SuppLog.SupplierRef, new { @class = "form-control input-xs" })
-                                    @Html.ValidationMessageFor(model => model.SuppLog.SupplierRef)
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal row" style="font-size:10px;">
-                        <div class="form-group">
-                            <h3 class="text-center">Inspection Checks </h3><br />
-                            <div class="col-sm-2">
-                                <div class="form-group col-sm-8">
-                                    Product Condition
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <div class="editor-field input-sm col-sm-8">
-                                        <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-ProductCondition" onchange="ProductCondition()">
-                                    </div>
-                                    @Html.HiddenFor(model => model.SuppLog.ProductCondition)
-                                </div>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <div class="form-group col-sm-8">
-                                    Delivery Truck Condition
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <div class="editor-field input-sm col-sm-8">
-                                        <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-DeliveryTruckCondition" onchange="DeliveryTruckCondition()">
-                                    </div>
-                                    @Html.HiddenFor(model => model.SuppLog.DeliveryTruckCondition)
-                                </div>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <div class="form-group col-sm-8">
-                                    Product Acceptance
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <div class="editor-field input-sm col-sm-8">
-                                        <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-ProductApperance" onchange="ProductApperance()">
-                                    </div>
-                                    @Html.HiddenFor(model => model.SuppLog.ProductApperance)
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-2">
-                                <div class="form-group col-sm-8">
-                                    Accepted/ <br />Rejected
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <div class="editor-field input-sm col-sm-8">
-                                        <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-AcceptedRejected" onchange="AcceptedRejected()">
-                                    </div>
-                                    @Html.HiddenFor(model => model.SuppLog.AcceptedRejected)
-                                </div>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <div class="form-group col-sm-8">
-                                    Print Label
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <div class="editor-field input-sm col-sm-8">
-                                        <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-lblPrint" onchange="lblPrint()" size="1">
-                                    </div>
-                                    @Html.HiddenFor(model => model.SuppLog.lblPrint)
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-horizontal row" style="font-size:10px;">
-                        <div class="form-group col-sm-2">
-                            Comments
-                        </div>
-                        <div class="form-group col-sm-10">
-                            &nbsp;&nbsp; &nbsp;
-                            <div style="width:850px">
-                                @Html.TextAreaFor(model => model.SuppLog.Comments, new { @class = "form-control input-sm", @rows = "3" })
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" id="btnPost" value="Create" class="btn btn-default btn-sm" name="action:Index"><i class="fa fa-print"> Save</i></button>
-                        &nbsp;&nbsp;
-                        <button type="submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
-                        @if (ViewBag.Access == true)
-                        {
-                            if (Model != null)
-                            {
-                                if (Model.PrintPdf != null)
+                                @if (ViewBag.IsValid != null)
                                 {
-                                    
-                                    <a href="@Model.PrintPdf.FilePath" target="_blank" class="btn btn-default btn-sm pull-right right">
-                                        <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PrintPdf.FileName</span></span>
-                                    </a>
-                                }
-                            }
+                                    if (ViewBag.IsValid)
+                                    {
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control input-xs", @readonly = "readonly" })
+                                        </div>
+                                    }
+                                    else
+                                    {
 
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control input-xs" })
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--Initial search-->
+
+                    <div class="row">
+                        <hr />
+                        @if (ViewBag.IsValid != null)
+                        {
+                            if (ViewBag.IsValid == false)
+                            {
+                                <button type="submit" class="btn btn btn-success center-block" title="Load Supplier Delivery Log" name="action:Index">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                </button>
+                            }
                         }
                     </div>
 
-                   
-                    <div class="form-horizontal row spacer-xs" style="font-size:10px;">
-                        <div class="form-group" id="Detail">
-                            <table class="tblDetail table table-hover table-striped table-condensed table-responsive table-bordered sortable center-block" id="tblDetail" style="table-layout:fixed; width:1010px;overflow-y:auto">
-                                <thead class="style1" tabindex="-1">
-                                    <tr bgcolor="#000000">
-                                        <th style="width:20px">
-                                            Action
-                                        </th>
-                                        <th style="width:50px">
-                                            Reciever
-                                        </th>
-                                        <th style="width:100px">
-                                            Supplier
-                                        </th>
-                                        <th style="width:80px">
-                                            Purchase Order
-                                        </th>
-                                        <th style="width:50px">
-                                            StockCode
-                                        </th>
-                                        <th style="width:80px">
-                                            Quantity
-                                        </th>
-                                        <th style="width:60px">
-                                            Supplier Ref
-                                        </th>
-                                        <th style="width:80px">
-                                            Description
-                                        </th>
-                                        <th style="width:80px">
-                                            Uom
-                                        </th>
+                    <!--Table Results-->
+                    @if (ViewBag.ShowTable != null)
+                    {
+                        if (ViewBag.ShowTable)
+                        {
+                            <div class="col-sm-12">
+                                <div class="row spacer-xs" style="font-size:10px;">
+                                    <div id="Detail">
+                                        <div class="table-responsive">
+                                            <table class="tblDetail table table-hover table-striped table-condensed table-bordered" id="tblDetail">
+                                                <thead class="style1" tabindex="-1">
+                                                    <tr bgcolor="#000000">
+                                                        <th>
+                                                            Action
+                                                        </th>
+                                                        <th style="width:50px">
+                                                            Reciever
+                                                        </th>
+                                                        <th style="width:100px">
+                                                            Supplier
+                                                        </th>
+                                                        <th style="width:80px">
+                                                            Purchase Order
+                                                        </th>
+                                                        <th style="width:40px">
+                                                            Valid Purchase Order
+                                                        </th>
+                                                        <th style="width:50px">
+                                                            StockCode
+                                                        </th>
+                                                        <th style="width:80px">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width:60px">
+                                                            Supplier Ref
+                                                        </th>
+                                                        <th style="width:80px">
+                                                            Description
+                                                        </th>
+                                                        <th style="width:80px">
+                                                            Uom
+                                                        </th>
+                                                        <th style="width:80px">
+                                                            Line
+                                                        </th>
+                                                        <th style="width:40px">
+                                                            Product Apperance
+                                                        </th>
+                                                        <th style="width:40px">
+                                                            Product Condition
+                                                        </th>
+                                                        <th style="width:40px">
+                                                            Delivery Truck Condition
+                                                        </th>
+                                                        <th style="width:40px">
+                                                            Accepted Rejected
+                                                        </th>
+                                                        <th style="width:40px">
+                                                            Label Print
+                                                        </th>
+                                                        <th style="width:350px">
+                                                            Comments
+                                                        </th>
+                                                        <th style="display: none;">
+                                                        </th>
+                                                        <th style="display: none;">
 
-                                        <th style="width:80px">
-                                            Line
-                                        </th>
-                                        <th style="width:40px">
-                                            Product Apperance
-                                        </th>
-                                        <th style="width:40px">
-                                            Product Condition
-                                        </th>
-                                        <th style="width:40px">
-                                            Delivery Truck Condition
-                                        </th>
-                                        <th style="width:40px">
-                                            Accepted Rejected
-                                        </th>
-                                        <th style="width:40px">
-                                            label Print
-                                        </th>
-                                        <th style="width:350px">
-                                            Comments
-                                        </th>
-                                    </tr>
+                                                        </th>
+                                                    </tr>
 
-                                </thead>
-                                <tbody class="datarow">
-                                    @if (Model != null)
-                                    {
-                                        if (Model.GetLogReciever != null)
-                                        {
-                                            for (int i = 0; i < Model.GetLogReciever.Count; i++)
-                                            {
+                                                </thead>
+                                                <tbody class="datarow">
+                                                    @if (Model != null)
+                                                    {
+                                                        if (Model.DeliveryLogList != null)
+                                                        {
+                                                            for (int i = 0; i < Model.DeliveryLogList.Count; i++)
+                                                            {
 
-                                                <tr class="nr">
+                                                                <tr class="nr">
+                                                                    <td>
+                                                                        <div class="row text-center">
+                                                                            <a href="@Url.Action("LogEntry", new { Id = Model.DeliveryLogList[i].Id })" class="btn btn-warning btn-xs modal-link">
+                                                                                <span class="fa fa-edit" aria-hidden="true" title="Edit Line"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                                                            </a>
+                                                                            <a href="@Url.Action("DeleteDetailLine", new { Id = Model.DeliveryLogList[i].Id})" class="btn btn-danger btn-xs">
+                                                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
 
-                                                    <td>
-                                                        <a href="@Url.Action("DeleteDetailLine", new { Id = Model.GetLogReciever[i].Id})" class="btn btn-danger btn-sm">
-                                                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
-                                                        </a>
-                                                        @Model.GetLogReciever[i].Id
-                                                        @Html.HiddenFor(model => model.SuppLog.Id)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Reciever
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Reciever)
-                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Reciever
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Reciever)
+                                                                    </td>
 
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Supplier
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Supplier)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].PurchaseOrder
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].PurchaseOrder)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].StockCode
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].StockCode)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Quantity
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Quantity)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].SupplierRef
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].SupplierRef)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Description
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Description)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Uom
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Uom)
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Line
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Line)
-                                                    </td>
-                                                    <td width="40px;">
-                                                        @Model.GetLogReciever[i].ProductApperance
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].ProductApperance)
-                                                    </td>
-                                                    <td width="40px;">
-                                                        @Model.GetLogReciever[i].ProductCondition
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].ProductCondition)
-                                                    </td>
-                                                    <td width="40px;">
-                                                        @Model.GetLogReciever[i].DeliveryTruckCondition
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].DeliveryTruckCondition)
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Supplier
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Supplier)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].PurchaseOrder
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].PurchaseOrder)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].ValidPO
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].ValidPO)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].StockCode
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].StockCode)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Quantity
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Quantity)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].SupplierRef
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].SupplierRef)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Description
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Description)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Uom
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Uom)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Line
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Line)
+                                                                    </td>
+                                                                    <td width="40px">
+                                                                        @Model.DeliveryLogList[i].ProductApperance
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].ProductApperance)
+                                                                    </td>
+                                                                    <td width="40px">
+                                                                        @Model.DeliveryLogList[i].ProductCondition
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].ProductCondition)
+                                                                    </td>
+                                                                    <td width="40px">
+                                                                        @Model.DeliveryLogList[i].DeliveryTruckCondition
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].DeliveryTruckCondition)
 
-                                                    </td>
-                                                    <td width="40px;">
-                                                        @Model.GetLogReciever[i].AcceptedRejected
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].AcceptedRejected)
+                                                                    </td>
+                                                                    <td width="40px">
+                                                                        @Model.DeliveryLogList[i].AcceptedRejected
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].AcceptedRejected)
 
-                                                    </td>
-                                                    <td width="40px;">
-                                                        @Model.GetLogReciever[i].lblPrint
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].lblPrint)
+                                                                    </td>
+                                                                    <td width="40px">
+                                                                        @Model.DeliveryLogList[i].lblPrint
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].lblPrint)
 
-                                                    </td>
-                                                    <td>
-                                                        @Model.GetLogReciever[i].Comments
-                                                        @Html.HiddenFor(model => Model.GetLogReciever[i].Comments)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.DeliveryLogList[i].Comments
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].Comments)
 
-                                                    </td>
-                                                </tr>
+                                                                    </td>
+                                                                    <td style="display: none;">
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].TransactionDate)
+                                                                    </td>
+                                                                    <td style="display: none;">
+                                                                        @Html.HiddenFor(model => Model.DeliveryLogList[i].ValidPO)
+                                                                    </td>
+                                                                </tr>
 
-                                            }
+                                                            }
 
-                                        }
-                                    }
+                                                        }
+                                                    }
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <!--Table Results-->
                 </div>
 
             </div>
@@ -466,165 +315,32 @@
         margin: 0px;
     }
 
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 55px;
-        height: 34px;
-    }
+    /*html {
+        overflow-y: hidden;
+    }*/
 </style>
-<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTable/dataTables.min.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTables/dataTables.min.css")" />
 @section Scripts {
     @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
     @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
     <script type="text/javascript">
-        //$("#tblSo").DataTable({
-        //    dom: 'Bfrtip',
-        //    "ordering": false,
-        //    "iDisplayLength": 100,
-        //    "fixedHeader": true,
-        //    "scrollY": 350,
-        //    "scrollX": "100%",
-        //    "responsive": true,
-        //    "paging": false,
-        //    buttons: [
-        //        'excelHtml5'
-        //    ]
-        //});
-        $(document).ready(function () {
 
-            $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
+        $(document).ready(function () {
 
             var table = $('#tblDetail').DataTable({
                 dom: 'Bfrtip',
                 paging: false,
                 "rowReorder": true,
                 "ordering": true,
-                //"scrollY": 200,
-                //"scrollX": true,
                 order: [[1, 'asc']],
                 buttons: [
                     'excelHtml5'
                 ],
                 "orderClasses": false
             });
+
         });
 
-
-        //$('.timepicker').timepicker({
-        //    timeFormat: 'h:mm:ss ',
-        //    interval: 60,
-        //    minTime: '01',
-        //    maxTime: '12:00',
-        //    defaultTime: '01',
-        //    startTime: '08:00',
-        //    dynamic: true,
-        //    dropdown: true,
-        //    scrollbar: true
-        //});
-
-        //Product Condition
-        if ($('#SuppLog_ProductCondition').val()) {
-            if ($('#SuppLog_ProductCondition').val() === 'Y') {
-                $('#toggle-ProductCondition').prop('checked', true).change();
-            }
-            else if ($('#SuppLog_ProductCondition').val() === 'N') {
-                $('#toggle-ProductCondition').prop('checked', false).change();
-            }
-        }
-        else {
-            $('#toggle-ProductCondition').prop('checked', true).change();
-        }
-        function ProductCondition() {
-            if (document.getElementById('toggle-DeliveryTruckCondition').checked) {
-                $('#SuppLog_ProductCondition').val('Y');
-            } else {
-                $('#SuppLog_ProductCondition').val('N');
-            }
-        }
-        //Truck Delivery Condition
-        if ($('#SuppLog_DeliveryTruckCondition').val()) {
-            if ($('#SuppLog_DeliveryTruckCondition').val() === 'Y') {
-                $('#toggle-DeliveryTruckCondition').prop('checked', true).change();
-            }
-            else if ($('#SuppLog_ProductCondition').val() === 'N') {
-                $('#toggle-DeliveryTruckCondition').prop('checked', false).change();
-            }
-        }
-        else {
-            $('#toggle-DeliveryTruckCondition').prop('checked', true).change();
-        }
-        function DeliveryTruckCondition() {
-            if (document.getElementById('toggle-DeliveryTruckCondition').checked) {
-                $('#SuppLog_DeliveryTruckCondition').val('Y');
-            } else {
-                $('#SuppLog_DeliveryTruckCondition').val('N');
-            }
-        }
-
-        //Product Acceptance
-
-        if ($('#SuppLog_ProductApperance').val()) {
-            if ($('#SuppLog_ProductApperance').val() === 'Y') {
-                $('#toggle-ProductApperance').prop('checked', true).change();
-            }
-            else if ($('#SuppLog_ProductApperance').val() === 'N') {
-                $('#toggle-ProductApperance').prop('checked', false).change();
-            }
-        }
-        else {
-            $('#toggle-ProductApperance').prop('checked', true).change();
-        }
-        function ProductApperance() {
-            if (document.getElementById('toggle-ProductApperance').checked) {
-                $('#SuppLog_ProductApperance').val('Y');
-            } else {
-                $('#SuppLog_ProductApperance').val('N');
-            }
-        }
-
-
-        // Accepted/Rejected
-        if ($('#SuppLog_AcceptedRejected').val()) {
-            if ($('#SuppLog_AcceptedRejected').val() === 'Y') {
-                $('#toggle-AcceptedRejected').prop('checked', true).change();
-            }
-            else if ($('#SuppLog_AcceptedRejected').val() === 'N') {
-                $('#toggle-AcceptedRejected').prop('checked', false).change();
-            }
-        }
-        else {
-            $('#toggle-AcceptedRejected').prop('checked', true).change();
-        }
-        function AcceptedRejected() {
-            if (document.getElementById('toggle-AcceptedRejected').checked) {
-                $('#SuppLog_AcceptedRejected').val('Y');
-            } else {
-                $('#SuppLog_AcceptedRejected').val('N');
-            }
-        }
-
-
-        //Print Label  lblPrint
-        if ($('#SuppLog_lblPrint').val()) {
-            if ($('#SuppLog_lblPrint').val() === 'Y') {
-                $('#toggle-lblPrint').prop('checked', true).change();
-            }
-            else if ($('#SuppLog_lblPrint').val() === 'N') {
-                $('#toggle-lblPrint').prop('checked', false).change();
-            }
-        }
-        else {
-            $('#toggle-lblPrint').prop('checked', true).change();
-        }
-        function lblPrint() {
-            if (document.getElementById('toggle-lblPrint').checked) {
-                $('#SuppLog_lblPrint').val('Y');
-            } else {
-                $('#SuppLog_lblPrint').val('N');
-            }
-        }
     </script>
 }

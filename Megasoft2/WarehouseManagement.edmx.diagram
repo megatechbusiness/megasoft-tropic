@@ -176,7 +176,6 @@
         <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_InvWarehouse_ApSupplier" />
         <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorMasterHdr_ApSupplier" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtInvMasterImage" Width="1.5" PointX="23.375" PointY="42.75" />
-        <EntityTypeShape EntityType="WarehouseManagementModel.mtSuppDeliveryLog" Width="1.5" PointX="18.375" PointY="42.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtMegasoftAlert" Width="1.5" PointX="25.375" PointY="42.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.PorSupStkInfo" Width="1.5" PointX="46.625" PointY="32.125" />
         <AssociationConnector Association="WarehouseManagementModel.Syspro_FK_PorSupStkInfo_ApSupplier" />
@@ -194,6 +193,7 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormControl" Width="1.5" PointX="15.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtWhseManSetting" Width="1.5" PointX="45.375" PointY="43.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtShift" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtSuppDeliveryLog" Width="1.5" PointX="18.375" PointY="42.75" />
 
       </Diagram>
     </edmx:Diagrams>
