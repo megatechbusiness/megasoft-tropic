@@ -1,0 +1,741 @@
+﻿@model Megasoft2.ViewModel.SuppDeliveryLogViewModel
+
+<form method="post">
+    <div class="panel panel-primary modal-body modal-open" id="logModal">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-target="#collapseOne"
+                   href="#collapseOne" class="collapsed">
+                    Delivery Log Entry
+                </a>
+            </h4>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+
+                @Html.HiddenFor(model => model.SuppLog.Id)
+
+                <div class="form-horizontal row">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align: left; font-size: 10px;">
+                                Reciever
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.DropDownListFor(model => model.SuppLog.Reciever, new SelectList(Model.EmployeeList, "Employee", "Employee"), new { @class = "form-control input-xs", @style = "font-size:x-small;" })
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align: left; font-size: 10px;">
+                                Purchase Order
+                            </div>
+                            <div class="input-group col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.PurchaseOrder, new { @class = "form-control input-xs" })
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-info searchbox btn-xs" data-toggle="modal" href="#poModal" id="btnPoSearch">
+                                        <span class="fa fa-search" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            @Html.HiddenFor(model => model.SuppLog.ValidPO)
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-horizontal row" style="font-size:12px;">
+                    <div class="form-group">
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Date
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.TransactionDate, "{0:yyyy-MM-ddTHH:mm:ss}", new { @class = "form-control input-xs", @type = "datetime-local", @value = Model.SuppLog.TransactionDate })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-horizontal row" style="font-size:12px;">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Supplier
+                            </div>
+                            <div class="input-group col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.Supplier, new { @class = "form-control input-xs" })
+                                <div class="input-group-btn" id="btnSupplier">
+                                    <button type="button" class="btn btn-sm btn-info searchbox btn-xs" data-toggle="modal" href="#suppModal">
+                                        <span class="fa fa-search" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Line
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.Line, new { @class = "form-control input-xs" })
+                                @Html.ValidationMessageFor(model => model.SuppLog.Line)
+                                <div class="input-group-btn" id="btnLineSearch">
+                                    <button type="button" class="btn btn-sm btn-info searchbox btn-xs" data-toggle="modal" href="#poLinesModal">
+                                        <span class="fa fa-search" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-horizontal row" style="font-size:12px;">
+                    <div class="form-group">
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Stock Code
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.StockCode, new { @class = "form-control input-xs" })
+                                @Html.ValidationMessageFor(model => model.SuppLog.StockCode)
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Description
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.Description, new { @class = "form-control input-xs" })
+                                @Html.ValidationMessageFor(model => model.SuppLog.Description)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-horizontal row" style="font-size:12px;">
+                    <div class="form-group">
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Quantity
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.Quantity, new { @class = "form-control input-xs" })
+                                @Html.ValidationMessageFor(model => model.SuppLog.Quantity)
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Uom
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.Uom, new { @class = "form-control input-xs" })
+                                @Html.ValidationMessageFor(model => model.SuppLog.Uom)
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="form-horizontal row" style="font-size:12px;">
+                    <div class="form-group">
+
+                        <div class="col-sm-6">
+                            <div class="control-label col-sm-4" style="text-align:left;">
+                                Supplier Ref
+                            </div>
+                            <div class="input-group add-on col-sm-8">
+                                @Html.TextBoxFor(model => model.SuppLog.SupplierRef, new { @class = "form-control input-xs" })
+                                @Html.ValidationMessageFor(model => model.SuppLog.SupplierRef)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Inspection Checks-->
+                <div class="row" style="font-size:10px;">
+                    <div class="form-group">
+                        <h3 class="text-center">Inspection Checks</h3><br />
+                        <div class="col-sm-2">
+                            <div class="col-sm-8">
+                                Product Condition
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="editor-field input-sm col-sm-8">
+                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-ProductCondition" onchange="ProductCondition()">
+                                </div>
+                                @Html.HiddenFor(model => model.SuppLog.ProductCondition)
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-8">
+                                Delivery Truck Condition
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="editor-field input-sm col-sm-8">
+                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-DeliveryTruckCondition" onchange="DeliveryTruckCondition()">
+                                </div>
+                                @Html.HiddenFor(model => model.SuppLog.DeliveryTruckCondition)
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-8">
+                                Product Acceptance
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="editor-field input-sm col-sm-8">
+                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-ProductApperance" onchange="ProductApperance()">
+                                </div>
+                                @Html.HiddenFor(model => model.SuppLog.ProductApperance)
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-8">
+                                Accepted/ <br />Rejected
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="editor-field input-sm col-sm-8">
+                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-AcceptedRejected" onchange="AcceptedRejected()">
+                                </div>
+                                @Html.HiddenFor(model => model.SuppLog.AcceptedRejected)
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-8">
+                                Print Label
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="editor-field input-sm col-sm-8">
+                                    <input type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini" data-on="&#8203;Yes" data-off="&#8203;No" class="switch switch-off toggle" id="toggle-lblPrint" onchange="lblPrint()" size="1">
+                                </div>
+                                @Html.HiddenFor(model => model.SuppLog.lblPrint)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Inspection Checks-->
+
+                <div class="form-horizontal row" style="font-size:10px;">
+                    <div class="form-group col-sm-2">
+                        Comments
+                    </div>
+                    <div class="form-group col-sm-10">
+                        &nbsp;&nbsp; &nbsp;
+                        <div>
+                            @Html.TextAreaFor(model => model.SuppLog.Comments, new { @class = "form-control input-sm", @rows = "3" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="submit" id="btnPost" value="Create" class="btn btn-default btn-sm" name="action:SaveLogEntry"><i class="fa fa-save"> Save</i></button>
+                    &nbsp;&nbsp;
+                    <button type="submit" asp-page-handler="Submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
+                    @if (ViewBag.Access == true)
+                    {
+                        if (Model != null)
+                        {
+                            if (Model.PrintPdf != null)
+                            {
+                                <a href="@Model.PrintPdf.FilePath" target="_blank" class="btn btn-default btn-sm pull-right right">
+                                    <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PrintPdf.FileName</span></span>
+                                </a>
+                            }
+                        }
+
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+<!--modals BEGIN-->
+<div class="modal fade" id="suppModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="panel panel-primary modal-body">
+            <button type="button" class="close" @*data-dismiss="modal"*@ id="btnCloseSuppModal">&times;</button>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseOne"
+                       href="#collapseOne" class="collapsed">
+                        Supplier List
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="editor-field input-sm col-sm-12">
+                                    <input type="text" id="txtSupplierSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div id="SupplierResults" class="table-responsive">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="poModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="panel panel-primary modal-body" id="poModal">
+            <button type="button" class="close" @*data-dismiss="modal"*@ id="btnClosePoModal">&times;</button>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseOne"
+                       href="#collapseOne" class="collapsed">
+                        PO List
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="editor-field input-sm col-sm-12">
+                                    <input type="text" id="txtSupplierPoSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div id="SupplierPoResults" class="table-responsive">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="poLinesModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="panel panel-primary modal-body">
+            <button type="button" class="close" @*data-dismiss="modal"*@ id="btnClosePoLinesModal">&times;</button>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseOne"
+                       href="#collapseOne" class="collapsed">
+                        PO Lines
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div class="editor-field input-sm col-sm-12">
+                                    <input type="text" id="txtPoLineSearch" class="form-control input-sm" placeholder="Search" autofocus />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal row">
+                            <div class="form-group">
+                                <div id="PoLineResults" class="table-responsive">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modals END-->
+
+<style type="text/css">
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 34px;
+    }
+
+    .modal-dialog {
+        width: 80%;
+        margin: auto;
+    }
+</style>
+
+<script src="~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+<script type="text/javascript">
+
+    //check if purchase order number exists
+    //disable fields based on result
+    function PurchaseOrderValidation() {
+
+        //pad purchase order number
+        if ($('#SuppLog_PurchaseOrder').val().trim() != '') {
+            $('#SuppLog_PurchaseOrder').val(leftPad($('#SuppLog_PurchaseOrder').val(), 15))
+        }
+
+        $.getJSON('@Url.Action("PurchaseOrderValidation", "SuppDeliveryLog")?PurchaseOrder=' + $('#SuppLog_PurchaseOrder').val(), function (data) {
+
+            if (data === true) { //PO is valid
+                //disable supplier field and buttons
+                $('#SuppLog_Supplier').prop("readonly", true);
+                $('#btnSupplier').hide();
+
+                //allow searching of lines
+                $('#btnLineSearch').show();
+
+                $('#SuppLog_ValidPO').val('Y'); //set ValidPO flag to Y
+
+            }
+            else { //invalid PO
+
+                //enable supplier field and buttons
+                $('#SuppLog_Supplier').prop("readonly", false);
+                $('#btnSupplier').show();
+
+                //don't allow searching of lines
+                $('#btnLineSearch').hide();
+
+                $('#SuppLog_ValidPO').val('N'); //set ValidPO flag to N
+            }
+
+        });
+    }
+
+    //auto detect supplier if input po is valid
+    function ValidSupplier() {
+
+        $.getJSON('@Url.Action("GetSupplierForPo", "SuppDeliveryLog")?PurchaseOrder=' + $('#SuppLog_PurchaseOrder').val(), function (data) {
+            $('#SuppLog_Supplier').val(data);
+            return;
+        })
+
+        //$('#SuppLog_Supplier').val('');
+    }
+
+    //modal functions BEGIN
+    function GetSuppliers()
+    {
+        $.getJSON('@Url.Action("SupplierList", "SuppDeliveryLog", new { FilterText = " " })', function (data) {
+            var items = '<table id="SupplierSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>Supplier</th><th>SupplierName</th></tr></thead><tbody>';
+            $.each(data, function (i, x) {
+                items += "<tr class='nr' id=" + x.Supplier + "><td><a href=#>" + x.Supplier + "</a></td><td>" + x.SupplierName + "</td></tr>" ;
+            });
+            items += "</tbody></table>";
+            $('#SupplierResults').html(items);
+
+            $('#SupplierSearch').DataTable({
+                paging: true
+            });
+        });
+    }
+
+    function GetPoLines()
+    {
+        $.getJSON('@Url.Action("PoLineList", "SuppDeliveryLog")?PurchaseOrder=' + $('#SuppLog_PurchaseOrder').val(), function (data) {
+            var items = '<table id="PoLineSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>PurchaseOrder</th><th>Line</th><th>MStockCode</th><th>MStockDes</th><th>MWarehouse</th><th>MOrderUom</th><th>MOrderQty</th><th>MReceivedQty</th><th>OutstandingQty</th><th>Supplier</th></tr></thead><tbody>';
+            $.each(data, function (i, x) {
+                items += "<tr class='nr' id=" + x.PurchaseOrder + "><td><a href=#>" + x.PurchaseOrder + "</a></td><td>" + x.Line + "</td><td>" + x.MStockCode + "</td><td>" + x.MStockDes + "</td><td>" + x.MWarehouse + "</td><td>" + x.MOrderUom + "</td><td>" + x.MOrderQty + "</td><td>" + x.MReceivedQty + "</td><td>" + x.OutstandingQty + "</td><td>" + x.Supplier + "</td></tr>" ;
+            });
+            items += "</tbody></table>";
+            $('#PoLineResults').html(items);
+
+            $('#PoLineSearch').DataTable({
+                paging: true
+            });
+        });
+    }
+
+    function GetSupplierPo()
+    {
+        $.getJSON('@Url.Action("SupplierPOList", "SuppDeliveryLog")?FilterText=' + $('#SuppLog_Supplier').val(), function (data) {
+            var items = '<table id="SupplierPoSearch" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>PurchaseOrder</th><th>Line</th><th>MStockCode</th><th>MStockDes</th><th>MWarehouse</th><th>MOrderUom</th><th>MOrderQty</th><th>MReceivedQty</th><th>OutstandingQty</th></tr></thead><tbody>';
+            $.each(data, function (i, x) {
+                items += "<tr class='nr' id=" + x.PurchaseOrder + "><td><a href=#>" + x.PurchaseOrder + "</a></td><td>" + x.Line + "</td><td>" + x.MStockCode + "</td><td>" + x.MStockDes + "</td><td>" + x.MWarehouse + "</td><td>" + x.MOrderUom + "</td><td>" + x.MOrderQty + "</td><td>" + x.MReceivedQty + "</td><td>" + x.OutstandingQty + "</td></tr>" ;
+            });
+            items += "</tbody></table>";
+            $('#SupplierPoResults').html(items);
+
+            //window.setTimeout(function () {}, 500);
+            $('#SupplierPoSearch').DataTable({
+                paging: true
+            });
+        });
+    }
+    //modal functions END
+
+    //modal events BEGIN
+
+    $('#btnClosePoModal').click(function () {
+            $('#poModal').modal('toggle');
+    });
+
+    $('#btnClosePoLinesModal').click(function () {
+        $('#poLinesModal').modal('toggle');
+    });
+
+    $('#btnCloseSuppModal').click(function () {
+        $('#suppModal').modal('toggle');
+    });
+
+    //supplier search
+    $('#txtSupplierSearch').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var $rows = $('#SupplierSearch .nr');
+        $rows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+
+    $('#SupplierResults').on("click", ".nr", function () {
+        var rCode = $(this).attr('id');
+        //do something with id
+        if ('@ViewBag.IsValid') {
+            $('#SuppLog_Supplier').val(rCode);
+        }
+        else {
+            $('#SuppLog_Supplier').val(rCode);
+        }
+
+        $('#suppModal').modal('toggle');
+    });
+
+    $('#suppModal').on('shown.bs.modal', function (e) {
+        GetSuppliers();
+        $('#txtSupplierSearch').focus();
+    });
+    //supplier search
+
+    //po line search
+    $('#txtPoLineSearch').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var $rows = $('#PoLineSearch .nr');
+        $rows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+
+    $('#PoLineResults').on("click", ".nr", function () {
+        var rCode = $(this).attr('id');
+        var Line = $(this).closest("tr").find('td:eq(1)').text();
+        var MStockCode = $(this).closest("tr").find('td:eq(2)').text();
+        var MStockDes = $(this).closest("tr").find('td:eq(3)').text();
+        var MOrderUom = $(this).closest("tr").find('td:eq(5)').text();
+        var Supplier = $(this).closest("tr").find('td:eq(9)').text();
+
+        //$('#SuppLog_PurchaseOrder').val(rCode);
+        $('#SuppLog_StockCode').val(MStockCode);
+        $('#SuppLog_Uom').val(MOrderUom);
+        $('#SuppLog_Line').val(Line);
+        $('#SuppLog_Description').val(MStockDes);
+        $('#SuppLog_Supplier').val(Supplier);
+
+        $('#poLinesModal').modal('toggle');
+
+    });
+
+    $('#poLinesModal').on('shown.bs.modal', function (e) {
+        GetPoLines();
+        $('#txtPoLineSearch').focus();
+    });
+    //po line search
+
+    //purchase order search
+    $('#txtSupplierPoSearch').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var $rows = $('#SupplierSearch .nr');
+        $rows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+
+    $('#SupplierPoResults').on("click", ".nr", function () {
+        var rCode = $(this).attr('id');
+        var Line = $(this).closest("tr").find('td:eq(1)').text();
+        var MStockCode = $(this).closest("tr").find('td:eq(2)').text();
+        var MStockDes = $(this).closest("tr").find('td:eq(3)').text();
+        var MOrderUom = $(this).closest("tr").find('td:eq(5)').text();
+        //do something with id
+        $('#SuppLog_PurchaseOrder').val(rCode);
+        $('#SuppLog_StockCode').val(MStockCode);
+        $('#SuppLog_Uom').val(MOrderUom);
+        $('#SuppLog_Line').val(Line);
+        $('#SuppLog_Description').val(MStockDes);
+
+        $('#poModal').modal('toggle');
+        PurchaseOrderValidation();
+    });
+
+    $('#poModal').on('shown.bs.modal', function (e) {
+        GetSupplierPo();
+        $('#txtSupplierPoSearch').focus();
+    });
+    //purchase order search
+
+    //modal events
+
+    //pad purchase order numbers
+    function leftPad(value, length) {
+        return ('0'.repeat(length) + value).slice(-length);
+    }
+
+    $(document).ready(function () {
+
+        PurchaseOrderValidation();
+
+        //events
+        $('#SuppLog_PurchaseOrder').change(function () {
+            PurchaseOrderValidation();
+            ValidSupplier();
+        });
+
+    });
+
+    //Product Condition
+    if ($('#SuppLog_ProductCondition').val()) {
+        if ($('#SuppLog_ProductCondition').val() === 'Y') {
+            $('#toggle-ProductCondition').prop('checked', true).change();
+        }
+        else if ($('#SuppLog_ProductCondition').val() === 'N') {
+            $('#toggle-ProductCondition').prop('checked', false).change();
+        }
+    }
+    else {
+        $('#toggle-ProductCondition').prop('checked', true).change();
+    }
+    function ProductCondition() {
+        if (document.getElementById('toggle-DeliveryTruckCondition').checked) {
+            $('#SuppLog_ProductCondition').val('Y');
+        } else {
+            $('#SuppLog_ProductCondition').val('N');
+        }
+    }
+    //Truck Delivery Condition
+    if ($('#SuppLog_DeliveryTruckCondition').val()) {
+        if ($('#SuppLog_DeliveryTruckCondition').val() === 'Y') {
+            $('#toggle-DeliveryTruckCondition').prop('checked', true).change();
+        }
+        else if ($('#SuppLog_ProductCondition').val() === 'N') {
+            $('#toggle-DeliveryTruckCondition').prop('checked', false).change();
+        }
+    }
+    else {
+        $('#toggle-DeliveryTruckCondition').prop('checked', true).change();
+    }
+    function DeliveryTruckCondition() {
+        if (document.getElementById('toggle-DeliveryTruckCondition').checked) {
+            $('#SuppLog_DeliveryTruckCondition').val('Y');
+        } else {
+            $('#SuppLog_DeliveryTruckCondition').val('N');
+        }
+    }
+
+    //Product Acceptance
+    if ($('#SuppLog_ProductApperance').val()) {
+        if ($('#SuppLog_ProductApperance').val() === 'Y') {
+            $('#toggle-ProductApperance').prop('checked', true).change();
+        }
+        else if ($('#SuppLog_ProductApperance').val() === 'N') {
+            $('#toggle-ProductApperance').prop('checked', false).change();
+        }
+    }
+    else {
+        $('#toggle-ProductApperance').prop('checked', true).change();
+    }
+    function ProductApperance() {
+        if (document.getElementById('toggle-ProductApperance').checked) {
+            $('#SuppLog_ProductApperance').val('Y');
+        } else {
+            $('#SuppLog_ProductApperance').val('N');
+        }
+    }
+
+    // Accepted/Rejected
+    if ($('#SuppLog_AcceptedRejected').val()) {
+        if ($('#SuppLog_AcceptedRejected').val() === 'Y') {
+            $('#toggle-AcceptedRejected').prop('checked', true).change();
+        }
+        else if ($('#SuppLog_AcceptedRejected').val() === 'N') {
+            $('#toggle-AcceptedRejected').prop('checked', false).change();
+        }
+    }
+    else {
+        $('#toggle-AcceptedRejected').prop('checked', true).change();
+    }
+    function AcceptedRejected() {
+        if (document.getElementById('toggle-AcceptedRejected').checked) {
+            $('#SuppLog_AcceptedRejected').val('Y');
+        } else {
+            $('#SuppLog_AcceptedRejected').val('N');
+        }
+    }
+
+    //Print Label  lblPrint
+    if ($('#SuppLog_lblPrint').val()) {
+        if ($('#SuppLog_lblPrint').val() === 'Y') {
+            $('#toggle-lblPrint').prop('checked', true).change();
+        }
+        else if ($('#SuppLog_lblPrint').val() === 'N') {
+            $('#toggle-lblPrint').prop('checked', false).change();
+        }
+    }
+    else {
+        $('#toggle-lblPrint').prop('checked', true).change();
+    }
+    function lblPrint() {
+        if (document.getElementById('toggle-lblPrint').checked) {
+            $('#SuppLog_lblPrint').val('Y');
+        } else {
+            $('#SuppLog_lblPrint').val('N');
+        }
+    }
+
+</script>

@@ -2746,6 +2746,7 @@
           <Property Name="Comments" Type="varchar(max)" />
           <Property Name="SupplierRef" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="ValidPO" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="mtSupplierContractPricingColumnMapping">
           <Key>
@@ -4604,6 +4605,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="Job" Type="varchar" Mode="In" />
           <Parameter Name="BatchId" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="mt_SupplierDeliveryLogReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ArchiveStockTake" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Warehouse" Type="varchar" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -7676,7 +7678,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <FunctionImport Name="sp_GetStockCodeDescriptionByStockCode" ReturnType="Collection(WarehouseManagementModel.sp_GetStockCodeDescriptionByStockCode_Result)">
           <Parameter Name="StockCode" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="mtSuppDeliveryLogs" EntityType="WarehouseManagementModel.mtSuppDeliveryLog" />
           <EntitySet Name="mtMegasoftAlerts" EntityType="WarehouseManagementModel.mtMegasoftAlert" />
           <FunctionImport Name="mt_GetLast5PurchasesByStockCode" ReturnType="Collection(WarehouseManagementModel.mt_GetLast5PurchasesByStockCode_Result)">
           <Parameter Name="StockCode" Mode="In" Type="String" />
@@ -7821,6 +7822,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
             <Parameter Name="Job" Mode="In" Type="String" />
             <Parameter Name="BatchId" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="mtSuppDeliveryLogs" EntityType="WarehouseManagementModel.mtSuppDeliveryLog" />
+          <FunctionImport Name="mt_SupplierDeliveryLogReport" ReturnType="Collection(WarehouseManagementModel.mt_SupplierDeliveryLogReport_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -13866,6 +13869,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="Comments" Nullable="true" />
           <Property Type="String" Name="SupplierRef" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ValidPO" Nullable="true" MaxLength="1" />
         </ComplexType>
         <EntityType Name="mtInvMasterImage">
           <Key>
@@ -13880,30 +13884,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
           <Property Type="Binary" Name="Image" Nullable="true" />
         </ComplexType>
-        <EntityType Name="mtSuppDeliveryLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Supplier" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PurchaseOrder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-          <Property Name="Uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Line" Type="Decimal" Precision="4" Scale="0" />
-          <Property Name="ProductApperance" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="ProductCondition" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="DeliveryTruckCondition" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="AcceptedRejected" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="lblPrint" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SystemDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Reciever" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SupplierRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="mtMegasoftAlert">
           <Key>
             <PropertyRef Name="Id" />
@@ -14512,6 +14492,42 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="BatchId" Nullable="false" MaxLength="40" />
           <Property Type="Decimal" Name="GrossQty" Nullable="true" Precision="18" Scale="3" />
           <Property Type="Decimal" Name="NetQty" Nullable="true" Precision="18" Scale="3" />
+        </ComplexType>
+        <EntityType Name="mtSuppDeliveryLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Supplier" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PurchaseOrder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Line" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="ProductApperance" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ProductCondition" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTruckCondition" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="AcceptedRejected" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="lblPrint" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SystemDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reciever" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ValidPO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="mt_SupplierDeliveryLogReport_Result">
+          <Property Type="String" Name="Supplier" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="PurchaseOrder" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Line" Nullable="true" Precision="4" Scale="0" />
+          <Property Type="String" Name="SupplierRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="3" />
+          <Property Type="String" Name="Uom" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="TransactionDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="AgeDays" Nullable="true" />
         </ComplexType>
 
       </Schema>
@@ -20680,6 +20696,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="SupplierRef" ColumnName="SupplierRef" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ValidPO" ColumnName="ValidPO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -20701,31 +20718,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="mtSuppDeliveryLogs">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtSuppDeliveryLog">
-              <MappingFragment StoreEntitySet="mtSuppDeliveryLog">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SupplierRef" ColumnName="SupplierRef" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="Reciever" ColumnName="Reciever" />
-                <ScalarProperty Name="SystemDate" ColumnName="SystemDate" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="lblPrint" ColumnName="lblPrint" />
-                <ScalarProperty Name="AcceptedRejected" ColumnName="AcceptedRejected" />
-                <ScalarProperty Name="DeliveryTruckCondition" ColumnName="DeliveryTruckCondition" />
-                <ScalarProperty Name="ProductCondition" ColumnName="ProductCondition" />
-                <ScalarProperty Name="ProductApperance" ColumnName="ProductApperance" />
-                <ScalarProperty Name="Line" ColumnName="Line" />
-                <ScalarProperty Name="Uom" ColumnName="Uom" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
-                <ScalarProperty Name="PurchaseOrder" ColumnName="PurchaseOrder" />
-                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
-                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="mtMegasoftAlerts">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtMegasoftAlert">
               <MappingFragment StoreEntitySet="mtMegasoftAlerts">
@@ -21405,6 +21397,47 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="mt_ProductionRestoreDeletedBatch" FunctionName="WarehouseManagementModel.Store.mt_ProductionRestoreDeletedBatch" />
+          <EntitySetMapping Name="mtSuppDeliveryLogs">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtSuppDeliveryLog">
+              <MappingFragment StoreEntitySet="mtSuppDeliveryLog">
+                <ScalarProperty Name="ValidPO" ColumnName="ValidPO" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SupplierRef" ColumnName="SupplierRef" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Reciever" ColumnName="Reciever" />
+                <ScalarProperty Name="SystemDate" ColumnName="SystemDate" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="lblPrint" ColumnName="lblPrint" />
+                <ScalarProperty Name="AcceptedRejected" ColumnName="AcceptedRejected" />
+                <ScalarProperty Name="DeliveryTruckCondition" ColumnName="DeliveryTruckCondition" />
+                <ScalarProperty Name="ProductCondition" ColumnName="ProductCondition" />
+                <ScalarProperty Name="ProductApperance" ColumnName="ProductApperance" />
+                <ScalarProperty Name="Line" ColumnName="Line" />
+                <ScalarProperty Name="Uom" ColumnName="Uom" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="PurchaseOrder" ColumnName="PurchaseOrder" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_SupplierDeliveryLogReport" FunctionName="WarehouseManagementModel.Store.mt_SupplierDeliveryLogReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_SupplierDeliveryLogReport_Result">
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="PurchaseOrder" ColumnName="PurchaseOrder" />
+                <ScalarProperty Name="Line" ColumnName="Line" />
+                <ScalarProperty Name="SupplierRef" ColumnName="SupplierRef" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Uom" ColumnName="Uom" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="AgeDays" ColumnName="AgeDays" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
 
         </EntityContainerMapping>
       </Mapping>

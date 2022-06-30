@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Megasoft2</RootNamespace>
     <AssemblyName>Megasoft2</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -1051,6 +1051,9 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_ProductionMaterialIssueLots_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_SupplierDeliveryLogReport_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="MultipleButtonAttribute.cs" />
@@ -2911,6 +2914,9 @@
     <Content Include="Views\DispatchVerification\Index.cshtml" />
     <Content Include="Views\WhseManWickettLabelDelete\Index.cshtml" />
     <Content Include="Views\WhseManBatchReceipt\ProductionLabelRestore.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\PoLineSearch.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\SupplierDeliveryReport.cshtml" />
+    <Content Include="Views\SuppDeliveryLog\LogEntry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
