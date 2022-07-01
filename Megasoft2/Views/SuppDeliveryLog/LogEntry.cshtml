@@ -296,11 +296,11 @@
                     <div class="form-group">
 
                         <div class="form-horizontal row">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="editor-field input-sm col-sm-12">
                                     <input type="text" id="txtSupplierSearch" class="form-control input-sm" placeholder="Search" autofocus />
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-horizontal row">
                             <div class="form-group">
@@ -333,11 +333,11 @@
                     <div class="form-group">
 
                         <div class="form-horizontal row">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="editor-field input-sm col-sm-12">
                                     <input type="text" id="txtSupplierPoSearch" class="form-control input-sm" placeholder="Search" autofocus />
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-horizontal row">
                             <div class="form-group">
@@ -371,11 +371,11 @@
                     <div class="form-group">
 
                         <div class="form-horizontal row">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="editor-field input-sm col-sm-12">
                                     <input type="text" id="txtPoLineSearch" class="form-control input-sm" placeholder="Search" autofocus />
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-horizontal row">
                             <div class="form-group">
@@ -628,7 +628,8 @@
     }
 
     $(document).ready(function () {
-
+        $('#SuppLog_Supplier').val($('#Supplier').val());
+        $('#SuppLog_SupplierRef').val($('#DeliveryNote').val());
         PurchaseOrderValidation();
 
         //events

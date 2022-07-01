@@ -30,7 +30,7 @@
                 <a href="@Url.Action("LogEntry", "SuppDeliveryLog", new { Id = -1 })" class="btn btn-info active-right modal-link" title="New Log Entry">
                     <span class="fa fa-plus-circle" aria-hidden="true"> </span>
                 </a>
-
+                <button type="submit" asp-page-handler="Submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
             </div>
         </div>
 
@@ -46,6 +46,8 @@
                                 <div class="col-sm-4">
                                     <div class="control-label">
                                         Supplier
+                                        @Html.HiddenFor(model => model.SuppLog.TransactionDate)
+                                        @Html.HiddenFor(model => model.SuppLog.Reciever)
                                     </div>
                                 </div>
 
@@ -106,6 +108,15 @@
                                 <button type="submit" class="btn btn btn-success center-block" title="Load Supplier Delivery Log" name="action:Index">
                                     <i class="fa fa-arrow-circle-o-right"></i>
                                 </button>
+                            }
+                        }
+                        @if (Model != null)
+                        {
+                            if (Model.PrintPdf != null)
+                            {
+                                <a href="@Model.PrintPdf.FilePath" target="_blank" class="btn btn-default btn-sm pull-right right">
+                                    <span class="fa fa-print" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> @Model.PrintPdf.FileName</span></span>
+                                </a>
                             }
                         }
                     </div>

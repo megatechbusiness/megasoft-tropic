@@ -71,6 +71,13 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrEmpty(model.Supplier) && !string.IsNullOrEmpty(model.DeliveryNote))
                 {
                     model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+
+                    if (model.DeliveryLogList.Count > 0)
+                    {
+                        model.SuppLog = new mtSuppDeliveryLog();
+                        model.SuppLog.TransactionDate = model.DeliveryLogList.FirstOrDefault().TransactionDate;
+                        model.SuppLog.Reciever = model.DeliveryLogList.FirstOrDefault().Reciever;
+                    }
                 }
             }
             catch (Exception ex)
@@ -313,6 +320,11 @@ namespace Megasoft2.Controllers
         public ActionResult PrintPdf(SuppDeliveryLogViewModel model)
         {
             model.PrintPdf = ExportPdf(model.SuppLog.TransactionDate, model.SuppLog.Reciever);
+
+            //rebuild log list
+            model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+            SetViewBags(model);
+
             return View("Index", model);
         }
 
@@ -389,6 +401,7 @@ namespace Megasoft2.Controllers
             return Json(supplier, JsonRequestBehavior.AllowGet);
         }
 
+        [CustomAuthorize(Activity: "SupplierDeliveryLog")]
         public ActionResult SupplierDeliveryReport()
         {
             SuppDeliveryLogViewModel model = new SuppDeliveryLogViewModel();

@@ -14,6 +14,8 @@ namespace Megasoft2.BusinessLogic
 
         public string BuildXmlStructure(InkComponets co)
         {
+            var stockMaster = (from a in db.InvMasters where a.StockCode == co.Component select a).FirstOrDefault();
+
             //List<BomStructure> check = new List<BomStructure>();
             StringBuilder Document = new StringBuilder();
 
@@ -58,7 +60,12 @@ namespace Megasoft2.BusinessLogic
             Document.Append("<IncludeFromJob />");
             Document.Append("<IncludeToJob />");
             Document.Append("<FixedQtyPer />");
-            Document.Append("<ComponentType>"+ co.Analox+"</ComponentType>");
+
+            if (stockMaster.PartCategory != "G")
+            {
+                Document.Append("<ComponentType>" + co.Analox + "</ComponentType>");
+            }
+            
             Document.Append("<RefDesignator />");
             Document.Append("<AssemblyPlace />");
             Document.Append("<ItemNumber />");
