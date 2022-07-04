@@ -175,6 +175,22 @@ namespace Megasoft2.Controllers
                 }
                 else
                 {
+                    //add -NO PO to purchase order if not valid
+                    if (string.IsNullOrEmpty(model.SuppLog.PurchaseOrder))
+                    {
+                        model.SuppLog.PurchaseOrder = "";
+                    }
+
+                    if (model.SuppLog.ValidPO == "N")
+                    {
+                        if (!model.SuppLog.PurchaseOrder.Contains("-NO PO"))
+                        {
+                            model.SuppLog.PurchaseOrder = model.SuppLog.PurchaseOrder.TrimStart('0');
+                            model.SuppLog.PurchaseOrder += "-NO PO";
+                            model.SuppLog.PurchaseOrder = model.SuppLog.PurchaseOrder.PadLeft(15, '0');
+                        }
+                    }
+
                     var obj = new mtSuppDeliveryLog()
                     {
                         Supplier = model.SuppLog.Supplier,
