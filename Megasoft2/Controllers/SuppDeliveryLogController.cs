@@ -358,7 +358,6 @@ namespace Megasoft2.Controllers
                 string FileName = "DeliveryLog_" + DateTime.Now.ToString("yyyy_MM_dd") + ".pdf";
 
                 string OutputPath = Path.Combine(FilePath, FileName);
-                //ViewBag.Access = true;
                 //rpt.ExportToHttpResponse(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, true, Report + "_" + DateTime.Now.Date);
                 rpt.ExportToDisk(ExportFormatType.PortableDocFormat, OutputPath);
                 rpt.Close();
@@ -367,9 +366,7 @@ namespace Megasoft2.Controllers
 
                 ExportFile file = new ExportFile();
                 file.FileName = FileName;
-                file.FilePath = @"..\Reports\SupplierDeliveryLog\" + FileName;
-                //file.FilePath = HttpContext.Current.Server.MapPath("~/RequisitionSystem/RequestForQuote/") + FileName;
-                //file.FilePath = OutputPath;
+                file.FilePath = @".\Reports\SupplierDeliveryLog\" + FileName;
                 return file;
             }
             catch (Exception ex)
