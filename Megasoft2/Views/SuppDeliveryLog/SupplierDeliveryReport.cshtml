@@ -1,0 +1,105 @@
+﻿@model Megasoft2.ViewModel.SuppDeliveryLogViewModel
+@{
+    ViewBag.Title = "SupplierDeliveryReport";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSupplierDeliveryLogReport" }))
+{
+
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 style="text-align:center; font-weight:bold;">Supplier Delivery Log Report</h4>
+        </div>
+
+        <div class="panel-body">
+            <div class="col-md-12 col-lg-12">
+
+                <div class="row">
+                    <a href="@Url.Action("SupplierDeliveryReport", "SuppDeliveryLog")" class="btn btn-sm btn-default" title="Refresh"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-condensed table-hover table-striped" id="mainTable">
+                            <thead>
+                                <tr>
+                                    <th>Supplier</th>
+                                    <th>Purchase Order</th>
+                                    <th>Line</th>
+                                    <th>Supplier Ref</th>
+                                    <th>Stock Code</th>
+                                    <th>Quantity</th>
+                                    <th>Uom</th>
+                                    <th>Log Rec Date</th>
+                                    <th>Age Days</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    if (Model.ReportList != null)
+                                    {
+                                        if (Model.ReportList.Count > 0)
+                                        {
+                                            foreach (var item in Model.ReportList)
+                                            {
+                                                <tr>
+                                                    <td>@item.Supplier</td>
+                                                    <td>@item.PurchaseOrder</td>
+                                                    <td>@item.Line</td>
+                                                    <td>@item.SupplierRef</td>
+                                                    <td>@item.StockCode</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.Uom</td>
+                                                    <td>@item.TransactionDate</td>
+                                                    <td>@item.AgeDays</td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTables/datatables.min.css")" />
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Content/Datatables/datatables.min.js")
+    @Scripts.Render("~/Content/DataTable/dataTables.buttons.min.js")
+    @Scripts.Render("~/Content/DataTable/buttons.html5.min.js")
+    @Scripts.Render("~/Content/DataTable/jszip.min.js")
+
+    <script type="text/javascript">
+
+        $('#mainTable').DataTable({
+            dom: 'Bfrtip',
+            paging: true,
+            buttons: [
+                'excel', 'print'
+            ]
+        });
+
+        $(document).ready(function () {
+
+        });
+
+    </script>
+}

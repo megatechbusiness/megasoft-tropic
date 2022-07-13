@@ -1982,7 +1982,7 @@ namespace Megasoft2.Controllers
                                 obj.MegasoftGuid = eGuid;
                                 obj.Company = Company;
                                 obj.Requisition = model.Requisition;
-                                obj.Originator = ReqHeader.Originator.Trim();
+                                obj.Originator = ReqHeader.OriginatorCode.Trim();
                                 obj.RoutedTo = RouteTo.Trim();
                                 obj.DateRouted = DateTime.Now;
                                 obj.Username = HttpContext.User.Identity.Name.ToUpper();
