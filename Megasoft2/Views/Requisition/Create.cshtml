@@ -153,7 +153,25 @@
                             <div class="form-horizontal row spacer">
                                 <label class="col-md-4 control-label input-sm-label" style="text-align:left;">Requested By 1</label>
                                 <div class="input-group add-on col-md-8">
-                                    @Html.TextBoxFor(model => model.Header.RequestedBy1, new { @class = "form-control input-sm" })
+                                    @if (Model.Header.RequestedBy1 != null)
+                                    {
+                                        string reqBy1 = Model.Header.RequestedBy1;
+                                        string result = reqBy1.Trim();
+                                        if (result == "")
+                                        {
+                                            @Html.TextBoxFor(model => model.Header.RequestedBy1, new { @class = "form-control input-sm", @Value = "Megasoft Stock" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.Header.RequestedBy1, new { @class = "form-control input-sm" })
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.Header.RequestedBy1, new { @class = "form-control input-sm", @Value = "Megasoft Stock" })
+                                    }
+
                                     <div class="input-group-btn">
                                         <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Requ1"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
                                     </div>
