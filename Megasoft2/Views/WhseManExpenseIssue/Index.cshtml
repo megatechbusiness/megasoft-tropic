@@ -138,6 +138,19 @@
                 </a>
             </div>
         </div>
+
+        <div class="form-horizontal row spacer-xs" id="AnalysisCodeDiv">
+
+            <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                Analysis Code
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.DropDownListFor(model => model.AnalysisCode, new SelectList(ViewBag.AnalysisCode, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+
+            </div>
+
+        </div>
+
         <div class="form-horizontal row text-center col-xs-8">
             <div class="control-label col-xs-1" style="text-align:left;font-size:xx-small;" id="txtCount">
 
@@ -154,6 +167,7 @@
                         <th>StockCode</th>
                         <th>Lot</th>
                         <th>Qty</th>
+                        <th>Analysis Code</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -256,6 +270,17 @@
                 </div>
 
             </div>
+            <div class="form-horizontal row spacer-xs" id="AnalysisCodeDiv">
+
+                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                    Analysis Code
+                </div>
+                <div class="editor-field col-xs-4">
+                    @Html.DropDownListFor(model => model.AnalysisCode, new SelectList(ViewBag.AnalysisCode, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+
+                </div>
+
+            </div>
             <div class="form-horizontal row spacer">
 
                 <div class="control-label col-xs-4" style="text-align:left;">
@@ -288,6 +313,7 @@
                             <th>StockCode</th>
                             <th>Lot</th>
                             <th>Qty</th>
+                            <th>Analysis Code</th>
                             <th>Date</th>
                             <th></th>
                         </tr>
@@ -352,6 +378,15 @@
 
             function OnSuccess(response) {
                 if (response != "") {
+                    if (response == "Analysis Required") {
+                        //show div
+                        //pass exportdata to fucuntion to get cat function
+                        GetAnalysisCode(exportdata);
+                        $('#AnalysisCodeDiv').show();
+
+                    }
+                }
+                else {
                     document.getElementById('Barcode').value = "";
                     document.getElementById('StockCode').value = "";
                     document.getElementById('Lot').value = "";
@@ -359,11 +394,10 @@
                     $('#errordiv').text(response);
                     $('#errordiv').addClass("alert alert-danger");
                     document.getElementById('Barcode').focus();
-                }
-                else {
                     document.getElementById("Quantity").focus();
                     //AddLine();
                     GetUom(document.getElementById('StockCode').value);
+                   // $('#AnalysisCode').hide();
 
 
                 }
@@ -448,7 +482,7 @@
         var Lot = document.getElementById('Lot').value;
         var Quantity = document.getElementById('Quantity').value;
         var AddReel = true;
-
+        var AnalysisCode = document.getElementById('AnalysisCode').value;
         if (Quantity.trim() == "") {
             alert("Quantity missing.");
             AddReel = false;
@@ -468,7 +502,7 @@
         if (AddReel == true) {
             $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
                 "</td><td><input type='hidden' value='" + Bin + "'/>" + Lot + "</td><td>" + Quantity +
-                "</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+                "</td><td>" + AnalysisCode +"</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
 
             $('#CostCentre').attr("disabled", "disabled");
             $('#WorkCentre').attr("disabled", "disabled");
@@ -522,7 +556,35 @@
                 }
 
     }
+        function GetAnalysisCode(exportdata) {
 
+        //alert(exportdata);
+                $.ajax({
+                    type: "POST",
+                    url:"@Url.Action("GetAnalysisCode", "WhseManExpenseIssue")",
+                    contentType: "application/json; charset=utf-8",
+                    data: exportdata,
+                    dataType: "json",
+                    success: OnSuccess,
+                    failure: function () {
+                        alert(response);
+                    }
+                });
+                function OnSuccess(response) {
+                    if (response) {
+                        var ddlAnalysisCode = $("#AnalysisCode");
+
+                        ddlAnalysisCode.empty();
+                        $("#AnalysisCode").prepend("<option value='' selected='selected'></option>");
+
+                        $.each(response, function () {
+                            //alert(this['Value'] + ' space ' + this['Text']);
+                            ddlAnalysisCode.append($("<option></option>").val(this['AnalysisCode'].trim()).html(this['Description']));
+                        });
+                    }
+                }
+
+    }
 
       function PostExpenseIssue() {
         $('#errordiv').text("");
@@ -551,6 +613,7 @@
             var Lot = $tds.eq(1).text();
             var Quantity = $tds.eq(2).text();
             var Employee = $('#Employee').val();
+            var AnalysisCode = $('#AnalysisCode').val();
 
             var myObject = new Object();
             myObject.CostCentre = CostCentre;
@@ -561,6 +624,7 @@
             myObject.Lot = Lot;
             myObject.Quantity = Quantity;
             myObject.Employee = Employee;
+            myObject.AnalysisCode = AnalysisCode;
             mydata.push(myObject);
         });
 

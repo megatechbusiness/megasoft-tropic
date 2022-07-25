@@ -29,6 +29,7 @@ namespace Megasoft2.Controllers
             var CostCentreList = (from a in mdb.mtUserDepartments where a.Company == Company && a.Username == Username select new { CostCentre = a.CostCentre, Description = a.CostCentre }).ToList();
             ViewBag.CostCentreList = CostCentreList;
             ViewBag.WorkCentreList = new List<SelectListItem>();
+            ViewBag.AnalysisCode = new List<SelectListItem>();
             ViewBag.ProgramMode = ProgramMode;
             ExpenseIssue model = new ExpenseIssue();
             model.TransactionDate = DateTime.Now;
@@ -96,6 +97,45 @@ namespace Megasoft2.Controllers
         }
 
 
+        [HttpPost]//run it
+        public ActionResult GetAnalysisCode(string details)
+        {
+            List<ExpenseIssue> myDeserializedObjList = (List<ExpenseIssue>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<ExpenseIssue>));
+            if (myDeserializedObjList.Count > 0)
+            {
+                foreach (var item in myDeserializedObjList)
+                {
+                    var StockCodeCheck = wdb.InvMasters.Where(a => a.StockCode.Equals(item.StockCode)).FirstOrDefault();
+                    if (StockCodeCheck == null)
+                    {
+                        return Json("");
+                    }
+
+                    string GlCode = "";
+                    var settings = (from a in wdb.mtWhseManSettings where a.SettingId == 1 select a).FirstOrDefault();
+                    GlCode = (from a in wdb.mtExpenseIssueMatrices where a.CostCentre == item.CostCentre && a.WorkCentre == item.WorkCentre && a.ProductClass == StockCodeCheck.ProductClass select a.GlCode).FirstOrDefault();
+                    if (!string.IsNullOrWhiteSpace(GlCode))
+                    {
+                        var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
+                        if (AnalysisRequired.Count > 0)
+                        {
+
+                            //item.AnalysisRequired = "Analysis Required";
+                            return Json((from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description }).ToList());
+                        }
+
+                    }
+                    else
+                    {
+                        return Json("");
+                    }
+                }
+            }
+
+            return Json("");
+        }
+
+
         public string ValidateBarcode(string details)
         {
             try
@@ -155,7 +195,21 @@ namespace Megasoft2.Controllers
                                     }
                                     else
                                     {
-                                        return "";
+                                        if (!string.IsNullOrWhiteSpace(GlCode))
+                                        {
+                                            var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
+                                            if (AnalysisRequired.Count > 0)
+                                            {
+
+                                                item.AnalysisRequired = "Analysis Required";
+                                                // ViewBag.AnalysisCode = (from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description }).ToList();
+                                                return item.AnalysisRequired;
+                                            }
+                                            else
+                                            {
+                                                return "";
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -172,7 +226,21 @@ namespace Megasoft2.Controllers
                             }
                             else
                             {
-                                return "";
+                                if (!string.IsNullOrWhiteSpace(GlCode))
+                                {
+                                    var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
+                                    if (AnalysisRequired.Count > 0)
+                                    {
+
+                                        item.AnalysisRequired = "Analysis Required";
+                                        //ViewBag.AnalysisCode = (from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description }).ToList();
+                                        return item.AnalysisRequired;
+                                    }
+                                    else
+                                    {
+                                        return "";
+                                    }
+                                }
                             }
                         }
                     }
@@ -320,6 +388,15 @@ namespace Megasoft2.Controllers
                         Document.Append("<Reference><![CDATA[" + Reference + "]]></Reference>");
                         Document.Append("<Notation><![CDATA[" + Reference + "]]></Notation>");
                         Document.Append("<LedgerCode><![CDATA[" + GlCode + "]]></LedgerCode>");
+                        var UnitCost = (from a in wdb.InvWarehouses where a.StockCode == item.StockCode && a.Warehouse == item.Warehouse select a.UnitCost).FirstOrDefault();
+                        decimal EntryAmount = item.Quantity * UnitCost;
+                        Document.Append("		<AnalysisEntry/>");
+                        Document.Append("		<AnalysisLineEntry>");
+                        Document.Append("			<AnalysisCode1>" + item.AnalysisCode + "</AnalysisCode1>");
+                        Document.Append("			");
+                        Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                        Document.Append("			");
+                        Document.Append("		</AnalysisLineEntry>");
                         Document.Append("<PasswordForLedgerCode/>");
                         Document.Append("</Item>");
                     }
@@ -343,7 +420,7 @@ namespace Megasoft2.Controllers
                     Parameter.Append("<IgnoreWarnings>N</IgnoreWarnings>");
                     Parameter.Append("<ApplyIfEntireDocumentValid>Y</ApplyIfEntireDocumentValid>");
                     Parameter.Append("<ValidateOnly>N</ValidateOnly>");
-                    Parameter.Append("<IgnoreAnalysis>Y</IgnoreAnalysis>");
+                    Parameter.Append("<IgnoreAnalysis>N</IgnoreAnalysis>");
                     Parameter.Append("<AskAnalysis>N</AskAnalysis>");
                     Parameter.Append("<CalledFrom/>");
                     Parameter.Append("</Parameters>");
