@@ -34,85 +34,93 @@ namespace Megasoft2.Controllers
                         var isValidUser = Membership.ValidateUser(l.Username, l.Password);
                         if (isValidUser)
                         {
+                            //if (Url.IsLocalUrl(ReturnUrl))
+                            //{
+                            //    return Redirect(ReturnUrl);
+                            //}
+                            //else
+                            //{
+                            if (!string.IsNullOrEmpty(l.NewPassword))
+                            {
+                                if (string.IsNullOrEmpty(l.NewPassword))
+                                {
+                                    l.ResetPassword = "Y";
+                                    ViewBag.ForceReset = true;
+                                    ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
+                                    ModelState.Remove("Password");
+                                    ViewBag.ErrorMessage = "New Password cannot be blank";
+                                    return View(l);
+                                }
+
+                                if (string.IsNullOrEmpty(l.ConfirmPassword))
+                                {
+                                    l.ResetPassword = "Y";
+                                    ViewBag.ForceReset = true;
+                                    ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
+                                    ModelState.Remove("Password");
+                                    ViewBag.ErrorMessage = "Confirm Password cannot be blank";
+                                    return View(l);
+                                }
+
+                                if (l.NewPassword != l.ConfirmPassword)
+                                {
+                                    l.ResetPassword = "Y";
+                                    ViewBag.ForceReset = true;
+                                    ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
+                                    ModelState.Remove("Password");
+                                    ViewBag.ErrorMessage = "New Password does not match confirm password";
+                                    return View(l);
+                                }
+
+                                using (var edb = new MegasoftEntities())
+                                {
+                                    var result = (from a in edb.mtUsers where a.Username == l.Username.ToUpper() select a).FirstOrDefault();
+                                    result.Password = l.ConfirmPassword;
+                                    result.ForcePasswordReset = false;
+                                    edb.SaveChanges();
+                                }
+                            }
+
+                            var DatabaseName = (from a in db.mtSysproAdmins
+                                                join b in db.mtUserCompanies on a.Company equals b.Company
+                                                where b.Username.Equals(l.Username.ToUpper())
+                                                && b.Company.Equals(l.Company)
+                                                select a.DatabaseName).FirstOrDefault();
+                            if (string.IsNullOrEmpty(DatabaseName))
+                            {
+                                l.ResetPassword = "N";
+                                ViewBag.ForceReset = false;
+                                ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
+                                ModelState.Remove("Password");
+                                ViewBag.ErrorMessage = "Access denied to Company " + l.Company;
+                                return View();
+                            }
+
+                            var ForceReset = (from a in db.mtUsers where a.Username == l.Username.ToUpper() select a.ForcePasswordReset).FirstOrDefault();
+
+                            if (ForceReset == true)
+                            {
+                                l.ResetPassword = "Y";
+                                ViewBag.ForceReset = ForceReset;
+                                ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
+                                ModelState.Remove("Password");
+                                ViewBag.ErrorMessage = "Please change your password.";
+                                return View(l);
+                            }
+
+                            FormsAuthentication.SetAuthCookie(l.Username, true);
+                            HttpCookie SysproDatabase = new HttpCookie("SysproDatabase");
+                            SysproDatabase.Value = DatabaseName;
+                            Response.Cookies.Add(SysproDatabase);
+                            var Settings = (from a in db.mtSystemSettings where a.Id == 1 select a).FirstOrDefault();
+
                             if (Url.IsLocalUrl(ReturnUrl))
                             {
                                 return Redirect(ReturnUrl);
                             }
                             else
                             {
-                                if (!string.IsNullOrEmpty(l.NewPassword))
-                                {
-                                    if (string.IsNullOrEmpty(l.NewPassword))
-                                    {
-                                        l.ResetPassword = "Y";
-                                        ViewBag.ForceReset = true;
-                                        ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
-                                        ModelState.Remove("Password");
-                                        ViewBag.ErrorMessage = "New Password cannot be blank";
-                                        return View(l);
-                                    }
 
-                                    if (string.IsNullOrEmpty(l.ConfirmPassword))
-                                    {
-                                        l.ResetPassword = "Y";
-                                        ViewBag.ForceReset = true;
-                                        ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
-                                        ModelState.Remove("Password");
-                                        ViewBag.ErrorMessage = "Confirm Password cannot be blank";
-                                        return View(l);
-                                    }
-
-                                    if (l.NewPassword != l.ConfirmPassword)
-                                    {
-                                        l.ResetPassword = "Y";
-                                        ViewBag.ForceReset = true;
-                                        ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
-                                        ModelState.Remove("Password");
-                                        ViewBag.ErrorMessage = "New Password does not match confirm password";
-                                        return View(l);
-                                    }
-
-                                    using (var edb = new MegasoftEntities())
-                                    {
-                                        var result = (from a in edb.mtUsers where a.Username == l.Username.ToUpper() select a).FirstOrDefault();
-                                        result.Password = l.ConfirmPassword;
-                                        result.ForcePasswordReset = false;
-                                        edb.SaveChanges();
-                                    }
-                                }
-
-                                var DatabaseName = (from a in db.mtSysproAdmins
-                                                    join b in db.mtUserCompanies on a.Company equals b.Company
-                                                    where b.Username.Equals(l.Username.ToUpper())
-                                                    && b.Company.Equals(l.Company)
-                                                    select a.DatabaseName).FirstOrDefault();
-                                if (string.IsNullOrEmpty(DatabaseName))
-                                {
-                                    l.ResetPassword = "N";
-                                    ViewBag.ForceReset = false;
-                                    ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
-                                    ModelState.Remove("Password");
-                                    ViewBag.ErrorMessage = "Access denied to Company " + l.Company;
-                                    return View();
-                                }
-
-                                var ForceReset = (from a in db.mtUsers where a.Username == l.Username.ToUpper() select a.ForcePasswordReset).FirstOrDefault();
-
-                                if (ForceReset == true)
-                                {
-                                    l.ResetPassword = "Y";
-                                    ViewBag.ForceReset = ForceReset;
-                                    ViewBag.Company = (from a in db.mtSysproAdmins select new { Company = a.Company, DatabaseName = a.DatabaseName }).ToList();
-                                    ModelState.Remove("Password");
-                                    ViewBag.ErrorMessage = "Please change your password.";
-                                    return View(l);
-                                }
-
-                                FormsAuthentication.SetAuthCookie(l.Username, true);
-                                HttpCookie SysproDatabase = new HttpCookie("SysproDatabase");
-                                SysproDatabase.Value = DatabaseName;
-                                Response.Cookies.Add(SysproDatabase);
-                                var Settings = (from a in db.mtSystemSettings where a.Id == 1 select a).FirstOrDefault();
                                 if (Settings.Dashboard == true)
                                 {
                                     return RedirectToAction("Index", "Home");
@@ -122,6 +130,7 @@ namespace Megasoft2.Controllers
                                     return RedirectToAction("Home", "Home");
                                 }
                             }
+                            //}
                         }
                     }
                     else

@@ -204,262 +204,262 @@
             </div>
         </div>
     </div>
-        <hr />
-        <div class="form-horizontal row spacer-xs ">
-            <div class="form-group row col-sm-12">
-                @*<div class="col-xs-2">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
-                            @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
-                        </div>
-                    </div>*@
-                <div class="col-xs-2">
+    <hr />
+    <div class="form-horizontal row spacer-xs ">
+        <div class="form-group row col-sm-12">
+            @*<div class="col-xs-2">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
-                        @if (ViewBag.MultiPalletNo == null)
+                        @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                    </div>
+                </div>*@
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
+                    @if (ViewBag.MultiPalletNo == null)
+                    {
+                        @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        if (Enumerable.Count(ViewBag.MultiPalletNo) > 1)
                         {
-                            @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                            @Html.DropDownListFor(model => model.Pallet, new SelectList(ViewBag.MultiPalletNo, "Value", "Text"), new { @onchange = "setTimeout(function () {$('#PalletBtn').click();}, 1);", @class = "form - control tb input-sm" })
+                            <button type="submit" style="display: none;" class="btn btn-success btn-sm" id="PalletBtn" name="action:RefreshPallet" value="RefreshPallet">
+                                <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                            </button>
+
                         }
                         else
                         {
-                            if (Enumerable.Count(ViewBag.MultiPalletNo) > 1)
-                            {
-                                @Html.DropDownListFor(model => model.Pallet, new SelectList(ViewBag.MultiPalletNo, "Value", "Text"), new { @onchange = "setTimeout(function () {$('#PalletBtn').click();}, 1);", @class = "form - control tb input-sm" })
-                                <button type="submit" style="display: none;" class="btn btn-success btn-sm" id="PalletBtn" name="action:RefreshPallet" value="RefreshPallet">
-                                    <i class="fa fa-arrow-right" aria-hidden="true"> </i>
-                                </button>
-
-                            }
-                            else
-                            {
-                                @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
-                            }
+                            @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
                         }
-                        @Html.HiddenFor(m => m.Pallet)
+                    }
+                    @Html.HiddenFor(m => m.Pallet)
 
 
-                    </div>
                 </div>
-                <div class="col-xs-2">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="glyphicon"></span>CORE</span>
-                        @*<input type="text" class="form-control" placeholder="">*@
-                        @Html.TextBoxFor(model => model.Core, new { @class = "form-control tb input-sm" })
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="glyphicon"></span>TARE</span>
-                        @*<input type="text" class="form-control" placeholder="">*@
-                        @Html.TextBoxFor(model => model.Tare, new { @class = "form-control tb input-sm" })
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="glyphicon "></span>GROSS</span>
-                        @*<input type="text" class="form-control" placeholder="">*@
-                        @Html.TextBoxFor(model => model.Gross, new { @class = "form-control tb input-sm", @readonly = "readonly" })
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="glyphicon"></span>NET</span>
-                        @*<input type="text" class="form-control" placeholder="">*@
-                        @Html.TextBoxFor(model => model.Net, new { @class = "form-control tb input-sm", @readonly = "readonly" })
-                        @Html.HiddenFor(model => model.Barcode)
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success btn-sm pull-right" id="btnAddLine" style="float: right;" data-toggle="modal" onclick="CheckBarcodeScanRequired();">
-                    <i class="fa fa-plus"> Add Line</i>
-                </button>
             </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon"></span>CORE</span>
+                    @*<input type="text" class="form-control" placeholder="">*@
+                    @Html.TextBoxFor(model => model.Core, new { @class = "form-control tb input-sm" })
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon"></span>TARE</span>
+                    @*<input type="text" class="form-control" placeholder="">*@
+                    @Html.TextBoxFor(model => model.Tare, new { @class = "form-control tb input-sm" })
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon "></span>GROSS</span>
+                    @*<input type="text" class="form-control" placeholder="">*@
+                    @Html.TextBoxFor(model => model.Gross, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon"></span>NET</span>
+                    @*<input type="text" class="form-control" placeholder="">*@
+                    @Html.TextBoxFor(model => model.Net, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                    @Html.HiddenFor(model => model.Barcode)
+                </div>
+            </div>
+            <button type="button" class="btn btn-success btn-sm pull-right" id="btnAddLine" style="float: right;" data-toggle="modal" onclick="CheckBarcodeScanRequired();">
+                <i class="fa fa-plus"> Add Line</i>
+            </button>
         </div>
-        <div class="form-horizontal row spacer-xs">
-            <div class="form-group size" id="Detail">
-                <table class="tblDetail table table-hover table-striped  table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
-                    <thead class="style1" tabindex="-1">
-                        <tr>
-                            <td style="width:15px"></td>
-                            <th style="width:15px">
-                                Item
-                            </th>
-                            <th style="width:90px">
-                                Batch
-                            </th>
-                            <th style="width:50px">
-                                Gross Mass
-                            </th>
-                            <th style="width:50px">
-                                Net Mass
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="datarow">
-                        @*<tr><td></td><td>1</td><td>95968-007-001</td><td>72.5</td><td>76.4</td></tr>*@
-                        @if (Model != null)
+    </div>
+    <div class="form-horizontal row spacer-xs">
+        <div class="form-group size" id="Detail">
+            <table class="tblDetail table table-hover table-striped  table-condensed table-responsive table-bordered sortable display" id="tblDetail" style="table-layout:fixed;">
+                <thead class="style1" tabindex="-1">
+                    <tr>
+                        <td style="width:15px"></td>
+                        <th style="width:15px">
+                            Item
+                        </th>
+                        <th style="width:90px">
+                            Batch
+                        </th>
+                        <th style="width:50px">
+                            Gross Mass
+                        </th>
+                        <th style="width:50px">
+                            Net Mass
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="datarow">
+                    @*<tr><td></td><td>1</td><td>95968-007-001</td><td>72.5</td><td>76.4</td></tr>*@
+                    @if (Model != null)
+                    {
+                        if (Model.Rolls != null)
                         {
-                            if (Model.Rolls != null)
+                            for (int i = 0; i < Model.Rolls.Count; i++)
                             {
-                                for (int i = 0; i < Model.Rolls.Count; i++)
-                                {
-                                    <tr class="nr">
-                                        <td>
-                                            <a href="@Url.Action("DeleteLine", new { BatchId = Model.Rolls[i].BatchId,Scale = Model.Scale})" class="btn btn-danger btn-sm">
-                                                <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
-                                            </a>
-                                            <a href="@Url.Action("LabelReprint", new {  BatchId = Model.Rolls[i].BatchId })" class="btn btn-default btn-sm">
-                                                <span class="fa fa-print" aria-hidden="true" title="Reprint"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model.Rolls[i].BatchSequence)
-                                            @Html.HiddenFor(model => Model.Rolls[i].BatchSequence)
-                                        </td>
-                                        <td>
-                                            @Model.Rolls[i].BatchId
-                                            @Html.HiddenFor(model => Model.Rolls[i].BatchId)
-                                        </td>
-                                        <td>
-                                            @Model.Rolls[i].GrossMass
-                                            @Html.HiddenFor(model => Model.Rolls[i].GrossMass)
-                                        </td>
+                                <tr class="nr">
+                                    <td>
+                                        <a href="@Url.Action("DeleteLine", new { BatchId = Model.Rolls[i].BatchId,Scale = Model.Scale})" class="btn btn-danger btn-sm">
+                                            <span class="fa fa-trash-o" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                        <a href="@Url.Action("LabelReprint", new {  BatchId = Model.Rolls[i].BatchId })" class="btn btn-default btn-sm">
+                                            <span class="fa fa-print" aria-hidden="true" title="Reprint"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.Rolls[i].BatchSequence)
+                                        @Html.HiddenFor(model => Model.Rolls[i].BatchSequence)
+                                    </td>
+                                    <td>
+                                        @Model.Rolls[i].BatchId
+                                        @Html.HiddenFor(model => Model.Rolls[i].BatchId)
+                                    </td>
+                                    <td>
+                                        @Model.Rolls[i].GrossMass
+                                        @Html.HiddenFor(model => Model.Rolls[i].GrossMass)
+                                    </td>
 
-                                        <td>
-                                            @Model.Rolls[i].NetMass
-                                            @Html.HiddenFor(model => Model.Rolls[i].NetMass)
-                                        </td>
-                                    </tr>
-                                }
+                                    <td>
+                                        @Model.Rolls[i].NetMass
+                                        @Html.HiddenFor(model => Model.Rolls[i].NetMass)
+                                    </td>
+                                </tr>
                             }
                         }
+                    }
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
-        //This is hidden
-        <div class="container">
-            <div class="row">
-                <div id="myModal" class="modal fade in">
-                    <div class="modal-dialog" style="width:1250px;">
-                        <div class="modal-content">
+    </div>
+    //This is hidden
+    <div class="container">
+        <div class="row">
+            <div id="myModal" class="modal fade in">
+                <div class="modal-dialog" style="width:1250px;">
+                    <div class="modal-content">
 
-                            <div class="modal-header">
-                                <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
-                                <h4 class="modal-title" style="font-weight:bold;">Confirm Weight</h4>
+                        <div class="modal-header">
+                            <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                            <h4 class="modal-title" style="font-weight:bold;">Confirm Weight</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Please confirm that the current weight on the scale is: </h4>
+                            @if (Model.Scale != 1034)
+                            {<p id="ShowWeight" style="font-size: 50px;"></p> }
+                            else
+                            {@Html.TextBoxFor(model => model.Weight, new { @class = "text-right form-control input-sm", @onkeydown = "EnterKeyFilter();" })}
+                            @Html.HiddenFor(model => model.Weight)
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-group">
+                                <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Save</button>
                             </div>
-                            <div class="modal-body">
-                                <h4>Please confirm that the current weight on the scale is: </h4>
-                                @if (Model.Scale != 1034)
-                                {<p id="ShowWeight" style="font-size: 50px;"></p> }
-                                else
-                                {@Html.TextBoxFor(model => model.Weight, new { @class = "text-right form-control input-sm", @onkeydown = "EnterKeyFilter();" })}
-                                @Html.HiddenFor(model => model.Weight)
+                        </div>
 
-                            </div>
-                            <div class="modal-footer">
-                                <div class="btn-group">
-                                    <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                    <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Save</button>
-                                </div>
-                            </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dalog -->
+            </div><!-- /.modal -->
+            @*<a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch demo modal</a>*@
 
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dalog -->
-                </div><!-- /.modal -->
-                @*<a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch demo modal</a>*@
-
-            </div>
         </div>
+    </div>
 
 
-        //Retail Barcode Validation
-        <div class="container">
-            <div class="row">
-                <div id="BarcodeModal" class="modal fade in">
-                    <div class="modal-dialog" style="width:1250px;">
-                        <div class="modal-content">
+    //Retail Barcode Validation
+    <div class="container">
+        <div class="row">
+            <div id="BarcodeModal" class="modal fade in">
+                <div class="modal-dialog" style="width:1250px;">
+                    <div class="modal-content">
 
-                            <div class="modal-header">
-                                <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
-                                <h4 class="modal-title" style="font-weight:bold;">Product Barcode</h4>
-                            </div>
-                            <div class="modal-body">
-                                <h4>Please scan the product barcode: </h4>
-                                <input type="text" id="validateBarcode" class="text-left form-control input-sm" onkeydown="EnterKeyFilter();" />
+                        <div class="modal-header">
+                            <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                            <h4 class="modal-title" style="font-weight:bold;">Product Barcode</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Please scan the product barcode: </h4>
+                            <input type="text" id="validateBarcode" class="text-left form-control input-sm" onkeydown="EnterKeyFilter();" />
 
-                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
 
+        </div>
+    </div>
+
+}
+
+
+<style type="text/css">
+
+    .modal-header {
+        background-color: #337ab7;
+    }
+
+    .nowrap {
+        white-space: nowrap;
+    }
+
+    .tb {
+        height: 30px;
+    }
+
+    td {
+        height: 30px;
+    }
+
+    .size {
+        font-size: 25px;
+    }
+
+    .hr {
+        padding: 0px;
+        margin: 0px;
+    }
+
+
+    .modal .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
+
+        .modal .modal-header .btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-top: 0;
+            border-top-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
+    .modal .modal-footer {
+        border-top: none;
+        padding: 0;
+    }
 
-        <style type="text/css">
+        .modal .modal-footer .btn-group > .btn:first-child {
+            border-bottom-left-radius: 0;
+        }
 
-            .modal-header {
-                background-color: #337ab7;
-            }
+        .modal .modal-footer .btn-group > .btn:last-child {
+            border-top-right-radius: 0;
+        }
+</style>
 
-            .nowrap {
-                white-space: nowrap;
-            }
-
-            .tb {
-                height: 30px;
-            }
-
-            td {
-                height: 30px;
-            }
-
-            .size {
-                font-size: 25px;
-            }
-
-            .hr {
-                padding: 0px;
-                margin: 0px;
-            }
-
-
-            .modal .modal-header {
-                border-bottom: none;
-                position: relative;
-            }
-
-                .modal .modal-header .btn {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    margin-top: 0;
-                    border-top-left-radius: 0;
-                    border-bottom-right-radius: 0;
-                }
-
-            .modal .modal-footer {
-                border-top: none;
-                padding: 0;
-            }
-
-                .modal .modal-footer .btn-group > .btn:first-child {
-                    border-bottom-left-radius: 0;
-                }
-
-                .modal .modal-footer .btn-group > .btn:last-child {
-                    border-top-right-radius: 0;
-                }
-        </style>
-
-        @section Scripts {
-            @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
-            @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
-            @Scripts.Render("~/bundles/jqueryval")
-            <script type="text/javascript">
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
         function EnterKeyFilter() {
             if (window.event.keyCode == 13) {
                 event.returnValue = false;
@@ -498,7 +498,7 @@
                         return false;
                     }
                 }
-                GetWeight();
+                $('#BarcodeModal').modal('show');
             }
                 }
 
@@ -506,7 +506,7 @@
                     var ddlist = $('#PrintOperator');
                     ddlist.empty();
                     $.getJSON('ScaleSystem/GetOperator?Department=' + Department + '&Job=' + $('#Job').val(), function (data) {
-                       
+
                         if (typeof data == 'object') {
                             $.each(data, function (i, item) {
                                 ddlist.append($('<option></option>').attr('value', item.Value ).text( item.Text));
@@ -678,5 +678,5 @@
         }
 
     }
-            </script>
-        }
+    </script>
+}

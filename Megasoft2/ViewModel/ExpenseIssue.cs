@@ -23,5 +23,7 @@ namespace Megasoft2.ViewModel
         public string Employee { get; set; }
         public DateTime TransactionDate { get; set; }
         public string StockUom { get; set; }
+        public string AnalysisRequired { get; set; }
+        public string AnalysisCode { get; set; }
     }
 }
