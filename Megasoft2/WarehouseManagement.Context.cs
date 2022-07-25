@@ -56,7 +56,6 @@ namespace Megasoft2
         public DbSet<mtStereoDetail> mtStereoDetails { get; set; }
         public DbSet<mtStereoSetting> mtStereoSettings { get; set; }
         public DbSet<mtPorDeliveryImport> mtPorDeliveryImports { get; set; }
-        public DbSet<AdmFormData> AdmFormDatas { get; set; }
         public DbSet<mtTransporterRateCode> mtTransporterRateCodes { get; set; }
         public DbSet<BomWorkCentre> BomWorkCentres { get; set; }
         public DbSet<mtStereoHdr> mtStereoHdrs { get; set; }
@@ -150,6 +149,7 @@ namespace Megasoft2
         public DbSet<mtWhseManSetting> mtWhseManSettings { get; set; }
         public DbSet<mtShift> mtShifts { get; set; }
         public DbSet<mtSuppDeliveryLog> mtSuppDeliveryLogs { get; set; }
+        public DbSet<AdmFormData> AdmFormDatas { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -3203,6 +3203,27 @@ namespace Megasoft2
         public virtual ObjectResult<mt_SupplierDeliveryLogReport_Result> mt_SupplierDeliveryLogReport()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_SupplierDeliveryLogReport_Result>("mt_SupplierDeliveryLogReport");
+        }
+    
+        public virtual ObjectResult<mt_TransfersGetLotList_Result> mt_TransfersGetLotList(string warehouse, string stockCode, string bin, string multipleBins)
+        {
+            var warehouseParameter = warehouse != null ?
+                new ObjectParameter("Warehouse", warehouse) :
+                new ObjectParameter("Warehouse", typeof(string));
+    
+            var stockCodeParameter = stockCode != null ?
+                new ObjectParameter("StockCode", stockCode) :
+                new ObjectParameter("StockCode", typeof(string));
+    
+            var binParameter = bin != null ?
+                new ObjectParameter("Bin", bin) :
+                new ObjectParameter("Bin", typeof(string));
+    
+            var multipleBinsParameter = multipleBins != null ?
+                new ObjectParameter("MultipleBins", multipleBins) :
+                new ObjectParameter("MultipleBins", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_TransfersGetLotList_Result>("mt_TransfersGetLotList", warehouseParameter, stockCodeParameter, binParameter, multipleBinsParameter);
         }
     }
 }

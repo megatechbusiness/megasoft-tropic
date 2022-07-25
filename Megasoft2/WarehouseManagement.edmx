@@ -4606,6 +4606,12 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="BatchId" Type="varchar" Mode="In" />
         </Function>
         <Function Name="mt_SupplierDeliveryLogReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mt_TransfersGetLotList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Warehouse" Type="varchar" Mode="In" />
+          <Parameter Name="StockCode" Type="varchar" Mode="In" />
+          <Parameter Name="Bin" Type="varchar" Mode="In" />
+          <Parameter Name="MultipleBins" Type="char" Mode="In" />
+        </Function>
         <Function Name="sp_ArchiveStockTake" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Warehouse" Type="varchar" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -7005,7 +7011,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="PurchaseOrder" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtPorDeliveryImports" EntityType="WarehouseManagementModel.mtPorDeliveryImport" />
-          <EntitySet Name="AdmFormDatas" EntityType="WarehouseManagementModel.AdmFormData" />
           <EntitySet Name="mtTransporterRateCodes" EntityType="WarehouseManagementModel.mtTransporterRateCode" />
           <EntitySet Name="BomWorkCentres" EntityType="WarehouseManagementModel.BomWorkCentre" />
           <FunctionImport Name="sp_TransUpdatePurchaseOrderLine">
@@ -7824,6 +7829,13 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="mtSuppDeliveryLogs" EntityType="WarehouseManagementModel.mtSuppDeliveryLog" />
           <FunctionImport Name="mt_SupplierDeliveryLogReport" ReturnType="Collection(WarehouseManagementModel.mt_SupplierDeliveryLogReport_Result)" />
+          <FunctionImport Name="mt_TransfersGetLotList" ReturnType="Collection(WarehouseManagementModel.mt_TransfersGetLotList_Result)">
+            <Parameter Name="Warehouse" Mode="In" Type="String" />
+            <Parameter Name="StockCode" Mode="In" Type="String" />
+            <Parameter Name="Bin" Mode="In" Type="String" />
+            <Parameter Name="MultipleBins" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="AdmFormDatas" EntityType="WarehouseManagementModel.AdmFormData" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -9715,20 +9727,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="Grn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="GrnDate" Type="DateTime" Precision="3" />
           <Property Name="GrnUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="AdmFormData">
-          <Key>
-            <PropertyRef Name="FormType" />
-            <PropertyRef Name="KeyField" />
-            <PropertyRef Name="FieldName" />
-          </Key>
-          <Property Name="FormType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="KeyField" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="false" />
-          <Property Name="FieldName" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="AlphaValue" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="NumericValue" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="DateValue" Type="DateTime" Precision="3" />
-          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="mtTransporterRateCode">
           <Key>
@@ -14529,6 +14527,28 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="DateTime" Name="TransactionDate" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="AgeDays" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="mt_TransfersGetLotList_Result">
+          <Property Type="String" Name="Warehouse" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="QtyOnHand" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="String" Name="PalletId" Nullable="true" MaxLength="40" />
+        </ComplexType>
+        <EntityType Name="AdmFormData">
+          <Key>
+            <PropertyRef Name="FormType" />
+            <PropertyRef Name="KeyField" />
+            <PropertyRef Name="FieldName" />
+          </Key>
+          <Property Name="FormType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="KeyField" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="false" />
+          <Property Name="FieldName" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="AlphaValue" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NumericValue" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="DateValue" Type="DateTime" Precision="3" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -16671,19 +16691,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="AdmFormDatas">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.AdmFormData">
-              <MappingFragment StoreEntitySet="AdmFormData">
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="DateValue" ColumnName="DateValue" />
-                <ScalarProperty Name="NumericValue" ColumnName="NumericValue" />
-                <ScalarProperty Name="AlphaValue" ColumnName="AlphaValue" />
-                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
-                <ScalarProperty Name="KeyField" ColumnName="KeyField" />
-                <ScalarProperty Name="FormType" ColumnName="FormType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="mtTransporterRateCodes">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtTransporterRateCode">
               <MappingFragment StoreEntitySet="mtTransporterRateCodes">
@@ -21438,6 +21445,31 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_TransfersGetLotList" FunctionName="WarehouseManagementModel.Store.mt_TransfersGetLotList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_TransfersGetLotList_Result">
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="QtyOnHand" ColumnName="QtyOnHand" />
+                <ScalarProperty Name="PalletId" ColumnName="PalletId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="AdmFormDatas">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.AdmFormData">
+              <MappingFragment StoreEntitySet="AdmFormData">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="DateValue" ColumnName="DateValue" />
+                <ScalarProperty Name="NumericValue" ColumnName="NumericValue" />
+                <ScalarProperty Name="AlphaValue" ColumnName="AlphaValue" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="KeyField" ColumnName="KeyField" />
+                <ScalarProperty Name="FormType" ColumnName="FormType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
 
         </EntityContainerMapping>
       </Mapping>
