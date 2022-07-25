@@ -255,8 +255,8 @@
                 <div class="text-right">
                     <button type="submit" id="btnPost" value="Create" class="btn btn-default btn-sm" name="action:SaveLogEntry"><i class="fa fa-save"> Save</i></button>
                     &nbsp;&nbsp;
-                    <button type="submit" asp-page-handler="Submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>
-                    @if (ViewBag.Access == true)
+                    @*<button type="submit" asp-page-handler="Submit" class="btn btn-sm btn-success pull-right right" id="btnPost" name="action:PrintPdf" value="PrintPdf"><span class="fa fa-file-pdf-o" aria-hidden="true"> PDF</span></button>*@
+                    @*@if (ViewBag.Access == true)
                     {
                         if (Model != null)
                         {
@@ -268,7 +268,7 @@
                             }
                         }
 
-                    }
+                    }*@
                 </div>
 
             </div>
@@ -296,11 +296,11 @@
                     <div class="form-group">
 
                         <div class="form-horizontal row">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="editor-field input-sm col-sm-12">
                                     <input type="text" id="txtSupplierSearch" class="form-control input-sm" placeholder="Search" autofocus />
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-horizontal row">
                             <div class="form-group">
@@ -333,11 +333,11 @@
                     <div class="form-group">
 
                         <div class="form-horizontal row">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="editor-field input-sm col-sm-12">
                                     <input type="text" id="txtSupplierPoSearch" class="form-control input-sm" placeholder="Search" autofocus />
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-horizontal row">
                             <div class="form-group">
@@ -371,11 +371,11 @@
                     <div class="form-group">
 
                         <div class="form-horizontal row">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="editor-field input-sm col-sm-12">
                                     <input type="text" id="txtPoLineSearch" class="form-control input-sm" placeholder="Search" autofocus />
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-horizontal row">
                             <div class="form-group">
@@ -628,7 +628,8 @@
     }
 
     $(document).ready(function () {
-
+        $('#SuppLog_Supplier').val($('#Supplier').val());
+        $('#SuppLog_SupplierRef').val($('#DeliveryNote').val());
         PurchaseOrderValidation();
 
         //events
