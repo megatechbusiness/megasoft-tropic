@@ -19,7 +19,7 @@
             </div>
             <div id="LotsDiv">
                 <table id="tblLot" class="table table-hover table-striped table-condensed table-responsive table-bordered">
-                    <thead><tr><th></th><th>Warehouse</th><th>Bin</th><th>StockCode</th><th>Lot</th><th>Quantity</th></tr></thead>
+                    <thead><tr><th></th><th>Warehouse</th><th>Bin</th><th>StockCode</th><th>Lot</th><th>Quantity</th><th>PalletNo</th></tr></thead>
                     <tbody id="data"></tbody>
                 </table>
             </div>
@@ -45,10 +45,10 @@
                 table.empty();
 
                 $.each(data, function (a, ord) {
-                    table.append("<tr class='_stk' id=" + ord.Warehouse + "><td><input type='checkbox'></input></td><td><a href=#>" + ord.Warehouse + "</a></td> <td>" + ord.Bin + "</td> <td>" + ord.StockCode + "</td><td>" + ord.Lot + "</td><td>" + ord.QtyOnHand + "</td></tr >");
+                    table.append("<tr class='_stk' id=" + ord.Warehouse + "><td><input type='checkbox'></input></td><td><a href=#>" + ord.Warehouse + "</a></td> <td>" + ord.Bin + "</td> <td>" + ord.StockCode + "</td><td>" + ord.Lot + "</td><td>" + ord.QtyOnHand + "</td> <td>" + ord.PalletId + "</td></tr >");
                 });
 
-                $("#tblLot").DataTable({"bPaginate": false, "ordering": false});
+                $("#tblLot").DataTable({"bPaginate": true, "ordering": false});
             }
 
         });
@@ -61,7 +61,7 @@
 
     $(function () {
 
-        $('#LotsDiv').html('<table id="tblLot" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th><input type="checkbox" id="selectAll" /></th><th>Warehouse</th><th>Bin</th><th>StockCode</th><th>Lot</th><th>Quantity</th></tr></thead><tbody id="data" class="datarow"></tbody></table>');
+        $('#LotsDiv').html('<table id="tblLot" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th><input type="checkbox" id="selectAll" /></th><th>Warehouse</th><th>Bin</th><th>StockCode</th><th>Lot</th><th>Quantity</th><th>PalletNo</th></tr></thead><tbody id="data" class="datarow"></tbody></table>');
         SearchLots();
 
         $('#btnClose').on('click', function (e) {
