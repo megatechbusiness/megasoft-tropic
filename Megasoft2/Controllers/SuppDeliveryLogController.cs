@@ -71,6 +71,13 @@ namespace Megasoft2.Controllers
                 if (!string.IsNullOrEmpty(model.Supplier) && !string.IsNullOrEmpty(model.DeliveryNote))
                 {
                     model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+
+                    if (model.DeliveryLogList.Count > 0)
+                    {
+                        model.SuppLog = new mtSuppDeliveryLog();
+                        model.SuppLog.TransactionDate = model.DeliveryLogList.FirstOrDefault().TransactionDate;
+                        model.SuppLog.Reciever = model.DeliveryLogList.FirstOrDefault().Reciever;
+                    }
                 }
             }
             catch (Exception ex)
@@ -168,6 +175,22 @@ namespace Megasoft2.Controllers
                 }
                 else
                 {
+                    //add -NO PO to purchase order if not valid
+                    if (string.IsNullOrEmpty(model.SuppLog.PurchaseOrder))
+                    {
+                        model.SuppLog.PurchaseOrder = "";
+                    }
+
+                    if (model.SuppLog.ValidPO == "N")
+                    {
+                        if (!model.SuppLog.PurchaseOrder.Contains("-NO PO"))
+                        {
+                            model.SuppLog.PurchaseOrder = model.SuppLog.PurchaseOrder.TrimStart('0');
+                            model.SuppLog.PurchaseOrder += "-NO PO";
+                            model.SuppLog.PurchaseOrder = model.SuppLog.PurchaseOrder.PadLeft(15, '0');
+                        }
+                    }
+
                     var obj = new mtSuppDeliveryLog()
                     {
                         Supplier = model.SuppLog.Supplier,
@@ -313,6 +336,11 @@ namespace Megasoft2.Controllers
         public ActionResult PrintPdf(SuppDeliveryLogViewModel model)
         {
             model.PrintPdf = ExportPdf(model.SuppLog.TransactionDate, model.SuppLog.Reciever);
+
+            //rebuild log list
+            model.DeliveryLogList = (from a in db.mtSuppDeliveryLogs where (a.Supplier == model.Supplier && a.SupplierRef == model.DeliveryNote) select a).ToList();
+            SetViewBags(model);
+
             return View("Index", model);
         }
 
@@ -346,7 +374,6 @@ namespace Megasoft2.Controllers
                 string FileName = "DeliveryLog_" + DateTime.Now.ToString("yyyy_MM_dd") + ".pdf";
 
                 string OutputPath = Path.Combine(FilePath, FileName);
-                //ViewBag.Access = true;
                 //rpt.ExportToHttpResponse(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, true, Report + "_" + DateTime.Now.Date);
                 rpt.ExportToDisk(ExportFormatType.PortableDocFormat, OutputPath);
                 rpt.Close();
@@ -355,9 +382,7 @@ namespace Megasoft2.Controllers
 
                 ExportFile file = new ExportFile();
                 file.FileName = FileName;
-                file.FilePath = @"..\Reports\SupplierDeliveryLog\" + FileName;
-                //file.FilePath = HttpContext.Current.Server.MapPath("~/RequisitionSystem/RequestForQuote/") + FileName;
-                //file.FilePath = OutputPath;
+                file.FilePath = @".\Reports\SupplierDeliveryLog\" + FileName;
                 return file;
             }
             catch (Exception ex)
@@ -389,6 +414,7 @@ namespace Megasoft2.Controllers
             return Json(supplier, JsonRequestBehavior.AllowGet);
         }
 
+        [CustomAuthorize(Activity: "SupplierDeliveryLog")]
         public ActionResult SupplierDeliveryReport()
         {
             SuppDeliveryLogViewModel model = new SuppDeliveryLogViewModel();

@@ -66,12 +66,14 @@ namespace Megasoft2.Controllers
             var whcontrol = (from a in db.vw_InvWhControl where a.Warehouse == Warehouse select a).ToList();
             if (whcontrol.FirstOrDefault().UseMultipleBins == "Y")
             {
-                var result = (from a in db.LotDetails.AsNoTracking() where a.Warehouse == Warehouse && a.Bin == Bin && a.StockCode == StockCode && a.QtyOnHand != 0 select new { a.Warehouse, a.Bin, a.StockCode, a.Lot, a.QtyOnHand }).Distinct().ToList();
+                //var result = (from a in db.LotDetails.AsNoTracking() where a.Warehouse == Warehouse && a.Bin == Bin && a.StockCode == StockCode && a.QtyOnHand != 0 select new { a.Warehouse, a.Bin, a.StockCode, a.Lot, a.QtyOnHand }).Distinct().ToList();
+                var result = (from a in db.mt_TransfersGetLotList(Warehouse, StockCode, Bin, "Y") select a).Distinct().ToList();
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                var result = (from a in db.LotDetails.AsNoTracking() where a.Warehouse == Warehouse && a.StockCode == StockCode && a.QtyOnHand != 0 select new { a.Warehouse, a.Bin, a.StockCode, a.Lot, a.QtyOnHand }).Distinct().ToList();
+                //var result = (from a in db.LotDetails.AsNoTracking() where a.Warehouse == Warehouse && a.StockCode == StockCode && a.QtyOnHand != 0 select new { a.Warehouse, a.Bin, a.StockCode, a.Lot, a.QtyOnHand }).Distinct().ToList();
+                var result = (from a in db.mt_TransfersGetLotList(Warehouse, StockCode, Bin, "N") select a).Distinct().ToList();
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
