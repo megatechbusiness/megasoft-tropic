@@ -3225,5 +3225,14 @@ namespace Megasoft2
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_TransfersGetLotList_Result>("mt_TransfersGetLotList", warehouseParameter, stockCodeParameter, binParameter, multipleBinsParameter);
         }
+    
+        public virtual ObjectResult<mt_GetGenAnalysisByGLCode_Result> mt_GetGenAnalysisByGLCode(string gLCode)
+        {
+            var gLCodeParameter = gLCode != null ?
+                new ObjectParameter("GLCode", gLCode) :
+                new ObjectParameter("GLCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_GetGenAnalysisByGLCode_Result>("mt_GetGenAnalysisByGLCode", gLCodeParameter);
+        }
     }
 }

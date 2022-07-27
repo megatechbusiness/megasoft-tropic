@@ -4567,6 +4567,9 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
         </Function>
         <Function Name="mt_GetGLCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mt_GetGenAnalysisByGLCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GLCode" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="mt_GetLast5PurchasesByStockCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StockCode" Type="varchar" Mode="In" />
         </Function>
@@ -7836,6 +7839,9 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
             <Parameter Name="MultipleBins" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="AdmFormDatas" EntityType="WarehouseManagementModel.AdmFormData" />
+          <FunctionImport Name="mt_GetGenAnalysisByGLCode" ReturnType="Collection(WarehouseManagementModel.mt_GetGenAnalysisByGLCode_Result)">
+            <Parameter Name="GLCode" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14549,6 +14555,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="DateValue" Type="DateTime" Precision="3" />
           <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <ComplexType Name="mt_GetGenAnalysisByGLCode_Result">
+          <Property Type="String" Name="AnalysisCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+        </ComplexType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -21470,6 +21480,14 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_GetGenAnalysisByGLCode" FunctionName="WarehouseManagementModel.Store.mt_GetGenAnalysisByGLCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetGenAnalysisByGLCode_Result">
+                <ScalarProperty Name="AnalysisCode" ColumnName="AnalysisCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
 
         </EntityContainerMapping>
       </Mapping>
