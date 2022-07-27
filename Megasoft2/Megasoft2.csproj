@@ -1017,6 +1017,9 @@
     <Compile Include="mt_GetFlagPrintTropicHeader_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mt_GetGenAnalysisByGLCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="mt_GetGLCodes_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>

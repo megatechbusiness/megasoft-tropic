@@ -270,13 +270,13 @@
                 </div>
 
             </div>
-            <div class="form-horizontal row spacer-xs" id="AnalysisCodeDiv">
+            <div class="form-horizontal row spacer" id="AnalysisCodeDiv">
 
-                <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                <div class="control-label col-xs-4" style="text-align:left;">
                     Analysis Code
                 </div>
-                <div class="editor-field col-xs-4">
-                    @Html.DropDownListFor(model => model.AnalysisCode, new SelectList(ViewBag.AnalysisCode, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.AnalysisCode, new SelectList(ViewBag.AnalysisCode, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
 
                 </div>
 
