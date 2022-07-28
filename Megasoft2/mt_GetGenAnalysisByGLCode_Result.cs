@@ -15,5 +15,6 @@ namespace Megasoft2
     {
         public string AnalysisCode { get; set; }
         public string Description { get; set; }
+        public Nullable<decimal> AnalysisType { get; set; }
     }
 }

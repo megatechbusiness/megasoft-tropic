@@ -35,7 +35,7 @@
 <script type="text/javascript">
     function SearchStock() {
 
-        var table = $("#tblStock tbody");
+        let table = $("#tblStock tbody");
 
         $.ajax({
             url: "@Url.Action("StockCodeList", "WhseManExpenseIssue")?Warehouse=" + $('#Warehouse').val(),
@@ -61,10 +61,60 @@
         });
     }
 
+    function ValidateStockCode(exportdata) {
+        $.ajax({
+                type: "POST",
+                url: '@Url.Action("ValidateStockCodeDetails", "WhseManExpenseIssue")',
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
 
+        function OnSuccess(response) {
 
+                if (response != "") {
 
+                    let tempResponse = response.split(':');
+                    response = tempResponse[0];
+                    if (response == "Analysis Required") {
 
+                        //pass exportdata to fucuntion to get cat function
+                        GetAnalysisCode(exportdata);
+
+                        //show and hide neccessary Analysis Code fields
+                        ShowGlAnalysisCodeFields(tempResponse[1]);
+                    }
+                    else {
+                        ShowGlAnalysisCodeFields(0);
+                    }
+                }
+                else {
+                    document.getElementById('StockCode').value = "";
+                    document.getElementById('Lot').value = "";
+                    document.getElementById('Quantity').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                    document.getElementById("Quantity").focus();
+                    $('.AnalysisCode').hide();
+                }
+
+            }
+
+            function OnErrorCall(response) {
+                if (response != "") {
+                    document.getElementById('StockCode').value = "";
+                    document.getElementById('Lot').value = "";
+                    document.getElementById('Quantity').value = "";
+                    $('#errordiv').text(response);
+                    $('#errordiv').addClass("alert alert-danger");
+                }
+                else {
+                    document.getElementById("btnPost").focus();
+                }
+            }
+    }
 
     $(document).ready(function () {
 
@@ -73,11 +123,28 @@
 
 
         $('#StockCodesDiv').on("click", "._stk", function () {
-            var rCode = $(this).attr('id');
+            let rCode = $(this).attr('id');
+            let ProductClass = $(this).closest("tr").find("td:eq(3)").text();
+
             $('#StockCode').val(rCode);
 
+            //Create object for validation
+            let mydata = [];
+            let myObject = new Object();
 
+            myObject.Warehouse = $('#Warehouse').val();
+            myObject.StockCode = $('#StockCode').val();
+            myObject.ProductClass = ProductClass;
+            myObject.CostCentre = $('#CostCentre').val();
+            myObject.WorkCentre = $('#WorkCentre').val();
 
+            mydata.push(myObject);
+
+            let myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            let exportdata = myString;
+
+            //validate the stock code
+            ValidateStockCode(exportdata);
 
             $('.closeModal3').trigger("click");
         });

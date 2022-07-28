@@ -4,6 +4,7 @@ using Megasoft2.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -29,7 +30,11 @@ namespace Megasoft2.Controllers
             var CostCentreList = (from a in mdb.mtUserDepartments where a.Company == Company && a.Username == Username select new { CostCentre = a.CostCentre, Description = a.CostCentre }).ToList();
             ViewBag.CostCentreList = CostCentreList;
             ViewBag.WorkCentreList = new List<SelectListItem>();
-            ViewBag.AnalysisCode = new List<SelectListItem>();
+            ViewBag.AnalysisCode1 = new List<SelectListItem>();
+            ViewBag.AnalysisCode2 = new List<SelectListItem>();
+            ViewBag.AnalysisCode3 = new List<SelectListItem>();
+            ViewBag.AnalysisCode4 = new List<SelectListItem>();
+            ViewBag.AnalysisCode5 = new List<SelectListItem>();
             ViewBag.ProgramMode = ProgramMode;
             ExpenseIssue model = new ExpenseIssue();
             model.TransactionDate = DateTime.Now;
@@ -96,6 +101,19 @@ namespace Megasoft2.Controllers
             }
         }
 
+        [HttpPost]
+        [CustomAuthorize(Activity: "ExpenseIssue")]
+        public ActionResult ValidateStockCodeDetails(string details)
+        {
+            try
+            {
+                return Json(ValidateStockCode(details), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         [HttpPost]//run it
         public ActionResult GetAnalysisCode(string details)
@@ -119,11 +137,8 @@ namespace Megasoft2.Controllers
                         var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
                         if (AnalysisRequired.Count > 0)
                         {
-
-                            //item.AnalysisRequired = "Analysis Required";
-                            return Json((from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description }).ToList());
+                            return Json((from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description, AnalysisType = a.AnalysisType }).ToList());
                         }
-
                     }
                     else
                     {
@@ -198,11 +213,12 @@ namespace Megasoft2.Controllers
                                         if (!string.IsNullOrWhiteSpace(GlCode))
                                         {
                                             var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
+                                            var MaxGlAnalysisCodes = (int)AnalysisRequired.Max(a => a.AnalysisType);
+
                                             if (AnalysisRequired.Count > 0)
                                             {
 
-                                                item.AnalysisRequired = "Analysis Required";
-                                                // ViewBag.AnalysisCode = (from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description }).ToList();
+                                                item.AnalysisRequired = "Analysis Required:" + MaxGlAnalysisCodes;
                                                 return item.AnalysisRequired;
                                             }
                                             else
@@ -229,11 +245,11 @@ namespace Megasoft2.Controllers
                                 if (!string.IsNullOrWhiteSpace(GlCode))
                                 {
                                     var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
+                                    var MaxGlAnalysisCodes = (int)AnalysisRequired.Max(a => a.AnalysisType);
+
                                     if (AnalysisRequired.Count > 0)
                                     {
-
-                                        item.AnalysisRequired = "Analysis Required";
-                                        //ViewBag.AnalysisCode = (from a in AnalysisRequired select new { AnalysisCode = a.AnalysisCode, Description = a.Description }).ToList();
+                                        item.AnalysisRequired = "Analysis Required:" + MaxGlAnalysisCodes;
                                         return item.AnalysisRequired;
                                     }
                                     else
@@ -244,6 +260,53 @@ namespace Megasoft2.Controllers
                             }
                         }
                     }
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string ValidateStockCode(string details)
+        {
+            try
+            {
+                List<ExpenseIssue> myDeserializedObjList = (List<ExpenseIssue>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<ExpenseIssue>));
+                if (myDeserializedObjList.Count > 0)
+                {
+                    foreach (var item in myDeserializedObjList)
+                    {
+                        var StockCodeCheck = wdb.InvMasters.Where(a => a.StockCode.Equals(item.StockCode)).FirstOrDefault();
+                        if (StockCodeCheck == null)
+                        {
+                            return "StockCode not found!.";
+                        }
+
+                        var GlCode = (from a in wdb.mtExpenseIssueMatrices where a.CostCentre == item.CostCentre && a.WorkCentre == item.WorkCentre && a.ProductClass == StockCodeCheck.ProductClass select a.GlCode).FirstOrDefault();
+                        if (string.IsNullOrWhiteSpace(GlCode))
+                        {
+                            return "No GL code found in Matrix for Cost Centre: " + item.CostCentre + " WorkCentre: " + item.WorkCentre + " Product Cass: " + StockCodeCheck.ProductClass;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(GlCode))
+                        {
+                            var AnalysisRequired = wdb.mt_GetGenAnalysisByGLCode(GlCode).ToList();
+                            var MaxGlAnalysisCodes = (int)AnalysisRequired.Max(a => a.AnalysisType);
+
+                            if (AnalysisRequired.Count > 0)
+                            {
+                                item.AnalysisRequired = "Analysis Required:" + MaxGlAnalysisCodes;
+                                return item.AnalysisRequired;
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }
+                    
                 }
                 return "";
             }
@@ -363,19 +426,7 @@ namespace Megasoft2.Controllers
                             return "No GL code found in Matrix for Cost Centre: " + item.CostCentre + " WorkCentre: " + item.WorkCentre + " Product Cass: " + TraceableType.ProductClass;
                         }
 
-
                         string Employee = item.Employee;
-                        //string EmployeeText = item.Employee;
-                        //int index = EmployeeText.IndexOf(" -- ");
-                        //if (index == 0)
-                        //{
-                        //    Employee = item.Employee.Substring(0, 30);
-                        //}
-                        //else
-                        //{
-                        //    Employee = item.Employee.Substring(0, index);
-                        //}
-
 
                         var Reference = item.WorkCentre + "-" + Employee;
                         if (!string.IsNullOrWhiteSpace(Reference))
@@ -390,13 +441,102 @@ namespace Megasoft2.Controllers
                         Document.Append("<LedgerCode><![CDATA[" + GlCode + "]]></LedgerCode>");
                         var UnitCost = (from a in wdb.InvWarehouses where a.StockCode == item.StockCode && a.Warehouse == item.Warehouse select a.UnitCost).FirstOrDefault();
                         decimal EntryAmount = item.Quantity * UnitCost;
-                        Document.Append("		<AnalysisEntry/>");
-                        Document.Append("		<AnalysisLineEntry>");
-                        Document.Append("			<AnalysisCode1>" + item.AnalysisCode + "</AnalysisCode1>");
-                        Document.Append("			");
-                        Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
-                        Document.Append("			");
-                        Document.Append("		</AnalysisLineEntry>");
+
+                        //Document.Append("		<AnalysisEntry/>");
+
+                        //list of analysiscodes
+                        List<string> listAnalysisCodes = new List<string> { item.AnalysisCode1, item.AnalysisCode2, item.AnalysisCode3, item.AnalysisCode4, item.AnalysisCode5 };
+                        int lastAnalysisCode = 0;
+                        int codeCount = 0;
+
+                        for (int i = 0; i < listAnalysisCodes.Count; i++)
+                        {
+                            if (!string.IsNullOrEmpty(listAnalysisCodes[i]))
+                            {
+                                lastAnalysisCode = i;
+                                codeCount++;
+                            }
+                        }
+
+                        //add analysis line entries if codes exist
+                        if (codeCount > 0)
+                        {
+                            if (!string.IsNullOrEmpty(item.AnalysisCode1))
+                            {
+                                Document.Append("		<AnalysisLineEntry>");
+                                Document.Append("			<AnalysisCode>" + item.AnalysisCode1 + "</AnalysisCode>");
+
+                                if (lastAnalysisCode == 0)
+                                {
+                                    Document.Append("			");
+                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                                    Document.Append("			");
+                                }
+
+                                Document.Append("		</AnalysisLineEntry>");
+                            }
+
+                            if (!string.IsNullOrEmpty(item.AnalysisCode2))
+                            {
+                                Document.Append("		<AnalysisLineEntry>");
+                                Document.Append("			<AnalysisCode>" + item.AnalysisCode2 + "</AnalysisCode>");
+
+                                if (lastAnalysisCode == 1)
+                                {
+                                    Document.Append("			");
+                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                                    Document.Append("			");
+                                }
+
+                                Document.Append("		</AnalysisLineEntry>");
+                            }
+
+                            if (!string.IsNullOrEmpty(item.AnalysisCode3))
+                            {
+                                Document.Append("		<AnalysisLineEntry>");
+                                Document.Append("			<AnalysisCode>" + item.AnalysisCode3 + "</AnalysisCode>");
+
+                                if (lastAnalysisCode == 2)
+                                {
+                                    Document.Append("			");
+                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                                    Document.Append("			");
+                                }
+
+                                Document.Append("		</AnalysisLineEntry>");
+                            }
+
+                            if (!string.IsNullOrEmpty(item.AnalysisCode4))
+                            {
+                                Document.Append("		<AnalysisLineEntry>");
+                                Document.Append("			<AnalysisCode>" + item.AnalysisCode4 + "</AnalysisCode>");
+
+                                if (lastAnalysisCode == 3)
+                                {
+                                    Document.Append("			");
+                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                                    Document.Append("			");
+                                }
+
+                                Document.Append("		</AnalysisLineEntry>");
+                            }
+
+                            if (!string.IsNullOrEmpty(item.AnalysisCode5))
+                            {
+                                Document.Append("		<AnalysisLineEntry>");
+                                Document.Append("			<AnalysisCode>" + item.AnalysisCode5 + "</AnalysisCode>");
+
+                                if (lastAnalysisCode == 4)
+                                {
+                                    Document.Append("			");
+                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                                    Document.Append("			");
+                                }
+
+                                Document.Append("		</AnalysisLineEntry>");
+                            }
+                        }
+
                         Document.Append("<PasswordForLedgerCode/>");
                         Document.Append("</Item>");
                     }

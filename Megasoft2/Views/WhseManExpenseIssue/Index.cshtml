@@ -18,7 +18,6 @@
     {
         <div class="form-horizontal row spacer">
 
-
             <div class="editor-field col-xs-8">
                 @Html.HiddenFor(model => model.TransactionDate, "{0:yyyy-MM-dd}")
             </div>
@@ -139,16 +138,49 @@
             </div>
         </div>
 
-        <div class="form-horizontal row spacer-xs" id="AnalysisCodeDiv">
-
+        <div class="AnalysisCode AnalysisCode1 form-horizontal row spacer-xs">
             <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
-                Analysis Code
+                Analysis Code 1
             </div>
             <div class="editor-field col-xs-4">
-                @Html.DropDownListFor(model => model.AnalysisCode, new SelectList(ViewBag.AnalysisCode, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
-
+                @Html.DropDownListFor(model => model.AnalysisCode1, new SelectList(ViewBag.AnalysisCode1, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
             </div>
+        </div>
 
+        <div class="AnalysisCode AnalysisCode2 form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                Analysis Code 2
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.DropDownListFor(model => model.AnalysisCode2, new SelectList(ViewBag.AnalysisCode2, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+
+        <div class="AnalysisCode AnalysisCode3 form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                Analysis Code 3
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.DropDownListFor(model => model.AnalysisCode3, new SelectList(ViewBag.AnalysisCode3, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+
+        <div class="AnalysisCode AnalysisCode4 form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                Analysis Code 4
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.DropDownListFor(model => model.AnalysisCode4, new SelectList(ViewBag.AnalysisCode4, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
+        </div>
+
+        <div class="AnalysisCode AnalysisCode5 form-horizontal row spacer-xs">
+            <div class="control-label col-xs-2" style="text-align:left;font-size:xx-small">
+                Analysis Code 5
+            </div>
+            <div class="editor-field col-xs-4">
+                @Html.DropDownListFor(model => model.AnalysisCode5, new SelectList(ViewBag.AnalysisCode5, "AnalysisCode", "Description"), new { @class = "form-control input-xs", @style = "font-size:xx-small;" })
+            </div>
         </div>
 
         <div class="form-horizontal row text-center col-xs-8">
@@ -167,7 +199,12 @@
                         <th>StockCode</th>
                         <th>Lot</th>
                         <th>Qty</th>
-                        <th>Analysis Code</th>
+                        <th style="display:none;">Analysis Code 1</th>
+                        <th style="display:none;">Analysis Code 2</th>
+                        <th style="display:none;">Analysis Code 3</th>
+                        <th style="display:none;">Analysis Code 4</th>
+                        <th style="display:none;">Analysis Code 5</th>
+                        <th>AnalysisCodes</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -270,17 +307,52 @@
                 </div>
 
             </div>
-            <div class="form-horizontal row spacer" id="AnalysisCodeDiv">
 
+            <div class="AnalysisCode AnalysisCode1 form-horizontal row spacer">
                 <div class="control-label col-xs-4" style="text-align:left;">
-                    Analysis Code
+                    Analysis Code 1
                 </div>
                 <div class="editor-field col-xs-8">
-                    @Html.DropDownListFor(model => model.AnalysisCode, new SelectList(ViewBag.AnalysisCode, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
-
+                    @Html.DropDownListFor(model => model.AnalysisCode1, new SelectList(ViewBag.AnalysisCode1, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
                 </div>
-
             </div>
+
+            <div class="AnalysisCode AnalysisCode2 form-horizontal row spacer">
+                <div class="control-label col-xs-4" style="text-align:left;">
+                    Analysis Code 2
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.AnalysisCode2, new SelectList(ViewBag.AnalysisCode2, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="AnalysisCode AnalysisCode3 form-horizontal row spacer">
+                <div class="control-label col-xs-4" style="text-align:left;">
+                    Analysis Code 3
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.AnalysisCode3, new SelectList(ViewBag.AnalysisCode3, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="AnalysisCode AnalysisCode4 form-horizontal row spacer">
+                <div class="control-label col-xs-4" style="text-align:left;">
+                    Analysis Code 4
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.AnalysisCode4, new SelectList(ViewBag.AnalysisCode4, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="AnalysisCode AnalysisCode5 form-horizontal row spacer">
+                <div class="control-label col-xs-4" style="text-align:left;">
+                    Analysis Code 5
+                </div>
+                <div class="editor-field col-xs-8">
+                    @Html.DropDownListFor(model => model.AnalysisCode5, new SelectList(ViewBag.AnalysisCode5, "AnalysisCode", "Description"), new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
             <div class="form-horizontal row spacer">
 
                 <div class="control-label col-xs-4" style="text-align:left;">
@@ -313,7 +385,12 @@
                             <th>StockCode</th>
                             <th>Lot</th>
                             <th>Qty</th>
-                            <th>Analysis Code</th>
+                            <th style="display:none;">Analysis Code 1</th>
+                            <th style="display:none;">Analysis Code 2</th>
+                            <th style="display:none;">Analysis Code 3</th>
+                            <th style="display:none;">Analysis Code 4</th>
+                            <th style="display:none;">Analysis Code 5</th>
+                            <th>Analysis Codes</th>
                             <th>Date</th>
                             <th></th>
                         </tr>
@@ -331,28 +408,29 @@
 
 
 
-    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
-    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
     $(".datepicker").datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayBtn: 'linked' });
 
+    $('.AnalysisCode').hide();
 
     function ValidateBarcode() {
         $('#errordiv').text("");
         $('#errordiv').removeClass("alert alert-danger");
 
-        var str = document.getElementById('Barcode').value;
+        let str = document.getElementById('Barcode').value;
         //If Megasoft Barcode
         if (str.indexOf("|") > 0) {
-            var Values = document.getElementById('Barcode').value.split("|");
+            let Values = document.getElementById('Barcode').value.split("|");
             document.getElementById('StockCode').value = Values[0];
             document.getElementById('Lot').value = Values[4];
             document.getElementById('Quantity').value = Values[2];
 
 
-            var mydata = [];
-            var myObject = new Object();
+            let mydata = [];
+            let myObject = new Object();
 
             myObject.Warehouse = $('#Warehouse').val();
             myObject.StockCode = Values[0];
@@ -363,12 +441,12 @@
 
             mydata.push(myObject);
 
-            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
-            var exportdata = myString;
+            let myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            let exportdata = myString;
 
             $.ajax({
                 type: "POST",
-                url: "WhseManExpenseIssue/ValidateDetails",
+                url: '@Url.Action("ValidateDetails", "WhseManExpenseIssue")',
                 data: exportdata,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -378,12 +456,19 @@
 
             function OnSuccess(response) {
                 if (response != "") {
+
+                    let tempResponse = response.split(':');
+                    response = tempResponse[0];
                     if (response == "Analysis Required") {
-                        //show div
+
                         //pass exportdata to fucuntion to get cat function
                         GetAnalysisCode(exportdata);
-                        $('#AnalysisCodeDiv').show();
 
+                        //show and hide neccessary Analysis Code fields
+                        ShowGlAnalysisCodeFields(tempResponse[1]);
+                    }
+                    else {
+                        ShowGlAnalysisCodeFields(0);
                     }
                 }
                 else {
@@ -395,10 +480,8 @@
                     $('#errordiv').addClass("alert alert-danger");
                     document.getElementById('Barcode').focus();
                     document.getElementById("Quantity").focus();
-                    //AddLine();
                     GetUom(document.getElementById('StockCode').value);
-                   // $('#AnalysisCode').hide();
-
+                    $('.AnalysisCode').hide();
 
                 }
 
@@ -423,26 +506,40 @@
 
             alert("Invalid barcode scanned!");
         }
+    }
 
+    function ShowGlAnalysisCodeFields(MaxCode) {
 
+        for (let i = 0; i < 5; i++) {
 
+            //show fields
+            if (i < MaxCode) {
+                $('.AnalysisCode' + (i+1)).show();
+            }
+
+            //hide fields and remove values
+            if (i >= MaxCode) {
+                $('.AnalysisCode' + (i + 1)).hide();
+                $('.AnalysisCode' + (i + 1)).val('');
+            }
+
+        }
 
     }
 
-
     function checkMultiBins(Warehouse) {
-        var mydata = [];
-        var myObject = new Object();
+        let mydata = [];
+        let myObject = new Object();
         myObject.Warehouse = Warehouse;
 
         mydata.push(myObject);
 
-        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
-        var exportdata = myString;
+        let myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        let exportdata = myString;
 
         $.ajax({
             type: "POST",
-            url: "WhseManExpenseIssue/CheckWarehouseMultiBin",
+            url: '@Url.Action("CheckWarehouseMultiBin", "WhseManExpenseIssue")',
             data: exportdata,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -477,20 +574,19 @@
         showprogressbar();
 
 
-        var Bin = document.getElementById('Bin').value;
-        var StockCode = document.getElementById('StockCode').value;
-        var Lot = document.getElementById('Lot').value;
-        var Quantity = document.getElementById('Quantity').value;
-        var AddReel = true;
-        var AnalysisCode = document.getElementById('AnalysisCode').value;
+        let Bin = document.getElementById('Bin').value;
+        let StockCode = document.getElementById('StockCode').value;
+        let Lot = document.getElementById('Lot').value;
+        let Quantity = document.getElementById('Quantity').value;
+        let AddReel = true;
         if (Quantity.trim() == "") {
             alert("Quantity missing.");
             AddReel = false;
         }
 
         $("#tblLines > tbody > tr ").each(function (i, el) {
-            var $tds = $(this).find('td');
-            var ReelNumber = $tds.eq(1).text();
+            let $tds = $(this).find('td');
+            let ReelNumber = $tds.eq(1).text();
             if (Lot == ReelNumber) {
                 AddReel = false;
                 alert("Reel " + Lot + " already scanned.");
@@ -498,11 +594,39 @@
             }
         });
 
-
         if (AddReel == true) {
+
+            let AnalysisCodesText = "";
+
+            if ($('#AnalysisCode1').val() != "") {
+                AnalysisCodesText += $("#AnalysisCode1").val() + "|";
+            }
+
+            if ($('#AnalysisCode2').val() != "") {
+                AnalysisCodesText += $("#AnalysisCode2").val() + "|";
+            }
+
+            if ($('#AnalysisCode3').val() != "") {
+                AnalysisCodesText += $("#AnalysisCode3").val() + "|";
+            }
+
+            if ($('#AnalysisCode4').val() != "") {
+                AnalysisCodesText += $("#AnalysisCode4").val() + "|";
+            }
+
+            if ($('#AnalysisCode5').val() != "") {
+                AnalysisCodesText += $("#AnalysisCode5").val() + "|";
+            }
+
             $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
-                "</td><td><input type='hidden' value='" + Bin + "'/>" + Lot + "</td><td>" + Quantity +
-                "</td><td>" + AnalysisCode +"</td><td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+                "</td><td><input type='hidden' value='" + Bin + "'/>" + Lot + "</td><td>" + Quantity + "</td>" +
+                "<td style='display: none;'>" + $("#AnalysisCode1").val() + "</td>" +
+                "<td style='display: none;'>" + $("#AnalysisCode2").val() + "</td>" +
+                "<td style='display: none;'>" + $("#AnalysisCode3").val() + "</td>" +
+                "<td style='display: none;'>" + $("#AnalysisCode4").val() + "</td>" +
+                "<td style='display: none;'>" + $("#AnalysisCode5").val() + "</td>" +
+                "<td>" + AnalysisCodesText + "</td>" +
+                "<td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
 
             $('#CostCentre').attr("disabled", "disabled");
             $('#WorkCentre').attr("disabled", "disabled");
@@ -516,7 +640,10 @@
         document.getElementById('Quantity').value = "";
         document.getElementById('Barcode').focus();
 
-        var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        //clear analysis code drop downs from screen
+        ShowGlAnalysisCodeFields(0);
+
+        let rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
         $('#txtCount').html('Total:' + rows);
 
         hideprogressbar();
@@ -525,68 +652,105 @@
 
     function GetWorkCentres(CostCentre) {
 
-                var myString = JSON.stringify({
-                    CostCentre: CostCentre
+        let myString = JSON.stringify({
+            CostCentre: CostCentre
+        });
+        let exportdata = myString;
+
+        $.ajax({
+            type: "POST",
+            url:"@Url.Action("GetWorkCentres", "WhseManExpenseIssue")",
+            contentType: "application/json; charset=utf-8",
+            data: exportdata,
+            dataType: "json",
+            success: OnSuccess,
+            failure: function () {
+                alert(response);
+            }
+        });
+        function OnSuccess(response) {
+            if (response) {
+                let ddlWorkCentre = $("#WorkCentre");
+
+                ddlWorkCentre.empty();
+                $("#WorkCentre").prepend("<option value='' selected='selected'></option>");
+
+                $.each(response, function () {
+                    ddlWorkCentre.append($("<option></option>").val(this['WorkCentre'].trim()).html(this['Description']));
                 });
-                var exportdata = myString;
-
-                $.ajax({
-                    type: "POST",
-                    url:"@Url.Action("GetWorkCentres", "WhseManExpenseIssue")",
-                    contentType: "application/json; charset=utf-8",
-                    data: exportdata,
-                    dataType: "json",
-                    success: OnSuccess,
-                    failure: function () {
-                        alert(response);
-                    }
-                });
-                function OnSuccess(response) {
-                    if (response) {
-                        var ddlWorkCentre = $("#WorkCentre");
-
-                        ddlWorkCentre.empty();
-                        $("#WorkCentre").prepend("<option value='' selected='selected'></option>");
-
-                        $.each(response, function () {
-                            //alert(this['Value'] + ' space ' + this['Text']);
-                            ddlWorkCentre.append($("<option></option>").val(this['WorkCentre'].trim()).html(this['Description']));
-                        });
-                    }
-                }
-
-    }
-        function GetAnalysisCode(exportdata) {
-
-        //alert(exportdata);
-                $.ajax({
-                    type: "POST",
-                    url:"@Url.Action("GetAnalysisCode", "WhseManExpenseIssue")",
-                    contentType: "application/json; charset=utf-8",
-                    data: exportdata,
-                    dataType: "json",
-                    success: OnSuccess,
-                    failure: function () {
-                        alert(response);
-                    }
-                });
-                function OnSuccess(response) {
-                    if (response) {
-                        var ddlAnalysisCode = $("#AnalysisCode");
-
-                        ddlAnalysisCode.empty();
-                        $("#AnalysisCode").prepend("<option value='' selected='selected'></option>");
-
-                        $.each(response, function () {
-                            //alert(this['Value'] + ' space ' + this['Text']);
-                            ddlAnalysisCode.append($("<option></option>").val(this['AnalysisCode'].trim()).html(this['Description']));
-                        });
-                    }
-                }
+            }
+        }
 
     }
 
-      function PostExpenseIssue() {
+    function GetAnalysisCode(exportdata) {
+
+        $.ajax({
+            type: "POST",
+            url:"@Url.Action("GetAnalysisCode", "WhseManExpenseIssue")",
+            contentType: "application/json; charset=utf-8",
+            data: exportdata,
+            dataType: "json",
+            success: OnSuccess,
+            failure: function () {
+                alert(response);
+            }
+        });
+
+        function OnSuccess(response) {
+            if (response) {
+                let ddlAnalysisCode1 = $("#AnalysisCode1");
+                let ddlAnalysisCode2 = $("#AnalysisCode2");
+                let ddlAnalysisCode3 = $("#AnalysisCode3");
+                let ddlAnalysisCode4 = $("#AnalysisCode4");
+                let ddlAnalysisCode5 = $("#AnalysisCode5");
+
+                //clear all Analysis Code drop down lists
+                ddlAnalysisCode1.empty();
+                $("#AnalysisCode1").prepend("<option value='' selected='selected'></option>");
+
+                ddlAnalysisCode2.empty();
+                $("#AnalysisCode2").prepend("<option value='' selected='selected'></option>");
+
+                ddlAnalysisCode3.empty();
+                $("#AnalysisCode3").prepend("<option value='' selected='selected'></option>");
+
+                ddlAnalysisCode4.empty();
+                $("#AnalysisCode4").prepend("<option value='' selected='selected'></option>");
+
+                ddlAnalysisCode5.empty();
+                $("#AnalysisCode5").prepend("<option value='' selected='selected'></option>");
+
+                //assign Analysis Codes by type
+                $.each(response, function (key, value) {
+
+                    if (value.AnalysisType == '1') {
+                        ddlAnalysisCode1.append($("<option></option>").val(value.AnalysisCode.trim()).html(value.Description));
+                    }
+
+                    if (value.AnalysisType == '2') {
+                        ddlAnalysisCode2.append($("<option></option>").val(value.AnalysisCode.trim()).html(value.Description));
+                    }
+
+                    if (value.AnalysisType == '3') {
+                        ddlAnalysisCode3.append($("<option></option>").val(value.AnalysisCode.trim()).html(value.Description));
+                    }
+
+                    if (value.AnalysisType == '4') {
+                        ddlAnalysisCode4.append($("<option></option>").val(value.AnalysisCode.trim()).html(value.Description));
+                    }
+
+                    if (value.AnalysisType == '5') {
+                        ddlAnalysisCode5.append($("<option></option>").val(value.AnalysisCode.trim()).html(value.Description));
+                    }
+
+                });
+            }
+        }
+
+    }
+
+    function PostExpenseIssue() {
         $('#errordiv').text("");
         $('#errordiv').removeClass("alert alert-danger");
         showprogressbar();
@@ -602,20 +766,24 @@
         }
 
 
-        var mydata = [];
+        let mydata = [];
         $("#tblLines > tbody > tr ").each(function (i, el) {
-            var $tds = $(this).find('td')
-            var CostCentre = $('#CostCentre').val();
-            var WorkCentre = $('#WorkCentre').val();
-            var Warehouse = $('#Warehouse').val();
-            var Bin = $tds.eq(0).find('input[type=hidden]').val();
-            var StockCode = $tds.eq(0).text();
-            var Lot = $tds.eq(1).text();
-            var Quantity = $tds.eq(2).text();
-            var Employee = $('#Employee').val();
-            var AnalysisCode = $('#AnalysisCode').val();
+            let $tds = $(this).find('td')
+            let CostCentre = $('#CostCentre').val();
+            let WorkCentre = $('#WorkCentre').val();
+            let Warehouse = $('#Warehouse').val();
+            let Bin = $tds.eq(0).find('input[type=hidden]').val();
+            let StockCode = $tds.eq(0).text();
+            let Lot = $tds.eq(1).text();
+            let Quantity = $tds.eq(2).text();
+            let Employee = $('#Employee').val();
+            let AnalysisCode1 = $tds.eq(3).text();
+            let AnalysisCode2 = $tds.eq(4).text();
+            let AnalysisCode3 = $tds.eq(5).text();
+            let AnalysisCode4 = $tds.eq(6).text();
+            let AnalysisCode5 = $tds.eq(7).text();
 
-            var myObject = new Object();
+            let myObject = new Object();
             myObject.CostCentre = CostCentre;
             myObject.WorkCentre = WorkCentre;
             myObject.Warehouse = Warehouse;
@@ -624,16 +792,20 @@
             myObject.Lot = Lot;
             myObject.Quantity = Quantity;
             myObject.Employee = Employee;
-            myObject.AnalysisCode = AnalysisCode;
+            myObject.AnalysisCode1 = AnalysisCode1;
+            myObject.AnalysisCode2 = AnalysisCode2;
+            myObject.AnalysisCode3 = AnalysisCode3;
+            myObject.AnalysisCode4 = AnalysisCode4;
+            myObject.AnalysisCode5 = AnalysisCode5;
             mydata.push(myObject);
         });
 
-        var myString = JSON.stringify({ details: JSON.stringify(mydata) });
-        var exportdata = myString;
+        let myString = JSON.stringify({ details: JSON.stringify(mydata) });
+        let exportdata = myString;
 
         $.ajax({
             type: "POST",
-            url: "WhseManExpenseIssue/PostExpenseIssue?TransactionDate=" + $("#TransactionDate").val(),
+            url: '@Url.Action("PostExpenseIssue", "WhseManExpenseIssue")' + '?TransactionDate=' + $("#TransactionDate").val(),
             data: exportdata,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -669,43 +841,36 @@
             }
             hideprogressbar();
         }
-        }
+    }
 
+    function GetUom(StockCode) {
 
-        function GetUom(StockCode) {
+        let myString = JSON.stringify({
+            StockCode: StockCode
+        });
+        let exportdata = myString;
 
-            var myString = JSON.stringify({
-                StockCode: StockCode
-            });
-            var exportdata = myString;
-
-            $.ajax({
-                type: "POST",
-                url: "WhseManExpenseIssue/GetUom",
-                contentType: "application/json; charset=utf-8",
-                data: exportdata,
-                dataType: "json",
-                success: OnSuccess,
-                failure: function () {
-                    alert(response);
-                }
-            });
-
-            function OnSuccess(response) {
-                // alert(response);
-                $('#StockUom').val(response);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetUom", "WhseManExpenseIssue")',
+            contentType: "application/json; charset=utf-8",
+            data: exportdata,
+            dataType: "json",
+            success: OnSuccess,
+            failure: function () {
+                alert(response);
             }
+        });
+
+        function OnSuccess(response) {
+            $('#StockUom').val(response);
         }
-
-
+    }
 
     $(document).ready(function () {
 
-
-
-
         $('#megasoftTitle').text(' Megasoft - Expense Iss.');
-        var span = document.getElementById("megasoftTitle");
+        let span = document.getElementById("megasoftTitle");
         span.style.fontSize = "x-small";
 
 
@@ -723,7 +888,7 @@
 
         $('#tblLines').on("click", ".delLine", function () {
             $(this).closest("tr").remove();
-            var rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+            let rows = document.getElementById('tblLines').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
             $('#txtCount').html('Total:' + rows);
         });
 
@@ -732,5 +897,5 @@
         });
     });
 
-    </script>
+</script>
 }
