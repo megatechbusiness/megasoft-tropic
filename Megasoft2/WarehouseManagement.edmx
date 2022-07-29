@@ -14558,6 +14558,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
         <ComplexType Name="mt_GetGenAnalysisByGLCode_Result">
           <Property Type="String" Name="AnalysisCode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="AnalysisType" Nullable="true" Precision="1" Scale="0" />
         </ComplexType>
 
       </Schema>
@@ -21485,6 +21486,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetGenAnalysisByGLCode_Result">
                 <ScalarProperty Name="AnalysisCode" ColumnName="AnalysisCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AnalysisType" ColumnName="AnalysisType" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
