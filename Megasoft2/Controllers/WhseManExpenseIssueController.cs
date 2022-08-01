@@ -442,99 +442,32 @@ namespace Megasoft2.Controllers
                         var UnitCost = (from a in wdb.InvWarehouses where a.StockCode == item.StockCode && a.Warehouse == item.Warehouse select a.UnitCost).FirstOrDefault();
                         decimal EntryAmount = item.Quantity * UnitCost;
 
-                        //Document.Append("		<AnalysisEntry/>");
-
                         //list of analysiscodes
                         List<string> listAnalysisCodes = new List<string> { item.AnalysisCode1, item.AnalysisCode2, item.AnalysisCode3, item.AnalysisCode4, item.AnalysisCode5 };
-                        int lastAnalysisCode = 0;
                         int codeCount = 0;
-
                         for (int i = 0; i < listAnalysisCodes.Count; i++)
                         {
                             if (!string.IsNullOrEmpty(listAnalysisCodes[i]))
                             {
-                                lastAnalysisCode = i;
                                 codeCount++;
                             }
                         }
 
-                        //add analysis line entries if codes exist
+                        //Document.Append("		<AnalysisEntry/>");
+
+                        //add analysis line entries
                         if (codeCount > 0)
                         {
-                            if (!string.IsNullOrEmpty(item.AnalysisCode1))
-                            {
-                                Document.Append("		<AnalysisLineEntry>");
-                                Document.Append("			<AnalysisCode>" + item.AnalysisCode1 + "</AnalysisCode>");
-
-                                if (lastAnalysisCode == 0)
-                                {
-                                    Document.Append("			");
-                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
-                                    Document.Append("			");
-                                }
-
-                                Document.Append("		</AnalysisLineEntry>");
-                            }
-
-                            if (!string.IsNullOrEmpty(item.AnalysisCode2))
-                            {
-                                Document.Append("		<AnalysisLineEntry>");
-                                Document.Append("			<AnalysisCode>" + item.AnalysisCode2 + "</AnalysisCode>");
-
-                                if (lastAnalysisCode == 1)
-                                {
-                                    Document.Append("			");
-                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
-                                    Document.Append("			");
-                                }
-
-                                Document.Append("		</AnalysisLineEntry>");
-                            }
-
-                            if (!string.IsNullOrEmpty(item.AnalysisCode3))
-                            {
-                                Document.Append("		<AnalysisLineEntry>");
-                                Document.Append("			<AnalysisCode>" + item.AnalysisCode3 + "</AnalysisCode>");
-
-                                if (lastAnalysisCode == 2)
-                                {
-                                    Document.Append("			");
-                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
-                                    Document.Append("			");
-                                }
-
-                                Document.Append("		</AnalysisLineEntry>");
-                            }
-
-                            if (!string.IsNullOrEmpty(item.AnalysisCode4))
-                            {
-                                Document.Append("		<AnalysisLineEntry>");
-                                Document.Append("			<AnalysisCode>" + item.AnalysisCode4 + "</AnalysisCode>");
-
-                                if (lastAnalysisCode == 3)
-                                {
-                                    Document.Append("			");
-                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
-                                    Document.Append("			");
-                                }
-
-                                Document.Append("		</AnalysisLineEntry>");
-                            }
-
-                            if (!string.IsNullOrEmpty(item.AnalysisCode5))
-                            {
-                                Document.Append("		<AnalysisLineEntry>");
-                                Document.Append("			<AnalysisCode>" + item.AnalysisCode5 + "</AnalysisCode>");
-
-                                if (lastAnalysisCode == 4)
-                                {
-                                    Document.Append("			");
-                                    Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
-                                    Document.Append("			");
-                                }
-
-                                Document.Append("		</AnalysisLineEntry>");
-                            }
+                            Document.Append("		<AnalysisLineEntry>");
+                            Document.Append("			<AnalysisCode1>" + item.AnalysisCode1 + "</AnalysisCode1>");
+                            Document.Append("			<AnalysisCode2>" + item.AnalysisCode2 + "</AnalysisCode2>");
+                            Document.Append("			<AnalysisCode3>" + item.AnalysisCode3 + "</AnalysisCode3>");
+                            Document.Append("			<AnalysisCode4>" + item.AnalysisCode4 + "</AnalysisCode4>");
+                            Document.Append("			<AnalysisCode5>" + item.AnalysisCode5 + "</AnalysisCode5>");
+                            Document.Append("			");
+                            Document.Append("			<EntryAmount>" + EntryAmount.ToString("0.##") + "</EntryAmount>");
+                            Document.Append("			");
+                            Document.Append("		</AnalysisLineEntry>");
                         }
 
                         Document.Append("<PasswordForLedgerCode/>");
