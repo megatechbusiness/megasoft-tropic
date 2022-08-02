@@ -336,6 +336,7 @@
     <Compile Include="Controllers\DepartmentMasterController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\DispatchVerificationController.cs" />
+    <Compile Include="Controllers\EmailSettingsController.cs" />
     <Compile Include="Controllers\GlCodeTagController.cs" />
     <Compile Include="Controllers\GrnEnquiryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -615,6 +616,9 @@
     <Compile Include="mtDistributionSetup.cs">
       <DependentUpon>Megasoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="mtEmailSetting.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="mtEnetSetting.cs">
       <DependentUpon>Syspro.tt</DependentUpon>
     </Compile>
@@ -796,7 +800,7 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentre.cs">
-      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+      <DependentUpon>Megasoft.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentreProductClass.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
@@ -2068,6 +2072,7 @@
     <Compile Include="ViewModel\CustomerInvoiceViewModel.cs" />
     <Compile Include="ViewModel\CustomerOrderScheduleViewModel.cs" />
     <Compile Include="ViewModel\EmailRequestForQuote.cs" />
+    <Compile Include="ViewModel\EmailSettingsViewModel.cs" />
     <Compile Include="ViewModel\ExpenseIssue.cs" />
     <Compile Include="ViewModel\InkSystemViewModel.cs" />
     <Compile Include="ViewModel\InventoryQueryViewModel.cs" />
@@ -2923,6 +2928,8 @@
     <Content Include="Views\SuppDeliveryLog\PoLineSearch.cshtml" />
     <Content Include="Views\SuppDeliveryLog\SupplierDeliveryReport.cshtml" />
     <Content Include="Views\SuppDeliveryLog\LogEntry.cshtml" />
+    <Content Include="Views\EmailSettings\Index.cshtml" />
+    <Content Include="Views\EmailSettings\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

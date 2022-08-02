@@ -353,7 +353,7 @@ namespace Megasoft2.Controllers
                         _mail.Subject = item.Subject;
                         _mail.Body = item.MessageBody;
 
-                        objEmail.SendEmail(_mail, new List<string>());
+                        objEmail.SendEmail(_mail, new List<string>(), "GeneralEmail");
 
                         mtBeeEmailLog log = new mtBeeEmailLog();
                         log.FromEmail = item.FromEmail;

@@ -83,6 +83,9 @@
     <Compile Include="MegasoftDelayedPosting.Designer.cs">
       <DependentUpon>MegasoftDelayedPosting.cs</DependentUpon>
     </Compile>
+    <Compile Include="mtEmailSetting.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="mtInvDelayedPosting.cs">
       <DependentUpon>SysproModel.tt</DependentUpon>
     </Compile>

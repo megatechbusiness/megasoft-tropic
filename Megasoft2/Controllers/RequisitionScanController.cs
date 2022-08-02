@@ -624,7 +624,7 @@ namespace Megasoft2.Controllers
                 HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.FriendlyName).FirstOrDefault();
                 var ToUser = (from a in db.sp_mtReqGetRequisitionUsers() where a.UserCode == RoutedTo select a).FirstOrDefault();
-                var FromAddress = (from a in mdb.mtSystemSettings where a.Id == 1 select a.FromAddress).FirstOrDefault();
+                var FromAddress = (from a in mdb.mtEmailSettings where a.EmailProgram == "RequisitionSystem" select a.FromAddress).FirstOrDefault();
                 Mail objMail = new Mail();
                 objMail.From = FromAddress;
                 objMail.To = ToUser.Email;
@@ -632,7 +632,7 @@ namespace Megasoft2.Controllers
                 objMail.Body = GetEmailTemplate(Requisition, RoutedBy, RoutedTo, RouteGuid, Company);
 
                 List<string> attachments = new List<string>();
-                _email.SendEmail(objMail, attachments);
+                _email.SendEmail(objMail, attachments, "RequisitionSystem");
             }
             catch (Exception ex)
             {

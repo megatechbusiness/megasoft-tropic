@@ -101,6 +101,7 @@ namespace Megasoft2.Controllers
         {
             HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
             var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+            //var sysSettings = (from a in mdb.mtSystemSettings where a.Id == 1 select a).FirstOrDefault();
             var sysSettings = (from a in mdb.mtSystemSettings where a.Id == 1 select a).FirstOrDefault();
             model.LocalCurrency = sysSettings.LocalCurrency;
             string Username = HttpContext.User.Identity.Name.ToUpper();
@@ -2882,7 +2883,8 @@ namespace Megasoft2.Controllers
                 HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.FriendlyName).FirstOrDefault();
                 var ToUser = (from a in wdb.sp_mtReqGetRequisitionUsers() where a.UserCode == RoutedTo select a).FirstOrDefault();
-                var FromAddress = (from a in mdb.mtSystemSettings where a.Id == 1 select a.FromAddress).FirstOrDefault();
+                //var FromAddress = (from a in mdb.mtSystemSettings where a.Id == 1 select a.FromAddress).FirstOrDefault();
+                var FromAddress = (from a in mdb.mtEmailSettings where a.EmailProgram == "RequisitionSystem" select a.FromAddress).FirstOrDefault();
                 Mail objMail = new Mail();
                 objMail.From = FromAddress;
                 objMail.To = ToUser.Email;
@@ -2893,7 +2895,7 @@ namespace Megasoft2.Controllers
 
                 List<string> attachments = new List<string>();
                 //attachments.Add(item.AttachmentPath);
-                _email.SendEmail(objMail, attachments);
+                _email.SendEmail(objMail, attachments, "RequisitionSystem");
             }
             catch (Exception ex)
             {
@@ -2920,7 +2922,7 @@ namespace Megasoft2.Controllers
 
                 List<string> attachments = new List<string>();
                 //attachments.Add(item.AttachmentPath);
-                _email.SendEmail(objMail, attachments);
+                _email.SendEmail(objMail, attachments, "RequisitionSystem");
             }
             catch (Exception ex)
             {

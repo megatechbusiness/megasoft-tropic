@@ -1688,7 +1688,7 @@ namespace Megasoft2.BusinessLogic
 
                 List<string> attachments = new List<string>();
                 Email _email = new Email();
-                _email.SendEmail(objMail, attachments);
+                _email.SendEmail(objMail, attachments, "InvoiceExtract");
             }
             catch (Exception ex)
             {

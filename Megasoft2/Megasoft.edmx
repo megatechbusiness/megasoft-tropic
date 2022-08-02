@@ -60,6 +60,17 @@
           <Property Name="TransportSystemRouteToUser" Type="varchar" MaxLength="4" />
           <Property Name="TransportSystemNotificationEmail" Type="varchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="mtEmailSettings">
+          <Key>
+            <PropertyRef Name="EmailProgram" />
+          </Key>
+          <Property Name="EmailProgram" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SmtpHost" Type="varchar" MaxLength="100" />
+          <Property Name="SmtpPort" Type="int" />
+          <Property Name="FromAddress" Type="varchar" MaxLength="100" />
+          <Property Name="FromAddressPassword" Type="varchar" MaxLength="200" />
+          <Property Name="EmailEnableSsl" Type="bit" />
+        </EntityType>
         <EntityType Name="mtLabelPrinter">
           <Key>
             <PropertyRef Name="PrinterName" />
@@ -519,6 +530,7 @@
           <EntitySet Name="mtBuyerRequisitioner" EntityType="Self.mtBuyerRequisitioner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtDelayedPostingWarehouse" EntityType="Self.mtDelayedPostingWarehouse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtDistributionSetup" EntityType="Self.mtDistributionSetup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtEmailSettings" EntityType="Self.mtEmailSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtLabelPrinter" EntityType="Self.mtLabelPrinter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtOpBranchAccess" EntityType="Self.mtOpBranchAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtOpFunction" EntityType="Self.mtOpFunction" Schema="dbo" store:Type="Tables" />
@@ -711,6 +723,7 @@
           <EntitySet Name="mtReqRoutingTrackings" EntityType="MegasoftModel.mtReqRoutingTracking" />
           <EntitySet Name="mtReqUserCostCentreSpendLimits" EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" />
           <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
+          <EntitySet Name="mtEmailSettings" EntityType="MegasoftModel.mtEmailSetting" />
         </EntityContainer>
         <ComplexType Name="sp_GetRoleAccess_Result">
           <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
@@ -1219,6 +1232,17 @@
           <Property Name="TransportReqUserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TransportSystemRouteToUser" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="TransportSystemNotificationEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtEmailSetting">
+          <Key>
+            <PropertyRef Name="EmailProgram" />
+          </Key>
+          <Property Name="EmailProgram" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpHost" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPort" Type="Int32" />
+          <Property Name="FromAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FromAddressPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmailEnableSsl" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1755,6 +1779,18 @@
                 <ScalarProperty Name="SalesContractPricingImportFilePath" ColumnName="SalesContractPricingImportFilePath" />
                 <ScalarProperty Name="SalesContractPricingServiceActive" ColumnName="SalesContractPricingServiceActive" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtEmailSettings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtEmailSetting">
+              <MappingFragment StoreEntitySet="mtEmailSettings">
+                <ScalarProperty Name="EmailEnableSsl" ColumnName="EmailEnableSsl" />
+                <ScalarProperty Name="FromAddressPassword" ColumnName="FromAddressPassword" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
+                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
+                <ScalarProperty Name="EmailProgram" ColumnName="EmailProgram" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

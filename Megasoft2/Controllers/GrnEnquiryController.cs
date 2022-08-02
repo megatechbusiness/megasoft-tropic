@@ -102,7 +102,7 @@ namespace Megasoft2.Controllers
 
                 List<string> attachments = new List<string>();
                 attachments.Add(model.AttachmentPath);
-                _email.SendEmail(objMail, attachments);
+                _email.SendEmail(objMail, attachments, "GeneralEmail");
                 ModelState.AddModelError("", "Email Sent Successfully!");
                 return View(model);
             }

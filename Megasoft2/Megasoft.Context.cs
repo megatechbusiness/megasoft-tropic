@@ -60,6 +60,7 @@ namespace Megasoft2
         public DbSet<mtReqRoutingTracking> mtReqRoutingTrackings { get; set; }
         public DbSet<mtReqUserCostCentreSpendLimit> mtReqUserCostCentreSpendLimits { get; set; }
         public DbSet<mtDistributionSetup> mtDistributionSetups { get; set; }
+        public DbSet<mtEmailSetting> mtEmailSettings { get; set; }
     
         public virtual ObjectResult<sp_GetRoleAccess_Result> sp_GetRoleAccess(string role)
         {

@@ -93,7 +93,8 @@ namespace Megasoft2.Controllers
         public ActionResult SendEmail(TransportSystemCustomerEmail model)
         {
             ModelState.Clear();
-            var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+            //var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+            var emailSettings = (from a in mdb.mtEmailSettings where a.EmailProgram == "TransportAutomationSystem" select a).FirstOrDefault();
 
             Mail objMail = new Mail();
             objMail.From = emailSettings.FromAddress;
@@ -336,7 +337,8 @@ namespace Megasoft2.Controllers
                 }
                 else
                 {
-                    model.FromEmail = mdb.mtSystemSettings.Find(1).FromAddress;
+                    //model.FromEmail = mdb.mtSystemSettings.Find(1).FromAddress;
+                    model.FromEmail = mdb.mtEmailSettings.Find("TransportAutomationSystem").FromAddress;
                     wdb.mtTransportCustomerEmailSettings.Add(model);
                     wdb.SaveChanges();
                     ModelState.AddModelError("", "Customer mailing list created.");

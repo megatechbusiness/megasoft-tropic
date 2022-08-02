@@ -33,5 +33,9 @@ namespace MegasoftDelayedPostingService
         public bool DepartmentAccess { get; set; }
         public bool ReportAccess { get; set; }
         public string FromAddressPassword { get; set; }
+        public string MegasoftServiceUser { get; set; }
+        public string MegasoftServicePassword { get; set; }
+        public string LocalCurrency { get; set; }
+        public Nullable<bool> EmailEnableSsl { get; set; }
     }
 }
