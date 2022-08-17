@@ -1,0 +1,139 @@
+﻿@model Megasoft2.ViewModel.EmailSettingsViewModel
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "CreateEmailSettings" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
+    <div class="bs-example">
+        <div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    &nbsp&nbsp
+                    <div class="btn-group btn-breadcrumb">
+                        <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                        <a href="@Url.Action("Index", "EmailSettings")" class="btn btn-default">Email Settings</a>
+                        <a href="@Url.Action("Create", "EmailSettings")" class="btn btn-default">Email Settings Create</a>
+
+                    </div>
+                    <div class="pull-right">
+
+                        <button type="submit" class="btn btn-success btn-sm" id="btnSave">
+                            <i class="fa fa-save"> Save</i>
+                        </button>
+
+                        &nbsp;&nbsp;
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel-body">
+
+                <div class="col-md-12">
+                    <div class="well well-sm">
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group text-center">
+                                    <label class="col-sm-4 control-label input-sm-label">Email Program</label>
+                                    <div class="col-sm-6">
+
+                                        @if (Model != null && Model.EmailProgram != null)
+                                        {
+                                            @Html.TextBoxFor(model => model.EmailProgram, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => Model.EmailProgram, null, new { @class = "alert-danger" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.EmailProgram, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(model => Model.EmailProgram, null, new { @class = "alert-danger" })
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group text-center">
+                                    <label class="col-sm-4 control-label input-sm-label">SmtpHost</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.SmtpHost, new { @class = "form-control input-sm" })
+                                        @Html.ValidationMessageFor(model => Model.SmtpHost, null, new { @class = "alert-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group text-center">
+                                    <label class="col-sm-4 control-label input-sm-label">SmtpPort</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.SmtpPort, new { @class = "form-control input-sm" })
+                                        @Html.ValidationMessageFor(model => Model.SmtpPort, null, new { @class = "alert-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group text-center">
+                                    <label class="col-sm-4 control-label input-sm-label">From Address</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.FromAddress, new { @class = "form-control input-sm" })
+                                        @Html.ValidationMessageFor(model => Model.FromAddress, null, new { @class = "alert-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group text-center">
+                                    <label class="col-sm-4 control-label input-sm-label">From Address Password</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.FromAddressPassword, new { @class = "form-control input-sm" })
+                                        @Html.ValidationMessageFor(model => Model.FromAddressPassword, null, new { @class = "alert-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group text-center">
+                                    <label class="col-sm-4 control-label input-sm-label">Email Enable SSL</label>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(model => model.EmailEnableSsl, new[] { new SelectListItem { Text = "Yes", Value = "true" }, new SelectListItem { Text = "No", Value = "false", Selected = true } }, new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<link href="~/Content/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/bootstrap-toggle/js/bootstrap-toggle.min.js")
+
+

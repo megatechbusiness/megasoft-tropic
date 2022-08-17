@@ -978,7 +978,7 @@ namespace MegasoftDelayedPostingService
             return Parameter.ToString();
         }
 
-        public void SendEmail(Mail mail, List<string> Files)
+        public void SendEmail(Mail mail, List<string> Files, string EmailProgram)
         {
             //function to send email
             MailMessage email = new MailMessage();
@@ -998,7 +998,8 @@ namespace MegasoftDelayedPostingService
             email.Body = Body;
             email.IsBodyHtml = true;
 
-            var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+            //var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+            var emailSettings = (from a in mdb.mtEmailSettings where a.EmailProgram == EmailProgram select a).FirstOrDefault();
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = emailSettings.SmtpHost;

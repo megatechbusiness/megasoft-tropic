@@ -26,5 +26,6 @@ namespace MegasoftDelayedPostingService
         }
     
         public virtual DbSet<mtSystemSetting> mtSystemSettings { get; set; }
+        public virtual DbSet<mtEmailSetting> mtEmailSettings { get; set; }
     }
 }

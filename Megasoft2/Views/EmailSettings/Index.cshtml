@@ -1,0 +1,135 @@
+﻿@model Megasoft2.ViewModel.EmailSettingsViewModel
+<div class="bs-example">
+    @if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("Index", "EmailSettings")" class="btn btn-default">Email Settings</a>
+                </div>
+
+                <div class="pull-right">
+                    <a href="@Url.Action("Create", "EmailSettings")" class="btn btn-default"> <i class="fa fa-plus"></i> New</a>
+                    &nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <div class="form-horizontal row">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-condensed table-responsive table-bordered table-striped nowrap" id="tblEmailSettings">
+                                <thead>
+                                    <tr>
+                                        <th>Email Program</th>
+                                        <th>Smtp Host</th>
+                                        <th>Smtp Port</th>
+                                        <th>From Address</th>
+                                        <th>From Address Password</th>
+                                        <th>Email Enable SSL</th>
+                                        <th></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody class="datarow">
+                                    @if (Model != null)
+                                    {
+                                        if (Model.EmailSettingsList != null)
+                                        {
+
+                                            for (int i = 0; i < Model.EmailSettingsList.Count(); i++)
+                                            {
+
+                                                <tr>
+
+                                                    <td>
+                                                        <a href="@Url.Action("Create", "EmailSettings",  new { EmailProgram = Model.EmailSettingsList[i].EmailProgram })">@Model.EmailSettingsList[i].EmailProgram</a>
+                                                        @Html.HiddenFor(model => model.EmailSettingsList[i].EmailProgram)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.EmailSettingsList[i].SmtpHost)
+                                                        @Html.HiddenFor(model => model.EmailSettingsList[i].SmtpHost)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.EmailSettingsList[i].SmtpPort)
+                                                        @Html.HiddenFor(model => model.EmailSettingsList[i].SmtpPort)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.EmailSettingsList[i].FromAddress)
+                                                        @Html.HiddenFor(model => model.EmailSettingsList[i].FromAddress)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(model => model.EmailSettingsList[i].FromAddressPassword)
+                                                        @Html.HiddenFor(model => model.EmailSettingsList[i].FromAddressPassword)
+                                                    </td>
+                                                    <td>
+                                                        @if (Model.EmailSettingsList[i].EmailEnableSsl == true)
+                                                        {
+                                                            <div>Yes</div>
+                                                        }
+                                                        else
+                                                        {
+                                                             <div>No</div>
+                                                        }
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <a href="@Url.Action("Delete", "EmailSettings", new { EmailSettings = Model.EmailSettingsList[i].EmailProgram })" class="btn btn-xs btn-danger"> <i class="fa fa-trash"></i></a>
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<link href="~/Content/DataTables/datatables.min.css" rel="stylesheet">
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/DataTables/datatables.min.js")
+@Scripts.Render("~/Content/DataTables/jszip.min.js")
+
+<script type="text/javascript">
+
+
+
+    var table = $('#tblEmailSettings').DataTable({
+        dom: 'Bfrtip',
+        paging: false,
+        "rowReorder": false,
+        "ordering": false,
+        //"scrollY": 400,
+        //"scrollX": true,
+        //order: [[1, 'asc']],
+        buttons: [],
+        "orderClasses": false
+    });
+</script>
+

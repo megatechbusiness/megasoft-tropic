@@ -234,7 +234,8 @@ namespace MegasoftDelayedPostingService
 
                             ErrorEventLog.WriteErrorLog("I", "Extracting Report " + item.Report);
 
-                            var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+                            //var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+                            var emailSettings = (from a in mdb.mtEmailSettings where a.EmailProgram == "ReportAutomation" select a).FirstOrDefault();
 
                             Mail objMail = new Mail();
                             objMail.From = emailSettings.FromAddress;
@@ -253,7 +254,7 @@ namespace MegasoftDelayedPostingService
                                 attachments.Add(AttachmentPath);
 
                                 //Email _email = new Email();
-                                BL.SendEmail(objMail, attachments);
+                                BL.SendEmail(objMail, attachments, "ReportAutomation");
 
                                 var updateRuntime = (from a in sdb.mtReportAutomations where a.Report == item.Report select a).FirstOrDefault();
                                 updateRuntime.LastRunDate = DateTime.Now;
