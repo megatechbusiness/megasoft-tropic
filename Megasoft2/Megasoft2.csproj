@@ -340,6 +340,7 @@
     <Compile Include="Controllers\GlCodeTagController.cs" />
     <Compile Include="Controllers\GrnEnquiryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InkJobCardReportController.cs" />
     <Compile Include="Controllers\InkSystemController.cs" />
     <Compile Include="Controllers\InventoryQueryController.cs" />
     <Compile Include="Controllers\InvoicePostingController.cs" />
@@ -2930,6 +2931,7 @@
     <Content Include="Views\SuppDeliveryLog\LogEntry.cshtml" />
     <Content Include="Views\EmailSettings\Index.cshtml" />
     <Content Include="Views\EmailSettings\Create.cshtml" />
+    <Content Include="Views\InkJobCardReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
