@@ -85,14 +85,16 @@
                                                     @if (!string.IsNullOrWhiteSpace(Model.Multimedia[i].MultiMediaFilePath))
                                                     {
                                                         @*<a href="@Model.Multimedia[i].MultiMediaFilePath" target="_blank" class="btn btn-default btn-sm">
-                    <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> File </span></span>
-                </a>*@
+                <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> File </span></span>
+            </a>*@
                                                         @*<a href="@Model.Multimedia[i].MultiMediaFilePath" target="_blank" class="btn btn-default btn-sm">
-                    <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> File</span></span>
-                </a>*@
+                <span class="fa fa-file-pdf-o" aria-hidden="true" title="Download File"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"> File</span></span>
+            </a>*@
                                                         <button class="btn btn-xs btn-primary" onclick='GetClientReport("@Model.Multimedia[i].Customer", "@Model.Multimedia[i].StockCode")' type="button" aria-label="Left Align">
                                                             <span class="fa fa-file-pdf-o" aria-hidden="true"> File </span>
+
                                                         </button>
+                                                        <a href="@Url.Action("FileUpload", "MasterCardArtwork", new {Customer=Model.Header.Customer, StockCode=Model.Multimedia[i].StockCode })" class="btn btn-xs btn-success"><span class="fa fa-edit" aria-hidden="true"> Edit</span></a>
                                                     }
                                                     else
                                                     {
