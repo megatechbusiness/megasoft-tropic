@@ -598,35 +598,69 @@
 
             let AnalysisCodesText = "";
 
-            if ($('#AnalysisCode1').val() != "") {
+            //build analysis code descriptions in table
+            if ($('#AnalysisCode1').val() != "" && $('#AnalysisCode1').val() != null) {
                 AnalysisCodesText += $("#AnalysisCode1").val() + "|";
             }
 
-            if ($('#AnalysisCode2').val() != "") {
+            if ($('#AnalysisCode2').val() != "" && $('#AnalysisCode2').val() != null) {
                 AnalysisCodesText += $("#AnalysisCode2").val() + "|";
             }
 
-            if ($('#AnalysisCode3').val() != "") {
+            if ($('#AnalysisCode3').val() != "" && $('#AnalysisCode3').val() != null) {
                 AnalysisCodesText += $("#AnalysisCode3").val() + "|";
             }
 
-            if ($('#AnalysisCode4').val() != "") {
+            if ($('#AnalysisCode4').val() != "" && $('#AnalysisCode4').val() != null) {
                 AnalysisCodesText += $("#AnalysisCode4").val() + "|";
             }
 
-            if ($('#AnalysisCode5').val() != "") {
+            if ($('#AnalysisCode5').val() != "" && $('#AnalysisCode5').val() != null) {
                 AnalysisCodesText += $("#AnalysisCode5").val() + "|";
             }
 
-            $('#tblLines tbody').append("<tr class='nr'><td>" + StockCode +
-                "</td><td><input type='hidden' value='" + Bin + "'/>" + Lot + "</td><td>" + Quantity + "</td>" +
-                "<td style='display: none;'>" + $("#AnalysisCode1").val() + "</td>" +
-                "<td style='display: none;'>" + $("#AnalysisCode2").val() + "</td>" +
-                "<td style='display: none;'>" + $("#AnalysisCode3").val() + "</td>" +
-                "<td style='display: none;'>" + $("#AnalysisCode4").val() + "</td>" +
-                "<td style='display: none;'>" + $("#AnalysisCode5").val() + "</td>" +
-                "<td>" + AnalysisCodesText + "</td>" +
-                "<td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>");
+            //build table again
+            let tableHTML = "<tr class='nr'><td>" + StockCode + "</td><td><input type='hidden' value='" + Bin + "'/>" + Lot + "</td><td>" + Quantity + "</td>";
+
+            if ($('#AnalysisCode1').val() != "" && $('#AnalysisCode1').val() != null) {
+                tableHTML += "<td style='display: none;'>" + $("#AnalysisCode1").val() + "</td>";
+            }
+            else {
+                tableHTML += "<td style='display: none;'></td>";
+            }
+
+            if ($('#AnalysisCode2').val() != "" && $('#AnalysisCode2').val() != null) {
+                tableHTML += "<td style='display: none;'>" + $("#AnalysisCode2").val() + "</td>";
+            }
+            else {
+                tableHTML += "<td style='display: none;'></td>";
+            }
+
+            if ($('#AnalysisCode3').val() != "" && $('#AnalysisCode3').val() != null) {
+                tableHTML += "<td style='display: none;'>" + $("#AnalysisCode3").val() + "</td>";
+            }
+            else {
+                tableHTML += "<td style='display: none;'></td>";
+            }
+
+            if ($('#AnalysisCode4').val() != "" && $('#AnalysisCode4').val() != null) {
+                tableHTML += "<td style='display: none;'>" + $("#AnalysisCode4").val() + "</td>";
+            }
+            else {
+                tableHTML += "<td style='display: none;'></td>";
+            }
+
+            if ($('#AnalysisCode5').val() != "" && $('#AnalysisCode5').val() != null) {
+                tableHTML += "<td style='display: none;'>" + $("#AnalysisCode5").val() + "</td>";
+            }
+            else {
+                tableHTML += "<td style='display: none;'></td>";
+            }
+
+            tableHTML += "<td>" + AnalysisCodesText + "</td>" +
+                "<td><a href='#' class='delLine btn btn-danger btn-xs' tabindex='-1'><span class='fa fa-trash-o' aria-hidden='true' title='Delete Line' tabindex='-1'></span></a></td></tr>";
+
+            $('#tblLines tbody').append(tableHTML);
 
             $('#CostCentre').attr("disabled", "disabled");
             $('#WorkCentre').attr("disabled", "disabled");
