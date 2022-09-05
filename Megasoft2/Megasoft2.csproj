@@ -537,6 +537,7 @@
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\InkBomOperation.cs" />
     <Compile Include="Models\InkComponets.cs" />
+    <Compile Include="Models\InkSystemCopyComponent.cs" />
     <Compile Include="Models\InvoiceMatchingList.cs" />
     <Compile Include="Models\LabelPrintPoLine.cs" />
     <Compile Include="Models\LabelPrintPurchaseOrder.cs" />
@@ -2932,6 +2933,7 @@
     <Content Include="Views\EmailSettings\Index.cshtml" />
     <Content Include="Views\EmailSettings\Create.cshtml" />
     <Content Include="Views\InkJobCardReport\Index.cshtml" />
+    <Content Include="Views\InkSystem\InkBomCopyComponent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

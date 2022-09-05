@@ -397,5 +397,15 @@ namespace Megasoft2.Controllers
             }
         }
 
+        public ActionResult InkBomCopyComponent(int id, string ParentPart)
+        {
+            InkSystemCopyComponent model = new InkSystemCopyComponent();
+            model.KeyId = id;
+            model.ToStockCode = ParentPart;
+            model.CopyOption = "Delete";
+            ViewBag.RouteList = (from m in db.BomRoutes.ToList() select new { Value = m.Route, Text = m.Route }).ToList();
+            return PartialView(model);
+        }
+
     }
 }
