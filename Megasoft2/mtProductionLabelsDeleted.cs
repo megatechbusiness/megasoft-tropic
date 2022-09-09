@@ -52,5 +52,6 @@ namespace Megasoft2
         public string ErrorMessage { get; set; }
         public string PrintOpReference { get; set; }
         public string LotIssued { get; set; }
+        public Nullable<decimal> Meters { get; set; }
     }
 }

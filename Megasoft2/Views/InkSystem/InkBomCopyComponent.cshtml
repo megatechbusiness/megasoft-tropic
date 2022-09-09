@@ -1,1 +1,308 @@
-﻿
+﻿@model Megasoft2.Models.InkSystemCopyComponent
+
+<div class="bs-example">
+    <div class="panel panel-green">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                Ink BOM Component - Copy
+                <button type="button" class="close" data-dismiss="modal" id="btnCloseCopyComp">&times;</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+
+
+
+        <div class="panel-body" >
+            <div class="col-md-12">
+                <div class="form-horizontal row">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="">
+                                @* Filters Goes Here *@
+                                <table class="table table-bordered table-condensed table-responsive table-striped">
+                                    <thead>
+                                        @*<tr>
+                                            <th>Key Id</th>
+                                            <th>
+                                                @Html.TextBoxFor(model => model.KeyId, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                            </th>
+                                        </tr>*@
+                                        <tr>
+                                            <th>To StockCode</th>
+                                            <th>
+                                                @Html.TextBoxFor(model => model.ToStockCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                @Html.HiddenFor(model => model.Route)
+                                            </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th>From Route</th>
+                                            <th>
+                                                @Html.DropDownListFor(model => model.Route, new SelectList(ViewBag.RouteList, "Value", "Text"), new { @class = "form-control input-sm", @id = "ddlCopyRouteComp" })
+                                                @Html.HiddenFor(model => model.Route)
+                                            </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th>From StockCode</th>
+                                            <th>
+                                                <div class="input-group add-on">
+                                                    @Html.TextBoxFor(model => model.FromStockCode, new { @class = "form-control input-sm", @placeholder = "Stock Code" })
+                                                    <div class="input-group-btn">
+                                                        <a href="#" data-toggle="modal" data-target="#searchStock" class="btn btn-default btn-sm" id="btnStockSearch"><i class="glyphicon glyphicon-search"></i></a>
+                                                        <a href="#" class="btn btn-primary btn-sm" id="btnBomLoad"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                                                    </div>
+
+                                                </div>
+                                            </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Copy Options</th>
+                                            <th>
+                                                <label class="form-control input-sm">
+                                                    @Html.RadioButtonFor(model => model.CopyOption, "Delete") Delete existing components before copy
+                                                </label>
+                                            </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                <label class="form-control input-sm">
+                                                    @Html.RadioButtonFor(model => model.CopyOption, "Add") Insert only new components
+                                                </label>
+                                            </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                <label class="form-control input-sm">
+                                                    @Html.RadioButtonFor(model => model.CopyOption, "Change") Update existing components
+                                                </label>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div id="CopyBom">
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div id="errordiv">
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <button type="button" class="btn btn-success btn-sm" id="btnSaveComponent">
+                                                    <i class="fa fa-save"> Save</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal for search Stock Codes-->
+<div class="modal" id="searchStock" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="panel panel-yellow">
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="max-height: 52px;">
+                <div class="row">
+                    Stock Codes
+                    <button type="button" class="closeModal3 close">&times;</button>
+                    &nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="StockCodesDiv">
+                    <table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered">
+                        <thead><tr><th>Stock Code</th><th>Description</th><th>Uom</th></tr></thead>
+                        <tbody id="data"></tbody>
+                    </table>
+                </div>
+                <form role="form">
+                    <div class="form-group">
+
+                    </div>
+                    <button type="button" class="closeModal3 btn btn-danger btn-sm" id="btnReview">
+                        <i class="fa fa-close"> Close</i>
+                    </button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<style>
+    .panel-body {
+        height: 80vh;
+        overflow-y: auto;
+    }
+</style>
+
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Content/DataTable/datatables.js")
+<script type="text/javascript">
+
+
+    function SearchStock() {
+
+        var table = $("#tblStock tbody");                
+
+        $.ajax({
+            url: "@Url.Action("ModalStockCodeList", "InkSystem")",
+            method: "GET",
+            xhrFields: {
+                withCredentials: true,
+                ordering: false,
+                iDisplayLength: 20,
+                fixedHeader: true,
+                scrollY: 500,
+                responsive: true
+            },
+            success: function (data) {
+                table.empty();
+
+                $.each(data, function (a, ord) {
+                    table.append("<tr class='_stk' id=" + ord.MStockCode + "><td><a href=#>" + ord.MStockCode + "</a></td> <td>" + ord.MStockDes + "</td> <td>" + ord.MStockingUom + "</td></tr >");
+                });
+
+                $("#tblStock").DataTable();
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+
+        });
+    }
+
+    $(document).ready(function () {
+
+        $('.closeModal3').click(function () {
+            $('#searchStock').modal('toggle');
+        });
+
+        $('#btnBomLoad').on('click', function (e) {
+            e.preventDefault();
+
+
+            var f = document.getElementById("ddlCopyRouteComp");
+
+            var Route = f.options[f.selectedIndex].text;
+
+
+
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("LoadInkBomComponents", "InkSystem")',
+                data: { ParentPart: $('#FromStockCode').val(), Route: Route },
+                dataType: 'json',
+                success: function (data) {
+                    $('#CopyBom').html("");
+                    var table = '<div class="table-responsive"><table class="table table-hover table-condensed table-responsive table-bordered table-striped" id="tblCopyComp">';
+                    table += "<thead><th></th><th>Level Id</th><th>Parent Part</th><th>Component</th><th class='text-right'>Qty Per</th><th class='text-right'>Layer Perc.</th><th class='text-right'>Scrap Perc.</th><th class='text-right'>Scrap Qty.</th><th class='text-right'>Anilox</th></thead><tbody>"
+                    $.each(data, function (b, a) {
+                        table += ("<tr class='nr' ><td><input type='checkbox' checked='checked'/></td><td>" + a.LevelId + "</td><td>" +
+                            a.ParentPart + "</td><td>" + a.Component + "</td><td class='text-right'>" + a.QtyPer + "</td><td class='text-right'>" + a.LayerPerc + "</td><td class='text-right'>" + a.ScrapPercentage + "</td><td class='text-right'>" + a.ScrapQuantity + "</td><td class='text-right'>" + a.Analox+ "</td></tr>");
+                    });
+                    table += "</tbody></table></div>";
+
+                    $('#CopyBom').html(table);                    
+
+
+                }
+            });
+
+        });
+
+
+        $('#btnSaveComponent').on('click', function (e) {
+            var mydata = [];
+            $("#tblCopyComp > tbody > tr ").each(function (i, el) {
+                var $tds = $(this).find('td');
+
+                var selected = $tds.eq(0).find("input[type='checkbox']").is(":checked");
+                var ParentPart = $tds.eq(2).text();
+                if ($tds.eq(1).text() == "1") {
+                    ParentPart = $('#ToStockCode').val();
+                }
+
+                if (selected == true) {
+                    var myObject = new Object();
+                    myObject.Id = $('#KeyId').val();
+                    myObject.LevelId = $tds.eq(1).text();
+                    myObject.ParentPart = ParentPart;
+                    myObject.Component = $tds.eq(3).text();
+                    myObject.QtyPer = $tds.eq(4).text();
+                    myObject.LayerPerc = $tds.eq(5).text();
+                    myObject.ScrapPercentage = $tds.eq(6).text();
+                    myObject.ScrapQuantity = $tds.eq(7).text();
+                    myObject.Mode = $('input[name=CopyOption]:checked').val();
+                    myObject.ToStockCode = $('#ToStockCode').val();
+                    myObject.Route = $('#ddlCopyRouteComp').find('option:selected').text();
+                    myObject.Analox = $tds.eq(8).text();
+                    mydata.push(myObject);
+                }
+
+
+            });
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var exportdata = myString;
+
+            $.ajax({
+                type: "POST",
+                url: "InkSystem/SaveCopyComponent",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                alert(response);
+                GetTree();
+                LoadComponents($("#Header_StockCode").val());
+                if (response == "Saved Successfully!") {
+                    $('#btnCloseCopyComp').click();
+                }
+            }
+
+            function OnErrorCall(response) {
+                alert(response);
+            }
+        });
+
+        $('#btnStockSearch').click(function () {
+            $('#StockCodesDiv').html('<table id="tblStock" class="table table-hover table-striped table-condensed table-responsive table-bordered"><thead><tr><th>Stock Code</th><th>Description</th><th>Uom</th></tr></thead><tbody id="data"></tbody></table>');
+            SearchStock();
+        });
+
+        $('#StockCodesDiv').on("click", "._stk", function () {
+            var rCode = $(this).attr('id');
+            $('#FromStockCode').val(rCode);
+            $('#searchStock').modal('toggle');
+        });
+
+    });
+</script>

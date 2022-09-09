@@ -802,7 +802,7 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentre.cs">
-      <DependentUpon>Megasoft.tt</DependentUpon>
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentreProductClass.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
@@ -1804,6 +1804,12 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetWmsOrdersForRelease_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_InkSystemGetAllStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_InkSystemGetSysproBomStructure_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_InvMasterList_Result.cs">
