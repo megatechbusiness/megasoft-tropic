@@ -159,37 +159,26 @@ namespace MegasoftDelayedPostingService
         {
             try
             {
-                var mtReportAutomations = (from a in sdb.mtReportAutomations where a.ServiceActive == "Y" select a).ToList();
-
-                foreach (var item in mtReportAutomations)
+                using (var udb = new SysproEntities())
                 {
+                    var mtReportAutomations = (from a in udb.mtReportAutomations where a.ServiceActive == "Y" select a).ToList();
 
-                    DateTime LastRunTime = (DateTime)item.LastRunDate;
-
-                    if (LastRunTime.Date < DateTime.Now.Date)
+                    foreach (var item in mtReportAutomations)
                     {
 
-                        bool okToRun = false;
-                        DateTime NextRunDate;
-                        //Determine next run time
-                        if (item.ServiceScheduleMode == "Daily")
+                        DateTime LastRunTime = (DateTime)item.LastRunDate;
+
+                        if (LastRunTime.Date < DateTime.Now.Date)
                         {
 
-                            //Since mode is daily we just append the scheduled run time with todays date, 
-                            //then compare NextRunDate to Current DateTime to determine if we need to run.
-                            NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
+                            bool okToRun = false;
+                            DateTime NextRunDate;
+                            //Determine next run time
+                            if (item.ServiceScheduleMode == "Daily")
+                            {
 
-                            if (DateTime.Now >= NextRunDate)
-                            {
-                                //Run Extract
-                                okToRun = true;
-                            }
-                        }
-                        else if (item.ServiceScheduleMode == "Weekly")
-                        {
-                            //First Determine if we today is the specified day of the week required to run. Then we check the time as done in daily
-                            if (DateTime.Now.DayOfWeek.ToString() == item.ServiceWeeklyDay)
-                            {
+                                //Since mode is daily we just append the scheduled run time with todays date, 
+                                //then compare NextRunDate to Current DateTime to determine if we need to run.
                                 NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
 
                                 if (DateTime.Now >= NextRunDate)
@@ -198,85 +187,100 @@ namespace MegasoftDelayedPostingService
                                     okToRun = true;
                                 }
                             }
-                        }
-                        else
-                        {//Monthly
-                            //We firstly have to check if the month contains specified date. eg. If the Specified date of month is 31, September only has 30 days, therefore we should run on the 30th. 
-                            //Determine if we today is the specified date of the month required to run. Then we check the time as done in daily
-
-                            int DayInMonthToRun;
-                            if (item.ServiceMonthlyDate > DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
+                            else if (item.ServiceScheduleMode == "Weekly")
                             {
-                                DayInMonthToRun = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+                                //First Determine if we today is the specified day of the week required to run. Then we check the time as done in daily
+                                if (DateTime.Now.DayOfWeek.ToString() == item.ServiceWeeklyDay)
+                                {
+                                    NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
+
+                                    if (DateTime.Now >= NextRunDate)
+                                    {
+                                        //Run Extract
+                                        okToRun = true;
+                                    }
+                                }
                             }
                             else
-                            {
-                                DayInMonthToRun = (int)item.ServiceMonthlyDate;
+                            {//Monthly
+                             //We firstly have to check if the month contains specified date. eg. If the Specified date of month is 31, September only has 30 days, therefore we should run on the 30th. 
+                             //Determine if we today is the specified date of the month required to run. Then we check the time as done in daily
+
+                                int DayInMonthToRun;
+                                if (item.ServiceMonthlyDate > DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
+                                {
+                                    DayInMonthToRun = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+                                }
+                                else
+                                {
+                                    DayInMonthToRun = (int)item.ServiceMonthlyDate;
+                                }
+
+                                if (DateTime.Now.Day == DayInMonthToRun)
+                                {
+                                    NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
+
+                                    if (DateTime.Now >= NextRunDate)
+                                    {
+                                        //Run Extract
+                                        okToRun = true;
+                                    }
+                                }
                             }
 
-                            if (DateTime.Now.Day == DayInMonthToRun)
-                            {
-                                NextRunDate = DateTime.Now.Date + ((TimeSpan)item.ServiceRunTime);
 
-                                if (DateTime.Now >= NextRunDate)
+
+
+                            if (okToRun)
+                            {
+
+                                ErrorEventLog.WriteErrorLog("I", "Extracting Report " + item.Report);
+
+                                //var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
+                                var emailSettings = (from a in mdb.mtEmailSettings where a.EmailProgram == "ReportAutomation" select a).FirstOrDefault();
+
+                                Mail objMail = new Mail();
+                                objMail.From = emailSettings.FromAddress;
+                                objMail.To = item.ToEmail;
+                                objMail.Subject = item.Title;
+                                objMail.Body = "Powered By Megasoft Automated Reporting Service.";
+                                objMail.CC = emailSettings.FromAddress;
+
+                                List<string> attachments = new List<string>();
+
+                                string AttachmentPath = "";
+
+                                try
                                 {
-                                    //Run Extract
-                                    okToRun = true;
+                                    AttachmentPath = BL.ExportPdf(item.Report);
+                                    attachments.Add(AttachmentPath);
+
+                                    //Email _email = new Email();
+                                    BL.SendEmail(objMail, attachments, "ReportAutomation");
+
+                                    var updateRuntime = (from a in udb.mtReportAutomations where a.Report == item.Report select a).FirstOrDefault();
+                                    updateRuntime.LastRunDate = DateTime.Now;
+                                    udb.SaveChanges();
                                 }
+                                catch (Exception emailFail)
+                                {
+                                    ErrorEventLog.WriteErrorLog("E", emailFail.Message);
+                                    if (!string.IsNullOrWhiteSpace(AttachmentPath))
+                                    {
+                                        BL.DeleteSingleFile(AttachmentPath);
+                                    }
+
+                                    ErrorEventLog.WriteErrorLog("E", "Deleting file " + AttachmentPath + " due to send failure.");
+                                    continue;
+                                }
+
                             }
                         }
 
 
-
-
-                        if (okToRun)
-                        {
-
-                            ErrorEventLog.WriteErrorLog("I", "Extracting Report " + item.Report);
-
-                            //var emailSettings = (from a in mdb.mtSystemSettings select a).FirstOrDefault();
-                            var emailSettings = (from a in mdb.mtEmailSettings where a.EmailProgram == "ReportAutomation" select a).FirstOrDefault();
-
-                            Mail objMail = new Mail();
-                            objMail.From = emailSettings.FromAddress;
-                            objMail.To = item.ToEmail;
-                            objMail.Subject = item.Title;
-                            objMail.Body = "Powered By Megasoft Automated Reporting Service.";
-                            objMail.CC = emailSettings.FromAddress;
-
-                            List<string> attachments = new List<string>();
-
-                            string AttachmentPath = "";
-
-                            try
-                            {
-                                AttachmentPath = BL.ExportPdf(item.Report);
-                                attachments.Add(AttachmentPath);
-
-                                //Email _email = new Email();
-                                BL.SendEmail(objMail, attachments, "ReportAutomation");
-
-                                var updateRuntime = (from a in sdb.mtReportAutomations where a.Report == item.Report select a).FirstOrDefault();
-                                updateRuntime.LastRunDate = DateTime.Now;
-                                sdb.SaveChanges();
-                            }
-                            catch (Exception emailFail)
-                            {
-                                ErrorEventLog.WriteErrorLog("E", emailFail.Message);
-                                if (!string.IsNullOrWhiteSpace(AttachmentPath))
-                                {
-                                    BL.DeleteSingleFile(AttachmentPath);
-                                }
-
-                                ErrorEventLog.WriteErrorLog("E", "Deleting file " + AttachmentPath + " due to send failure.");
-                                continue;
-                            }
-
-                        }
                     }
-
-
                 }
+                
             }
             catch (Exception ex)
             {
