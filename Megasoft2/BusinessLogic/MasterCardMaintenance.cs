@@ -728,7 +728,7 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<SoPrintFlag>Y</SoPrintFlag>");
                 Document.Append("<InclScrapFlag>Y</InclScrapFlag>");
                 Document.Append("<ReasonForChange />");
-                Document.Append("<InclKitIssues>Y</InclKitIssues>");
+                Document.Append("<InclKitIssues>N</InclKitIssues>");
                 Document.Append("<CreateSubJob>N</CreateSubJob>");
                 Document.Append("<WetWeightPercent />");
                 Document.Append("<IncludeBatch />");

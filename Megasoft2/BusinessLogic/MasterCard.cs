@@ -588,9 +588,9 @@ namespace Megasoft2.BusinessLogic
                                 }
                                 catch (Exception)
                                 {
-                                    MultimediaError= "Failed to Add Multimedia for StockCode : " + model.stkobj.StockCode + ". ";
+                                    MultimediaError = "Failed to Add Multimedia for StockCode : " + model.stkobj.StockCode + ". ";
                                 }
-                                
+
                             }
                         }
                     }
@@ -726,7 +726,7 @@ namespace Megasoft2.BusinessLogic
                 }
 
 
-                return "StockCode " + model.stkobj.StockCode + " created successfully. "+ MultimediaError ;
+                return "StockCode " + model.stkobj.StockCode + " created successfully. " + MultimediaError;
 
             }
             catch (Exception ex)
@@ -822,7 +822,7 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<SoPrintFlag>Y</SoPrintFlag>");
                         Document.Append("<InclScrapFlag>Y</InclScrapFlag>");
                         Document.Append("<ReasonForChange />");
-                        Document.Append("<InclKitIssues>Y</InclKitIssues>");
+                        Document.Append("<InclKitIssues>N</InclKitIssues>");
                         Document.Append("<CreateSubJob>N</CreateSubJob>");
                         Document.Append("<WetWeightPercent />");
                         Document.Append("<IncludeBatch />");

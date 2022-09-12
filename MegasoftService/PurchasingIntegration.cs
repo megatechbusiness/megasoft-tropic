@@ -15,13 +15,13 @@ namespace MegasoftService
         {
             try
             {
-               
+
                 var Grn = (from a in sdb.mtGrnDetails.AsNoTracking() where a.PostStatus == 1 select a.Grn).Distinct().ToList();
-                if(Grn.Count > 0)
+                if (Grn.Count > 0)
                 {
 
                     string Guid = sys.SysproLogin(Properties.Settings.Default.SysproUser);
-                    foreach(var grnItem in Grn)
+                    foreach (var grnItem in Grn)
                     {
                         var det = (from a in sdb.mtGrnDetails.AsNoTracking() where a.Grn == grnItem select a).ToList();
 
@@ -44,7 +44,7 @@ namespace MegasoftService
                         Document.Append("use of the Purchase Order Receipts Business Object");
                         Document.Append("-->");
                         Document.Append("<PostPurchaseOrderReceipts xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"portordoc.xsd\">");
-                        
+
                         //string Username = "";
                         //if(!string.IsNullOrEmpty(det.FirstOrDefault().Level2AuthorizedBy))
                         //{
@@ -57,11 +57,11 @@ namespace MegasoftService
 
                         //if multi tax line dont do grn
                         var TaxCodeCount = (from a in det select a.TaxCode).Distinct().ToList();
-                        if(TaxCodeCount.Count > 1)
+                        if (TaxCodeCount.Count > 1)
                         {
                             //check if any stock items exist
                             var Stocked = (from a in det where a.Warehouse != "**" select a).ToList();
-                            if(Stocked.Count > 0)
+                            if (Stocked.Count > 0)
                             {
                                 foreach (var line in Stocked)
                                 {
@@ -82,7 +82,7 @@ namespace MegasoftService
                                     ErrorEventLog.WriteErrorLog("E", Document.ToString());
                                     ErrorEventLog.WriteErrorLog("E", ex.Message);
                                     using (var edb = new SysproEntities())
-                                    {                                        
+                                    {
                                         foreach (var re in det)
                                         {
                                             re.GrnPostDate = DateTime.Now;
@@ -109,7 +109,7 @@ namespace MegasoftService
                                     ErrorEventLog.WriteErrorLog("E", ErrorMessage);
                                     //Error Occured
                                     using (var edb = new SysproEntities())
-                                    {                                        
+                                    {
                                         foreach (var re in det)
                                         {
                                             re.GrnPostDate = DateTime.Now;
@@ -127,7 +127,7 @@ namespace MegasoftService
                                     string JournalYear = sys.GetFirstXmlValue(XmlOut, "JnlYear");
                                     string JournalMonth = sys.GetFirstXmlValue(XmlOut, "JnlMonth");
                                     using (var edb = new SysproEntities())
-                                    {                                        
+                                    {
                                         foreach (var re in det)
                                         {
                                             re.GrnPostDate = DateTime.Now;
@@ -160,7 +160,7 @@ namespace MegasoftService
                                         //ErrorEventLog.WriteErrorLog("I", "Purchase Order Receipt completed successfully : Syspro Grn : " + SysGrn);
                                     }
                                 }
-                            }                                                        
+                            }
                         }
                         else
                         {
@@ -184,7 +184,7 @@ namespace MegasoftService
                                 ErrorEventLog.WriteErrorLog("E", ex.Message);
                                 using (var edb = new SysproEntities())
                                 {
-                                    
+
                                     foreach (var re in det)
                                     {
                                         re.GrnPostDate = DateTime.Now;
@@ -214,7 +214,7 @@ namespace MegasoftService
                                 //Error Occured
                                 using (var edb = new SysproEntities())
                                 {
-                                    
+
                                     foreach (var re in det)
                                     {
                                         re.GrnPostDate = DateTime.Now;
@@ -234,7 +234,7 @@ namespace MegasoftService
                                 string JournalMonth = sys.GetFirstXmlValue(XmlOut, "JnlMonth");
                                 using (var edb = new SysproEntities())
                                 {
-                                    
+
                                     foreach (var re in det)
                                     {
                                         re.GrnPostDate = DateTime.Now;
@@ -260,11 +260,11 @@ namespace MegasoftService
                     }
                     sys.SysproLogoff(Guid);
 
-                    
+
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Grn Post Error: " + ex.Message);
             }
@@ -304,7 +304,7 @@ namespace MegasoftService
                         {
                             MatError = this.PostMaterialIssue(Guid, grnItem);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             using (var edb = new SysproEntities())
                             {
@@ -321,20 +321,20 @@ namespace MegasoftService
                             sys.SysproLogoff(Guid);
                             return;
                         }
-                        
+
                         if (!string.IsNullOrEmpty(MatError))
                         {
                             using (var edb = new SysproEntities())
                             {
                                 var result = (from a in edb.mtGrnDetails.AsNoTracking() where a.Grn == grnItem select a).ToList();
-                                foreach(var re in result)
+                                foreach (var re in result)
                                 {
                                     re.MaterialIssueError = MatError;
                                     re.PostStatus = 7;
                                     edb.Entry(re).State = System.Data.Entity.EntityState.Modified;
                                     edb.SaveChanges();
                                 }
-                                
+
                             }
                         }
                         else
@@ -351,12 +351,12 @@ namespace MegasoftService
                                 }
                             }
                         }
-                        
+
                     }
                     sys.SysproLogoff(Guid);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Material Issue Error: " + ex.Message);
             }
@@ -391,7 +391,7 @@ namespace MegasoftService
                         {
                             MatAllocError = this.AddMaterialAllocation(Guid, grnItem);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             using (var edb = new SysproEntities())
                             {
@@ -405,24 +405,24 @@ namespace MegasoftService
                                 }
 
                             }
-                            ErrorEventLog.WriteErrorLog("E", "Failed to add Material Allocation. " + ex.Message + ".");                           
+                            ErrorEventLog.WriteErrorLog("E", "Failed to add Material Allocation. " + ex.Message + ".");
                             sys.SysproLogoff(Guid);
                             return;
                         }
-                        
+
                         if (!string.IsNullOrEmpty(MatAllocError))
                         {
                             using (var edb = new SysproEntities())
                             {
                                 var result = (from a in edb.mtGrnDetails.AsNoTracking() where a.Grn == grnItem select a).ToList();
-                                foreach(var re in result)
+                                foreach (var re in result)
                                 {
                                     re.PostStatus = 5;
                                     re.MaterialAllocationError = "Failed to add Material Allocation. " + MatAllocError + ".";
                                     edb.Entry(re).State = System.Data.Entity.EntityState.Modified;
                                     edb.SaveChanges();
                                 }
-                                
+
                             }
                             ErrorEventLog.WriteErrorLog("E", MatAllocError);
                         }
@@ -501,9 +501,9 @@ namespace MegasoftService
                     }
                     sys.SysproLogoff(Guid);
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Material Allocation Error: " + ex.Message);
             }
@@ -532,8 +532,8 @@ namespace MegasoftService
                         string Branch = detUser.FirstOrDefault().Branch;
                         string Site = detUser.FirstOrDefault().Site;
                         string ApBranch = (from a in sdb.mtBranchSites.AsNoTracking() where a.Branch == Branch && a.Site == Site select a.ApBranch).FirstOrDefault();
-                       
-                       
+
+
                         var det = sdb.sp_GetInvoiceDetailsByGrn(grnItem).Where(a => a.PostStatus == 6).ToList();
 
                         var TaxCodeCount = (from a in det select a.TaxCode).Distinct().ToList();
@@ -566,7 +566,7 @@ namespace MegasoftService
                                 Document.Append("<EntryNumber />");
                                 Document.Append("<TransactionValue>" + string.Format("{0:.##}", InvoiceAmount) + "</TransactionValue>"); //Total Including Tax. Invoice Amount = Tax Value + Total Grn Value
                                 Document.Append("<TaxCode>" + Warehouses.FirstOrDefault().TaxCode + "</TaxCode>");
-                                Document.Append("<TaxValue>" + string.Format("{0:.##}", VatAmount) + "</TaxValue>");                               
+                                Document.Append("<TaxValue>" + string.Format("{0:.##}", VatAmount) + "</TaxValue>");
                                 Document.Append("<MiscellaneousCharge />");
                                 Document.Append("<Notation><![CDATA[" + Warehouses.FirstOrDefault().Requisition + "]]></Notation>");
                                 Document.Append("<TransactionReference><![CDATA[" + Warehouses.FirstOrDefault().Requisition + "]]></TransactionReference>");
@@ -583,7 +583,7 @@ namespace MegasoftService
                                 {
                                     //if (line.SysproGrn == null) { line.SysproGrn = ""; };
                                     //if (line.Journal == null) { line.Journal = 0; };
-                                    Document.Append(BuildGrnMatchDocument(line.SysproGrn, line.Supplier, (decimal)line.Journal, (decimal)line.JournalEntry, line.GlCode, line.TaxCode, (decimal)line.LineTotal, line.AnalysisRequired, line.AnalysisEntry, line.SuspenseAccount,false, (decimal)line.LineVAT, line.StockDescription, (decimal)line.QtyReceived, line.Job, line.GrnLine));
+                                    Document.Append(BuildGrnMatchDocument(line.SysproGrn, line.Supplier, (decimal)line.Journal, (decimal)line.JournalEntry, line.GlCode, line.TaxCode, (decimal)line.LineTotal, line.AnalysisRequired, line.AnalysisEntry, line.SuspenseAccount, false, (decimal)line.LineVAT, line.StockDescription, (decimal)line.QtyReceived, line.Job, line.GrnLine));
 
                                 }
                                 Document.Append("</Item>");
@@ -665,7 +665,7 @@ namespace MegasoftService
                                                 re.ApJournalYear = Convert.ToDecimal(JournalYear);
                                                 re.ApJournalMonth = Convert.ToDecimal(JournalMonth);
                                                 re.InvoicePostDate = DateTime.Now;
-                                                re.InvoiceError = "";                                                
+                                                re.InvoiceError = "";
                                                 re.PostStatus = 8;
                                                 edb.Entry(re).State = System.Data.Entity.EntityState.Modified;
                                                 edb.SaveChanges();
@@ -674,7 +674,7 @@ namespace MegasoftService
                                         }
                                     }
 
-                                   
+
                                 }
 
 
@@ -996,10 +996,10 @@ namespace MegasoftService
                     }
                     sys.SysproLogoff(Guid);
 
-                    
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Grn Matching Error: " + ex.Message + " - " + ex.InnerException.Message);
             }
@@ -1031,7 +1031,7 @@ namespace MegasoftService
                 Document.Append("<CostBasis>P</CostBasis>");
                 Document.Append("<SwitchOnGRNMatching>N</SwitchOnGRNMatching>");
                 //Document.Append("<GRNNumber></GRNNumber>");
-                
+
                 Document.Append("<Reference>" + Requisition + "</Reference>");
                 Document.Append("<GRNSource>1</GRNSource>");
                 Document.Append("<UseSingleTypeABCElements>N</UseSingleTypeABCElements>");
@@ -1067,7 +1067,7 @@ namespace MegasoftService
                 Document.Append("<ApplyCostMultiplier>N</ApplyCostMultiplier>");
                 Document.Append("<CostMultiplier />");
                 Document.Append("<Notation><![CDATA[" + Notation + "]]></Notation>");
-                if(Warehouse == "**")
+                if (Warehouse == "**")
                 {
                     var JobList = (from a in sdb.CusGenMaster_.AsNoTracking() where a.GlCode == GlCode && a.PurchasingCategory == "WIP" select a).ToList();
                     if (JobList.Count > 0)
@@ -1087,8 +1087,8 @@ namespace MegasoftService
 
                     }
                 }
-                
-                
+
+
                 //Document.Append("<CountryOfOrigin />");
                 //Document.Append("<DeliveryTerms />");
                 //Document.Append("<ShippingLocation>");
@@ -1117,11 +1117,11 @@ namespace MegasoftService
 
                 var AnalysisRequired = (from a in sdb.GenMasters.AsNoTracking() where a.GlCode == GlCode select a).ToList();
 
-                if(AnalysisRequired.Count > 0)
+                if (AnalysisRequired.Count > 0)
                 {
                     if (AnalysisRequired.FirstOrDefault().AnalysisRequired == "Y")
                     {
-                        decimal EntryAmount = Math.Round(Convert.ToDecimal(Price * Qty),2);
+                        decimal EntryAmount = Math.Round(Convert.ToDecimal(Price * Qty), 2);
                         Document.Append("<DebitAnalysisLineEntry>");
                         Document.Append("<AnalysisCode1><![CDATA[" + AnalysisEntry + "]]></AnalysisCode1>");
                         Document.Append("<StartDate />");
@@ -1140,14 +1140,14 @@ namespace MegasoftService
                         //Document.Append("</AnalysisLineEntry>");
                     }
                 }
-                
+
                 //Document.Append("<eSignature />");
                 Document.Append("</Receipt>");
                 Document.Append("</Item>");
 
                 return Document.ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -1196,19 +1196,19 @@ namespace MegasoftService
 
                 //Declaration
                 StringBuilder Document = new StringBuilder();
-        
 
 
-                if(MultiTax == true)
+
+                if (MultiTax == true)
                 {
                     string LedgerNotation = GrnLine.ToString();//Qty.ToString() + " X " + Description;
-                    if(LedgerNotation.Length > 30)
+                    if (LedgerNotation.Length > 30)
                     {
                         LedgerNotation = LedgerNotation.Substring(0, 30);
                     }
 
                     Document.Append("<LedgerDistribution>");
-                    if(string.IsNullOrEmpty(Job.Trim()))
+                    if (string.IsNullOrEmpty(Job.Trim()))
                     {
                         Document.Append("<LedgerCode><![CDATA[" + GlCode + "]]></LedgerCode>");//glcode from req
                     }
@@ -1221,9 +1221,9 @@ namespace MegasoftService
                     Document.Append("<LedgerValue>" + string.Format("{0:.##}", LineTotal) + "</LedgerValue>");
                     Document.Append("<TaxOnlyLine>N</TaxOnlyLine>");
 
-                    if(AnalysisRequired == "Y")
+                    if (AnalysisRequired == "Y")
                     {
-                        
+
                         Document.Append("<AnalysisLineEntry>");
                         Document.Append("<AnalysisCode1>" + AnalysisEntry + "</AnalysisCode1>");
                         Document.Append("<EntryAmount>" + string.Format("{0:.##}", LineTotal) + "</EntryAmount>");
@@ -1233,7 +1233,7 @@ namespace MegasoftService
                     Document.Append("</LedgerDistribution>");
 
 
-                    if(VatAmount != 0)
+                    if (VatAmount != 0)
                     {
                         Document.Append("<LedgerDistribution>");
                         Document.Append("<LedgerCode><![CDATA[" + Tax.ApTaxGlCode + "]]></LedgerCode>");
@@ -1243,7 +1243,7 @@ namespace MegasoftService
                         Document.Append("<TaxOnlyLine>Y</TaxOnlyLine>");
                         Document.Append("</LedgerDistribution>");
                     }
-                    
+
 
 
                 }
@@ -1260,14 +1260,14 @@ namespace MegasoftService
                     Document.Append("</GrnDetails>");
                 }
 
-                
 
-                
+
+
 
                 return Document.ToString();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -1281,7 +1281,7 @@ namespace MegasoftService
 
                 string PostingPeriod = "C";
                 var PostPeriod = sdb.sp_GetAPPostingPeriod(GrnYear, GrnMonth).ToList();
-                if(PostPeriod.Count > 0)
+                if (PostPeriod.Count > 0)
                 {
                     PostingPeriod = PostPeriod.FirstOrDefault().PostingPeriod;
                 }
@@ -1309,9 +1309,9 @@ namespace MegasoftService
                 Parameter.Append("<AutomaticTaxCalculation>N</AutomaticTaxCalculation>");
                 //if(MultiTax == "Y")
                 //{
-                    Parameter.Append("<PermissibleTaxVariance>1.00</PermissibleTaxVariance>");
+                Parameter.Append("<PermissibleTaxVariance>1.00</PermissibleTaxVariance>");
                 //}
-                
+
                 Parameter.Append("<ApArContraTrx>N</ApArContraTrx>");
                 Parameter.Append("<IgnoreAnalysis>N</IgnoreAnalysis>");
                 Parameter.Append("<ApTaxReliefAsOfDate>");
@@ -1324,7 +1324,7 @@ namespace MegasoftService
                 return Parameter.ToString();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -1353,7 +1353,7 @@ namespace MegasoftService
                 string XmlOut = sys.SysproQuery(Guid, Document.ToString(), "IMPQCR");
 
                 string ErrorMessage = sys.GetXmlErrors(XmlOut);
-                if(!string.IsNullOrEmpty(ErrorMessage))
+                if (!string.IsNullOrEmpty(ErrorMessage))
                 {
                     throw new Exception(ErrorMessage);
                 }
@@ -1367,7 +1367,7 @@ namespace MegasoftService
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -1381,11 +1381,11 @@ namespace MegasoftService
                 var MatIssue = (from a in sdb.mtGrnDetails.AsNoTracking() where a.Grn == Grn select a).ToList();
                 if (MatIssue.Count > 0)
                 {
-                    
+
                     //Declaration
                     StringBuilder Document = new StringBuilder();
 
-                    
+
 
                     //Building Document content
                     Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
@@ -1397,7 +1397,7 @@ namespace MegasoftService
                     bool hasLines = false;
                     foreach (var item in MatIssue)
                     {
-                        if(!string.IsNullOrEmpty(item.Job.Trim()))
+                        if (!string.IsNullOrEmpty(item.Job.Trim()))
                         {
                             //ErrorEventLog.WriteErrorLog("E", item.Job);
                             hasLines = true;
@@ -1405,7 +1405,7 @@ namespace MegasoftService
                             string GrnLine = item.Grn + "|" + item.GrnLine.ToString().Trim();
                             string WipMat = (from a in sdb.WipJobAllMats.AsNoTracking() where a.Job == item.Job && a.StockCode == item.StockCode && a.Warehouse == item.Warehouse && a.ItemNumber == GrnLine select a.Line).FirstOrDefault().ToString();
 
-                            
+
 
                             //ErrorEventLog.WriteErrorLog("E", WipMat.ToString());
 
@@ -1423,9 +1423,9 @@ namespace MegasoftService
 
                             Document.Append("<Warehouse>" + item.Warehouse + "</Warehouse>");
                             Document.Append("<StockCode><![CDATA[" + item.StockCode.Trim() + "]]></StockCode>");
-                            Document.Append("<Line>" + WipMat.ToString().PadLeft(2,'0') + "</Line>");
+                            Document.Append("<Line>" + WipMat.ToString().PadLeft(2, '0') + "</Line>");
                             Document.Append("<QtyIssued>" + string.Format("{0:##,###,##0.000}", item.QtyReceived) + "</QtyIssued>");
-                            if(string.IsNullOrEmpty(item.SysproGrn))
+                            if (string.IsNullOrEmpty(item.SysproGrn))
                             {
                                 Document.Append("<Reference></Reference>");
                             }
@@ -1442,10 +1442,10 @@ namespace MegasoftService
                             Document.Append("<MaterialReference><![CDATA[" + item.Supplier + " - " + item.Requisition + "]]></MaterialReference>");
                             Document.Append("</Item>");
                         }
-                        
+
                     }
 
-                    if(hasLines == false)
+                    if (hasLines == false)
                     {
                         return "";
                     }
@@ -1477,7 +1477,7 @@ namespace MegasoftService
                     //ErrorEventLog.WriteErrorLog("E", Document.ToString());
                     string ErrorMessage = sys.GetXmlErrors(XmlOut);
 
-                    if(string.IsNullOrEmpty(ErrorMessage))
+                    if (string.IsNullOrEmpty(ErrorMessage))
                     {
                         string Journal = sys.GetFirstXmlValue(XmlOut, "Journal");
                         string JournalYear = sys.GetFirstXmlValue(XmlOut, "JnlYear");
@@ -1499,9 +1499,9 @@ namespace MegasoftService
 
                     return ErrorMessage;
                 }
-                return "";                              
+                return "";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -1513,7 +1513,7 @@ namespace MegasoftService
             try
             {
                 var MatALloc = sdb.sp_GetPoLinesForMaterialAllocation(Grn).ToList();
-                if(MatALloc.Count > 0)
+                if (MatALloc.Count > 0)
                 {
                     //Declaration
                     StringBuilder Document = new StringBuilder();
@@ -1526,11 +1526,11 @@ namespace MegasoftService
                     Document.Append("-->");
                     Document.Append("<PostMaterialAllocations xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"WIPTJMDOC.XSD\">");
 
-                    foreach(var item in MatALloc)
+                    foreach (var item in MatALloc)
                     {
                         Document.Append("<Item>");
                         Document.Append("<Job>" + item.Job + "</Job>");
-                        if(item.MWarehouse == "**")
+                        if (item.MWarehouse == "**")
                         {
                             Document.Append("<NonStocked>Y</NonStocked>");
                         }
@@ -1565,7 +1565,7 @@ namespace MegasoftService
                         Document.Append("<Version />");
                         Document.Append("<Release />");
                         Document.Append("<eSignature />");
-                        Document.Append("<IncludeinKitIssue>Y</IncludeinKitIssue>");
+                        Document.Append("<IncludeinKitIssue>N</IncludeinKitIssue>");
                         Document.Append("<QuantityToReserve />");
                         Document.Append("<ReserveKitPhantComponents>Y</ReserveKitPhantComponents>");
                         //Document.Append("<ComponentType>");
@@ -1603,7 +1603,7 @@ namespace MegasoftService
 
                     string XmlOut = sys.SysproPost(Guid, Parameter.ToString(), Document.ToString(), "WIPTJM");
                     string ErrorMessage = sys.GetXmlErrors(XmlOut);
-                    if(!string.IsNullOrEmpty(ErrorMessage))
+                    if (!string.IsNullOrEmpty(ErrorMessage))
                     {
                         ErrorEventLog.WriteErrorLog("E", Document.ToString());
                     }
@@ -1631,7 +1631,7 @@ namespace MegasoftService
                     {
                         var detUser = (from a in sdb.mtGrnDetails.AsNoTracking() where a.Grn == grnItem select a).ToList();
                         var TaxCodeCount = (from a in detUser select a.TaxCode).Distinct().ToList();
-                        if(TaxCodeCount.Count > 1)
+                        if (TaxCodeCount.Count > 1)
                         {
                             string Username = "";
                             if (!string.IsNullOrEmpty(detUser.FirstOrDefault().Level2AuthorizedBy))
@@ -1643,7 +1643,7 @@ namespace MegasoftService
                                 Username = detUser.FirstOrDefault().Level1AuthorizedBy;
                             }
 
-                           
+
 
                             var det = sdb.sp_GetInvoiceDetailsByGrn(grnItem).ToList();
                             if (det.Count > 0)
@@ -1688,7 +1688,7 @@ namespace MegasoftService
                                 {
                                     XmlOut = sys.SysproPost(Guid, this.BuildGrnAdjustmentParameter(), Document.ToString(), "PORTGN");
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     using (var edb = new SysproEntities())
                                     {
@@ -1705,7 +1705,7 @@ namespace MegasoftService
                                     }
                                     return;
                                 }
-                                
+
                                 //ErrorEventLog.WriteErrorLog("E", XmlOut.ToString());
                                 string ErrorMessage = sys.GetXmlErrors(XmlOut);
                                 if (!string.IsNullOrEmpty(ErrorMessage))
@@ -1758,14 +1758,14 @@ namespace MegasoftService
                                     }
                                 }
                             }
-                           
+
                         }
-                        
+
                     }
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Grn Adjustment Error: " + ex.Message);
             }
@@ -1804,15 +1804,15 @@ namespace MegasoftService
             try
             {
                 var result = (from a in sdb.mtRequisitionHeaders.AsNoTracking() where a.Status == 99 select a.Requisition).Distinct().ToList();
-                if(result.Count > 0)
+                if (result.Count > 0)
                 {
-                    foreach(var req in result)
+                    foreach (var req in result)
                     {
-                        this.PostPurchaseOrder(req);                        
+                        this.PostPurchaseOrder(req);
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -1900,7 +1900,7 @@ namespace MegasoftService
                         }
                         else
                         {
-                            ErrorEventLog.WriteErrorLog("E","Error : Failed to log in to Syspro");
+                            ErrorEventLog.WriteErrorLog("E", "Error : Failed to log in to Syspro");
                         }
 
 
@@ -1914,7 +1914,7 @@ namespace MegasoftService
                         {
                             this.UpdatePoStatus(Requisition);
 
-                            ErrorEventLog.WriteErrorLog("I",ReturnError + ". The following Purchase Order(s) were created : " + PurchaseOrders);
+                            ErrorEventLog.WriteErrorLog("I", ReturnError + ". The following Purchase Order(s) were created : " + PurchaseOrders);
                         }
                         else
                             this.UpdatePoStatus(Requisition);
@@ -2286,11 +2286,11 @@ namespace MegasoftService
                 Document.Append("<SupCatalogue>" + Line.ToString() + "</SupCatalogue>");
                 Document.Append("<OrderQty>" + Quantity + "</OrderQty>");
 
-                if(Warehouse == "**")
+                if (Warehouse == "**")
                 {
                     Document.Append("<OrderUom>" + Uom + "</OrderUom>");
                 }
-                
+
                 Document.Append("<Units />");
                 Document.Append("<Pieces />");
                 Document.Append("<PriceMethod>M</PriceMethod>");
@@ -2303,7 +2303,7 @@ namespace MegasoftService
                     Document.Append("<PriceUom>" + Uom + "</PriceUom>");
                 }
 
-                
+
                 //Document.Append("<LineDiscType>P</LineDiscType>");
                 //Document.Append("<LineDiscLessPlus>L</LineDiscLessPlus>");
                 //Document.Append("<LineDiscPercent1>0.5</LineDiscPercent1>");
@@ -2392,12 +2392,12 @@ namespace MegasoftService
         {
             try
             {
-                using(var edb = new SysproEntities())
+                using (var edb = new SysproEntities())
                 {
                     var result = (from a in edb.ApSuppliers.AsNoTracking() where a.Supplier == Supplier select a.GrnMatchReqd).ToList();
-                    if(result.Count > 0)
+                    if (result.Count > 0)
                     {
-                        if(result.FirstOrDefault() == "Y")
+                        if (result.FirstOrDefault() == "Y")
                         {
                             return false;
                         }
@@ -2412,7 +2412,7 @@ namespace MegasoftService
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -2443,15 +2443,15 @@ namespace MegasoftService
             try
             {
                 var result = (from a in sdb.mtTmpPoToCancels where a.Status == 1 select a).ToList();
-                if(result.Count > 0)
+                if (result.Count > 0)
                 {
-                    foreach(var item in result)
+                    foreach (var item in result)
                     {
                         this.CancelPurchaseOrder(item.PurchaseOrder, item.Requisition);
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -2531,7 +2531,7 @@ namespace MegasoftService
                     if (!string.IsNullOrEmpty(ErrorMessage))
                     {
                         ErrorEventLog.WriteErrorLog("E", ErrorMessage);
-                        using(var qdb = new SysproEntities())
+                        using (var qdb = new SysproEntities())
                         {
                             var re = (from a in qdb.mtTmpPoToCancels where a.Requisition == Requisition && a.PurchaseOrder == PurchaseOrder select a).FirstOrDefault();
                             re.Status = 2;
@@ -2665,6 +2665,6 @@ namespace MegasoftService
         }
     }
 
-    
+
 
 }
