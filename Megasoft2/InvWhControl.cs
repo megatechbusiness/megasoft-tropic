@@ -92,6 +92,8 @@ namespace Megasoft2
         public string UsePicking { get; set; }
         public string ShortagesMethod { get; set; }
         public string LostFoundWarehouse { get; set; }
+        public string SiteCode { get; set; }
+        public string ShiftCode { get; set; }
     
         public virtual BomRoute BomRoute { get; set; }
         public virtual ICollection<GrnDetail> GrnDetails { get; set; }

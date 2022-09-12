@@ -90,7 +90,6 @@ namespace Megasoft2
         public DbSet<PorMasterHdr_> PorMasterHdr_ { get; set; }
         public DbSet<mtMasterCardLamination> mtMasterCardLaminations { get; set; }
         public DbSet<mtNonStockMaster> mtNonStockMasters { get; set; }
-        public DbSet<mtMasterCardStockCodeWarehouse> mtMasterCardStockCodeWarehouses { get; set; }
         public DbSet<mtMasterCardStockUom> mtMasterCardStockUoms { get; set; }
         public DbSet<InvWhControl> InvWhControls { get; set; }
         public DbSet<WipJobClass> WipJobClasses { get; set; }
@@ -142,7 +141,6 @@ namespace Megasoft2
         public DbSet<mtMasterCardAttachment> mtMasterCardAttachments { get; set; }
         public DbSet<mtRequisitionDeletedLine> mtRequisitionDeletedLines { get; set; }
         public DbSet<mtProductionPalletWeight> mtProductionPalletWeights { get; set; }
-        public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
         public DbSet<mtStereoSupplier> mtStereoSuppliers { get; set; }
         public DbSet<mtDispatchVerification> mtDispatchVerifications { get; set; }
         public DbSet<AdmFormControl> AdmFormControls { get; set; }
@@ -150,6 +148,8 @@ namespace Megasoft2
         public DbSet<mtShift> mtShifts { get; set; }
         public DbSet<mtSuppDeliveryLog> mtSuppDeliveryLogs { get; set; }
         public DbSet<AdmFormData> AdmFormDatas { get; set; }
+        public DbSet<mtMasterCardStockCodeWarehouse> mtMasterCardStockCodeWarehouses { get; set; }
+        public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -3233,6 +3233,28 @@ namespace Megasoft2
                 new ObjectParameter("GLCode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_GetGenAnalysisByGLCode_Result>("mt_GetGenAnalysisByGLCode", gLCodeParameter);
+        }
+    
+        public virtual ObjectResult<sp_InkSystemGetAllStockCodes_Result> sp_InkSystemGetAllStockCodes(string stockCode)
+        {
+            var stockCodeParameter = stockCode != null ?
+                new ObjectParameter("StockCode", stockCode) :
+                new ObjectParameter("StockCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_InkSystemGetAllStockCodes_Result>("sp_InkSystemGetAllStockCodes", stockCodeParameter);
+        }
+    
+        public virtual ObjectResult<sp_InkSystemGetSysproBomStructure_Result> sp_InkSystemGetSysproBomStructure(string parentPart, string route)
+        {
+            var parentPartParameter = parentPart != null ?
+                new ObjectParameter("ParentPart", parentPart) :
+                new ObjectParameter("ParentPart", typeof(string));
+    
+            var routeParameter = route != null ?
+                new ObjectParameter("Route", route) :
+                new ObjectParameter("Route", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_InkSystemGetSysproBomStructure_Result>("sp_InkSystemGetSysproBomStructure", parentPartParameter, routeParameter);
         }
     }
 }

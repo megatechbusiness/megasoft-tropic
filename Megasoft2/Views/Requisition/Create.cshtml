@@ -30,7 +30,7 @@
                             <a href="@Url.Action("Index", "Requisition")" class="btn btn-default">Requisitions</a>
                             @if (!string.IsNullOrWhiteSpace(Model.Header.Requisition))
                             {
-                                <a href="@Url.Action("Create", "Requisition", new { Requisition = Model.Header.Requisition })" class="btn btn-default">@Model.Header.Requisition</a>
+                                <a href="@Url.Action("Create", "Requisition", new { Requisition = Model.Header.Requisition })" class="btn btn-default ">@Model.Header.Requisition</a>
                             }
 
 
@@ -171,6 +171,7 @@
                                     {
                                         @Html.TextBoxFor(model => model.Header.RequestedBy1, new { @class = "form-control input-sm", @Value = "Megasoft Stock" })
                                     }
+                                    
 
                                     <div class="input-group-btn">
                                         <a href="@Url.Action("ReqCustomFormSearch", "Requisition", new { FieldName="Requ1"})" class="modal-link btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></a>
@@ -494,5 +495,7 @@
 
             return CanRoute;
         });
+
+        
     });
 </script>

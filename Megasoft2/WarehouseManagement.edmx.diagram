@@ -100,7 +100,6 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.PorMasterHdr_" Width="1.5" PointX="8.375" PointY="17.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardLamination" Width="1.5" PointX="29.375" PointY="14.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtNonStockMaster" Width="1.875" PointX="31.375" PointY="21.75" />
-        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" Width="1.5" PointX="16.75" PointY="31.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockUom" Width="1.5" PointX="0.75" PointY="26.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.InvWhControl" Width="1.5" PointX="29.625" PointY="38.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.WipJobClass" Width="1.5" PointX="13.75" PointY="52.375" />
@@ -185,7 +184,6 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardAttachment" Width="1.5" PointX="43.375" PointY="26.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtRequisitionDeletedLine" Width="1.5" PointX="43.375" PointY="29.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionPalletWeight" Width="1.5" PointX="0.75" PointY="45.75" />
-        <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabel" Width="1.5" PointX="10.375" PointY="44.75" />
 
         <EntityTypeShape EntityType="WarehouseManagementModel.mtStereoSupplier" Width="2.875" PointX="45.375" PointY="27.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtDispatchVerification" Width="1.5" PointX="45.375" PointY="39.75" />
@@ -194,6 +192,8 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.mtShift" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtSuppDeliveryLog" Width="1.5" PointX="18.375" PointY="42.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormData" Width="1.5" PointX="16.375" PointY="15.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" Width="1.5" PointX="9.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabel" Width="1.5" PointX="10.375" PointY="44.75" />
 
       </Diagram>
     </edmx:Diagrams>

@@ -93,13 +93,13 @@ namespace Megasoft2.Controllers
                 {
                     var print = (from a in DeptList where a.Text.Contains("PRINT") select a.Text).FirstOrDefault();
                     model.Department = print;
-                    
-                    if (model.Department=="PRINT" || model.Department=="PRINTING")
+
+                    if (model.Department == "PRINT" || model.Department == "PRINTING")
                     {
                         var OprList = (from a in wdb.sp_GetScaleOperators("PRINT").ToList() select new { Value = a.Employee + " - " + a.Name, Text = a.Employee + " - " + a.Name }).ToList();
                         ViewBag.OperatorList = OprList;
                     }
-                    else if (model.Department== "EXTR")
+                    else if (model.Department == "EXTR")
                     {
                         var OprList = (from a in wdb.sp_GetScaleOperators("EXTR").ToList() select new { Value = a.Employee + " - " + a.Name, Text = a.Employee + " - " + a.Name }).ToList();
                         ViewBag.OperatorList = OprList;
@@ -297,7 +297,10 @@ namespace Megasoft2.Controllers
                         //    obj.NetQty = model.Weight - (model.Core + model.Tare);
                         //}
 
-
+                        if (model.Department == "SLIT")
+                        {
+                            obj.Meters = model.Meters;
+                        }
                         obj.GrossQty = model.Weight;
                         obj.Username = HttpContext.User.Identity.Name.ToUpper();
                         obj.LabelPrinted = "Y";

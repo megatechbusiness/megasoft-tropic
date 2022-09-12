@@ -585,6 +585,8 @@
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
           <Property Name="NestScrap" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="WipBranch" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SiteCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ShiftCode" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="GenControl">
           <Key>
@@ -1189,6 +1191,8 @@
           <Property Name="UsePicking" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="ShortagesMethod" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="LostFoundWarehouse" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SiteCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ShiftCode" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="LotDetail">
           <Key>
@@ -2252,6 +2256,7 @@
           <Property Name="ErrorMessage" Type="varchar(max)" />
           <Property Name="PrintOpReference" Type="varchar" MaxLength="50" />
           <Property Name="LotIssued" Type="varchar" MaxLength="40" />
+          <Property Name="Meters" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="mtProductionLabelsDeleted">
           <Key>
@@ -2295,6 +2300,7 @@
           <Property Name="ErrorMessage" Type="varchar(max)" />
           <Property Name="PrintOpReference" Type="varchar" MaxLength="50" />
           <Property Name="LotIssued" Type="varchar" MaxLength="40" />
+          <Property Name="Meters" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="mtProductionPalletWeight">
           <Key>
@@ -5067,6 +5073,13 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="Picker" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_GetWmsOrdersForRelease" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_InkSystemGetAllStockCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StockCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_InkSystemGetSysproBomStructure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ParentPart" Type="varchar" Mode="In" />
+          <Parameter Name="Route" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_InvMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="orderColumn" Type="int" Mode="In" />
           <Parameter Name="limit" Type="int" Mode="In" />
@@ -7367,7 +7380,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="CostCentre" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtNonStockMasters" EntityType="WarehouseManagementModel.mtNonStockMaster" />
-          <EntitySet Name="mtMasterCardStockCodeWarehouses" EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" />
           <EntitySet Name="mtMasterCardStockUoms" EntityType="WarehouseManagementModel.mtMasterCardStockUom" />
           <EntitySet Name="InvWhControls" EntityType="WarehouseManagementModel.InvWhControl" />
           <EntitySet Name="WipJobClasses" EntityType="WarehouseManagementModel.WipJobClass" />
@@ -7785,7 +7797,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <FunctionImport Name="mt_ProductionLotDetails" ReturnType="Collection(WarehouseManagementModel.mt_ProductionLotDetails_Result)">
           <Parameter Name="Lot" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="mtProductionLabels" EntityType="WarehouseManagementModel.mtProductionLabel" />
           <FunctionImport Name="mt_GetProductionDetailsByLot" ReturnType="Collection(WarehouseManagementModel.mt_GetProductionDetailsByLot_Result)">
           <Parameter Name="Lot" Mode="In" Type="String" />
           </FunctionImport>
@@ -7840,8 +7851,17 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="AdmFormDatas" EntityType="WarehouseManagementModel.AdmFormData" />
           <FunctionImport Name="mt_GetGenAnalysisByGLCode" ReturnType="Collection(WarehouseManagementModel.mt_GetGenAnalysisByGLCode_Result)">
-            <Parameter Name="GLCode" Mode="In" Type="String" />
+          <Parameter Name="GLCode" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_InkSystemGetAllStockCodes" ReturnType="Collection(WarehouseManagementModel.sp_InkSystemGetAllStockCodes_Result)">
+          <Parameter Name="StockCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_InkSystemGetSysproBomStructure" ReturnType="Collection(WarehouseManagementModel.sp_InkSystemGetSysproBomStructure_Result)">
+            <Parameter Name="ParentPart" Mode="In" Type="String" />
+            <Parameter Name="Route" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtMasterCardStockCodeWarehouses" EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" />
+          <EntitySet Name="mtProductionLabels" EntityType="WarehouseManagementModel.mtProductionLabel" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -9855,6 +9875,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <NavigationProperty Name="BomOperations" Relationship="WarehouseManagementModel.Syspro_FK_BomOperations_BomWorkCentre" FromRole="BomWorkCentre" ToRole="BomOperation" />
           <Property Name="NestScrap" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="WipBranch" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SiteCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ShiftCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_PalletOrderReport_Result">
           <Property Type="String" Name="ScanHdr" Nullable="false" MaxLength="9" />
@@ -10904,6 +10926,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PrintOpReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Meters" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="mtReportAutomation">
           <Key>
@@ -11355,16 +11378,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="LastSavedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DateLastSaved" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="mtMasterCardStockCodeWarehouse">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="StockCode" />
-            <PropertyRef Name="Warehouse" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="mtMasterCardStockUom">
           <Key>
             <PropertyRef Name="StockUom" />
@@ -11451,6 +11464,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="UsePicking" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="ShortagesMethod" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="LostFoundWarehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SiteCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ShiftCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="WipJobClass">
           <Key>
@@ -14269,45 +14284,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="Int32" Name="LabelsPrinted" Nullable="false" />
           <Property Type="Decimal" Name="OutstandingLabels" Nullable="true" Precision="38" Scale="0" />
         </ComplexType>
-        <EntityType Name="mtProductionLabel">
-          <Key>
-            <PropertyRef Name="Job" />
-            <PropertyRef Name="BatchId" />
-          </Key>
-          <Property Name="Job" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="BatchId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="BatchSequence" Type="Int32" />
-          <Property Name="GrossQty" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="NetQty" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="NoOfLabels" Type="Int32" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DatePrinted" Type="DateTime" Precision="3" />
-          <Property Name="LabelPrinted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="ReprintCount" Type="Int32" />
-          <Property Name="LabelReceipted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="Journal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ReceiptedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ReceiptDate" Type="DateTime" Precision="3" />
-          <Property Name="Customer" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Supervisor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Operator" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Packer" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="QC1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="WorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="PalletNo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="Scanned" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="ScannedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ScanDate" Type="DateTime" Precision="3" />
-          <Property Name="Core" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="Tare" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="PreviousWorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Department" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ScaleModelId" Type="Int32" />
-          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PrintOpReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="mt_GetProductionDetailsByLot_Result">
           <Property Type="String" Name="Job" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="BatchId" Nullable="false" MaxLength="40" />
@@ -14560,6 +14536,74 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="AnalysisType" Nullable="true" Precision="1" Scale="0" />
         </ComplexType>
+        <ComplexType Name="sp_InkSystemGetAllStockCodes_Result">
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="StockUom" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_InkSystemGetSysproBomStructure_Result">
+          <Property Type="Int32" Name="LevelId" Nullable="false" />
+          <Property Type="String" Name="Route" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="ParentMaster" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="ParentPart" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Component" Nullable="false" MaxLength="30" />
+          <Property Type="Int64" Name="RowNum" Nullable="true" />
+          <Property Type="Decimal" Name="QtyPer" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="LayerPerc" Nullable="true" Precision="22" Scale="6" />
+          <Property Type="Decimal" Name="ScrapPercentage" Nullable="false" Precision="4" Scale="2" />
+          <Property Type="Decimal" Name="ScrapQuantity" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="String" Name="Analox" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="mtMasterCardStockCodeWarehouse">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StockCode" />
+            <PropertyRef Name="Warehouse" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Warehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtProductionLabel">
+          <Key>
+            <PropertyRef Name="Job" />
+            <PropertyRef Name="BatchId" />
+          </Key>
+          <Property Name="Job" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BatchId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="BatchSequence" Type="Int32" />
+          <Property Name="GrossQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NetQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DatePrinted" Type="DateTime" Precision="3" />
+          <Property Name="LabelPrinted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ReprintCount" Type="Int32" />
+          <Property Name="LabelReceipted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Journal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiptedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiptDate" Type="DateTime" Precision="3" />
+          <Property Name="Customer" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Supervisor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Packer" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="QC1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PalletNo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Scanned" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ScannedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ScanDate" Type="DateTime" Precision="3" />
+          <Property Name="Core" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Tare" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PreviousWorkCentre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Department" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ScaleModelId" Type="Int32" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PrintOpReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Meters" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -16713,6 +16757,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="BomWorkCentres">
             <EntityTypeMapping TypeName="WarehouseManagementModel.BomWorkCentre">
               <MappingFragment StoreEntitySet="BomWorkCentre">
+                <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
                 <ScalarProperty Name="WipBranch" ColumnName="WipBranch" />
                 <ScalarProperty Name="NestScrap" ColumnName="NestScrap" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
@@ -18032,6 +18078,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="mtProductionLabelsDeleteds">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionLabelsDeleted">
               <MappingFragment StoreEntitySet="mtProductionLabelsDeleted">
+                <ScalarProperty Name="Meters" ColumnName="Meters" />
                 <ScalarProperty Name="LotIssued" ColumnName="LotIssued" />
                 <ScalarProperty Name="PrintOpReference" ColumnName="PrintOpReference" />
                 <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
@@ -18424,15 +18471,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="mtMasterCardStockCodeWarehouses">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtMasterCardStockCodeWarehouse">
-              <MappingFragment StoreEntitySet="mtMasterCardStockCodeWarehouse">
-                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
-                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="mtMasterCardStockUoms">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtMasterCardStockUom">
               <MappingFragment StoreEntitySet="mtMasterCardStockUom">
@@ -18444,6 +18482,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="InvWhControls">
             <EntityTypeMapping TypeName="WarehouseManagementModel.InvWhControl">
               <MappingFragment StoreEntitySet="InvWhControl">
+                <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
                 <ScalarProperty Name="LostFoundWarehouse" ColumnName="LostFoundWarehouse" />
                 <ScalarProperty Name="ShortagesMethod" ColumnName="ShortagesMethod" />
                 <ScalarProperty Name="UsePicking" ColumnName="UsePicking" />
@@ -21143,45 +21183,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="mtProductionLabels">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionLabel">
-              <MappingFragment StoreEntitySet="mtProductionLabels">
-                <ScalarProperty Name="LotIssued" ColumnName="LotIssued" />
-                <ScalarProperty Name="PrintOpReference" ColumnName="PrintOpReference" />
-                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
-                <ScalarProperty Name="ScaleModelId" ColumnName="ScaleModelId" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="PreviousWorkCentre" ColumnName="PreviousWorkCentre" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="Tare" ColumnName="Tare" />
-                <ScalarProperty Name="Core" ColumnName="Core" />
-                <ScalarProperty Name="ScanDate" ColumnName="ScanDate" />
-                <ScalarProperty Name="ScannedBy" ColumnName="ScannedBy" />
-                <ScalarProperty Name="Scanned" ColumnName="Scanned" />
-                <ScalarProperty Name="PalletNo" ColumnName="PalletNo" />
-                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
-                <ScalarProperty Name="QC1" ColumnName="QC1" />
-                <ScalarProperty Name="Packer" ColumnName="Packer" />
-                <ScalarProperty Name="Operator" ColumnName="Operator" />
-                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
-                <ScalarProperty Name="ReceiptedBy" ColumnName="ReceiptedBy" />
-                <ScalarProperty Name="Journal" ColumnName="Journal" />
-                <ScalarProperty Name="LabelReceipted" ColumnName="LabelReceipted" />
-                <ScalarProperty Name="ReprintCount" ColumnName="ReprintCount" />
-                <ScalarProperty Name="LabelPrinted" ColumnName="LabelPrinted" />
-                <ScalarProperty Name="DatePrinted" ColumnName="DatePrinted" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
-                <ScalarProperty Name="NetQty" ColumnName="NetQty" />
-                <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
-                <ScalarProperty Name="BatchSequence" ColumnName="BatchSequence" />
-                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
-                <ScalarProperty Name="Job" ColumnName="Job" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="mt_GetProductionDetailsByLot" FunctionName="WarehouseManagementModel.Store.mt_GetProductionDetailsByLot">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_GetProductionDetailsByLot_Result">
@@ -21490,6 +21491,81 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_InkSystemGetAllStockCodes" FunctionName="WarehouseManagementModel.Store.sp_InkSystemGetAllStockCodes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.sp_InkSystemGetAllStockCodes_Result">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StockUom" ColumnName="StockUom" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_InkSystemGetSysproBomStructure" FunctionName="WarehouseManagementModel.Store.sp_InkSystemGetSysproBomStructure">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.sp_InkSystemGetSysproBomStructure_Result">
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="ParentMaster" ColumnName="ParentMaster" />
+                <ScalarProperty Name="ParentPart" ColumnName="ParentPart" />
+                <ScalarProperty Name="Component" ColumnName="Component" />
+                <ScalarProperty Name="RowNum" ColumnName="RowNum" />
+                <ScalarProperty Name="QtyPer" ColumnName="QtyPer" />
+                <ScalarProperty Name="LayerPerc" ColumnName="LayerPerc" />
+                <ScalarProperty Name="ScrapPercentage" ColumnName="ScrapPercentage" />
+                <ScalarProperty Name="ScrapQuantity" ColumnName="ScrapQuantity" />
+                <ScalarProperty Name="Analox" ColumnName="Analox" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtMasterCardStockCodeWarehouses">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtMasterCardStockCodeWarehouse">
+              <MappingFragment StoreEntitySet="mtMasterCardStockCodeWarehouse">
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtProductionLabels">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionLabel">
+              <MappingFragment StoreEntitySet="mtProductionLabels">
+                <ScalarProperty Name="Meters" ColumnName="Meters" />
+                <ScalarProperty Name="LotIssued" ColumnName="LotIssued" />
+                <ScalarProperty Name="PrintOpReference" ColumnName="PrintOpReference" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="ScaleModelId" ColumnName="ScaleModelId" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="PreviousWorkCentre" ColumnName="PreviousWorkCentre" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Tare" ColumnName="Tare" />
+                <ScalarProperty Name="Core" ColumnName="Core" />
+                <ScalarProperty Name="ScanDate" ColumnName="ScanDate" />
+                <ScalarProperty Name="ScannedBy" ColumnName="ScannedBy" />
+                <ScalarProperty Name="Scanned" ColumnName="Scanned" />
+                <ScalarProperty Name="PalletNo" ColumnName="PalletNo" />
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="QC1" ColumnName="QC1" />
+                <ScalarProperty Name="Packer" ColumnName="Packer" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
+                <ScalarProperty Name="ReceiptedBy" ColumnName="ReceiptedBy" />
+                <ScalarProperty Name="Journal" ColumnName="Journal" />
+                <ScalarProperty Name="LabelReceipted" ColumnName="LabelReceipted" />
+                <ScalarProperty Name="ReprintCount" ColumnName="ReprintCount" />
+                <ScalarProperty Name="LabelPrinted" ColumnName="LabelPrinted" />
+                <ScalarProperty Name="DatePrinted" ColumnName="DatePrinted" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
+                <ScalarProperty Name="NetQty" ColumnName="NetQty" />
+                <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
+                <ScalarProperty Name="BatchSequence" ColumnName="BatchSequence" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
 
         </EntityContainerMapping>
       </Mapping>

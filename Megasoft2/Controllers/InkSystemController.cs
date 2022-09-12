@@ -397,5 +397,104 @@ namespace Megasoft2.Controllers
             }
         }
 
+        //2022/09/06-S.R
+        public ActionResult InkBomCopyComponent(string ParentPart)
+        {
+            InkSystemCopyComponent model = new InkSystemCopyComponent();
+            //model.KeyId = id;
+            model.ToStockCode = ParentPart;
+            model.CopyOption = "Delete";
+            ViewBag.RouteList = (from m in db.sp_mtInkSystemGetBomRoute() select new { Value = m.Route, Text = m.Route }).ToList();
+            return PartialView(model);
+        }
+
+        public JsonResult ModalStockCodeList()
+        {
+            var result = db.sp_InkSystemGetAllStockCodes("").ToList();
+            var Stock = (from a in result select new { MStockCode = a.StockCode, MStockDes = a.Description, MStockingUom = a.StockUom }).Distinct().ToList();
+            return Json(Stock, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult LoadInkBomComponents(string ParentPart, string Route)
+        {
+            try
+            {
+                var result = db.sp_InkSystemGetSysproBomStructure(ParentPart, Route).ToList().Where(a => a.LevelId != 0).ToList();
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveCopyComponent(string details)
+        {
+            try
+            {
+                List<InkComponets> myDeserializedObject = (List<InkComponets>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<InkComponets>));
+                foreach (var bom in myDeserializedObject)
+                {
+                    var ActionType = "";
+                    if (bom.Mode == "Change")
+                    {
+                        //check if bom structure 
+                        var checkbom = (from x in db.BomStructures
+                                        where x.ParentPart == bom.ParentPart && x.Component == bom.Component && x.Route == bom.Route
+                                        select x).FirstOrDefault();
+                        if (checkbom == null)
+                        {
+                            ActionType = "A";
+                        }
+                        else
+                        {
+                            ActionType = "C";
+                            var SequenceNum = (from a in db.BomStructures
+                                               where a.ParentPart == bom.ParentPart && a.Route == bom.Route && a.Component == bom.Component
+                                               select a.SequenceNum).FirstOrDefault();
+                            bom.SequenceNum = SequenceNum;
+                            var UpdateBomStructure = inks.PostBomStructure(bom, ActionType);
+                            ModelState.AddModelError("", UpdateBomStructure);
+                            ViewBag.Message = UpdateBomStructure;
+                        }
+
+                    }
+                    else if (bom.Mode == "Add")
+                    {
+                        var SequenceNum = (from a in db.BomStructures
+                                           where a.ParentPart == bom.ParentPart && a.Route == bom.Route
+                                           select a.SequenceNum).Max();
+                        double SequenceNumber = 0;
+                        SequenceNumber = Convert.ToDouble(SequenceNum) + 1;
+                        bom.SequenceNum = SequenceNumber.ToString().PadLeft(5, '0');
+                        ActionType = "A";
+                        var AddBomStructure = inks.PostBomStructure(bom, ActionType);
+                        ModelState.AddModelError("", AddBomStructure);
+                        ViewBag.Message = AddBomStructure;
+
+                    }
+                    else
+                    {
+                        ActionType = "D";
+                        var SequenceNum = (from a in db.BomStructures
+                                           where a.ParentPart == bom.ParentPart && a.Route == bom.Route && a.Component == bom.Component
+                                           select a.SequenceNum).FirstOrDefault();
+                        bom.SequenceNum = SequenceNum;
+                        var DeleteBomStructure = inks.PostBomStructure(bom, ActionType);
+                        ModelState.AddModelError("", DeleteBomStructure);
+                        ViewBag.Message = DeleteBomStructure;
+
+                    }
+                }
+                return Json(ViewBag.Message, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
