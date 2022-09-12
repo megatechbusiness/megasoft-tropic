@@ -607,6 +607,13 @@
 
 
             $('#btnPost').on('click', function (e) {
+                var comments = $('#Line_ReasonForReqn').val().trim();
+                if (!comments) {
+                    alert("Please enter a reason for the requisition");
+                    $('#Line_ReasonForReqn').focus();
+                    return false;
+                }
+                
                 var result = confirm("Are you sure you want to Post?");
                 if (result) {
                 }

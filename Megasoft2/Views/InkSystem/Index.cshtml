@@ -153,10 +153,10 @@
                                                     <div class="col-md-12 col-xs-12">
                                                         <a href="@Url.Action("BomOperation", "InkSystem")" class="modal-link btn btn-default btn-sm" id="btnAddOperation">
                                                             <i class="fa fa-plus fa-lg"></i>
-                                                        </a>
+                                                        </a>                                                        
                                                         @*<a href="@Url.Action("BomCopyOperation", "MasterCardStockCodeBomSetup")" class="modal-link btn btn-default btn-sm" id="btnCopyOperation">
-                                                                <i class="fa fa-copy fa-lg"></i>
-                                                            </a>*@
+                                                            <i class="fa fa-copy fa-lg"></i>
+                                                        </a>*@
                                                         <div class="table-responsive" style="width:650px">
                                                             <table class="table table-hover table-striped table-condensed table-responsive table-bordered " id="tblOper">
                                                                 <thead>
@@ -181,6 +181,9 @@
                                                         <div id="ComponentButtons">
                                                             <a href="@Url.Action("BomComponent", "InkSystem")" class="modal-link btn btn-default btn-sm" id="btnAddComponent">
                                                                 <i class="fa fa-plus fa-lg"></i>
+                                                            </a>
+                                                            <a href="@Url.Action("InkBomCopyComponent", "InkSystem")" class="modal-link btn btn-default btn-sm" id="btnCopyComponent">
+                                                            <i class="fa fa-copy fa-lg"></i>
                                                             </a>
                                                             @*<a href="@Url.Action("BomCopyComponent", "MasterCardMaintenance")" class="modal-link btn btn-default btn-sm" id="btnCopyComponent">
                                                                     <i class="fa fa-copy fa-lg"></i>
@@ -376,6 +379,11 @@
                                 url = "InkSystem/BomComponent?ParentPart=" + data.Component.replace(/ /g, '%20') + "&Mode=Add" + "&Route=" + $('#Route').val();
                                 $("#btnAddComponent").attr("href", url);
 
+                                //Change the Href Parameters based on the component selected for copy function
+                                var url = $('#btnCopyComponent').attr("href");
+                                url = "InkSystem/InkBomCopyComponent?ParentPart=" + data.Component;
+                                $("#btnCopyComponent").attr("href", encodeURI(url));
+
                                 //Change the Href Parameters based on the component selected.
                                 var url = $('#btnAddOperation').attr("href");
                                 url = "InkSystem/BomOperation?StockCode=" + data.Component.replace(/ /g, '%20') + "&Mode=Add"+"&Route="+$('#Route').val();
@@ -421,7 +429,7 @@
                     //else if (a.ActionType == "D") {
                     //    rowcolor = "#d43f3a";
                     //}
-                    table.append("<tr class='nr'><td class='nowrap'><input type='hidden' value='" + a.BomExists + "'></input><a href='InkSystem/BomComponent?ParentPart=" + encodeURIComponent(a.ParentPart) + "&Route=" + encodeURIComponent(a.Route) + "&Mode=Change&Component=" + encodeURIComponent(a.Component) + "&SequenceNum=" + a.SequenceNum + "' class='btn btn-default btn-xs modal-link' tabindex='-1'><span class='fa fa-briefcase' aria-hidden='true' title='Change Line' tabindex='-1'></span></a> <a href='InkSystem/BomComponent?ParentPart=" + encodeURIComponent(a.ParentPart) + "&Route=" + encodeURIComponent(a.Route) + "&Mode=Delete&Component=" + encodeURIComponent(a.Component) + "&SequenceNum=" + encodeURIComponent(a.SequenceNum) + "' class='btn btn-danger btn-xs modal-link' tabindex='-1'><span class='fa fa-trash' aria-hidden='true' title='Delete Component' tabindex='-1'></span></a> </td><td>"+ parseInt(a.SequenceNum)+"</td><td>" + a.Component + "<input type='hidden' value='" + a.Route + "' /><td>"+a.StockDescription+"</td></td><td>" + a.LayerPerc + "</td><td>" + a.ScrapPerc + "</td><td>"+a.Description+"</td></tr>");
+                    table.append("<tr class='nr'><td class='nowrap'><input type='hidden' value='" + a.BomExists + "'></input><a href='InkSystem/BomComponent?ParentPart=" + encodeURIComponent(a.ParentPart) + "&Route=" + encodeURIComponent(a.Route) + "&Mode=Change&Component=" + encodeURIComponent(a.Component) + "&SequenceNum=" + a.SequenceNum + "' class='btn btn-default btn-xs modal-link' tabindex='-1'><span class='fa fa-briefcase' aria-hidden='true' title='Change Line' tabindex='-1'></span></a> <a href='InkSystem/BomComponent?ParentPart=" + encodeURIComponent(a.ParentPart) + "&Route=" + encodeURIComponent(a.Route) + "&Mode=Delete&Component=" + encodeURIComponent(a.Component) + "&SequenceNum=" + encodeURIComponent(a.SequenceNum) + "' class='btn btn-danger btn-xs modal-link' tabindex='-1'><span class='fa fa-trash' aria-hidden='true' title='Delete Component' tabindex='-1'></span></a> </td><td>" + a.ParentPart + "</td><td>" + a.Component + "<input type='hidden' value='" + a.Route + "' /><td>" + a.StockDescription + "</td></td><td>" + a.LayerPerc + "</td><td>" + a.ScrapPerc + "</td><td>" + a.Description + "</td></tr>");
 
                 });
               }

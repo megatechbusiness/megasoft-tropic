@@ -126,6 +126,8 @@ namespace Megasoft2
         public byte[] TimeStamp { get; set; }
         public string NestScrap { get; set; }
         public string WipBranch { get; set; }
+        public string SiteCode { get; set; }
+        public string ShiftCode { get; set; }
     
         public virtual BomCostCentre BomCostCentre { get; set; }
         public virtual SalProductClassDe SalProductClassDe { get; set; }

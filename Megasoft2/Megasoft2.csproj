@@ -537,6 +537,7 @@
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\InkBomOperation.cs" />
     <Compile Include="Models\InkComponets.cs" />
+    <Compile Include="Models\InkSystemCopyComponent.cs" />
     <Compile Include="Models\InvoiceMatchingList.cs" />
     <Compile Include="Models\LabelPrintPoLine.cs" />
     <Compile Include="Models\LabelPrintPurchaseOrder.cs" />
@@ -801,7 +802,7 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentre.cs">
-      <DependentUpon>Megasoft.tt</DependentUpon>
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentreProductClass.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
@@ -1803,6 +1804,12 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetWmsOrdersForRelease_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_InkSystemGetAllStockCodes_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_InkSystemGetSysproBomStructure_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_InvMasterList_Result.cs">
@@ -2932,6 +2939,7 @@
     <Content Include="Views\EmailSettings\Index.cshtml" />
     <Content Include="Views\EmailSettings\Create.cshtml" />
     <Content Include="Views\InkJobCardReport\Index.cshtml" />
+    <Content Include="Views\InkSystem\InkBomCopyComponent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

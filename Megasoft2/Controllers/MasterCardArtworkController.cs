@@ -44,8 +44,26 @@ namespace Megasoft2.Controllers
                         file.SaveAs(FilePath);
 
                         var update = (from a in db.mtMasterCardHeaders where a.StockCode == model.StockCode && a.Customer == model.Customer select a).FirstOrDefault();
+                        //check if file exists in path: 2022/08/18-SR
+                        var check = (from a in db.mtMasterCardArtworks where a.StockCode == model.StockCode && a.Customer == model.Customer select a).FirstOrDefault();
+                        if (check !=null)
+                        {
+                            FileInfo delFile = new FileInfo(check.FilePath);
+                            delFile.Delete();
+                            check.FilePath = FilePath;
+                            check.Username = User.Identity.Name;
+                            check.DateSaved = DateTime.Now;
+
+                            db.Entry(check).State = System.Data.EntityState.Modified;
+                            db.SaveChanges();
 
 
+
+                            ModelState.AddModelError("", "File uploaded successfully.");
+
+                            return RedirectToAction("Index", "MasterCardMultimediaViewer", new { Customer = model.Customer });
+
+                        }
                         if (file.ContentType != "application/pdf")
                         {
                             ModelState.AddModelError("", " File needs to be in Pdf format.");
