@@ -262,7 +262,7 @@ namespace Megasoft2.BusinessLogic
                         Document.Append("<Version />");
                         Document.Append("<Release />");
                         Document.Append("<eSignature />");
-                        Document.Append("<IncludeinKitIssue>Y</IncludeinKitIssue>");
+                        Document.Append("<IncludeinKitIssue>N</IncludeinKitIssue>");
                         Document.Append("<QuantityToReserve />");
                         Document.Append("<ReserveKitPhantComponents>Y</ReserveKitPhantComponents>");
                         //Document.Append("<ComponentType>");

@@ -26,7 +26,7 @@ namespace Megasoft2.BusinessLogic
             Document.Append("Sample XML for the BOM Structure Setup Business Object");
             Document.Append("-->");
             Document.Append("<SetupBomStructure xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"BOMSSTDOC.XSD\">");
-                       
+
             Document.Append("<Item>");
             Document.Append("<Key>");
             Document.Append("<ParentPart><![CDATA[" + co.ParentPart + "]]></ParentPart>");
@@ -53,7 +53,7 @@ namespace Megasoft2.BusinessLogic
             Document.Append("<SoPrintFlag>Y</SoPrintFlag>");
             Document.Append("<InclScrapFlag>Y</InclScrapFlag>");
             Document.Append("<ReasonForChange />");
-            Document.Append("<InclKitIssues>Y</InclKitIssues>");
+            Document.Append("<InclKitIssues>N</InclKitIssues>");
             Document.Append("<CreateSubJob>N</CreateSubJob>");
             Document.Append("<WetWeightPercent />");
             Document.Append("<IncludeBatch />");
@@ -65,7 +65,7 @@ namespace Megasoft2.BusinessLogic
             {
                 Document.Append("<ComponentType>" + co.Analox + "</ComponentType>");
             }
-            
+
             Document.Append("<RefDesignator />");
             Document.Append("<AssemblyPlace />");
             Document.Append("<ItemNumber />");
@@ -76,7 +76,7 @@ namespace Megasoft2.BusinessLogic
             //Document.Append("<eSignature>{36303032-3330-3031-3038-323434363433}</eSignature>");
             Document.Append("<OvrEccSpecIss />");
             Document.Append("</Item>");
-            
+
 
             Document.Append("</SetupBomStructure>");
 
@@ -96,17 +96,17 @@ namespace Megasoft2.BusinessLogic
             Document.Append("-->");
             Document.Append("<SetupBomRouting xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"BOMSRODOC.XSD\">");
 
-           
+
             var ETCalcMethod = db.sp_mtInkSystemGetWorkCentreDetails(op.WorkCentre).ToList().FirstOrDefault().EtCalcMeth;
-            
+
             Document.Append("<Item>");
             Document.Append("<Key>");
             Document.Append("<StockCode><![CDATA[" + op.StockCode + "]]></StockCode>");
             Document.Append("<Version />");
             Document.Append("<Release />");
             Document.Append("<Route><![CDATA[" + op.Route + "]]></Route>");
-            
-            if (ActionType!="A")
+
+            if (ActionType != "A")
             {
                 Document.Append("<Operation>" + op.Operation + "</Operation>");
             }
@@ -127,7 +127,7 @@ namespace Megasoft2.BusinessLogic
 
             Document.Append("<Milestone>N</Milestone>");
             Document.Append("</Item>");
-            
+
             Document.Append("</SetupBomRouting>");
 
 
@@ -180,7 +180,7 @@ namespace Megasoft2.BusinessLogic
             Document.Append("<Version></Version>");
             Document.Append("<Release></Release>");
             Document.Append("<Component></Component>");
-            Document.Append("<Route>"+narr.Route+"</Route>");
+            Document.Append("<Route>" + narr.Route + "</Route>");
 
             Document.Append("<Operation>" + narr.Operation + "</Operation>");
             Document.Append("<SequenceNum></SequenceNum>");
@@ -213,7 +213,7 @@ namespace Megasoft2.BusinessLogic
             Parameter.Append("</SetupBomNarration>");
             return Parameter.ToString();
         }
-        
+
         public string BuildBomStructureParameter()
         {
             //Declaration
@@ -249,7 +249,7 @@ namespace Megasoft2.BusinessLogic
                 string XmlOut;
                 if (ActionType == "A")
                 {
-                    XmlOut = sys.SysproSetupAdd(Guid, BuildBomOpsParameter(), BuildXmlOperations(bom,ActionType), "BOMSRO");
+                    XmlOut = sys.SysproSetupAdd(Guid, BuildBomOpsParameter(), BuildXmlOperations(bom, ActionType), "BOMSRO");
                 }
                 else if (ActionType == "C")
                 {
@@ -259,17 +259,17 @@ namespace Megasoft2.BusinessLogic
                 {
                     XmlOut = sys.SysproSetupDelete(Guid, BuildBomOpsParameter(), BuildXmlOperations(bom, ActionType), "BOMSRO");
                 }
-              
+
                 string ErrorMessage = sys.GetXmlErrors(XmlOut);
                 if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
                     return "Failed to create BOM Operations : " + ErrorMessage;
                 }
-                if (ActionType=="A")
+                if (ActionType == "A")
                 {
                     PostMessage = "Bom Operation Added Successfully!";
                 }
-                else if(ActionType=="C")
+                else if (ActionType == "C")
                 {
                     PostMessage = "Bom Operation Changes Posted Successfully!";
                 }
@@ -312,7 +312,7 @@ namespace Megasoft2.BusinessLogic
             {
                 XmlOut = sys.SysproSetupDelete(Guid, BuildBomNarrationParameter(), BuildBomNarration(bom), "BOMSSN");
             }
-           string ErrorMessage = sys.GetXmlErrors(XmlOut);
+            string ErrorMessage = sys.GetXmlErrors(XmlOut);
             if (!string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 return "Failed to add BOM Narrations : " + ErrorMessage;
