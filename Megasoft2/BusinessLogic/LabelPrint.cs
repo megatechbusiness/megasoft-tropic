@@ -1198,6 +1198,10 @@ namespace Megasoft2.BusinessLogic
                     Template = Template.Replace("##SCALEID##", detail.FirstOrDefault().ScaleModelId.ToString());
                     Template = Template.Replace("##JOB##", detail.FirstOrDefault().Job.ToString().TrimStart('0'));
                     Template = Template.Replace("##BARCODE##", JobDetails.StockCode + "|" + "|" + net.ToString() + "|0|" + item.BatchId.Trim() + "||" + item.Job.Trim().TrimStart(new Char[] { '0' }).Trim()); //"B100||550|0|518-1||518"
+                    if (Department == "SLIT")
+                    {
+                        Template = Template.Replace("##METERS##", item.Meters.ToString());
+                    }
                     if (Department == "PRINT")
                     {
                         Template = Template.Replace("##EXTRUSIONWC##", "E" + detail.FirstOrDefault().PreviousWorkCentre);
