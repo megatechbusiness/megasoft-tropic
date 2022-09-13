@@ -100,7 +100,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="3" class="text-right">
-                                                <button type="button" class="btn btn-success btn-sm" id="btnSaveComponent">
+                                                <button type="button" class="btn btn-success btn-sm" id="btnSaveCopyComponent">
                                                     <i class="fa fa-save"> Save</i>
                                                 </button>
                                             </td>
@@ -235,22 +235,22 @@
         });
 
 
-        $('#btnSaveComponent').on('click', function (e) {
+        $('#btnSaveCopyComponent').on('click', function (e) {
             var mydata = [];
             $("#tblCopyComp > tbody > tr ").each(function (i, el) {
                 var $tds = $(this).find('td');
 
                 var selected = $tds.eq(0).find("input[type='checkbox']").is(":checked");
-                var ParentPart = $tds.eq(2).text();
-                if ($tds.eq(1).text() == "1") {
-                    ParentPart = $('#ToStockCode').val();
-                }
+                //var ParentPart = $tds.eq(2).text();
+                //if ($tds.eq(1).text() == "1") {
+                //    ParentPart = $('#ToStockCode').val();
+                //}
 
                 if (selected == true) {
                     var myObject = new Object();
                     myObject.Id = $('#KeyId').val();
                     myObject.LevelId = $tds.eq(1).text();
-                    myObject.ParentPart = ParentPart;
+                    myObject.ParentPart = $tds.eq(2).text();
                     myObject.Component = $tds.eq(3).text();
                     myObject.QtyPer = $tds.eq(4).text();
                     myObject.LayerPerc = $tds.eq(5).text();
