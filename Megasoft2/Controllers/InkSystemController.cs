@@ -437,35 +437,18 @@ namespace Megasoft2.Controllers
                 List<InkComponets> myDeserializedObject = (List<InkComponets>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<InkComponets>));
                 foreach (var bom in myDeserializedObject)
                 {
-                    var ActionType = "";
-                    if (bom.Mode == "Change")
-                    {
-                        //check if bom structure 
-                        var checkbom = (from x in db.BomStructures
-                                        where x.ParentPart == bom.ParentPart && x.Component == bom.Component && x.Route == bom.Route
-                                        select x).FirstOrDefault();
-                        if (checkbom == null)
-                        {
-                            ActionType = "A";
-                        }
-                        else
-                        {
-                            ActionType = "C";
-                            var SequenceNum = (from a in db.BomStructures
-                                               where a.ParentPart == bom.ParentPart && a.Route == bom.Route && a.Component == bom.Component
-                                               select a.SequenceNum).FirstOrDefault();
-                            bom.SequenceNum = SequenceNum;
-                            var UpdateBomStructure = inks.PostBomStructure(bom, ActionType);
-                            ModelState.AddModelError("", UpdateBomStructure);
-                            ViewBag.Message = UpdateBomStructure;
-                        }
+                    bom.ParentPart = bom.ParentPart.Split('-')[0];
+                    var ActionType = "A";
 
-                    }
-                    else if (bom.Mode == "Add")
+                    //check if bom structure 
+                    var checkbom = (from x in db.BomStructures
+                                    where x.ParentPart == bom.ParentPart && x.Component == bom.Component && x.Route == bom.Route
+                                    select x).FirstOrDefault();
+                    if (checkbom == null)
                     {
                         var SequenceNum = (from a in db.BomStructures
-                                           where a.ParentPart == bom.ParentPart && a.Route == bom.Route
-                                           select a.SequenceNum).Max();
+                                            where a.ParentPart == bom.ParentPart && a.Route == bom.Route
+                                            select a.SequenceNum).Max();
                         double SequenceNumber = 0;
                         SequenceNumber = Convert.ToDouble(SequenceNum) + 1;
                         bom.SequenceNum = SequenceNumber.ToString().PadLeft(5, '0');
@@ -473,19 +456,6 @@ namespace Megasoft2.Controllers
                         var AddBomStructure = inks.PostBomStructure(bom, ActionType);
                         ModelState.AddModelError("", AddBomStructure);
                         ViewBag.Message = AddBomStructure;
-
-                    }
-                    else
-                    {
-                        ActionType = "D";
-                        var SequenceNum = (from a in db.BomStructures
-                                           where a.ParentPart == bom.ParentPart && a.Route == bom.Route && a.Component == bom.Component
-                                           select a.SequenceNum).FirstOrDefault();
-                        bom.SequenceNum = SequenceNum;
-                        var DeleteBomStructure = inks.PostBomStructure(bom, ActionType);
-                        ModelState.AddModelError("", DeleteBomStructure);
-                        ViewBag.Message = DeleteBomStructure;
-
                     }
                 }
                 return Json(ViewBag.Message, JsonRequestBehavior.AllowGet);
