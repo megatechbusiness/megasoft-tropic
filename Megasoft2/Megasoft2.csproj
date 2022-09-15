@@ -802,7 +802,7 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentre.cs">
-      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+      <DependentUpon>Megasoft.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentreProductClass.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>

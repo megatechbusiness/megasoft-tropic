@@ -28,5 +28,7 @@ namespace Megasoft2
         public string Approved { get; set; }
         public Nullable<System.DateTime> DateApproved { get; set; }
         public string ProcessApiRequest { get; set; }
+        public Nullable<int> NoRemindersSent { get; set; }
+        public Nullable<System.DateTime> ReqEmailDateLastReminderSent { get; set; }
     }
 }

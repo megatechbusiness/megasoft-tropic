@@ -48,5 +48,7 @@ namespace Megasoft2
         public string TransportReqUserCode { get; set; }
         public string TransportSystemRouteToUser { get; set; }
         public string TransportSystemNotificationEmail { get; set; }
+        public Nullable<int> ReqEmailMaxReminders { get; set; }
+        public Nullable<bool> ReqEmailReminders { get; set; }
     }
 }

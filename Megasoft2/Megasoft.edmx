@@ -59,6 +59,8 @@
           <Property Name="TransportReqUserCode" Type="varchar" MaxLength="20" />
           <Property Name="TransportSystemRouteToUser" Type="varchar" MaxLength="4" />
           <Property Name="TransportSystemNotificationEmail" Type="varchar" MaxLength="500" />
+          <Property Name="ReqEmailMaxReminders" Type="int" />
+          <Property Name="ReqEmailReminders" Type="bit" />
         </EntityType>
         <EntityType Name="mtEmailSettings">
           <Key>
@@ -140,6 +142,8 @@
           <Property Name="Approved" Type="varchar" MaxLength="1" />
           <Property Name="DateApproved" Type="datetime" />
           <Property Name="ProcessApiRequest" Type="varchar" MaxLength="1" />
+          <Property Name="NoRemindersSent" Type="int" />
+          <Property Name="ReqEmailDateLastReminderSent" Type="datetime" />
         </EntityType>
         <EntityType Name="mtReqUserCostCentreSpendLimit">
           <Key>
@@ -722,8 +726,8 @@
           <EntitySet Name="mtLabelPrinters" EntityType="MegasoftModel.mtLabelPrinter" />
           <EntitySet Name="mtReqRoutingTrackings" EntityType="MegasoftModel.mtReqRoutingTracking" />
           <EntitySet Name="mtReqUserCostCentreSpendLimits" EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" />
-          <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
           <EntitySet Name="mtEmailSettings" EntityType="MegasoftModel.mtEmailSetting" />
+          <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
         </EntityContainer>
         <ComplexType Name="sp_GetRoleAccess_Result">
           <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
@@ -1178,6 +1182,8 @@
           <Property Name="Approved" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DateApproved" Type="DateTime" Precision="3" />
           <Property Name="ProcessApiRequest" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NoRemindersSent" Type="Int32" />
+          <Property Name="ReqEmailDateLastReminderSent" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="mtReqUserCostCentreSpendLimit">
           <Key>
@@ -1193,6 +1199,17 @@
           <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="LocalCurrency" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Category" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtEmailSetting">
+          <Key>
+            <PropertyRef Name="EmailProgram" />
+          </Key>
+          <Property Name="EmailProgram" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpHost" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPort" Type="Int32" />
+          <Property Name="FromAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FromAddressPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmailEnableSsl" Type="Boolean" />
         </EntityType>
         <EntityType Name="mtDistributionSetup">
           <Key>
@@ -1232,17 +1249,8 @@
           <Property Name="TransportReqUserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TransportSystemRouteToUser" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="TransportSystemNotificationEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="mtEmailSetting">
-          <Key>
-            <PropertyRef Name="EmailProgram" />
-          </Key>
-          <Property Name="EmailProgram" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpHost" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpPort" Type="Int32" />
-          <Property Name="FromAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FromAddressPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="EmailEnableSsl" Type="Boolean" />
+          <Property Name="ReqEmailMaxReminders" Type="Int32" />
+          <Property Name="ReqEmailReminders" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1712,6 +1720,8 @@
           <EntitySetMapping Name="mtReqRoutingTrackings">
             <EntityTypeMapping TypeName="MegasoftModel.mtReqRoutingTracking">
               <MappingFragment StoreEntitySet="mtReqRoutingTracking">
+                <ScalarProperty Name="ReqEmailDateLastReminderSent" ColumnName="ReqEmailDateLastReminderSent" />
+                <ScalarProperty Name="NoRemindersSent" ColumnName="NoRemindersSent" />
                 <ScalarProperty Name="ProcessApiRequest" ColumnName="ProcessApiRequest" />
                 <ScalarProperty Name="DateApproved" ColumnName="DateApproved" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
@@ -1742,9 +1752,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="mtEmailSettings">
+            <EntityTypeMapping TypeName="MegasoftModel.mtEmailSetting">
+              <MappingFragment StoreEntitySet="mtEmailSettings">
+                <ScalarProperty Name="EmailEnableSsl" ColumnName="EmailEnableSsl" />
+                <ScalarProperty Name="FromAddressPassword" ColumnName="FromAddressPassword" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
+                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
+                <ScalarProperty Name="EmailProgram" ColumnName="EmailProgram" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="mtDistributionSetups">
             <EntityTypeMapping TypeName="MegasoftModel.mtDistributionSetup">
               <MappingFragment StoreEntitySet="mtDistributionSetup">
+                <ScalarProperty Name="ReqEmailReminders" ColumnName="ReqEmailReminders" />
+                <ScalarProperty Name="ReqEmailMaxReminders" ColumnName="ReqEmailMaxReminders" />
                 <ScalarProperty Name="TransportSystemNotificationEmail" ColumnName="TransportSystemNotificationEmail" />
                 <ScalarProperty Name="TransportSystemRouteToUser" ColumnName="TransportSystemRouteToUser" />
                 <ScalarProperty Name="TransportReqUserCode" ColumnName="TransportReqUserCode" />
@@ -1779,18 +1803,6 @@
                 <ScalarProperty Name="SalesContractPricingImportFilePath" ColumnName="SalesContractPricingImportFilePath" />
                 <ScalarProperty Name="SalesContractPricingServiceActive" ColumnName="SalesContractPricingServiceActive" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="mtEmailSettings">
-            <EntityTypeMapping TypeName="MegasoftModel.mtEmailSetting">
-              <MappingFragment StoreEntitySet="mtEmailSettings">
-                <ScalarProperty Name="EmailEnableSsl" ColumnName="EmailEnableSsl" />
-                <ScalarProperty Name="FromAddressPassword" ColumnName="FromAddressPassword" />
-                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
-                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
-                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
-                <ScalarProperty Name="EmailProgram" ColumnName="EmailProgram" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
