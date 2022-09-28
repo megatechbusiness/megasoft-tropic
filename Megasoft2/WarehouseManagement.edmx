@@ -8016,6 +8016,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="GlCode" Nullable="true" MaxLength="88" />
           <Property Type="String" Name="ProductClass" Nullable="true" MaxLength="73" />
           <Property Type="String" Name="ExpenseGl" Nullable="false" MaxLength="88" />
+          <Property Type="String" Name="Supplier" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="sp_GetPurchaseOrderLinesForLabel_Result">
           <Property Type="String" Name="PurchaseOrder" Nullable="false" MaxLength="20" />
@@ -15212,6 +15214,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="GlCode" ColumnName="GlCode" />
                 <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
                 <ScalarProperty Name="ExpenseGl" ColumnName="ExpenseGl" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
