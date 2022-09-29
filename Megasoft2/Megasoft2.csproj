@@ -362,6 +362,7 @@
     <Compile Include="Controllers\mtRequisitionUserCostCentreSpendLimitController.cs" />
     <Compile Include="Controllers\mtRequisitionUserRoutingController.cs" />
     <Compile Include="Controllers\NonStockedInvMasterController.cs" />
+    <Compile Include="Controllers\PackLabelPrintController.cs" />
     <Compile Include="Controllers\PeriodControlController.cs" />
     <Compile Include="Controllers\ProductClassController.cs" />
     <Compile Include="Controllers\ProductionReceiptController.cs" />
@@ -768,6 +769,9 @@
     <Compile Include="mtProductionLabelsDeleted.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mtProductionPackLabelPrint.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="mtProductionPalletWeight.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
@@ -802,7 +806,7 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentre.cs">
-      <DependentUpon>Megasoft.tt</DependentUpon>
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtReqCostCentreProductClass.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
@@ -1060,6 +1064,9 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_ProductionMaterialIssueLots_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_ProductionPackLabelDetailsByJob_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_SupplierDeliveryLogReport_Result.cs">
@@ -2092,6 +2099,7 @@
     <Compile Include="ViewModel\MaterCardMaintenanceViewModel.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\NonStockedMaster.cs" />
+    <Compile Include="ViewModel\PackLabelPrintViewModel.cs" />
     <Compile Include="ViewModel\PalletAuditViewModel.cs" />
     <Compile Include="ViewModel\PeriodControlViewModel.cs" />
     <Compile Include="ViewModel\PhysicalAdjustment.cs" />
@@ -2940,6 +2948,7 @@
     <Content Include="Views\EmailSettings\Create.cshtml" />
     <Content Include="Views\InkJobCardReport\Index.cshtml" />
     <Content Include="Views\InkSystem\InkBomCopyComponent.cshtml" />
+    <Content Include="Views\PackLabelPrint\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

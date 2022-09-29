@@ -150,6 +150,7 @@ namespace Megasoft2
         public DbSet<AdmFormData> AdmFormDatas { get; set; }
         public DbSet<mtMasterCardStockCodeWarehouse> mtMasterCardStockCodeWarehouses { get; set; }
         public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
+        public DbSet<mtProductionPackLabelPrint> mtProductionPackLabelPrints { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -3255,6 +3256,15 @@ namespace Megasoft2
                 new ObjectParameter("Route", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_InkSystemGetSysproBomStructure_Result>("sp_InkSystemGetSysproBomStructure", parentPartParameter, routeParameter);
+        }
+    
+        public virtual ObjectResult<mt_ProductionPackLabelDetailsByJob_Result> mt_ProductionPackLabelDetailsByJob(string job)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_ProductionPackLabelDetailsByJob_Result>("mt_ProductionPackLabelDetailsByJob", jobParameter);
         }
     }
 }
