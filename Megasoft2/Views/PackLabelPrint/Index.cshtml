@@ -52,6 +52,7 @@
                             <div class="editor-field input-sm col-xs-8">
                                 @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-lg", @readonly = "readonly", @id = "Job" })
                                 @Html.ValidationMessageFor(model => model.Job)
+                                @Html.HiddenFor(model => model.BatchId, new {@id = "BatchId"})
                             </div>
                         </div>
 
@@ -249,6 +250,7 @@
                     $('#BatchNo').val(data.BatchNo);
                     $('#PackSize').val(data.PackSize);
                     $('#NoOfLabels').val(data.NoOfLabels);
+                    $('#BatchId').val(BatchID);
 
                 }
                 else {
