@@ -20,16 +20,14 @@ namespace Megasoft2
         public string ExtruderNo { get; set; }
         public string ExtruderRoll { get; set; }
         public string PrintRoll { get; set; }
-        public string PrintToWorkcentre { get; set; }
         public string OpCode { get; set; }
         public string BatchNo { get; set; }
-        public string BaggingWorkcentre { get; set; }
-        public string OpNo { get; set; }
         public Nullable<decimal> PackSize { get; set; }
         public Nullable<int> NoOfLabels { get; set; }
         public string Printer { get; set; }
         public string Packer { get; set; }
         public Nullable<System.DateTime> TrnDate { get; set; }
         public string Username { get; set; }
+        public string PrinterOp { get; set; }
     }
 }

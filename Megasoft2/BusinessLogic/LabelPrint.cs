@@ -1586,25 +1586,28 @@ namespace Megasoft2.BusinessLogic
                 //^ FO30,70 ^ FDCustomer: << CUSTOMER >> ^FS
                 //^ FO30,110 ^ FDProduct: << JOBDESC >> ^FS
                 //^ FO30,150 ^ FDStockCode: << STOCKCODE >> ^FS
-                //^ FO440,150 ^ FDREF.: << REFERENCE >> ^FS
-                //^ FO30,190 ^ FDBAG SPECS: << BAGSPECS >> ^FS
-                //^ FO30,230 ^ FDBATCH NO.: << JOBNO >> ^FS
-                //^ FO30,270 ^ FDQTY: << BAGPERPACK >> ^FS
-                //^ FO30,310 ^ FDOPT.: << OPNO >> ^FS
-                //^ FO110,335 ^ GB80,1,3 ^ FS
-                //^ FO260,310 ^ FDQC 1: << QC1 >> ^FS
-                //^ FO340,335 ^ GB80,1,3 ^ FS
-                //^ FO440,310 ^ FDPACKER: << PACKER >> ^FS
-                //^ FO570,335 ^ GB80,1,3 ^ FS
-                //^ FO30,350 ^ FDSUPERVISOR: << SUPERVISOR >> ^FS
-                //^ FO230,375 ^ GB80,1,3 ^ FS
-                //^ FO440,350 ^ FDWC:<< WORKCENTRE >> ^FS
-                //^ FO500,375 ^ GB80,1,3 ^ FS
-                //^ FO30,430 ^ FDExt No.: << EXTNO >> ^FS
-                //^ FO440,430 ^ FDExt Roll: << EXTROLL >> ^FS
-                //^ FO30,470 ^ FDPrint No.: << PRINTNO >> ^FS
-                //^ FO440,470 ^ FDPrint Roll: << PRINTROLL >> ^FS
-                //^ FO30,510 ^ FDBATCH: << BATCHID >> ^FS
+                //^ FO30,190 ^ FDREF.: << REFERENCE >> ^FS
+                //^ FO30,230 ^ FDBAG SPECS: << BAGSPECS >> ^FS
+                //^ FO30,270 ^ FDBATCH NO.: << JOBNO >> ^FS
+                //^ FO30,310 ^ FDQTY: << BAGPERPACK >> ^FS
+                //^ FO30,350 ^ FDOPT.: << OPNO >> ^FS
+                //^ FO110,375 ^ GB80,1,3 ^ FS
+                //^ FO260,350 ^ FDQC 1: << QC1 >> ^FS
+                //^ FO340,375 ^ GB80,1,3 ^ FS
+                //^ FO440,350 ^ FDPACKER: << PACKER >> ^FS
+                //^ FO570,375 ^ GB80,1,3 ^ FS
+                //^ FO30,390 ^ FDSUPERVISOR: << SUPERVISOR >> ^FS
+                //^ FO230,415 ^ GB80,1,3 ^ FS
+                //^ FO440,390 ^ FDWC:<< WORKCENTRE >> ^FS
+                //^ FO500,415 ^ GB80,1,3 ^ FS
+                //^ FO30,470 ^ FDExt No.: << EXTNO >> ^FS
+                //^ FO440,470 ^ FDExt Roll: << EXTROLL >> ^FS
+                //^ FO30,510 ^ FDPrinter OP: << PRINTEROP >> ^FS
+                //^ FO440,510 ^ FDPrint Roll: << PRINTROLL >> ^FS
+                //^ FO30,550 ^ FDBATCH: << BATCHID >> ^FS
+
+
+
                 //^ PQ << NOOFLABELS >>
                 //^XZ
                 string Job = packDetails[0].Job;
@@ -1688,7 +1691,7 @@ namespace Megasoft2.BusinessLogic
                         Template = Template.Replace("<<BATCHID>>", BatchID);
                         Template = Template.Replace("<<EXTNO>>", packDetails[0].ExtruderNo);
                         Template = Template.Replace("<<EXTROLL>>", packDetails[0].ExtruderRoll);
-                        //Template = Template.Replace("<<PRINTNO>>", packDetails[0].prin);
+                        Template = Template.Replace("<<PRINTROLL>>", packDetails[0].PrintRoll);
                         Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
                         Template = Template.Replace("<<DATE>>", DateTime.Now.Date.ToString("yyyy-MM-dd"));
                         Template = Template.Replace("<<JOBNO>>", detail[i].Job.TrimStart(new Char[] { '0' }).Trim());
@@ -1698,7 +1701,7 @@ namespace Megasoft2.BusinessLogic
                         Template = Template.Replace("<<PALLET>>", detail[i].BatchId);
                         Template = Template.Replace("<<QUANTITY>>", detail[i].NetQty.ToString());
                         Template = Template.Replace("<<REEL>>", ReelNo.ToString());
-                        Template = Template.Replace("<<PRINTOP>>", PrintOpRef.ToString());
+                        Template = Template.Replace("<<PRINTEROP>>", packDetails[0].PrinterOp);
                         Template = Template.Replace("<<BARCODE>>", JobDetail.StockCode.Trim() + "|" + "|" + detail[i].NetQty.ToString() + "|0|" + detail[i].BatchId + "||" + detail[i].Job.TrimStart(new Char[] { '0' }).Trim()); //"B100||550|0|518-1||518"
                         Template = Template.Replace("<<NOOFLABELS>>", packDetails[0].NoOfLabels.ToString());
                         Template = Template.Replace("<<WORKCENTRE>>", detail.FirstOrDefault().WorkCentre);

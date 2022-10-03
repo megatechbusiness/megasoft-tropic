@@ -27,6 +27,7 @@ namespace Megasoft2.ViewModel
         public DateTime TrnDate { get; set; }
         public int PackNo { get; set; }
         public string ErrorMessage { get; set; }
+        public string PrinterOp { get; set; }
 
     }
 }

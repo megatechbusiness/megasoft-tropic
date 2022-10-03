@@ -68,18 +68,16 @@ namespace Megasoft2.Controllers
                     obj.PackNo = i ;
                     obj.ExtruderNo = model.ExtruderNo;
                     obj.ExtruderRoll = model.ExtRoll;
-                    obj.PrintRoll = model.PrintToWorkCentre;
+                    obj.PrintRoll = model.PrintRoll;
                     obj.OpCode = model.OpCode;
                     obj.BatchNo = model.BatchNo;
-                    obj.BaggingWorkcentre = model.BaggingWorkCentre;
-                    obj.OpNo = model.OpNo;
                     obj.PackSize = model.PackSize;
                     obj.NoOfLabels = model.NoOfLabels;
                     obj.Printer = model.Printer;
                     obj.Packer = model.Packer;
                     obj.Username = Username;
                     obj.TrnDate = DateTime.Now;
-                    obj.PrintToWorkcentre = model.PrintToWorkCentre;
+                    obj.PrinterOp = model.PrinterOp;
 
                     wdb.Entry(obj).State = System.Data.EntityState.Added;
                     wdb.SaveChanges();
