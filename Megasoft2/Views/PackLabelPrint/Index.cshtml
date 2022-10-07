@@ -94,7 +94,7 @@
                                 Batch No.
                             </div>
                             <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.BatchNo, new { @class = "form-control input-lg", @id = "BatchNo" })
+                                @Html.TextBoxFor(model => model.BatchNo, new { @class = "form-control input-lg", @id = "BatchNo" , @readonly = "readonly"})
                                 @Html.ValidationMessageFor(model => model.BatchNo)
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                     <div class="form-group">
                         <div class="col-xs-12" style="margin-bottom:15px;">
                             <div class="control-label col-xs-4" style="text-align:left;">
-                                Print Roll No.
+                                Printer Roll No.
                             </div>
                             <div class="editor-field input-sm col-xs-8">
                                 @Html.TextBoxFor(model => model.PrintRoll, new { @class = "form-control input-lg" })
