@@ -185,7 +185,7 @@
                 @Html.TextBoxFor(model => model.ExtruderNo, new { @class = "form-control input-sm", @onkeydown = "EnterKeyFilter();" })
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" id="PrinterNo">
             <div class="form-group col-sm-4">
                 Printer No
             </div>
@@ -196,7 +196,7 @@
     </div>
 
     <div class="form-horizontal row spacer-xs">
-        <div class="col-sm-4">
+        <div class="col-sm-4" id="PrinterOp">
             <div class="form-group col-sm-4">
                 Printer Operator
             </div>
@@ -608,7 +608,22 @@
                 else {
                     $('#txtMeters').show();
                 }
+                if (department == "EXTR") {
+                    $('#PrinterOp').hide();
+                    $('#PrinterNo').hide();
+                } else {
+                    $('#PrinterOp').show();
+                    $('#PrinterNo').show();
+                }
             })
+                let department = $('#Department').val();
+                if (department == "EXTR") {
+                    $('#PrinterOp').hide();
+                    $('#PrinterNo').hide();
+                } else {
+                    $('#PrinterOp').show();
+                    $('#PrinterNo').show();
+                }
         });
         function GetWeight() {
             if ($('#Pallet').val() == "") {
