@@ -103,7 +103,7 @@
                 Department
             </div>
             <div class="col-sm-7">
-                @Html.DropDownListFor(n => n.Department, new SelectList(ViewBag.DepartmentList, "Value", "Text"),"", new { @class = "form-control input-sm", style = "width:100%" })
+                @Html.DropDownListFor(n => n.Department, new SelectList(ViewBag.DepartmentList, "Value", "Text"), new { @class = "form-control input-sm", style = "width:100%" })
                 @Html.HiddenFor(m => m.Department)
             </div>
         </div>
