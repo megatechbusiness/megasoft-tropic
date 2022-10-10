@@ -437,22 +437,22 @@ namespace Megasoft2.Controllers
                 List<InkComponets> myDeserializedObject = (List<InkComponets>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<InkComponets>));
                 foreach (var bom in myDeserializedObject)
                 {
-                    bom.ParentPart = bom.ParentPart.Split('-')[0];
                     var ActionType = "A";
 
                     //check if bom structure 
                     var checkbom = (from x in db.BomStructures
-                                    where x.ParentPart == bom.ParentPart && x.Component == bom.Component && x.Route == bom.Route
+                                    where x.ParentPart == bom.ToStockCode && x.Component == bom.Component && x.Route == bom.Route
                                     select x).FirstOrDefault();
                     if (checkbom == null)
                     {
                         var SequenceNum = (from a in db.BomStructures
-                                            where a.ParentPart == bom.ParentPart && a.Route == bom.Route
-                                            select a.SequenceNum).Max();
+                                           where a.ParentPart == bom.ToStockCode && a.Route == bom.Route
+                                           select a.SequenceNum).Max();
                         double SequenceNumber = 0;
                         SequenceNumber = Convert.ToDouble(SequenceNum) + 1;
                         bom.SequenceNum = SequenceNumber.ToString().PadLeft(5, '0');
                         ActionType = "A";
+                        bom.ParentPart = bom.ToStockCode;
                         var AddBomStructure = inks.PostBomStructure(bom, ActionType);
                         ModelState.AddModelError("", AddBomStructure);
                         ViewBag.Message = AddBomStructure;
