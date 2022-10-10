@@ -2302,6 +2302,28 @@
           <Property Name="LotIssued" Type="varchar" MaxLength="40" />
           <Property Name="Meters" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="mtProductionPackLabelPrint">
+          <Key>
+            <PropertyRef Name="Job" />
+            <PropertyRef Name="BatchId" />
+            <PropertyRef Name="PackNo" />
+          </Key>
+          <Property Name="Job" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="BatchId" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="PackNo" Type="int" Nullable="false" />
+          <Property Name="ExtruderNo" Type="varchar" MaxLength="30" />
+          <Property Name="ExtruderRoll" Type="varchar" MaxLength="30" />
+          <Property Name="PrintRoll" Type="varchar" MaxLength="30" />
+          <Property Name="OpCode" Type="varchar" MaxLength="30" />
+          <Property Name="BatchNo" Type="varchar" MaxLength="30" />
+          <Property Name="PackSize" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="int" />
+          <Property Name="Printer" Type="varchar" MaxLength="50" />
+          <Property Name="Packer" Type="varchar" MaxLength="50" />
+          <Property Name="TrnDate" Type="datetime" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="PrinterOp" Type="varchar" MaxLength="30" />
+        </EntityType>
         <EntityType Name="mtProductionPalletWeight">
           <Key>
             <PropertyRef Name="Job" />
@@ -4610,6 +4632,9 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="Lot" Type="varchar" Mode="In" />
         </Function>
         <Function Name="mt_ProductionMaterialIssueLots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mt_ProductionPackLabelDetailsByJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="mt_ProductionRestoreDeletedBatch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Job" Type="varchar" Mode="In" />
           <Parameter Name="BatchId" Type="varchar" Mode="In" />
@@ -5549,6 +5574,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtPorDeliveryImport" EntityType="Self.mtPorDeliveryImport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtProductionLabels" EntityType="Self.mtProductionLabels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtProductionLabelsDeleted" EntityType="Self.mtProductionLabelsDeleted" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtProductionPackLabelPrint" EntityType="Self.mtProductionPackLabelPrint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtProductionPalletWeight" EntityType="Self.mtProductionPalletWeight" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtPurchaseOrderLabels" EntityType="Self.mtPurchaseOrderLabels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtPurchaseOrderNonMerchCost" EntityType="Self.mtPurchaseOrderNonMerchCost" Schema="dbo" store:Type="Tables" />
@@ -7862,6 +7888,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="mtMasterCardStockCodeWarehouses" EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" />
           <EntitySet Name="mtProductionLabels" EntityType="WarehouseManagementModel.mtProductionLabel" />
+          <FunctionImport Name="mt_ProductionPackLabelDetailsByJob" ReturnType="Collection(WarehouseManagementModel.mt_ProductionPackLabelDetailsByJob_Result)">
+          <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtProductionPackLabelPrints" EntityType="WarehouseManagementModel.mtProductionPackLabelPrint" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -8016,6 +8046,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="GlCode" Nullable="true" MaxLength="88" />
           <Property Type="String" Name="ProductClass" Nullable="true" MaxLength="73" />
           <Property Type="String" Name="ExpenseGl" Nullable="false" MaxLength="88" />
+          <Property Type="String" Name="Supplier" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="sp_GetPurchaseOrderLinesForLabel_Result">
           <Property Type="String" Name="PurchaseOrder" Nullable="false" MaxLength="20" />
@@ -14604,6 +14636,53 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="Meters" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <ComplexType Name="mt_ProductionPackLabelDetailsByJob_Result">
+          <Property Type="Decimal" Name="BagPerBale" Nullable="true" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="BagPerPack" Nullable="true" Precision="10" Scale="0" />
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Customer" Nullable="true" MaxLength="66" />
+          <Property Type="String" Name="JobDescription" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="StockDescription" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Reference" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="BagSpecs" Nullable="true" MaxLength="126" />
+          <Property Type="String" Name="BailQty" Nullable="true" MaxLength="306" />
+          <Property Type="String" Name="Operator" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Packer" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="QC1" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="QC2" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Supervisor" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="QtyToMake" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="QtyManufactured" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="QtyOutstanding" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="String" Name="BatchQty" Nullable="true" MaxLength="306" />
+          <Property Type="Decimal" Name="ProductionQty" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="NoOfLabels" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="String" Name="WorkCentre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="StockUom" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <EntityType Name="mtProductionPackLabelPrint">
+          <Key>
+            <PropertyRef Name="Job" />
+            <PropertyRef Name="BatchId" />
+            <PropertyRef Name="PackNo" />
+          </Key>
+          <Property Name="Job" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BatchId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="PackNo" Type="Int32" Nullable="false" />
+          <Property Name="ExtruderNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ExtruderRoll" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PrintRoll" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="OpCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BatchNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PackSize" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NoOfLabels" Type="Int32" />
+          <Property Name="Printer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Packer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TrnDate" Type="DateTime" Precision="3" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PrinterOp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -15212,6 +15291,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="GlCode" ColumnName="GlCode" />
                 <ScalarProperty Name="ProductClass" ColumnName="ProductClass" />
                 <ScalarProperty Name="ExpenseGl" ColumnName="ExpenseGl" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -21561,6 +21642,56 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="NetQty" ColumnName="NetQty" />
                 <ScalarProperty Name="GrossQty" ColumnName="GrossQty" />
                 <ScalarProperty Name="BatchSequence" ColumnName="BatchSequence" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_ProductionPackLabelDetailsByJob" FunctionName="WarehouseManagementModel.Store.mt_ProductionPackLabelDetailsByJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_ProductionPackLabelDetailsByJob_Result">
+                <ScalarProperty Name="BagPerBale" ColumnName="BagPerBale" />
+                <ScalarProperty Name="BagPerPack" ColumnName="BagPerPack" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="StockDescription" ColumnName="StockDescription" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="BagSpecs" ColumnName="BagSpecs" />
+                <ScalarProperty Name="BailQty" ColumnName="BailQty" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Packer" ColumnName="Packer" />
+                <ScalarProperty Name="QC1" ColumnName="QC1" />
+                <ScalarProperty Name="QC2" ColumnName="QC2" />
+                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
+                <ScalarProperty Name="QtyToMake" ColumnName="QtyToMake" />
+                <ScalarProperty Name="QtyManufactured" ColumnName="QtyManufactured" />
+                <ScalarProperty Name="QtyOutstanding" ColumnName="QtyOutstanding" />
+                <ScalarProperty Name="BatchQty" ColumnName="BatchQty" />
+                <ScalarProperty Name="ProductionQty" ColumnName="ProductionQty" />
+                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
+                <ScalarProperty Name="WorkCentre" ColumnName="WorkCentre" />
+                <ScalarProperty Name="StockUom" ColumnName="StockUom" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="mtProductionPackLabelPrints">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionPackLabelPrint">
+              <MappingFragment StoreEntitySet="mtProductionPackLabelPrint">
+                <ScalarProperty Name="PrinterOp" ColumnName="PrinterOp" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
+                <ScalarProperty Name="Packer" ColumnName="Packer" />
+                <ScalarProperty Name="Printer" ColumnName="Printer" />
+                <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
+                <ScalarProperty Name="PackSize" ColumnName="PackSize" />
+                <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
+                <ScalarProperty Name="OpCode" ColumnName="OpCode" />
+                <ScalarProperty Name="PrintRoll" ColumnName="PrintRoll" />
+                <ScalarProperty Name="ExtruderRoll" ColumnName="ExtruderRoll" />
+                <ScalarProperty Name="ExtruderNo" ColumnName="ExtruderNo" />
+                <ScalarProperty Name="PackNo" ColumnName="PackNo" />
                 <ScalarProperty Name="BatchId" ColumnName="BatchId" />
                 <ScalarProperty Name="Job" ColumnName="Job" />
               </MappingFragment>

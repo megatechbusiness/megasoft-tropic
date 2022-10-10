@@ -1,0 +1,296 @@
+﻿@model Megasoft2.ViewModel.PackLabelPrintViewModel
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <div id="errordiv">
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <h4 class="text-center" style="font-weight:bold;">Pack Label Print</h4>
+                </div>
+                <hr />
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12 ">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Barcode:
+                            </div>
+                            <div class="editor-field input-sm col-xs-4">
+                                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-lg", @id = "txtBarcode" })
+                                @Html.ValidationMessageFor(model => model.Job)
+                            </div>
+                            <div class=" col-xs-2" style="text-align:left;">
+                                <button type="button" class="btn btn-success btn-lg" id="btnLoad" onclick="ValidateBarcode()">
+                                    <i class="fa fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="col-xs-2">
+                                <button type="submit" id="btnPrintPackLabel" class="btn btn-default btn-lg" name="action:Print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12 " style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Job No.
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-lg", @readonly = "readonly", @id = "Job" })
+                                @Html.ValidationMessageFor(model => model.Job)
+                                @Html.HiddenFor(model => model.BatchId, new { @id = "BatchId" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Pack Size
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.PackSize, new { @class = "form-control input-lg", @id = "PackSize", @readonly = "@readonly" })
+                                @Html.ValidationMessageFor(model => model.PackSize)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                No. of Labels
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.NoOfLabels, new { @class = "form-control input-lg", @id = "NoOfLabels", @readonly = "@readonly" })
+                                @Html.ValidationMessageFor(model => model.NoOfLabels)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Batch No.
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.BatchNo, new { @class = "form-control input-lg", @id = "BatchNo" , @readonly = "readonly"})
+                                @Html.ValidationMessageFor(model => model.BatchNo)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Extruder No.
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.ExtruderNo, new { @class = "form-control input-lg" })
+                                @Html.ValidationMessageFor(model => model.ExtruderNo)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Extruder Roll
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.ExtRoll, new { @class = "form-control input-lg" })
+                                @Html.ValidationMessageFor(model => model.ExtRoll)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Printer Roll No.
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.PrintRoll, new { @class = "form-control input-lg" })
+                                @Html.ValidationMessageFor(model => model.PrintRoll)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-horizontal row spacer-xs">
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-bottom:15px;">
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Print To Workcentre
+                    </div>
+                    <div class="editor-field input-sm col-xs-8">
+                        @Html.TextBoxFor(model => model.PrintToWorkCentre, new { @class = "form-control input-lg" })
+                        @Html.ValidationMessageFor(model => model.PrintToWorkCentre)
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                OP Code
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.OpCode, new { @class = "form-control input-lg" })
+                                @Html.ValidationMessageFor(model => model.OpCode)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @*<div class="form-horizontal row spacer-xs">
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-bottom:15px;">
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        Bagging Workcentre
+                    </div>
+                    <div class="editor-field input-sm col-xs-8">
+                        @Html.TextBoxFor(model => model.BaggingWorkCentre, new { @class = "form-control input-lg" })
+                        @Html.ValidationMessageFor(model => model.BaggingWorkCentre)
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+                @*<div class="form-horizontal row spacer-xs">
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-bottom:15px;">
+                    <div class="control-label col-xs-4" style="text-align:left;">
+                        OP No.
+                    </div>
+                    <div class="editor-field input-sm col-xs-8">
+                        @Html.TextBoxFor(model => model.OpNo, new { @class = "form-control input-lg" })
+                        @Html.ValidationMessageFor(model => model.OpNo)
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Packer
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.Packer, new { @class = "form-control input-lg" })
+                                @Html.ValidationMessageFor(model => model.Packer)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Printer OP
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.TextBoxFor(model => model.PrinterOp, new { @class = "form-control input-lg" })
+                                @Html.ValidationMessageFor(model => model.PrinterOp)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal row spacer-xs">
+                    <div class="form-group">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <div class="control-label col-xs-4" style="text-align:left;">
+                                Printer
+                            </div>
+                            <div class="editor-field input-sm col-xs-8">
+                                @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-lg" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+
+<script type="text/javascript">
+    function ValidateBarcode() {
+        $('#errordiv').text("");
+        $('#errordiv').removeClass("alert alert-danger");
+        let barcode = $('#txtBarcode').val();
+        var BatchID = "";
+        if (barcode.indexOf("|") > 0) {
+            var Values = barcode.split("|");
+            BatchID = Values[4];
+
+            $.getJSON('@Url.Action("LoadDetails", "PackLabelPrint")' + '?BatchId=' + BatchID, function (data) {
+
+                if (data.ErrorMessage == "") {
+                    $('#Job').val(data.Job);
+                    $('#BatchNo').val(data.BatchNo);
+                    $('#PackSize').val(data.PackSize);
+                    $('#NoOfLabels').val(data.NoOfLabels);
+                    $('#BatchId').val(BatchID);
+
+                }
+                else {
+
+                    $('#errordiv').text(data.ErrorMessage);
+                    $('#errordiv').addClass("alert alert-danger");
+                }
+            })
+        }
+        else {
+            //alert("Invalid barcode");
+            $('#errordiv').text("Invalid Barcode");
+            $('#errordiv').addClass("alert alert-danger");
+            return false;
+        }
+    }
+
+
+    $(document).ready(function () {
+        //change page title text
+        $('#megasoftTitle').text(' Megasoft - Pack Label Print');
+        var span = document.getElementById("megasoftTitle");
+        span.style.fontSize = "x-small";
+
+
+    });
+</script>

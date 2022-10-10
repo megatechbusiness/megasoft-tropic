@@ -194,6 +194,7 @@
         <EntityTypeShape EntityType="WarehouseManagementModel.AdmFormData" Width="1.5" PointX="16.375" PointY="15.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtMasterCardStockCodeWarehouse" Width="1.5" PointX="9.375" PointY="14.75" />
         <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionLabel" Width="1.5" PointX="10.375" PointY="44.75" />
+        <EntityTypeShape EntityType="WarehouseManagementModel.mtProductionPackLabelPrint" Width="1.5" PointX="25.375" PointY="3.75" />
 
       </Diagram>
     </edmx:Diagrams>

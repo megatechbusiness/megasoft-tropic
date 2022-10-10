@@ -59,6 +59,22 @@
                     </div>
                     <div class="form-horizontal row">
                         <div class="form-group">
+                            <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                Supplier 
+                            </div>
+                            <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                @Html.TextBoxFor(model => model.ReelLines[0].Supplier, new { @class = "form-control input-sm" ,@readonly = "readonly"})
+                            </div>
+                            <div class="control-label col-md-1 col-xs-12" style="text-align:left;">
+                                Supplier Name
+                            </div>
+                            <div class="col-md-5 col-xs-12" style="text-align:left;">
+                                @Html.TextBoxFor(model => model.ReelLines[0].SupplierName, new { @class = "form-control input-sm", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal row">
+                        <div class="form-group">
                             <div class="col-md-6 col-xs-6">
                                 Select All
                                 <input type="checkbox" id="SelectAll" name="selectAllLines" />
@@ -113,11 +129,11 @@
                                             Quantity
                                         </th>
                                         @*<th>
-                                                Del. Note
-                                            </th>
-                                            <th>
-                                                Del. Date
-                                            </th>*@
+                                Del. Note
+                            </th>
+                            <th>
+                                Del. Date
+                            </th>*@
                                         <th>Non-Merch. Cost</th>
                                         <th>Line Total(Excl. Vat)</th>
                                         <th>Vat</th>
@@ -188,13 +204,13 @@
                                                             @Html.HiddenFor(model => Model.ReelLines[i].ReelQty)
                                                         </td>
                                                         @*<td>
-                                                                @Model.ReelLines[i].DeliveryNote
-                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryNote)
-                                                            </td>
-                                                            <td>
-                                                                @Model.ReelLines[i].DeliveryDate
-                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryDate)
-                                                            </td>*@
+                                                @Model.ReelLines[i].DeliveryNote
+                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryNote)
+                                            </td>
+                                            <td>
+                                                @Model.ReelLines[i].DeliveryDate
+                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryDate)
+                                            </td>*@
                                                         <td>
                                                             @if (Model.ReelLines[i].HasCostMultiplier == "Y")
                                                             {
@@ -277,13 +293,13 @@
                                                             @Html.HiddenFor(model => Model.ReelLines[i].ReelQty)
                                                         </td>
                                                         @*<td>
-                                                                @Model.ReelLines[i].DeliveryNote
-                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryNote)
-                                                            </td>
-                                                            <td>
-                                                                @Model.ReelLines[i].DeliveryDate
-                                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryDate)
-                                                            </td>*@
+                                                @Model.ReelLines[i].DeliveryNote
+                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryNote)
+                                            </td>
+                                            <td>
+                                                @Model.ReelLines[i].DeliveryDate
+                                                @Html.HiddenFor(model => Model.ReelLines[i].DeliveryDate)
+                                            </td>*@
                                                         <td>
                                                             @if (Model.ReelLines[i].HasCostMultiplier == "Y")
                                                             {

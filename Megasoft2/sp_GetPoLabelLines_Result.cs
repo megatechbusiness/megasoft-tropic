@@ -39,5 +39,7 @@ namespace Megasoft2
         public string GlCode { get; set; }
         public string ProductClass { get; set; }
         public string ExpenseGl { get; set; }
+        public string Supplier { get; set; }
+        public string SupplierName { get; set; }
     }
 }
