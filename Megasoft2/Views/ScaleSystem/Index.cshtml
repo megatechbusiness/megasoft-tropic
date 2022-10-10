@@ -542,6 +542,14 @@
                         GetOperator(Department);
                     });
 
+                    if (Department == "EXTR") {
+                        $('#PrinterOp').hide();
+                        $('#PrinterNo').hide();
+                    } else {
+                        $('#PrinterOp').show();
+                        $('#PrinterNo').show();
+                    }
+
             $('#Job').focus();
 
             $('#btnPost').on('click', function (e) {
@@ -616,14 +624,7 @@
                     $('#PrinterNo').show();
                 }
             })
-                let department = $('#Department').val();
-                if (department == "EXTR") {
-                    $('#PrinterOp').hide();
-                    $('#PrinterNo').hide();
-                } else {
-                    $('#PrinterOp').show();
-                    $('#PrinterNo').show();
-                }
+                
         });
         function GetWeight() {
             if ($('#Pallet').val() == "") {
