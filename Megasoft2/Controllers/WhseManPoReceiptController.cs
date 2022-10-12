@@ -37,6 +37,8 @@ namespace Megasoft2.Controllers
                 model.PurchaseOrder = Po;
                 model.ReelLines = result;
                 model.DeliveryDate = DateTime.Now;
+                model.Supplier = (from a in result select a.Supplier).FirstOrDefault();
+                model.SupplierName = (from a in result select a.SupplierName).FirstOrDefault();
                 return View("Index", model);
             }
             return View();
@@ -66,6 +68,8 @@ namespace Megasoft2.Controllers
                 model.ReelLines = result;
                 model.DeliveryDate = DateTime.Now;
                 model.DeliveryNote = result.FirstOrDefault().DeliveryNote;
+                model.Supplier = (from a in result select a.Supplier).FirstOrDefault();
+                model.SupplierName = (from a in result select a.SupplierName).FirstOrDefault();
                 return View("Index", model);
             }
             catch (Exception ex)

@@ -175,7 +175,6 @@
                 }
             }
 
-
         </div>
         <div class="col-sm-4">
             <div class=" col-sm-4">
@@ -186,7 +185,7 @@
             </div>
         </div>
         <div class="col-sm-4" id="PrinterNo">
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4" >
                 Printer No
             </div>
             <div class="col-sm-7">
@@ -194,7 +193,6 @@
             </div>
         </div>
     </div>
-
     <div class="form-horizontal row spacer-xs">
         <div class="col-sm-4" id="PrinterOp">
             <div class="form-group col-sm-4">
@@ -217,11 +215,11 @@
     <div class="form-horizontal row spacer-xs ">
         <div class="form-group row col-sm-12">
             @*<div class="col-xs-2">
-            <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
-                @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
-            </div>
-        </div>*@
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
+                        @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control tb input-sm", @readonly = "readonly" })
+                    </div>
+                </div>*@
             <div class="col-xs-2">
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon"></span>PALLET</span>
@@ -476,22 +474,43 @@
             }
         }
 
-                $(document).ready(function () {
-                    $('#PrintOperator').change(function () {
-                        var str = $(this).val();
-                        str = str.substring(str.indexOf("-") + 2);
-                        $('#Operator').val(str);
-                        //$('#Price').val($(this).val());
-                    });
+$(document).ready(function () {
+    $('#PrintOperator').change(function () {
+        var str = $(this).val();
+        str = str.substring(str.indexOf("-") + 2);
+        $('#Operator').val(str);
+        //$('#Price').val($(this).val());
+    });
+
+    let Department = $('#Department').val();
+    if (Department == "EXTR") {
+        $('#PrinterOp').hide();
+        $('#PrinterNo').hide();
+    } else {
+        $('#PrinterOp').show();
+        $('#PrinterNo').show();
+    }
+
+    if (Department != "SLIT") {
+        $('#txtMeters').hide();
+    }
+    else {
+        $('#txtMeters').show();
+    }
                 });
-        function CheckBarcodeScanRequired() {
-            if ($('#Department').val() != "SCALE") {
+
+
+ function CheckBarcodeScanRequired() {
+             if ($('#Department').val() != "SCALE" && $('#Department').val() != "SLIT") {
                 GetWeight();
             }
-            else if ($('#Barcode').val() == "") {
-                GetWeight();
+
+            else if (($('#Department').val() == "SCALE" || $('#Department').val() == "SLIT") && $('#Barcode').val() == " ") {
+                 GetWeight();
             }
+
             else {
+
                 if ($('#Pallet').val() == "") {
                     alert("No Pallet number please load Job.");
                     return false
@@ -509,47 +528,11 @@
                 }
                 $('#BarcodeModal').modal('show');
             }
-                }
-
-                function GetOperator(Department) {
-                    var ddlist = $('#PrintOperator');
-                    ddlist.empty();
-                    $.getJSON('ScaleSystem/GetOperator?Department=' + Department + '&Job=' + $('#Job').val(), function (data) {
-
-                        if (typeof data == 'object') {
-                            $.each(data, function (i, item) {
-                                ddlist.append($('<option></option>').attr('value', item.Value ).text( item.Text));
-
-                            });
-
-                        }
-                    });
-
-
-                }
+        }
 
 
 
-                $(document).ready(function () {
-
-                    var e = document.getElementById("Department");
-                    var Department = e.options[e.selectedIndex].value;
-                    GetOperator(Department);
-
-                    $("#Department").change(function () {
-                        var e = document.getElementById("Department");
-                        var Department = e.options[e.selectedIndex].value;
-                        GetOperator(Department);
-                    });
-
-                    if (Department == "EXTR") {
-                        $('#PrinterOp').hide();
-                        $('#PrinterNo').hide();
-                    } else {
-                        $('#PrinterOp').show();
-                        $('#PrinterNo').show();
-                    }
-
+        $(document).ready(function () {
             $('#Job').focus();
 
             $('#btnPost').on('click', function (e) {
@@ -607,24 +590,8 @@
                     GetWeight();
                 }
             });
-            $('#txtMeters').hide();
-            $('#Department').change(function () {
-                let department = $('#Department').val();
-                if (department != "SLIT") {
-                    $('#txtMeters').hide();
-                }
-                else {
-                    $('#txtMeters').show();
-                }
-                if (department == "EXTR") {
-                    $('#PrinterOp').hide();
-                    $('#PrinterNo').hide();
-                } else {
-                    $('#PrinterOp').show();
-                    $('#PrinterNo').show();
-                }
-            })
-                
+
+
         });
         function GetWeight() {
             if ($('#Pallet').val() == "") {
@@ -642,10 +609,7 @@
                     return false;
                 }
             }
-            if ($('#Core').val() == "" || $('#Core').val() == 0) {
-                alert("Please enter a core weight");
-                return false;
-            }
+
             var myString = document.getElementById('Scale').value;
             if (myString === "1034")
             {
@@ -710,6 +674,23 @@
 
         }
 
-    }
+        }
+
+        $('#Department').change(function () {
+            let department = $('#Department').val();
+            if (department != "SLIT") {
+                $('#txtMeters').hide();
+            }
+            else {
+                $('#txtMeters').show();
+            }
+            if (department == "EXTR") {
+                $('#PrinterOp').hide();
+                $('#PrinterNo').hide();
+            } else {
+                $('#PrinterOp').show();
+                $('#PrinterNo').show();
+            }
+        })
     </script>
 }

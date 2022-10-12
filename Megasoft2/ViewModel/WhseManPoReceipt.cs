@@ -11,5 +11,7 @@ namespace Megasoft2.ViewModel
         public List<sp_GetPoLabelLines_Result> ReelLines { get; set; }
         public string DeliveryNote { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public string Supplier { get; set; }
+        public string SupplierName { get; set; }
     }
 }
