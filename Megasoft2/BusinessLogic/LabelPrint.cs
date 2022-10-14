@@ -268,6 +268,7 @@ namespace Megasoft2.BusinessLogic
         {
             try
             {
+                bool hasLines = false;
                 detail = (from a in detail where a.PostFlag == true select a).OrderBy(a => a.Line).ToList();
                 if (detail.Count > 0)
                 {
@@ -299,6 +300,7 @@ namespace Megasoft2.BusinessLogic
                         {
                             if (DirectExpese.DirectExpenseIssue == "Y")
                             {
+                                hasLines = true;
                                 Document.Append("<Item>");
                                 Document.Append("<Journal/>");
                                 Document.Append("<Warehouse><![CDATA[" + PoLine.MWarehouse + "]]></Warehouse>");
@@ -376,11 +378,11 @@ namespace Megasoft2.BusinessLogic
                             }
                         }
 
-                        else
-                        {
-                            return "Stock Not Flagged As Direct Expense";
-                        }
+                    }
 
+                    if (hasLines == false)
+                    {
+                        return "";
                     }
 
 
@@ -1570,7 +1572,7 @@ namespace Megasoft2.BusinessLogic
         {
             try
             {
-                //Template used - 2022/09/30
+                //Template used - 2022/10/13
                 //^XA
                 //^ PON
                 //^ FX
@@ -1592,24 +1594,24 @@ namespace Megasoft2.BusinessLogic
                 //^ FO30,310 ^ FDQTY: << BAGPERPACK >> ^FS
                 //^ FO30,350 ^ FDOPT.: << OPNO >> ^FS
                 //^ FO110,375 ^ GB80,1,3 ^ FS
-                //^ FO260,350 ^ FDQC 1: << QC1 >> ^FS
-                //^ FO340,375 ^ GB80,1,3 ^ FS
-                //^ FO440,350 ^ FDPACKER: << PACKER >> ^FS
-                //^ FO570,375 ^ GB80,1,3 ^ FS
-                //^ FO30,390 ^ FDSUPERVISOR: << SUPERVISOR >> ^FS
-                //^ FO230,415 ^ GB80,1,3 ^ FS
-                //^ FO440,390 ^ FDWC:<< WORKCENTRE >> ^FS
-                //^ FO500,415 ^ GB80,1,3 ^ FS
-                //^ FO30,470 ^ FDExt No.: << EXTNO >> ^FS
-                //^ FO440,470 ^ FDExt Roll: << EXTROLL >> ^FS
-                //^ FO30,510 ^ FDPrinter OP: << PRINTEROP >> ^FS
-                //^ FO440,510 ^ FDPrint Roll: << PRINTROLL >> ^FS
-                //^ FO30,550 ^ FDBATCH: << BATCHID >> ^FS
+                //^ FO30,390 ^ FDQC 1: << QC1 >> ^FS
+                //^ FO110,415 ^ GB80,1,3 ^ FS
+                //^ FO440,390 ^ FDPACKER: << PACKER >> ^FS
+                //^ FO570,415 ^ GB80,1,3 ^ FS
+                //^ FO30,430 ^ FDSUPERVISOR: << SUPERVISOR >> ^FS
+                //^ FO230,455 ^ GB80,1,3 ^ FS
+                //^ FO440,430 ^ FDWC:<< WORKCENTRE >> ^FS
+                //^ FO500,455 ^ GB80,1,3 ^ FS
+                //^ FO30,510 ^ FDExt No.: << EXTNO >> ^FS
+                //^ FO440,510 ^ FDExt Roll: << EXTROLL >> ^FS
+                //^ FO30,550 ^ FDPrinter OP: << PRINTEROP >> ^FS
+                //^ FO440,550 ^ FDPrint Roll: << PRINTROLL >> ^FS
+                //^ FO30,600 ^ FDBATCH: << BATCHID >> ^FS
 
 
 
-                //^ PQ << NOOFLABELS >>
-                //^XZ
+                //^ PQ1
+                //^ XZ
                 string Job = packDetails[0].Job;
                 string BatchId = packDetails[0].BatchId;
 
@@ -1687,8 +1689,8 @@ namespace Megasoft2.BusinessLogic
                         //    Template = Template.Replace("<<HEADER>>", "TROPIC PLASTIC (PTY) LTD");
                         //    Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
                         //}
-                        var BatchID = packDetails[0].BatchId + "-" +  packDetails[0].PackNo.ToString().PadLeft(2,'0') ;
-                        Template = Template.Replace("<<BATCHID>>", BatchID);
+                        //var BatchID = packDetails[0].BatchId + "-" +  packDetails[0].PackNo.ToString().PadLeft(2,'0') ;//delete
+                        Template = Template.Replace("<<BATCHID>>", packDetails[0].BatchPackNo);
                         Template = Template.Replace("<<EXTNO>>", packDetails[0].ExtruderNo);
                         Template = Template.Replace("<<EXTROLL>>", packDetails[0].ExtruderRoll);
                         Template = Template.Replace("<<PRINTROLL>>", packDetails[0].PrintRoll);

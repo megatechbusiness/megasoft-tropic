@@ -13,21 +13,21 @@ namespace Megasoft2.ViewModel
         public string ExtruderNo { get; set; }
         public string ExtRoll { get; set; }
         public string PrintRoll { get; set; }
-        public string PrintToWorkCentre { get; set; }
         public string OpCode { get; set; }
         public string Printer { get; set; }
         public string BatchId { get; set; }
-        public string BaggingWorkCentre { get; set; }
         public string OpNo { get; set; }
         public decimal? PackSize { get; set; }
         public string Packer { get; set; }
         public string Barcode { get; set; }
-        public string BatchNo { get; set; }
+        public string BatchPackNo { get; set; }
         public string Username { get; set; }
         public DateTime TrnDate { get; set; }
         public int PackNo { get; set; }
         public string ErrorMessage { get; set; }
         public string PrinterOp { get; set; }
+        public List<mtProductionPackLabelPrint> LabelDetails { get; set; }
+        public List<string> BatchIdList { get; set; }
 
     }
 }
