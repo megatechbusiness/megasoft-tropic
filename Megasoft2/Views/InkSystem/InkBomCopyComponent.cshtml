@@ -13,7 +13,7 @@
 
 
 
-        <div class="panel-body" >
+        <div class="panel-body">
             <div class="col-md-12">
                 <div class="form-horizontal row">
                     <div class="row">
@@ -23,11 +23,11 @@
                                 <table class="table table-bordered table-condensed table-responsive table-striped">
                                     <thead>
                                         @*<tr>
-                                            <th>Key Id</th>
-                                            <th>
-                                                @Html.TextBoxFor(model => model.KeyId, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                            </th>
-                                        </tr>*@
+                                                <th>Key Id</th>
+                                                <th>
+                                                    @Html.TextBoxFor(model => model.KeyId, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                                </th>
+                                            </tr>*@
                                         <tr>
                                             <th>To StockCode</th>
                                             <th>
@@ -59,31 +59,31 @@
                                         </tr>
 
                                         @*<tr>
-                                            <th>Copy Options</th>
-                                            <th>
-                                                <label class="form-control input-sm">
-                                                    @Html.RadioButtonFor(model => model.CopyOption, "Delete") Delete existing components before copy
-                                                </label>
-                                            </th>
-                                        </tr>
+                                                <th>Copy Options</th>
+                                                <th>
+                                                    <label class="form-control input-sm">
+                                                        @Html.RadioButtonFor(model => model.CopyOption, "Delete") Delete existing components before copy
+                                                    </label>
+                                                </th>
+                                            </tr>
 
-                                        <tr>
-                                            <th></th>
-                                            <th>
-                                                <label class="form-control input-sm">
-                                                    @Html.RadioButtonFor(model => model.CopyOption, "Add") Insert only new components
-                                                </label>
-                                            </th>
-                                        </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <label class="form-control input-sm">
+                                                        @Html.RadioButtonFor(model => model.CopyOption, "Add") Insert only new components
+                                                    </label>
+                                                </th>
+                                            </tr>
 
-                                        <tr>
-                                            <th></th>
-                                            <th>
-                                                <label class="form-control input-sm">
-                                                    @Html.RadioButtonFor(model => model.CopyOption, "Change") Update existing components
-                                                </label>
-                                            </th>
-                                        </tr>*@
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <label class="form-control input-sm">
+                                                        @Html.RadioButtonFor(model => model.CopyOption, "Change") Update existing components
+                                                    </label>
+                                                </th>
+                                            </tr>*@
                                         <tr>
                                             <td colspan="2">
                                                 <div id="CopyBom">
@@ -165,7 +165,7 @@
 
     function SearchStock() {
 
-        var table = $("#tblStock tbody");                
+        var table = $("#tblStock tbody");
 
         $.ajax({
             url: "@Url.Action("ModalStockCodeList", "InkSystem")",
@@ -226,7 +226,7 @@
                     });
                     table += "</tbody></table></div>";
 
-                    $('#CopyBom').html(table);                    
+                    $('#CopyBom').html(table);
 
 
                 }
@@ -268,7 +268,7 @@
 
             var myString = JSON.stringify({ details: JSON.stringify(mydata) });
             var exportdata = myString;
-
+            showprogressbar();
             $.ajax({
                 type: "POST",
                 url: "InkSystem/SaveCopyComponent",
@@ -282,14 +282,17 @@
             function OnSuccess(response) {
                 alert(response);
                 GetTree();
-                LoadComponents($("#Header_StockCode").val());
+                LoadComponents($("#StockCode").val());
                 if (response == "Saved Successfully!") {
                     $('#btnCloseCopyComp').click();
                 }
+                $('#btnCloseCopyComp').trigger('click');
+                hideprogressbar();
             }
 
             function OnErrorCall(response) {
                 alert(response);
+                hideprogressbar();
             }
         });
 
