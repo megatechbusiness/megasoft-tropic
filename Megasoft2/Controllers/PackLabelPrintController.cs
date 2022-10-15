@@ -13,6 +13,7 @@ namespace Megasoft2.Controllers
         MegasoftEntities mdb = new MegasoftEntities();
         WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
         private LabelPrint objPrint = new LabelPrint();
+        [CustomAuthorize(Activity: "PackLabelPrint")]
         public ActionResult Index()
         {
             HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
@@ -24,33 +25,11 @@ namespace Megasoft2.Controllers
             return View("Index", model);
         }
 
+        [CustomAuthorize(Activity: "PackLabelPrint")]
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "LoadBatchID")]
         public ActionResult LoadBatchID(PackLabelPrintViewModel model)
         {
-
-            //PackLabelPrintViewModel model = new PackLabelPrintViewModel();
-            //model.ErrorMessage = "";            
-            //model.Job = Job ;
-            //model.BatchId = (from a in wdb.mtProductionLabels where a.Job == Job select a.BatchId).FirstOrDefault();
-            //model.BatchNo = BatchId;
-            //var packLabelDetails = (from a in wdb.mt_ProductionPackLabelDetailsByJob(model.Job) select a).FirstOrDefault();
-            //if (packLabelDetails.BagPerPack >0 && packLabelDetails.BagPerBale > 0)
-            //{
-            //model.PackSize = packLabelDetails.BagPerPack;
-            //model.NoOfLabels = (int)(packLabelDetails.BagPerBale / packLabelDetails.BagPerPack);
-            //}
-            //else
-            //{
-            //    if (packLabelDetails.BagPerPack == null || packLabelDetails.BagPerPack ==0)
-            //    {
-            //        model.ErrorMessage = "Bag per pack needs a value";
-            //    }
-            //    if (packLabelDetails.BagPerBale == null || packLabelDetails.BagPerBale == 0)
-            //    {
-            //        model.ErrorMessage = model.ErrorMessage ==""? "Bag per bale needs a value" : model.ErrorMessage + ". " + "Bag per bale needs a value";
-            //    }                
-            //}
 
             ModelState.Clear();
             model.Job = model.Job.PadLeft(15, '0');
