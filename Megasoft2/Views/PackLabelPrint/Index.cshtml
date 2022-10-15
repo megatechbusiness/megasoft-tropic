@@ -28,12 +28,13 @@
                             </div>
                             <div class="editor-field col-sm-4">
                                 @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm" })
-                                @Html.ValidationMessageFor(model => model.Job)
+                                @*@Html.ValidationMessageFor(model => model.Job)*@
                             </div>
                             <div class="col-sm-1 " style="text-align:left;">
                                 <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadBatchID">
                                     <i class="fa fa-arrow-right"></i>
                                 </button>
+                                @*<a class="btn btn-success btn-sm" href="@Url.Action("LoadBatchID", "PackLabelPrint", new {Job = Model.Job})"><i class="fa fa-arrow-right"></i></a>*@
                             </div>
                         </div>
 
@@ -71,35 +72,63 @@
 
                             @if (Model != null)
                             {
-                                if (Model.LabelDetails.Count() > 0)
+                                if (Model.LabelDetails != null)
                                 {
-                                    for (int i = 0; i < Model.LabelDetails.Count(); i++)
+                                    if (Model.LabelDetails.Count() > 0)
+                                    {
+                                        for (int i = 0; i < Model.LabelDetails.Count(); i++)
+                                        {
+                                            <tr>
+                                                <td><input type="checkbox" id="Selected_@i" class="chkbLabelInfo" /></td>
+                                                <td>@Model.LabelDetails[i].BatchId</td>
+                                                <td>@Model.LabelDetails[i].PackSize</td>
+                                                <td>@Model.LabelDetails[i].NoOfLabels</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].ExtruderNo, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].ExtruderRoll, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].PrintRoll, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].OpCode, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].PrinterOp, new { @class = "form-control input-sm" })
+                                                </td>
+
+
+                                            </tr>
+                                        }
+
+                                    }
+                                    else
                                     {
                                         <tr>
-                                            <td><input type="checkbox" id="Selected_@i" class="chkbLabelInfo" /></td>
-                                            <td>@Model.LabelDetails[i].BatchId</td>
-                                            <td>@Model.LabelDetails[i].PackSize</td>
-                                            <td>@Model.LabelDetails[i].NoOfLabels</td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.LabelDetails[i].ExtruderNo, new { @class = "form-control input-sm" })
+                                            <td colspan="9" class="text-center bg-primary">
+                                                No information available
                                             </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.LabelDetails[i].ExtruderRoll, new { @class = "form-control input-sm" })
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.LabelDetails[i].PrintRoll, new { @class = "form-control input-sm" })
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.LabelDetails[i].OpCode, new { @class = "form-control input-sm" })
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.LabelDetails[i].PrinterOp, new { @class = "form-control input-sm" })
-                                            </td>
-
-
                                         </tr>
                                     }
                                 }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" class="text-center bg-primary">
+                                            No information available
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" class="text-center bg-primary">
+                                        No information available
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -155,7 +184,6 @@
     })
 
     function Print() {
-        let outer = $('#tblLabelInfo > tbody').find('tr').eq(0).find('td:eq(1)').text();
         var selectedList = [];
         let rowCount = $('#tblLabelInfo > tbody > tr').length;
         for (var i = 0; i < rowCount; i++) {
@@ -170,11 +198,15 @@
                 myObject.ExtruderRoll = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(5)').find('input[type=text]').val();
                 myObject.PrintRoll = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(6)').find('input[type=text]').val();
                 myObject.OpCode = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(7)').find('input[type=text]').val();
-                /*myObject.Packer = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(8)').find('input[type=text]').val();*/
                 myObject.PrinterOp = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(8)').find('input[type=text]').val();
                 myObject.Printer = $('#ddlPrinter').val();
                 selectedList.push(myObject);
             }
+        }
+
+        if (selectedList.length == 0) {
+            alert("No items were selected");
+            return false;
         }
         var exportdata = JSON.stringify({ details: JSON.stringify(selectedList) });
 
@@ -184,16 +216,18 @@
             data: exportdata,
             contentType: "application/json; chaarset=utf-8",
             dataType: "json",
-            success: OnSuccess,//need to code
-            failure: OnErrorCall//need to code
+            success: OnSuccess,
+            failure: OnErrorCall
         });
 
         function OnSuccess(response) {
-            alert("Printed");
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
         }
 
         function OnErrorCall(response) {
-            alert("Not Printed lol");
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
         }
     }
 

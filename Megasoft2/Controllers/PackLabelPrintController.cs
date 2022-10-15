@@ -19,7 +19,9 @@ namespace Megasoft2.Controllers
             string Username = User.Identity.Name.ToString().ToUpper();
             var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
             ViewBag.Printers = (from a in mdb.mtUserPrinterAccesses where a.Username == Username && a.Company == Company select new { Text = a.PrinterName, Value = a.PrinterName }).ToList();
-            return View();
+            PackLabelPrintViewModel model = new PackLabelPrintViewModel();
+            model.Job = "";
+            return View("Index", model);
         }
 
         [HttpPost]
@@ -49,6 +51,7 @@ namespace Megasoft2.Controllers
             //        model.ErrorMessage = model.ErrorMessage ==""? "Bag per bale needs a value" : model.ErrorMessage + ". " + "Bag per bale needs a value";
             //    }                
             //}
+
             ModelState.Clear();
             model.Job = model.Job.PadLeft(15, '0');
             HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
@@ -57,40 +60,56 @@ namespace Megasoft2.Controllers
             ViewBag.Printers = (from a in mdb.mtUserPrinterAccesses where a.Username == Username && a.Company == Company select new { Text = a.PrinterName, Value = a.PrinterName }).ToList();
 
             model.BatchIdList = (from a in wdb.mtProductionLabels where a.Job == model.Job select a.BatchId).ToList();
-            var packLabelDetails = (from a in wdb.mt_ProductionPackLabelDetailsByJob(model.Job) select a).FirstOrDefault();
-            if (packLabelDetails.BagPerPack > 0 && packLabelDetails.BagPerBale > 0)
+            if (model.BatchIdList.Count() > 0)
             {
-                model.PackSize = packLabelDetails.BagPerPack;
-                model.NoOfLabels = (int)(packLabelDetails.BagPerBale / packLabelDetails.BagPerPack);
-
-                model.LabelDetails = new List<mtProductionPackLabelPrint>();
-
-                for (int i = 0; i < model.BatchIdList.Count(); i++)
+                var packLabelDetails = (from a in wdb.mt_ProductionPackLabelDetailsByJob(model.Job) select a).FirstOrDefault();
+                if (packLabelDetails.BagPerPack > 0 && packLabelDetails.BagPerBale > 0)
                 {
-                    model.LabelDetails.Add(new mtProductionPackLabelPrint
+                    model.PackSize = packLabelDetails.BagPerPack;
+                    model.NoOfLabels = (int)(packLabelDetails.BagPerBale / packLabelDetails.BagPerPack);
+
+                    model.LabelDetails = new List<mtProductionPackLabelPrint>();
+
+                    for (int i = 0; i < model.BatchIdList.Count(); i++)
                     {
-                        BatchId = model.BatchIdList[i],
-                        PackSize = model.PackSize,
-                        NoOfLabels = model.NoOfLabels
-                    });
+                        model.LabelDetails.Add(new mtProductionPackLabelPrint
+                        {
+                            BatchId = model.BatchIdList[i],
+                            PackSize = model.PackSize,
+                            NoOfLabels = model.NoOfLabels
+                        });
+                    }
+                }
+                else
+                {
+                    if (packLabelDetails.BagPerPack == null || packLabelDetails.BagPerPack == 0)
+                    {
+                        model.ErrorMessage = "Bag per pack needs a value";
+                    }
+                    if (packLabelDetails.BagPerBale == null || packLabelDetails.BagPerBale == 0)
+                    {
+                        model.ErrorMessage = model.ErrorMessage == "" ? "Bag per bale needs a value" : model.ErrorMessage + ". " + "Bag per bale needs a value";
+                    }
+
+                    ModelState.AddModelError("", model.ErrorMessage);
+                    if (model.LabelDetails != null)
+                    {
+                        model.LabelDetails.Clear();
+                    }
+                    return View("Index", model);
                 }
             }
             else
             {
-                if (packLabelDetails.BagPerPack == null || packLabelDetails.BagPerPack == 0)
+                ModelState.AddModelError("", "No batches exist for Job: " + model.Job);
+                if (model.LabelDetails !=null)
                 {
-                    model.ErrorMessage = "Bag per pack needs a value";
+                    model.LabelDetails.Clear();
                 }
-                if (packLabelDetails.BagPerBale == null || packLabelDetails.BagPerBale == 0)
-                {
-                    model.ErrorMessage = model.ErrorMessage == "" ? "Bag per bale needs a value" : model.ErrorMessage + ". " + "Bag per bale needs a value";
-                }
-
-                ModelState.AddModelError("", model.ErrorMessage);
-
+                
                 return View("Index", model);
             }
-            
+
 
             return View("Index", model);
         }
@@ -141,8 +160,8 @@ namespace Megasoft2.Controllers
                 HttpCookie database = HttpContext.Request.Cookies.Get("SysproDatabase");
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
                 ViewBag.Printers = (from a in mdb.mtUserPrinterAccesses where a.Username == Username && a.Company == Company select new { Text = a.PrinterName, Value = a.PrinterName }).ToList();
-                ModelState.AddModelError("", "Label Printed Successfully!");
-                return View("Index", model);
+                model.ErrorMessage = "Label Printed Successfully!";
+                return Json(model.ErrorMessage, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -152,7 +171,7 @@ namespace Megasoft2.Controllers
                 string Username = User.Identity.Name.ToString().ToUpper();
                 var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
                 ViewBag.Printers = (from a in mdb.mtUserPrinterAccesses where a.Username == Username && a.Company == Company select new { Text = a.PrinterName, Value = a.PrinterName }).ToList();
-                return View("Index", model);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
 
             }
             
