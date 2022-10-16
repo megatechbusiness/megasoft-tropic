@@ -500,7 +500,12 @@ $(document).ready(function () {
                 });
 
 
- function CheckBarcodeScanRequired() {
+        function CheckBarcodeScanRequired() {
+            //Core value cannot be 0 for department scales - S.R- 2022/10/16
+            if ($('#Department').val() == "SCALE" && $('#Core').val() == 0) {
+                alert("Core value cannot be zero.");
+                return false;
+            }
              if ($('#Department').val() != "SCALE" && $('#Department').val() != "SLIT") {
                 GetWeight();
             }
