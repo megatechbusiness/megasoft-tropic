@@ -2315,11 +2315,10 @@
           <Property Name="ExtruderRoll" Type="varchar" MaxLength="30" />
           <Property Name="PrintRoll" Type="varchar" MaxLength="30" />
           <Property Name="OpCode" Type="varchar" MaxLength="30" />
-          <Property Name="BatchNo" Type="varchar" MaxLength="30" />
+          <Property Name="BatchPackNo" Type="varchar" MaxLength="30" />
           <Property Name="PackSize" Type="decimal" Precision="18" Scale="3" />
           <Property Name="NoOfLabels" Type="int" />
           <Property Name="Printer" Type="varchar" MaxLength="50" />
-          <Property Name="Packer" Type="varchar" MaxLength="50" />
           <Property Name="TrnDate" Type="datetime" />
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="PrinterOp" Type="varchar" MaxLength="30" />
@@ -14674,11 +14673,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="ExtruderRoll" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="PrintRoll" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="OpCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="BatchNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BatchPackNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="PackSize" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="NoOfLabels" Type="Int32" />
           <Property Name="Printer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Packer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TrnDate" Type="DateTime" Precision="3" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PrinterOp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -21682,11 +21680,10 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="PrinterOp" ColumnName="PrinterOp" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="TrnDate" ColumnName="TrnDate" />
-                <ScalarProperty Name="Packer" ColumnName="Packer" />
                 <ScalarProperty Name="Printer" ColumnName="Printer" />
                 <ScalarProperty Name="NoOfLabels" ColumnName="NoOfLabels" />
                 <ScalarProperty Name="PackSize" ColumnName="PackSize" />
-                <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
+                <ScalarProperty Name="BatchPackNo" ColumnName="BatchPackNo" />
                 <ScalarProperty Name="OpCode" ColumnName="OpCode" />
                 <ScalarProperty Name="PrintRoll" ColumnName="PrintRoll" />
                 <ScalarProperty Name="ExtruderRoll" ColumnName="ExtruderRoll" />

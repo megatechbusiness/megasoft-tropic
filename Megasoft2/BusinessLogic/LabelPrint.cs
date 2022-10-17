@@ -268,6 +268,7 @@ namespace Megasoft2.BusinessLogic
         {
             try
             {
+                bool hasLines = false;
                 detail = (from a in detail where a.PostFlag == true select a).OrderBy(a => a.Line).ToList();
                 if (detail.Count > 0)
                 {
@@ -299,6 +300,7 @@ namespace Megasoft2.BusinessLogic
                         {
                             if (DirectExpese.DirectExpenseIssue == "Y")
                             {
+                                hasLines = true;
                                 Document.Append("<Item>");
                                 Document.Append("<Journal/>");
                                 Document.Append("<Warehouse><![CDATA[" + PoLine.MWarehouse + "]]></Warehouse>");
@@ -376,11 +378,11 @@ namespace Megasoft2.BusinessLogic
                             }
                         }
 
-                        else
-                        {
-                            return "Stock Not Flagged As Direct Expense";
-                        }
+                    }
 
+                    if (hasLines == false)
+                    {
+                        return "";
                     }
 
 
@@ -1570,7 +1572,7 @@ namespace Megasoft2.BusinessLogic
         {
             try
             {
-                //Template used - 2022/09/30
+                //Template used - 2022/10/13
                 //^XA
                 //^ PON
                 //^ FX
@@ -1592,28 +1594,27 @@ namespace Megasoft2.BusinessLogic
                 //^ FO30,310 ^ FDQTY: << BAGPERPACK >> ^FS
                 //^ FO30,350 ^ FDOPT.: << OPNO >> ^FS
                 //^ FO110,375 ^ GB80,1,3 ^ FS
-                //^ FO260,350 ^ FDQC 1: << QC1 >> ^FS
-                //^ FO340,375 ^ GB80,1,3 ^ FS
-                //^ FO440,350 ^ FDPACKER: << PACKER >> ^FS
-                //^ FO570,375 ^ GB80,1,3 ^ FS
-                //^ FO30,390 ^ FDSUPERVISOR: << SUPERVISOR >> ^FS
-                //^ FO230,415 ^ GB80,1,3 ^ FS
-                //^ FO440,390 ^ FDWC:<< WORKCENTRE >> ^FS
-                //^ FO500,415 ^ GB80,1,3 ^ FS
-                //^ FO30,470 ^ FDExt No.: << EXTNO >> ^FS
-                //^ FO440,470 ^ FDExt Roll: << EXTROLL >> ^FS
-                //^ FO30,510 ^ FDPrinter OP: << PRINTEROP >> ^FS
-                //^ FO440,510 ^ FDPrint Roll: << PRINTROLL >> ^FS
-                //^ FO30,550 ^ FDBATCH: << BATCHID >> ^FS
+                //^ FO30,390 ^ FDQC 1: << QC1 >> ^FS
+                //^ FO110,415 ^ GB80,1,3 ^ FS
+                //^ FO440,390 ^ FDPACKER: << PACKER >> ^FS
+                //^ FO570,415 ^ GB80,1,3 ^ FS
+                //^ FO30,430 ^ FDSUPERVISOR: << SUPERVISOR >> ^FS
+                //^ FO230,455 ^ GB80,1,3 ^ FS
+                //^ FO440,430 ^ FDWC:<< WORKCENTRE >> ^FS
+                //^ FO500,455 ^ GB80,1,3 ^ FS
+                //^ FO30,510 ^ FDExt No.: << EXTNO >> ^FS
+                //^ FO440,510 ^ FDExt Roll: << EXTROLL >> ^FS
+                //^ FO30,550 ^ FDPrinter OP: << PRINTEROP >> ^FS
+                //^ FO440,550 ^ FDPrint Roll: << PRINTROLL >> ^FS
+                //^ FO30,600 ^ FDBATCH: << BATCHID >> ^FS
 
 
 
-                //^ PQ << NOOFLABELS >>
-                //^XZ
+                //^ PQ1
+                //^ XZ
                 string Job = packDetails[0].Job;
                 string BatchId = packDetails[0].BatchId;
 
-                //List<mtProductionLabel> detail = (from a in wdb.mtProductionLabels where a.Job == packDetails[0].Job && a.BatchId == packDetails[0].BatchId select a).ToList();
                 List<mtProductionLabel> detail = (from a in wdb.mtProductionLabels where a.Job == Job && a.BatchId == BatchId select a).ToList();
                 var ReelNo = "";
                 var PrintOpRef = "";
@@ -1641,54 +1642,12 @@ namespace Megasoft2.BusinessLogic
                 {
                     var JobDetail = wdb.sp_GetProductionJobDetails(detail.FirstOrDefault().Job.PadLeft(15, '0')).FirstOrDefault();
 
-                    //foreach (var item in detail)
                     for (int i = 0; i < detail.Count; i++)
                     {
                         StreamReader reader;
-                        //if (Department == "Wicket")
-                        //{
-                        //    reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WicketLabel/JobLabel.txt").ToString());
-                        //}
-                        //else if (Department == "Bag")
-                        //{
-                        //    reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/BaggingLabel/JobLabel.txt").ToString());
-                        //}
-                        //else if (Department == "WICKET")
-                        //{
-                        //    reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WICKET/JobLabel.txt").ToString());
-                        //}
-                        //else
-                        //{
-                        //    reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/JobLabel.txt").ToString());
-                        //}
                         reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/PackLabel/PackLabel.txt").ToString());
                         string Template = reader.ReadToEnd();
-                        //if (Department == "Bag")
-                        //{
-                        //    var PrintFlag = (from a in wdb.mt_GetFlagPrintTropicHeader(JobDetail.StockCode) select a).FirstOrDefault();
-                        //    if (PrintFlag != null)
-                        //    {
-                        //        if (PrintFlag.PrintTropicHeader == "YES")
-                        //        {
-                        //            Template = Template.Replace("<<HEADER>>", "TROPIC PLASTIC (PTY) LTD");
-                        //            Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
-                        //        }
-                        //        else
-                        //        {
-                        //            Template = Template.Replace("<<HEADER>>", " ");
-                        //            Template = Template.Replace("<<CUSTOMER>>", " ");
-
-                        //        }
-                        //    }
-
-                        //}
-                        //else
-                        //{
-                        //    Template = Template.Replace("<<HEADER>>", "TROPIC PLASTIC (PTY) LTD");
-                        //    Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
-                        //}
-                        var BatchID = packDetails[0].BatchId + "-" +  packDetails[0].PackNo.ToString().PadLeft(2,'0') ;
-                        Template = Template.Replace("<<BATCHID>>", BatchID);
+                        Template = Template.Replace("<<BATCHID>>", packDetails[0].BatchPackNo);
                         Template = Template.Replace("<<EXTNO>>", packDetails[0].ExtruderNo);
                         Template = Template.Replace("<<EXTROLL>>", packDetails[0].ExtruderRoll);
                         Template = Template.Replace("<<PRINTROLL>>", packDetails[0].PrintRoll);
@@ -1761,48 +1720,7 @@ namespace Megasoft2.BusinessLogic
                             //Template = Template.Replace("<<REFERENCE>>", JobDetail.Reference);
                             Template = Template.Replace("<<REFERENCE>>", detail.FirstOrDefault().Reference);
                             Template = Template.Replace("<<BAGSPECS>>", JobDetail.BagSpecs);
-
-                            //if (string.IsNullOrWhiteSpace(LastBatch))
-                            //{
-                            //    Template = Template.Replace("<<BAILQTY>>", Convert.ToString(BatchSpec));
-                            //}
-                            //else
-                            //{
-                            //    if (i == detail.Count - 1)
-                            //    {
-                            //        Template = Template.Replace("<<BAILQTY>>", Convert.ToString(LastBatch));
-                            //    }
-                            //    else
-                            //    {
-                            //        Template = Template.Replace("<<BAILQTY>>", Convert.ToString(BatchSpec));
-                            //    }
-                            //}
                             Template = Template.Replace("<<BAGPERPACK>>", packDetails[0].PackSize.ToString());
-                            //if (Department == "Bag")
-                            //{
-                            //    var PrintFlag = (from a in wdb.mt_GetFlagPrintTropicHeader(JobDetail.StockCode) select a).FirstOrDefault();
-                            //    if (PrintFlag != null)
-                            //    {
-                            //        if (PrintFlag.PrintTropicHeader == "YES")
-                            //        {
-                            //            Template = Template.Replace("<<HEADER>>", "TROPIC PLASTIC (PTY) LTD");
-                            //            Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
-
-                            //        }
-                            //        else
-                            //        {
-                            //            Template = Template.Replace("<<HEADER>>", " ");
-                            //            Template = Template.Replace("<<CUSTOMER>>", " ");
-
-                            //        }
-                            //    }
-
-                            //}
-                            //else
-                            //{
-                            //    Template = Template.Replace("<<HEADER>>", "TROPIC PLASTIC (PTY) LTD");
-                            //    Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
-                            //}
                             Template = Template.Replace("<<CUSTOMER>>", JobDetail.Customer);
                             Template = Template.Replace("<<OPNO>>", detail[i].Operator);
                             Template = Template.Replace("<<QC1>>", detail[i].QC1);
@@ -1814,43 +1732,11 @@ namespace Megasoft2.BusinessLogic
                         }
                         reader.Close();
                         StreamWriter writer;
-                        //if (Department == "Wicket")
-                        //{
-                        //    writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WicketLabel/JobLabelTemp.zpl").ToString(), false);
-                        //}
-                        //else if (Department == "Bag")
-                        //{
-                        //    writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/BaggingLabel/JobLabelTemp.zpl").ToString(), false);
-                        //}
-                        //else if (Department == "WICKET")
-                        //{
-                        //    writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WICKET/JobLabelTemp.zpl").ToString(), false);
-                        //}
-                        //else
-                        //{
-                        //    writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/JobLabelTemp.zpl").ToString(), false);
-                        //}
                         writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/PackLabel/PackLabel.zpl").ToString(), false);
                         writer.WriteLine(Template);
                         writer.Close();
                         string Printer = packDetails[0].Printer;
                         string PrinterPath = (from a in mdb.mtLabelPrinters where a.PrinterName == Printer select a.PrinterPath).FirstOrDefault();
-                        //if (Department == "Wicket")
-                        //{
-                        //    File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WicketLabel/JobLabelTemp.zpl").ToString(), PrinterPath, true);
-                        //}
-                        //else if (Department == "Bag")
-                        //{
-                        //    File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/BaggingLabel/JobLabelTemp.zpl").ToString(), PrinterPath, true);
-                        //}
-                        //else if (Department == "WICKET")
-                        //{
-                        //    File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/WICKET/JobLabelTemp.zpl").ToString(), PrinterPath, true);
-                        //}
-                        //else
-                        //{
-                        //    File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/JobLabelTemp.zpl").ToString(), PrinterPath, true);
-                        //}
                         File.Copy(HttpContext.Current.Server.MapPath("~/ProductionLabel/Labels/PackLabel/PackLabel.zpl").ToString(), PrinterPath, true);
                     }
                 }

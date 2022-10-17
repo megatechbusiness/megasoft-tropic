@@ -21,11 +21,10 @@ namespace Megasoft2
         public string ExtruderRoll { get; set; }
         public string PrintRoll { get; set; }
         public string OpCode { get; set; }
-        public string BatchNo { get; set; }
+        public string BatchPackNo { get; set; }
         public Nullable<decimal> PackSize { get; set; }
         public Nullable<int> NoOfLabels { get; set; }
         public string Printer { get; set; }
-        public string Packer { get; set; }
         public Nullable<System.DateTime> TrnDate { get; set; }
         public string Username { get; set; }
         public string PrinterOp { get; set; }

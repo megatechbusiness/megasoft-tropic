@@ -20,270 +20,142 @@
                 </div>
                 <hr />
 
-                <div class="form-horizontal row spacer-xs">
+                <div class="form-horizontal row spacer-sm">
                     <div class="form-group">
-                        <div class="col-xs-12 ">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Barcode:
+                        <div class="col-sm-6 ">
+                            <div class="control-label col-sm-1" style="text-align:left;">
+                                Job:
                             </div>
-                            <div class="editor-field input-sm col-xs-4">
-                                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control input-lg", @id = "txtBarcode" })
-                                @Html.ValidationMessageFor(model => model.Job)
+                            <div class="editor-field col-sm-4">
+                                @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm" })
                             </div>
-                            <div class=" col-xs-2" style="text-align:left;">
-                                <button type="button" class="btn btn-success btn-lg" id="btnLoad" onclick="ValidateBarcode()">
+                            <div class="col-sm-1 " style="text-align:left;">
+                                <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadBatchID">
                                     <i class="fa fa-arrow-right"></i>
                                 </button>
                             </div>
-                            <div class="col-xs-2">
-                                <button type="submit" id="btnPrintPackLabel" class="btn btn-default btn-lg" name="action:Print"><i class="fa fa-print"></i></button>
-                            </div>
                         </div>
 
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12 " style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Job No.
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-lg", @readonly = "readonly", @id = "Job" })
-                                @Html.ValidationMessageFor(model => model.Job)
-                                @Html.HiddenFor(model => model.BatchId, new { @id = "BatchId" })
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Pack Size
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.PackSize, new { @class = "form-control input-lg", @id = "PackSize", @readonly = "@readonly" })
-                                @Html.ValidationMessageFor(model => model.PackSize)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                No. of Labels
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.NoOfLabels, new { @class = "form-control input-lg", @id = "NoOfLabels", @readonly = "@readonly" })
-                                @Html.ValidationMessageFor(model => model.NoOfLabels)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Batch No.
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.BatchNo, new { @class = "form-control input-lg", @id = "BatchNo" , @readonly = "readonly"})
-                                @Html.ValidationMessageFor(model => model.BatchNo)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Extruder No.
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.ExtruderNo, new { @class = "form-control input-lg" })
-                                @Html.ValidationMessageFor(model => model.ExtruderNo)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Extruder Roll
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.ExtRoll, new { @class = "form-control input-lg" })
-                                @Html.ValidationMessageFor(model => model.ExtRoll)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Printer Roll No.
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.PrintRoll, new { @class = "form-control input-lg" })
-                                @Html.ValidationMessageFor(model => model.PrintRoll)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @*<div class="form-horizontal row spacer-xs">
-            <div class="form-group">
-                <div class="col-xs-12" style="margin-bottom:15px;">
-                    <div class="control-label col-xs-4" style="text-align:left;">
-                        Print To Workcentre
-                    </div>
-                    <div class="editor-field input-sm col-xs-8">
-                        @Html.TextBoxFor(model => model.PrintToWorkCentre, new { @class = "form-control input-lg" })
-                        @Html.ValidationMessageFor(model => model.PrintToWorkCentre)
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                OP Code
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.OpCode, new { @class = "form-control input-lg" })
-                                @Html.ValidationMessageFor(model => model.OpCode)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                @*<div class="form-horizontal row spacer-xs">
-            <div class="form-group">
-                <div class="col-xs-12" style="margin-bottom:15px;">
-                    <div class="control-label col-xs-4" style="text-align:left;">
-                        Bagging Workcentre
-                    </div>
-                    <div class="editor-field input-sm col-xs-8">
-                        @Html.TextBoxFor(model => model.BaggingWorkCentre, new { @class = "form-control input-lg" })
-                        @Html.ValidationMessageFor(model => model.BaggingWorkCentre)
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-                @*<div class="form-horizontal row spacer-xs">
-            <div class="form-group">
-                <div class="col-xs-12" style="margin-bottom:15px;">
-                    <div class="control-label col-xs-4" style="text-align:left;">
-                        OP No.
-                    </div>
-                    <div class="editor-field input-sm col-xs-8">
-                        @Html.TextBoxFor(model => model.OpNo, new { @class = "form-control input-lg" })
-                        @Html.ValidationMessageFor(model => model.OpNo)
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Packer
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.Packer, new { @class = "form-control input-lg" })
-                                @Html.ValidationMessageFor(model => model.Packer)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
-                                Printer OP
-                            </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.TextBoxFor(model => model.PrinterOp, new { @class = "form-control input-lg" })
-                                @Html.ValidationMessageFor(model => model.PrinterOp)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-horizontal row spacer-xs">
-                    <div class="form-group">
-                        <div class="col-xs-12" style="margin-bottom:15px;">
-                            <div class="control-label col-xs-4" style="text-align:left;">
+                        <div class="col-sm-6 ">
+                            <div class="control-label col-sm-1" style="text-align:left;">
                                 Printer
                             </div>
-                            <div class="editor-field input-sm col-xs-8">
-                                @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-lg" })
+                            <div class="editor-field col-sm-4">
+                                @Html.DropDownListFor(model => model.Printer, new SelectList(ViewBag.Printers, "Value", "Text"), new { @id = "ddlPrinter", @class = "form-control input-sm" })
                             </div>
+
+                            <button type="button" id="btnPrintPackLabel" class="btn btn-default btn-sm " onclick="Print()"><i class="fa fa-print"></i></button>
                         </div>
+
                     </div>
+                </div>                
+
+                <div class="form-horizontal row">
+                    <table class="table table-hover table-condensed table-responsive table-bordered table-striped text-nowrap" id="tblLabelInfo">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="SelectAll" /></th>
+                                <th>Outer Label</th>
+                                <th>Pack Size</th>
+                                <th>No. of Labels</th>
+                                <th>Extruder No.</th>
+                                <th>Extruder Roll</th>
+                                <th>Printer Roll No.</th>
+                                <th>OP Code</th>
+                                <th>Printer OP</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @if (Model != null)
+                            {
+                                if (Model.LabelDetails != null)
+                                {
+                                    if (Model.LabelDetails.Count() > 0)
+                                    {
+                                        for (int i = 0; i < Model.LabelDetails.Count(); i++)
+                                        {
+                                            <tr>
+                                                <td><input type="checkbox" id="Selected_@i" class="chkbLabelInfo" /></td>
+                                                <td>@Model.LabelDetails[i].BatchId</td>
+                                                <td>@Model.LabelDetails[i].PackSize</td>
+                                                <td>@Model.LabelDetails[i].NoOfLabels</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].ExtruderNo, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].ExtruderRoll, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].PrintRoll, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].OpCode, new { @class = "form-control input-sm" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LabelDetails[i].PrinterOp, new { @class = "form-control input-sm" })
+                                                </td>
+
+
+                                            </tr>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9" class="text-center bg-primary">
+                                                No information available
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" class="text-center bg-primary">
+                                            No information available
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" class="text-center bg-primary">
+                                        No information available
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
         </div>
     </div>
 }
+
 @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
 @Scripts.Render("~/Scripts/jquery.validate.min.js")
 @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@*@Scripts.Render("~/Content/DataTables/datatables.min.js")*@
+@*@Scripts.Render("~/Content/DataTables/jszip.min.js")*@
 
 <script type="text/javascript">
-    function ValidateBarcode() {
-        $('#errordiv').text("");
-        $('#errordiv').removeClass("alert alert-danger");
-        let barcode = $('#txtBarcode').val();
-        var BatchID = "";
-        if (barcode.indexOf("|") > 0) {
-            var Values = barcode.split("|");
-            BatchID = Values[4];
-
-            $.getJSON('@Url.Action("LoadDetails", "PackLabelPrint")' + '?BatchId=' + BatchID, function (data) {
-
-                if (data.ErrorMessage == "") {
-                    $('#Job').val(data.Job);
-                    $('#BatchNo').val(data.BatchNo);
-                    $('#PackSize').val(data.PackSize);
-                    $('#NoOfLabels').val(data.NoOfLabels);
-                    $('#BatchId').val(BatchID);
-
-                }
-                else {
-
-                    $('#errordiv').text(data.ErrorMessage);
-                    $('#errordiv').addClass("alert alert-danger");
-                }
-            })
-        }
-        else {
-            //alert("Invalid barcode");
-            $('#errordiv').text("Invalid Barcode");
-            $('#errordiv').addClass("alert alert-danger");
-            return false;
-        }
-    }
-
+    //var table = $('#tblLabelInfo').DataTable({
+    //    dom: 'Bfrtip',
+    //    paging: false,
+    //    "rowReorder": false,
+    //    "ordering": false,
+    //    //"scrollY": 400,
+    //    //"scrollX": true,
+    //    //order: [[1, 'asc']],
+    //    buttons: [],
+    //    "orderClasses": false,
+    //    "searching":false
+    //});
 
     $(document).ready(function () {
         //change page title text
@@ -292,5 +164,64 @@
         span.style.fontSize = "x-small";
 
 
+
     });
+
+    $('#SelectAll').change(function () {
+        if ($('#SelectAll').is(":checked")) {
+            $(".chkbLabelInfo").prop('checked', true);
+        }
+        else {
+            $(".chkbLabelInfo").prop('checked', false);
+        }
+    })
+
+    function Print() {
+        var selectedList = [];
+        let rowCount = $('#tblLabelInfo > tbody > tr').length;
+        for (var i = 0; i < rowCount; i++) {
+            var checkbox = $('#Selected_' + i).is(':checked');
+            if (checkbox == true) {
+                var myObject = new Object();
+                myObject.Job = $('#Job').val();
+                myObject.BatchId = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(1)').text();
+                myObject.PackSize = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(2)').text();
+                myObject.NoOfLabels = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(3)').text();
+                myObject.ExtruderNo = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(4)').find('input[type=text]').val();
+                myObject.ExtruderRoll = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(5)').find('input[type=text]').val();
+                myObject.PrintRoll = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(6)').find('input[type=text]').val();
+                myObject.OpCode = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(7)').find('input[type=text]').val();
+                myObject.PrinterOp = $('#tblLabelInfo > tbody').find('tr').eq(i).find('td:eq(8)').find('input[type=text]').val();
+                myObject.Printer = $('#ddlPrinter').val();
+                selectedList.push(myObject);
+            }
+        }
+
+        if (selectedList.length == 0) {
+            alert("No items were selected");
+            return false;
+        }
+        var exportdata = JSON.stringify({ details: JSON.stringify(selectedList) });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Print","PackLabelPrint")",
+            data: exportdata,
+            contentType: "application/json; chaarset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: OnErrorCall
+        });
+
+        function OnSuccess(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+
+        function OnErrorCall(response) {
+            $('#errordiv').text(response);
+            $('#errordiv').addClass("alert alert-danger");
+        }
+    }
+
 </script>
