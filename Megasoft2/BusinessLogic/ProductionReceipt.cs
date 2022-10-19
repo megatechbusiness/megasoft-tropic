@@ -12,6 +12,8 @@ namespace Megasoft2.BusinessLogic
 
         SysproCore objSyspro = new SysproCore();
         SysproMaterialIssue objMat = new SysproMaterialIssue();
+        WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
+        private SysproCore sys = new SysproCore();
         public string PostProductionReceipt(string details)
         {
             string Guid="";
@@ -494,8 +496,25 @@ namespace Megasoft2.BusinessLogic
                 XmlOut = objSyspro.SysproPost(Guid, this.BuildJobReceiptParameter(), this.BuildJobReceiptDocument(Job, Quantity, Lot), "WIPTJR");
                 ErrorMessage = objSyspro.GetXmlErrors(XmlOut);
                 if(string.IsNullOrEmpty(ErrorMessage))
-                {
-                    return "Job Receipt Completed Successfully";
+                {   
+                    var Header = wdb.sp_GetScalesJobDetails(Job).ToList().FirstOrDefault();
+                    string zeroShipQty_result = "";
+                    if (!string.IsNullOrWhiteSpace(Header.SalesOrder))
+                    {
+                        zeroShipQty_result = PostSorBackOrderRelease(Header.SalesOrder, Header.SalesOrderLine);
+                        if (string.IsNullOrWhiteSpace(zeroShipQty_result))
+                        {
+                            return "Job Receipt Completed Successfully";
+                        }
+                        else
+                        {
+                            return "Job Receipt Completed Successfully. Failed to zero ship quantity."+ zeroShipQty_result;
+                        }
+                    }
+                    else
+                    {
+                        return "Job Receipt Completed Successfully";
+                    }
                 }
                 else
                 {
@@ -506,6 +525,71 @@ namespace Megasoft2.BusinessLogic
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        //S.R - 2022/10/19 - Function to zero ship qty
+        public string PostSorBackOrderRelease(string SalesOrder, decimal SalesOrderLine)
+        {
+            string Guid = sys.SysproLogin();
+            StringBuilder Document = new StringBuilder();
+
+            //Building Document content
+            Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+            Document.Append("<!-- Copyright 1994-2010 SYSPRO Ltd.-->");
+            Document.Append("<!--");
+            Document.Append("This is an example XML instance to demonstrate");
+            Document.Append("use of the Sales Order Back Order Release Business Object");
+            Document.Append("-->");
+            Document.Append("<PostSorBackOrderRelease xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"SORTBODOC.XSD\">");
+
+
+            Document.Append("<Item>");
+            Document.Append("<SalesOrder>" + SalesOrder + "</SalesOrder>");
+            Document.Append("<ReleaseFromMultipleLines>N</ReleaseFromMultipleLines>");
+            Document.Append("<SalesOrderLine>" + SalesOrderLine + "</SalesOrderLine>");
+            Document.Append("<CompleteLine>N</CompleteLine>");
+            Document.Append("<AdjustOrderQuantity>N</AdjustOrderQuantity>");
+            Document.Append("<OrderStatus>3</OrderStatus>");
+            Document.Append("<ReleaseFromShip>Y</ReleaseFromShip>");
+            Document.Append("<ZeroShipQuantity>Y</ZeroShipQuantity>");
+            Document.Append("<AllocateSerialNumbers>N</AllocateSerialNumbers>");
+            Document.Append("<eSignature>");
+            Document.Append("</eSignature>");
+            Document.Append("</Item>");
+
+
+            Document.Append("</PostSorBackOrderRelease>");
+
+            //Declaration
+            StringBuilder Parameter = new StringBuilder();
+
+            //Building Parameter content
+            Parameter.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+            Parameter.Append("<!-- Copyright 1994-2010 SYSPRO Ltd.-->");
+            Parameter.Append("<!--");
+            Parameter.Append("This is an example XML instance to demonstrate");
+            Parameter.Append("use of the Sales Order Back Order Release Business Object");
+            Parameter.Append("-->");
+            Parameter.Append("<PostSorBackOrderRelease xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"SORTBO.XSD\">");
+            Parameter.Append("<Parameters>");
+            Parameter.Append("<IgnoreWarnings>N</IgnoreWarnings>");
+            Parameter.Append("<ApplyIfEntireDocumentValid>Y</ApplyIfEntireDocumentValid>");
+            Parameter.Append("<ValidateOnly>N</ValidateOnly>");
+            Parameter.Append("<AddQuantityToBatchSerial>N</AddQuantityToBatchSerial>");
+            Parameter.Append("<IgnoreAutoDepletion>N</IgnoreAutoDepletion>");
+            Parameter.Append("<ShipKitFromDefaultBin>N</ShipKitFromDefaultBin>");
+            Parameter.Append("<PickFunction>A</PickFunction>");
+            Parameter.Append("<Destinationbin></Destinationbin>");
+            Parameter.Append("<Pick></Pick>");
+            Parameter.Append("<PickSequence>B</PickSequence>");
+            Parameter.Append("</Parameters>");
+            Parameter.Append("</PostSorBackOrderRelease>");
+
+            string XmlOut = sys.SysproPost(Guid, Parameter.ToString(), Document.ToString(), "SORTBO");
+            string ErrorMessage = sys.GetXmlErrors(XmlOut);
+            return ErrorMessage;
+
+
         }
 
     }
