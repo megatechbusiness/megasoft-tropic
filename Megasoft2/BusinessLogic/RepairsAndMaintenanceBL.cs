@@ -764,6 +764,8 @@ namespace Megasoft2.BusinessLogic
                 Document.Append("<Warehouse><![CDATA[**]]></Warehouse>");
                 Document.Append("<Price><![CDATA[0]]></Price>");
                 Document.Append("<Job><![CDATA[" + Job + "]]></Job>");
+                Document.Append("<TaxCode>J</TaxCode>");
+                Document.Append("<ProductClass>0007</ProductClass>");
                 Document.Append("</Item>");
                 Document.Append("</PostRequisition>");
 

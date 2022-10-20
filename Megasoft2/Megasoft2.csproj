@@ -2248,9 +2248,11 @@
     <Content Include="Content\DataTable\buttons.html5.min.js" />
     <Content Include="Content\DataTable\dataTables.buttons.min.js" />
     <Content Include="Content\DataTable\datatables.css" />
+    <Content Include="Content\DataTable\dataTables.fixedHeader.min.js" />
     <Content Include="Content\DataTable\datatables.js" />
     <Content Include="Content\DataTable\datatables.min.js" />
     <Content Include="Content\DataTable\dataTables.select.min.js" />
+    <Content Include="Content\DataTable\fixedHeader.dataTables.min.css" />
     <Content Include="Content\DataTable\jszip.min.js" />
     <Content Include="Content\DataTable\select.dataTables.min.css" />
     <Content Include="Content\DatePicker\bootstrap-datepicker.css" />
