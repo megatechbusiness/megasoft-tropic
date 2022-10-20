@@ -28,6 +28,7 @@
                             </div>
                             <div class="editor-field col-sm-4">
                                 @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm" })
+                                <input type="hidden" id="copyrow" />
                             </div>
                             <div class="col-sm-1 " style="text-align:left;">
                                 <button type="submit" class="btn btn-success btn-sm" id="btnLoad" name="action:LoadBatchID">
@@ -48,13 +49,14 @@
                         </div>
 
                     </div>
-                </div>                
+                </div>
 
                 <div class="form-horizontal row">
+                    <input type="text" class="form-control input-sm" id="txtSearch" placeholder="search" />
                     <table class="table table-hover table-condensed table-responsive table-bordered table-striped text-nowrap" id="tblLabelInfo">
                         <thead>
                             <tr>
-                                <th><input type="checkbox" id="SelectAll" /></th>
+                                <th><input type="checkbox" id="SelectAll" />All</th>
                                 <th>Outer Label</th>
                                 <th>Pack Size</th>
                                 <th>No. of Labels</th>
@@ -62,7 +64,9 @@
                                 <th>Extruder Roll</th>
                                 <th>Printer Roll No.</th>
                                 <th>OP Code</th>
-                                <th>Printer OP</th>
+                                <th>Printer No.</th>
+                                <th>Copy</th>
+                                <th>Paste</th>
                             </tr>
                         </thead>
 
@@ -76,7 +80,7 @@
                                     {
                                         for (int i = 0; i < Model.LabelDetails.Count(); i++)
                                         {
-                                            <tr>
+                                            <tr class="nr">
                                                 <td><input type="checkbox" id="Selected_@i" class="chkbLabelInfo" /></td>
                                                 <td>@Model.LabelDetails[i].BatchId</td>
                                                 <td>@Model.LabelDetails[i].PackSize</td>
@@ -96,7 +100,12 @@
                                                 <td>
                                                     @Html.TextBoxFor(model => model.LabelDetails[i].PrinterOp, new { @class = "form-control input-sm" })
                                                 </td>
-
+                                                <th>
+                                                    <a class='copyrow btn btn-default btn-xs'><span class='fa fa-copy' aria-hidden='true' title='Copy Line'></span></a>
+                                                </th>
+                                                <th>
+                                                    <a class='pasterow btn btn-warning btn-xs'><span class='fa fa-paste' aria-hidden='true' title='Paste Line'></span></a>
+                                                </th>
 
                                             </tr>
                                         }
@@ -105,7 +114,7 @@
                                     else
                                     {
                                         <tr>
-                                            <td colspan="9" class="text-center bg-primary">
+                                            <td colspan="11" class="text-center bg-primary">
                                                 No information available
                                             </td>
                                         </tr>
@@ -114,7 +123,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="9" class="text-center bg-primary">
+                                        <td colspan="11" class="text-center bg-primary">
                                             No information available
                                         </td>
                                     </tr>
@@ -137,33 +146,50 @@
     </div>
 }
 
-@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
-@Scripts.Render("~/Scripts/jquery.validate.min.js")
-@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
-@*@Scripts.Render("~/Content/DataTables/datatables.min.js")*@
-@*@Scripts.Render("~/Content/DataTables/jszip.min.js")*@
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
 
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Content/DataTable/datatables.js")
 <script type="text/javascript">
-    //var table = $('#tblLabelInfo').DataTable({
-    //    dom: 'Bfrtip',
-    //    paging: false,
-    //    "rowReorder": false,
-    //    "ordering": false,
-    //    //"scrollY": 400,
-    //    //"scrollX": true,
-    //    //order: [[1, 'asc']],
-    //    buttons: [],
-    //    "orderClasses": false,
-    //    "searching":false
-    //});
+
+    var table = $('#tblLabelInfo').DataTable({
+        paging: false,
+        "rowReorder": false,
+        "ordering": false,
+        "scrollY": 400,
+        //"scrollX": true,
+        //order: [[1, 'asc']],
+        "orderClasses": false,
+        "searching": false
+
+    });
+
 
     $(document).ready(function () {
+
+        $('#wrapper').addClass('toggled-2');
+
+
         //change page title text
         $('#megasoftTitle').text(' Megasoft - Pack Label Print');
         var span = document.getElementById("megasoftTitle");
         span.style.fontSize = "x-small";
 
+        $('#txtSearch').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var $rows = $('#tblLabelInfo .nr');
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
 
+
+        $('#btnPrintPackLabel').on("click", function () {
+            $('#txtSearch').val("");
+            var $rows = $('#tblLabelInfo .nr');
+            $rows.show();
+        });
 
     });
 
@@ -175,6 +201,29 @@
             $(".chkbLabelInfo").prop('checked', false);
         }
     })
+
+    $('#tblLabelInfo').on("click", ".copyrow", function () {
+        var row_index = $(this).closest("tr").index();
+        $('#copyrow').val(row_index);
+        $(this).closest("tr").find('input[type=checkbox]').prop('checked', true);
+
+        $('#txtSearch').val("");
+        var $rows = $('#tblLabelInfo .nr');
+        $rows.show()
+
+        var scroll = parseInt(row_index) * 40;
+        $('.dataTables_scrollBody').scrollTop(scroll)
+    });
+
+    $('#tblLabelInfo').on("click", ".pasterow", function () {
+        var copy_row_index = $('#copyrow').val();
+        $(this).closest("tr").find('td:eq(4)').find('input[type=text]').val($('#tblLabelInfo > tbody').find('tr').eq(copy_row_index).find('td:eq(4)').find('input[type=text]').val());
+        $(this).closest("tr").find('td:eq(5)').find('input[type=text]').val($('#tblLabelInfo > tbody').find('tr').eq(copy_row_index).find('td:eq(5)').find('input[type=text]').val());
+        $(this).closest("tr").find('td:eq(6)').find('input[type=text]').val($('#tblLabelInfo > tbody').find('tr').eq(copy_row_index).find('td:eq(6)').find('input[type=text]').val());
+        $(this).closest("tr").find('td:eq(7)').find('input[type=text]').val($('#tblLabelInfo > tbody').find('tr').eq(copy_row_index).find('td:eq(7)').find('input[type=text]').val());
+        $(this).closest("tr").find('td:eq(8)').find('input[type=text]').val($('#tblLabelInfo > tbody').find('tr').eq(copy_row_index).find('td:eq(8)').find('input[type=text]').val());
+        $(this).closest("tr").find('input[type=checkbox]').prop('checked', true);
+    });
 
     function Print() {
         var selectedList = [];
