@@ -12,7 +12,7 @@ namespace Megasoft2.BusinessLogic
         private SysproCore objSyspro = new SysproCore();
         private WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
         private MegasoftEntities mdb = new MegasoftEntities();
-
+        private SysproCore sys = new SysproCore();
         public string PostJobReceipt(List<WhseManJobReceipt> detail)
         {
             string Guid = "";
@@ -73,7 +73,7 @@ namespace Megasoft2.BusinessLogic
                         pallet = (from a in wdb.mtPalletControls where a.PalletNo == PalletNo select a).ToList().FirstOrDefault();
                         pallet.Status = "C";
                         wdb.Entry(pallet).State = System.Data.EntityState.Modified;
-                        wdb.SaveChanges();
+                        wdb.SaveChanges();                       
 
                         return "Job Receipt Completed Successfully. Journal : " + Journal;
                     }
@@ -773,6 +773,8 @@ namespace Megasoft2.BusinessLogic
                             {
                                 wdb.sp_ProductionLotCustomForm(a.Lot, Job, PalletNo);
                             }
+
+                            
                         }
                         mtPalletControl close = new mtPalletControl();
                         close = wdb.mtPalletControls.Find(PalletNo);
@@ -781,6 +783,20 @@ namespace Megasoft2.BusinessLogic
                         wdb.SaveChanges();
 
                         Journal += JobJournal;
+                        //S.R - 2022/10/21 - Zero shipping qty if job is linked to a sales order.
+                        string Job_zeroShipping = (from a in BatchList select a.Job).First();
+                        Job_zeroShipping = Job_zeroShipping.PadLeft(15, '0');
+                        var Header = wdb.sp_GetScalesJobDetails(Job_zeroShipping).ToList().FirstOrDefault();
+                        string zeroShipQty_result = "Failed to zero shipping quantity.";
+                        if (!string.IsNullOrWhiteSpace(Header.SalesOrder))
+                        {
+                            zeroShipQty_result = PostSorBackOrderRelease(Header.SalesOrder, Header.SalesOrderLine);
+                            if (!string.IsNullOrWhiteSpace(zeroShipQty_result))
+                            {
+                                Journal = Journal + " Failed to zero shipping quantity. " + zeroShipQty_result;
+                            }
+
+                        }
                     }
                     else
                     {
@@ -1396,6 +1412,73 @@ namespace Megasoft2.BusinessLogic
             return Parameter.ToString();
 
         }
+
+        //S.R - 2022/10/19 - Function to zero ship qty
+        public string PostSorBackOrderRelease(string SalesOrder, decimal SalesOrderLine)
+        {
+            string Guid = sys.SysproLogin();
+            StringBuilder Document = new StringBuilder();
+
+            //Building Document content
+            Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+            Document.Append("<!-- Copyright 1994-2010 SYSPRO Ltd.-->");
+            Document.Append("<!--");
+            Document.Append("This is an example XML instance to demonstrate");
+            Document.Append("use of the Sales Order Back Order Release Business Object");
+            Document.Append("-->");
+            Document.Append("<PostSorBackOrderRelease xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"SORTBODOC.XSD\">");
+
+
+            Document.Append("<Item>");
+            Document.Append("<SalesOrder>" + SalesOrder + "</SalesOrder>");
+            Document.Append("<ReleaseFromMultipleLines>N</ReleaseFromMultipleLines>");
+            Document.Append("<SalesOrderLine>" + SalesOrderLine + "</SalesOrderLine>");
+            Document.Append("<CompleteLine>N</CompleteLine>");
+            Document.Append("<AdjustOrderQuantity>N</AdjustOrderQuantity>");
+            Document.Append("<OrderStatus>3</OrderStatus>");
+            Document.Append("<ReleaseFromShip>Y</ReleaseFromShip>");
+            Document.Append("<ZeroShipQuantity>Y</ZeroShipQuantity>");
+            Document.Append("<AllocateSerialNumbers>N</AllocateSerialNumbers>");
+            Document.Append("<eSignature>");
+            Document.Append("</eSignature>");
+            Document.Append("</Item>");
+
+
+            Document.Append("</PostSorBackOrderRelease>");
+
+            //Declaration
+            StringBuilder Parameter = new StringBuilder();
+
+            //Building Parameter content
+            Parameter.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+            Parameter.Append("<!-- Copyright 1994-2010 SYSPRO Ltd.-->");
+            Parameter.Append("<!--");
+            Parameter.Append("This is an example XML instance to demonstrate");
+            Parameter.Append("use of the Sales Order Back Order Release Business Object");
+            Parameter.Append("-->");
+            Parameter.Append("<PostSorBackOrderRelease xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"SORTBO.XSD\">");
+            Parameter.Append("<Parameters>");
+            Parameter.Append("<IgnoreWarnings>N</IgnoreWarnings>");
+            Parameter.Append("<ApplyIfEntireDocumentValid>Y</ApplyIfEntireDocumentValid>");
+            Parameter.Append("<ValidateOnly>N</ValidateOnly>");
+            Parameter.Append("<AddQuantityToBatchSerial>N</AddQuantityToBatchSerial>");
+            Parameter.Append("<IgnoreAutoDepletion>N</IgnoreAutoDepletion>");
+            Parameter.Append("<ShipKitFromDefaultBin>N</ShipKitFromDefaultBin>");
+            Parameter.Append("<PickFunction>A</PickFunction>");
+            Parameter.Append("<Destinationbin></Destinationbin>");
+            Parameter.Append("<Pick></Pick>");
+            Parameter.Append("<PickSequence>B</PickSequence>");
+            Parameter.Append("</Parameters>");
+            Parameter.Append("</PostSorBackOrderRelease>");
+
+            string XmlOut = sys.SysproPost(Guid, Parameter.ToString(), Document.ToString(), "SORTBO");
+            string ErrorMessage = sys.GetXmlErrors(XmlOut);
+            return ErrorMessage;
+
+
+        }
+
+
 
     }
 }
