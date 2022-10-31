@@ -1,0 +1,257 @@
+﻿@model Megasoft2.ViewModel.PalletMatIssueViewModel
+@{
+    ViewBag.Title = "Index";
+
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmPalletMatIssue" }))
+{
+    @Html.AntiForgeryToken()
+    if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger fade in">
+            @Html.ValidationSummary(true)
+        </div>
+    }
+    <fieldset>
+        <div class="bs-example">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        &nbsp;&nbsp;
+                        <div class="btn-group btn-breadcrumb">
+                            <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                            <a href="@Url.Action("Index", "PalletMatIssue")" class="btn btn-default">Pallet Material Issue</a>
+
+
+                        </div>
+
+                        <div class="pull-right">
+                            <!--Post Details-->
+                            <div class="col-sm-2">
+                                <button type="button" onclick="PostPallet()" class="btn btn-default btn-sm" style="font-size: 14px;"> Post <i class="fa fa-save"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-body">
+
+
+
+                    <div class="form-horizontal row spacer-xs">
+
+                        <div class="col-sm-4">
+                            <div class="col-sm-4" style="padding-top: 4px;">
+                                Enter Job Number:
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.Job, new { @class = "form-control input-sm", @id = "jobNumber" })
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="col-sm-4" style="padding-top: 4px;">
+                                Enter Pallet Number:
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.Pallet, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+
+                        <!--Load Job and Pallet Details-->
+                        <div class="col-sm-2">
+                            <button id="btnLoadJobDetails" type="submit" name="action:LoadJob" class="btn btn-success btn-sm pull-left"> Load <i class="fa fa-send-o"></i></button>
+                        </div>
+
+                        
+
+                    </div>
+                    <hr />
+                    
+                    
+                    <div class="form-horizontal row spacer-xs">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">Job Description</div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.JobDescription, new { @readonly = "readonly", @class = "form-control input-sm" })
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">Stock Code</div>
+                            <div class="col-sm-8">@Html.TextBoxFor(model => model.StockCode, new { @readonly = "readonly", @class = "form-control input-sm" })</div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">Stock Description</div>
+                            <div class="col-sm-8">@Html.TextBoxFor(model => model.StockDescription, new { @readonly = "readonly", @class = "form-control input-sm" })</div>
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div class="form-horizontal row spacer-xs">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">Quantity to Make</div>
+                            <div class="col-sm-8">@Html.TextBoxFor(model => model.QtyToMake, new { @readonly = "readonly", @class = "form-control input-sm" })</div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">Quantity Manufactured</div>
+                            <div class="col-sm-8">@Html.TextBoxFor(model => model.QtyManufactured, new { @readonly = "readonly", @class = "form-control input-sm" })</div>
+                        </div>
+                    </div>
+
+
+                    <hr />
+
+
+
+                    @*<div class="form-horizontal row spacer-xs">
+                            <div class="col-sm-4">
+
+
+
+                                <div class="col-sm-3">
+                                    <button id="btnLoadPalletDetails" type="submit" name="action:LoadJob" class="btn btn-success btn-sm pull-left"> Load <i class="fa fa-send-o"></i></button>
+                                </div>
+
+                            </div>
+                        </div>
+                        &nbsp;*@
+
+
+                    <div class="col-lg-12">
+                        <div class="table-responsive text-centre">
+                            <table class="table table-hover table-condensed table-responsive table-bordered display nowrap" id="tblPallet">
+                                <thead>
+                                    <tr class="nowrap">
+                                        <th></th>
+                                        <th>PalletID</th>
+                                        <th>Warehouse</th>
+                                        <th>Stock Code</th>
+                                        <th>Lot Number</th>
+                                        <th>Quantity On Hand</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="datarow">
+                                    @if (Model != null)
+                                    {
+                                        if (Model.PalletList != null)
+                                        {
+                                            for (int i = 0; i < Model.PalletList.Count(); i++)
+                                            {
+                                                var rowColour = "";
+                                                if (i % 2 == 0)
+                                                {
+                                                    rowColour = "#dbd9d9";
+                                                }
+                                                else
+                                                {
+                                                    rowColour = "#69b9d6";
+                                                }
+
+                                                <tr class="nr nowrap" @*id="@i"*@ style="color:black; background-color:@rowColour;">
+                                                    @*<td><input type="checkbox" class="@i" /></td>
+                                                        <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.PalletId)</td>
+                                                        <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.Warehouse)</td>
+                                                        <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.StockCode)</td>
+                                                        <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.Lot)</td>
+                                                        <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.QtyOnHand)</td>*@
+                                                    <td>@Html.CheckBoxFor(model => Model.PalletList[i].Checked, new { @class = "select" })</td>
+                                                    <td class="pallet">@Html.DisplayFor(model => Model.PalletList[i].PalletId)</td>
+                                                    <td class="Wh">@Html.DisplayFor(model => Model.PalletList[i].Warehouse)</td>
+                                                    <td class="stockCode">@Html.DisplayFor(model => Model.PalletList[i].StockCode)</td>
+                                                    <td class="lot">@Html.DisplayFor(model => Model.PalletList[i].Lot)</td>
+                                                    <td class="qty">@Html.DisplayFor(model => Model.PalletList[i].QtyOnHand)</td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    <script>
+        //$('input[type="checkbox"]').change(function () {
+
+            
+        //})
+
+        function PostPallet() {
+            
+            var Pallet = [];
+            var counter = 0;
+            let jobNumber = $('#jobNumber').val();
+
+            //traverse table to find selected(checked) lots/rows 
+            $('table > tbody > tr').each(function () {
+                let check = $(this).find(".select");
+                if ($(check).prop('checked')) {
+
+                    var palletObj = new Object();
+
+                    var pallet = $(this).find('.pallet').text();
+                    var lot = $(this).find('.lot').text();
+                    var Wh = $(this).find('.Wh').text();
+                    var stockCode = $(this).find('.stockCode').text();
+                    var qtyOnHand = $(this).find('.qty').text();
+
+                    //attach data from selected lots to object for list
+                    palletObj.Job = jobNumber;
+                    palletObj.LotNumber = lot;
+                    palletObj.Warehouse = Wh;
+                    palletObj.StockCode = stockCode;
+                    palletObj.Quantity = qtyOnHand;
+                    palletObj.WorkCentre = "PalletIssue";
+                    palletObj.Shift = pallet;
+                    //alert(JSON.stringify(palletObj))
+                    count++;
+                }
+                
+            })
+            if (count == 0) return alert("Please 'CHECK' Lots required before posting");
+            var exportData = JSON.stringify({ palletDetails: JSON.stringify(Pallet) });
+            
+            $.ajax({
+                url: "/PalletMatIssue/GetSelectedRows",
+                type: "post",
+                data: exportdata,
+                contenttype: "application/json; charset=utf-8",
+                datatype: "json",
+                success: OnSuccess,
+                error: OnError
+            });
+
+            //clear all fields and table
+            function OnSuccess(result) {
+                if (result != null) {
+                    $('.form-control input-sm').val("");
+                    if (response.indexOf('Material Issue posted successfully') === 0) {
+                        $('#tblPallet tbody').empty();
+                        alert(response);
+                    }
+                }
+                else {
+                    $('#tblPallet tbody').empty();
+                }
+                
+            }
+
+            function OnError(result) {
+                if (result != null) {
+                    alert(result)
+                }
+            }
+        }
+    </script>
+}

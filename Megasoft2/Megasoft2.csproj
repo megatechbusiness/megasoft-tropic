@@ -83,7 +83,7 @@
       <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="SYSPROWCFServicesClientLibrary40">
-      <HintPath>..\..\..\temp\SYSPROWCFServicesClientLibrary40.dll</HintPath>
+      <HintPath>..\..\..\..\..\Temp\SYSPROWCFServicesClientLibrary40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -294,6 +294,7 @@
     <Compile Include="BusinessLogic\MasterCard.cs" />
     <Compile Include="BusinessLogic\MasterCardMaintenance.cs" />
     <Compile Include="BusinessLogic\MegasoftAlertsBL.cs" />
+    <Compile Include="BusinessLogic\PalletMatIssueBL.cs" />
     <Compile Include="BusinessLogic\PhysicalAdjustmentBL.cs" />
     <Compile Include="BusinessLogic\ProductionReceipt.cs" />
     <Compile Include="BusinessLogic\PurchaseOrderGrn.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="Controllers\mtRequisitionUserRoutingController.cs" />
     <Compile Include="Controllers\NonStockedInvMasterController.cs" />
     <Compile Include="Controllers\PackLabelPrintController.cs" />
+    <Compile Include="Controllers\PalletMatIssueController.cs" />
     <Compile Include="Controllers\PeriodControlController.cs" />
     <Compile Include="Controllers\ProductClassController.cs" />
     <Compile Include="Controllers\ProductionReceiptController.cs" />
@@ -1052,6 +1054,12 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_MaterialIssueGetWorkCentreByJob_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_PalletMatIssueGetJobDetails_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_PalletMatIssueGetPalletDetails_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_ProductionGetDeletedLots_Result.cs">
@@ -2101,6 +2109,7 @@
     <Compile Include="ViewModel\NonStockedMaster.cs" />
     <Compile Include="ViewModel\PackLabelPrintViewModel.cs" />
     <Compile Include="ViewModel\PalletAuditViewModel.cs" />
+    <Compile Include="ViewModel\PalletMatIssueViewModel.cs" />
     <Compile Include="ViewModel\PeriodControlViewModel.cs" />
     <Compile Include="ViewModel\PhysicalAdjustment.cs" />
     <Compile Include="ViewModel\PoGrn.cs" />
@@ -2951,6 +2960,7 @@
     <Content Include="Views\InkJobCardReport\Index.cshtml" />
     <Content Include="Views\InkSystem\InkBomCopyComponent.cshtml" />
     <Content Include="Views\PackLabelPrint\Index.cshtml" />
+    <Content Include="Views\PalletMatIssue\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
