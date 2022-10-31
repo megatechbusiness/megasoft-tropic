@@ -3266,5 +3266,23 @@ namespace Megasoft2
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_ProductionPackLabelDetailsByJob_Result>("mt_ProductionPackLabelDetailsByJob", jobParameter);
         }
+    
+        public virtual ObjectResult<mt_PalletMatIssueGetJobDetails_Result> mt_PalletMatIssueGetJobDetails(string job)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_PalletMatIssueGetJobDetails_Result>("mt_PalletMatIssueGetJobDetails", jobParameter);
+        }
+    
+        public virtual ObjectResult<mt_PalletMatIssueGetPalletDetails_Result> mt_PalletMatIssueGetPalletDetails(string palletID)
+        {
+            var palletIDParameter = palletID != null ?
+                new ObjectParameter("PalletID", palletID) :
+                new ObjectParameter("PalletID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_PalletMatIssueGetPalletDetails_Result>("mt_PalletMatIssueGetPalletDetails", palletIDParameter);
+        }
     }
 }
