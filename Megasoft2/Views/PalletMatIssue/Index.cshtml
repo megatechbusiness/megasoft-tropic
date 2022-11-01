@@ -181,19 +181,19 @@
 
 @section Scripts{
     @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
-    <script>
+<script>
         //$('input[type="checkbox"]').change(function () {
 
-            
+
         //})
 
         function PostPallet() {
-            
-            var Pallet = [];
-            var counter = 0;
+
+            var PalletList = [];
+            var count = 0;
             let jobNumber = $('#jobNumber').val();
 
-            //traverse table to find selected(checked) lots/rows 
+            //traverse table to find selected(checked) lots/rows
             $('table > tbody > tr').each(function () {
                 let check = $(this).find(".select");
                 if ($(check).prop('checked')) {
@@ -215,16 +215,19 @@
                     palletObj.WorkCentre = "PalletIssue";
                     palletObj.Shift = pallet;
                     //alert(JSON.stringify(palletObj))
+                    PalletList.push(palletObj);
                     count++;
                 }
-                
+
             })
             if (count == 0) return alert("Please 'CHECK' Lots required before posting");
-            var exportData = JSON.stringify({ palletDetails: JSON.stringify(Pallet) });
-            
+            var exportdata = { palletDetails: JSON.stringify(PalletList) };
+            //console.log(exportdata);
+            showprogressbar();
+            //$.post("PalletMatIssue/GetSelectedRows", exportdata, "json", OnSuccess, OnError)
             $.ajax({
-                url: "/PalletMatIssue/GetSelectedRows",
-                type: "post",
+                url: '@Url.Action("GetSelectedRows", "PalletMatIssue")',
+                type: "POST",
                 data: exportdata,
                 contenttype: "application/json; charset=utf-8",
                 datatype: "json",
@@ -234,24 +237,27 @@
 
             //clear all fields and table
             function OnSuccess(result) {
+
                 if (result != null) {
                     $('.form-control input-sm').val("");
-                    if (response.indexOf('Material Issue posted successfully') === 0) {
+                    if (result.indexOf('Material Issue posted successfully') === 0) {
                         $('#tblPallet tbody').empty();
-                        alert(response);
+                        alert("Success: " + result);
+                        hideprogressbar();
                     }
                 }
                 else {
                     $('#tblPallet tbody').empty();
                 }
-                
+
             }
 
             function OnError(result) {
                 if (result != null) {
-                    alert(result)
+                    alert("Error: " + result);
+                    hideprogressbar();
                 }
             }
         }
-    </script>
+</script>
 }
