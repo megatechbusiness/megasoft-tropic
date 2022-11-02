@@ -64,12 +64,12 @@
                             <button id="btnLoadJobDetails" type="submit" name="action:LoadJob" class="btn btn-success btn-sm pull-left"> Load <i class="fa fa-send-o"></i></button>
                         </div>
 
-                        
+
 
                     </div>
                     <hr />
-                    
-                    
+
+
                     <div class="form-horizontal row spacer-xs">
                         <div class="col-sm-4">
                             <div class="col-sm-4">Job Description</div>
@@ -122,10 +122,10 @@
 
                     <div class="col-lg-12">
                         <div class="table-responsive text-centre">
-                            <table class="table table-hover table-condensed table-responsive table-bordered display nowrap" id="tblPallet">
+                            <table class="table table-hover table-condensed table-responsive table-bordered display nowrap" id="tblPallet" data-paging="false">
                                 <thead>
                                     <tr class="nowrap">
-                                        <th></th>
+                                        <th><input type="checkbox" name="all" class="checkAll" onclick="toggleAll()" />Select All</th>
                                         <th>PalletID</th>
                                         <th>Warehouse</th>
                                         <th>Stock Code</th>
@@ -178,16 +178,37 @@
         </div>
     </fieldset>
 }
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
 
 @section Scripts{
     @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
-<script>
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/DataTable/datatables.js")
+    <script>
         //$('input[type="checkbox"]').change(function () {
 
 
 
         //})
+        $(document).ready(function () {
+                $('#tblPallet').DataTable();
+        })
 
+        function toggleAll() {
+            
+            if ($('.checkAll').prop('checked')) {
+                $('table > tbody > tr').each(function () {
+                    $(this).find(".select").prop("checked", true);
+                })
+            }
+            else {
+                $('table > tbody > tr').each(function () {
+                    $(this).find(".select").prop("checked", false);
+                })
+            }
+        }
         function PostPallet() {
 
             var PalletList = [];
@@ -260,5 +281,5 @@
                 }
             }
         }
-</script>
+    </script>
 }
