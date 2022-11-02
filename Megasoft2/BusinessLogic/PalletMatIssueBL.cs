@@ -1,4 +1,5 @@
 ﻿using Megasoft2.ViewModel;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +28,22 @@ namespace Megasoft2.BusinessLogic
                 //amke sure Job is a 15-digit number
                 var jobPad = (from a in wdb.mtWhseManSettings select a.JobNumberPadZeros).ToList();
                 var padding = jobPad[0];
-                var jobCode = "";
-                if (padding == true)
+                var jobCode = model.Job;
+                if (padding == true && jobCode != null )
                 {
                     jobCode = model.Job.PadLeft(15, '0');
+                }
+                else
+                {
+                    model.Messages = "Please Enter values into Both Fields";
+                    return model;
                 }
 
                 //retrieving and populating fields regarding the Job
                 var JobList = wdb.mt_PalletMatIssueGetJobDetails(jobCode).FirstOrDefault();
                 var palletList = wdb.mt_PalletMatIssueGetPalletDetails(model.Pallet).ToList();
 
-                if (JobList != null && palletList != null)
+                if (JobList != null && palletList.Count != 0)
                 {
                     model.StockCode = JobList.StockCode;
                     model.StockDescription = JobList.StockDescription;
