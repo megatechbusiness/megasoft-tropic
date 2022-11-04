@@ -64,12 +64,12 @@
                             <button id="btnLoadJobDetails" type="submit" name="action:LoadJob" class="btn btn-success btn-sm pull-left"> Load <i class="fa fa-send-o"></i></button>
                         </div>
 
-                        
+
 
                     </div>
                     <hr />
-                    
-                    
+
+
                     <div class="form-horizontal row spacer-xs">
                         <div class="col-sm-4">
                             <div class="col-sm-4">Job Description</div>
@@ -122,10 +122,10 @@
 
                     <div class="col-lg-12">
                         <div class="table-responsive text-centre">
-                            <table class="table table-hover table-condensed table-responsive table-bordered display nowrap" id="tblPallet">
+                            <table class="table table-hover table-condensed table-responsive table-bordered display nowrap" id="tblPallet" data-paging="false">
                                 <thead>
                                     <tr class="nowrap">
-                                        <th></th>
+                                        <th><input type="checkbox" name="all" class="checkAll" onclick="toggleAll()" />Select All</th>
                                         <th>PalletID</th>
                                         <th>Warehouse</th>
                                         <th>Stock Code</th>
@@ -178,22 +178,44 @@
         </div>
     </fieldset>
 }
+<link href="~/Content/DataTable/datatables.css" rel="stylesheet">
 
 @section Scripts{
     @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/DataTable/datatables.js")
     <script>
         //$('input[type="checkbox"]').change(function () {
 
-            
-        //})
 
-        function PostPallet() {
+
+        //})
+        $(document).ready(function () {
+                $('#tblPallet').DataTable();
+        })
+
+        function toggleAll() {
             
-            var Pallet = [];
-            var counter = 0;
+            if ($('.checkAll').prop('checked')) {
+                $('table > tbody > tr').each(function () {
+                    $(this).find(".select").prop("checked", true);
+                })
+            }
+            else {
+                $('table > tbody > tr').each(function () {
+                    $(this).find(".select").prop("checked", false);
+                })
+            }
+        }
+        function PostPallet() {
+
+            var PalletList = [];
+            var count = 0;
             let jobNumber = $('#jobNumber').val();
 
-            //traverse table to find selected(checked) lots/rows 
+            //traverse table to find selected(checked) lots/rows
             $('table > tbody > tr').each(function () {
                 let check = $(this).find(".select");
                 if ($(check).prop('checked')) {
@@ -215,16 +237,19 @@
                     palletObj.WorkCentre = "PalletIssue";
                     palletObj.Shift = pallet;
                     //alert(JSON.stringify(palletObj))
+                    PalletList.push(palletObj);
                     count++;
                 }
-                
+
             })
             if (count == 0) return alert("Please 'CHECK' Lots required before posting");
-            var exportData = JSON.stringify({ palletDetails: JSON.stringify(Pallet) });
-            
+            var exportdata = { palletDetails: JSON.stringify(PalletList) };
+            //console.log(exportdata);
+            showprogressbar();
+            //$.post("PalletMatIssue/GetSelectedRows", exportdata, "json", OnSuccess, OnError)
             $.ajax({
-                url: "/PalletMatIssue/GetSelectedRows",
-                type: "post",
+                url: '@Url.Action("GetSelectedRows", "PalletMatIssue")',
+                type: "POST",
                 data: exportdata,
                 contenttype: "application/json; charset=utf-8",
                 datatype: "json",
@@ -234,22 +259,25 @@
 
             //clear all fields and table
             function OnSuccess(result) {
+
                 if (result != null) {
                     $('.form-control input-sm').val("");
-                    if (response.indexOf('Material Issue posted successfully') === 0) {
+                    if (result.indexOf('Material Issue posted successfully') === 0) {
                         $('#tblPallet tbody').empty();
-                        alert(response);
+                        alert("Success: " + result);
+                        hideprogressbar();
                     }
                 }
                 else {
                     $('#tblPallet tbody').empty();
                 }
-                
+
             }
 
             function OnError(result) {
                 if (result != null) {
-                    alert(result)
+                    alert("Error: " + result);
+                    hideprogressbar();
                 }
             }
         }

@@ -44,6 +44,7 @@ namespace Megasoft2.Controllers
             return View("Index", result);    
         }
 
+        [HttpPost]
         public ActionResult GetSelectedRows(string palletDetails)
         {
             try
