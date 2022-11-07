@@ -16,7 +16,7 @@ namespace Megasoft2.BusinessLogic
         private SysproEntities sys;
         public PalletMatIssueBL()
         {
-            wdb = new WarehouseManagementEntities();
+            wdb = new WarehouseManagementEntities("");
             mdb = new MegasoftEntities();
             sys = new SysproEntities();
         }
@@ -31,7 +31,10 @@ namespace Megasoft2.BusinessLogic
                 var jobCode = model.Job;
                 if (padding == true && jobCode != null )
                 {
-                    jobCode = model.Job.PadLeft(15, '0');
+                    if(padding == true)
+                    {
+                        jobCode = model.Job.PadLeft(15, '0');
+                    }
                 }
                 else
                 {

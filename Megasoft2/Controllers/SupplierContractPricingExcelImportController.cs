@@ -14,7 +14,7 @@ namespace Megasoft2.Controllers
     public class SupplierContractPricingExcelImportController : Controller
     {
 
-        WarehouseManagementEntities wdb = new WarehouseManagementEntities();
+        WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
         MegasoftEntities mdb = new MegasoftEntities();
         SysproCore objSys = new SysproCore();
         SupplierContractsBL objPost = new SupplierContractsBL();

@@ -19,7 +19,6 @@ namespace Megasoft2.Controllers
     public class PalletMatIssueController : Controller
     {
         PalletMatIssueBL bl = new PalletMatIssueBL();
-        WarehouseManagementEntities wdb = new WarehouseManagementEntities();
         BusinessLogic.SysproMaterialIssue objMat = new BusinessLogic.SysproMaterialIssue();
 
         [CustomAuthorize(Activity: "PalletMatIssue")]
