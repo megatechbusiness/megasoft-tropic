@@ -10,7 +10,7 @@ namespace Megasoft2.Controllers
 {
     public class MasterCardArtworkController : Controller
     {
-        WarehouseManagementEntities db = new WarehouseManagementEntities();
+        WarehouseManagementEntities db = new WarehouseManagementEntities("");
         // GET: /MasterCardArtwork/
         [CustomAuthorize("MasterCardArtworkUpload")]
         public ActionResult Index()
