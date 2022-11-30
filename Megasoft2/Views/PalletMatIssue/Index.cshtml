@@ -266,10 +266,14 @@
                         $('#tblPallet tbody').empty();
                         alert("Success: " + result);
                         hideprogressbar();
+                    } else {
+                        alert("Error: " + result);
+                        hideprogressbar();
                     }
                 }
                 else {
                     $('#tblPallet tbody').empty();
+                    hideprogressbar();
                 }
 
             }
