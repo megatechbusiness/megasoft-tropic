@@ -38,6 +38,7 @@
         <EntityTypeShape EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" Width="1.5" PointX="16.375" PointY="6.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtEmailSetting" Width="1.5" PointX="16.375" PointY="0.75" />
         <EntityTypeShape EntityType="MegasoftModel.mtDistributionSetup" Width="1.5" PointX="17.375" PointY="10.75" />
+        <EntityTypeShape EntityType="MegasoftModel.mtManufacturingSetup" Width="1.5" PointX="0.75" PointY="18.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

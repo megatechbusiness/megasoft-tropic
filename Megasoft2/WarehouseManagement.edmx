@@ -2928,6 +2928,26 @@
           <Property Name="JobNumberPadZeros" Type="bit" />
           <Property Name="MaterialIssueValidateComponent" Type="bit" />
         </EntityType>
+        <EntityType Name="mtWipJobCostRecalcLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Job" Type="varchar" MaxLength="20" />
+          <Property Name="ExpLabourOrig" Type="decimal" Precision="15" Scale="5" />
+          <Property Name="ExpMaterialOrig" Type="decimal" Precision="15" Scale="5" />
+          <Property Name="ExpLabourCurrent" Type="decimal" Precision="15" Scale="5" />
+          <Property Name="ExpMaterialCurrent" Type="decimal" Precision="15" Scale="5" />
+          <Property Name="DateSaved" Type="datetime" />
+          <Property Name="Posted" Type="varchar" MaxLength="1" />
+          <Property Name="DatePosted" Type="datetime" />
+          <Property Name="NewExpLabour" Type="decimal" Precision="15" Scale="5" />
+          <Property Name="NewExpMaterial" Type="decimal" Precision="15" Scale="5" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+          <Property Name="SysproUser" Type="varchar" MaxLength="50" />
+          <Property Name="QtyToMake" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="JobReceiptQty" Type="decimal" Precision="18" Scale="6" />
+        </EntityType>
         <EntityType Name="mtWmsDeletedItems">
           <Key>
             <PropertyRef Name="Id" />
@@ -4645,6 +4665,16 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <Parameter Name="Bin" Type="varchar" Mode="In" />
           <Parameter Name="MultipleBins" Type="char" Mode="In" />
         </Function>
+        <Function Name="mt_WipGetJobDetailsForExpectedCostPost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="mt_WipJobCostRecalcUpdateMaterialCost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+          <Parameter Name="UpdateType" Type="varchar" Mode="In" />
+          <Parameter Name="LogId" Type="int" Mode="In" />
+          <Parameter Name="Posted" Type="varchar" Mode="In" />
+          <Parameter Name="ErrorMessage" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_ArchiveStockTake" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Warehouse" Type="varchar" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -5613,6 +5643,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="mtTransportWaybillDetail" EntityType="Self.mtTransportWaybillDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtTransportWaybillHdr" EntityType="Self.mtTransportWaybillHdr" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtWhseManSettings" EntityType="Self.mtWhseManSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtWipJobCostRecalcLog" EntityType="Self.mtWipJobCostRecalcLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtWmsDeletedItems" EntityType="Self.mtWmsDeletedItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtWmsOrderDetail" EntityType="Self.mtWmsOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtWmsOrderMaster" EntityType="Self.mtWmsOrderMaster" Schema="dbo" store:Type="Tables" />
@@ -7891,6 +7922,17 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtProductionPackLabelPrints" EntityType="WarehouseManagementModel.mtProductionPackLabelPrint" />
+          <FunctionImport Name="mt_WipGetJobDetailsForExpectedCostPost" ReturnType="Collection(WarehouseManagementModel.mt_WipGetJobDetailsForExpectedCostPost_Result)">
+          <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="mt_WipJobCostRecalcUpdateMaterialCost">
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="UpdateType" Mode="In" Type="String" />
+            <Parameter Name="LogId" Mode="In" Type="Int32" />
+            <Parameter Name="Posted" Mode="In" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="mtWipJobCostRecalcLogs" EntityType="WarehouseManagementModel.mtWipJobCostRecalcLog" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14680,6 +14722,37 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="TrnDate" Type="DateTime" Precision="3" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PrinterOp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="mt_WipGetJobDetailsForExpectedCostPost_Result">
+          <Property Type="String" Name="Job" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="ExpLabour" Nullable="false" Precision="15" Scale="5" />
+          <Property Type="Decimal" Name="ExpMaterial" Nullable="false" Precision="15" Scale="5" />
+          <Property Type="Decimal" Name="ExpLabCurrent" Nullable="false" Precision="15" Scale="5" />
+          <Property Type="Decimal" Name="ExpMatCurrent" Nullable="false" Precision="15" Scale="5" />
+          <Property Type="String" Name="NonConformFlag" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Complete" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="SubJob" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="StockOnHold" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="mtWipJobCostRecalcLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Job" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ExpLabourOrig" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="ExpMaterialOrig" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="ExpLabourCurrent" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="ExpMaterialCurrent" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="DateSaved" Type="DateTime" Precision="3" />
+          <Property Name="Posted" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DatePosted" Type="DateTime" Precision="3" />
+          <Property Name="NewExpLabour" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="NewExpMaterial" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SysproUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="QtyToMake" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="JobReceiptQty" Type="Decimal" Precision="18" Scale="6" />
         </EntityType>
 
       </Schema>
@@ -21691,6 +21764,43 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="PackNo" ColumnName="PackNo" />
                 <ScalarProperty Name="BatchId" ColumnName="BatchId" />
                 <ScalarProperty Name="Job" ColumnName="Job" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_WipGetJobDetailsForExpectedCostPost" FunctionName="WarehouseManagementModel.Store.mt_WipGetJobDetailsForExpectedCostPost">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_WipGetJobDetailsForExpectedCostPost_Result">
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="ExpLabour" ColumnName="ExpLabour" />
+                <ScalarProperty Name="ExpMaterial" ColumnName="ExpMaterial" />
+                <ScalarProperty Name="ExpLabCurrent" ColumnName="ExpLabCurrent" />
+                <ScalarProperty Name="ExpMatCurrent" ColumnName="ExpMatCurrent" />
+                <ScalarProperty Name="NonConformFlag" ColumnName="NonConformFlag" />
+                <ScalarProperty Name="Complete" ColumnName="Complete" />
+                <ScalarProperty Name="SubJob" ColumnName="SubJob" />
+                <ScalarProperty Name="StockOnHold" ColumnName="StockOnHold" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_WipJobCostRecalcUpdateMaterialCost" FunctionName="WarehouseManagementModel.Store.mt_WipJobCostRecalcUpdateMaterialCost" />
+          <EntitySetMapping Name="mtWipJobCostRecalcLogs">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtWipJobCostRecalcLog">
+              <MappingFragment StoreEntitySet="mtWipJobCostRecalcLog">
+                <ScalarProperty Name="JobReceiptQty" ColumnName="JobReceiptQty" />
+                <ScalarProperty Name="QtyToMake" ColumnName="QtyToMake" />
+                <ScalarProperty Name="SysproUser" ColumnName="SysproUser" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="NewExpMaterial" ColumnName="NewExpMaterial" />
+                <ScalarProperty Name="NewExpLabour" ColumnName="NewExpLabour" />
+                <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
+                <ScalarProperty Name="Posted" ColumnName="Posted" />
+                <ScalarProperty Name="DateSaved" ColumnName="DateSaved" />
+                <ScalarProperty Name="ExpMaterialCurrent" ColumnName="ExpMaterialCurrent" />
+                <ScalarProperty Name="ExpLabourCurrent" ColumnName="ExpLabourCurrent" />
+                <ScalarProperty Name="ExpMaterialOrig" ColumnName="ExpMaterialOrig" />
+                <ScalarProperty Name="ExpLabourOrig" ColumnName="ExpLabourOrig" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -50,5 +50,11 @@ namespace Megasoft2
         public string TransportSystemNotificationEmail { get; set; }
         public Nullable<int> ReqEmailMaxReminders { get; set; }
         public Nullable<bool> ReqEmailReminders { get; set; }
+        public Nullable<bool> SalesOrderClosureServiceActive { get; set; }
+        public Nullable<decimal> SalesOrderClosureToleranceValue { get; set; }
+        public string SalesOrderClosureEmail { get; set; }
+        public Nullable<System.TimeSpan> SalesOrderClosureEmailSendTime { get; set; }
+        public Nullable<System.DateTime> SalesOrderClosureLastEmailSentDate { get; set; }
+        public string RequisitionSystemAdminEmail { get; set; }
     }
 }

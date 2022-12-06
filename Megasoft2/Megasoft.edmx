@@ -61,6 +61,12 @@
           <Property Name="TransportSystemNotificationEmail" Type="varchar" MaxLength="500" />
           <Property Name="ReqEmailMaxReminders" Type="int" />
           <Property Name="ReqEmailReminders" Type="bit" />
+          <Property Name="SalesOrderClosureServiceActive" Type="bit" />
+          <Property Name="SalesOrderClosureToleranceValue" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SalesOrderClosureEmail" Type="varchar" MaxLength="500" />
+          <Property Name="SalesOrderClosureEmailSendTime" Type="time" Precision="7" />
+          <Property Name="SalesOrderClosureLastEmailSentDate" Type="datetime" />
+          <Property Name="RequisitionSystemAdminEmail" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="mtEmailSettings">
           <Key>
@@ -79,6 +85,59 @@
           </Key>
           <Property Name="PrinterName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PrinterPath" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mtManufacturingSetup">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="JobDelink" Type="bit" Nullable="false" />
+          <Property Name="JobWarehouseUpdate" Type="bit" Nullable="false" />
+          <Property Name="JobWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="MaterialWarehouseUpdate" Type="bit" Nullable="false" />
+          <Property Name="MaterialWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="MaterialWarehouseExclusion" Type="varchar" MaxLength="200" />
+          <Property Name="SubContractMaterialWarehouseUpdate" Type="bit" Nullable="false" />
+          <Property Name="SubContractMaterialWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="DateLastUpdated" Type="datetime" />
+          <Property Name="UserLastUpdated" Type="varchar" MaxLength="50" />
+          <Property Name="JobWorkCentreUpdate" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceActive" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceProcessBlanks" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceLabourPost" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceLabourRuntimeSetupTime" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceLabourGoodQty" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceLabourScrapQty" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceJobReceipt" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceJobReceiptCostBasis" Type="varchar" MaxLength="1" />
+          <Property Name="PostingServiceJobKitIssue" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceInvReceiptScrap" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceInvReceiptScrapUom" Type="varchar" MaxLength="4" />
+          <Property Name="PostingServiceInvReceiptScrapStockCode" Type="varchar" MaxLength="30" />
+          <Property Name="PostingServiceInvReceiptScrapWarehouse" Type="varchar" MaxLength="10" />
+          <Property Name="PostingServiceDowntimePosting" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceUpdateLineShipDate" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceLineShipDateGraceDays" Type="int" />
+          <Property Name="PostingServiceUpdateJobStartDate" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceJobStartDateUpdateTime" Type="time" Precision="7" />
+          <Property Name="PostingServiceJobStartDateUpdateIntervalHours" Type="int" />
+          <Property Name="PostingServiceJobStartDateLastUpdate" Type="datetime" />
+          <Property Name="PostingServiceProductionEmail" Type="varchar" MaxLength="500" />
+          <Property Name="PostingServiceSalesEmail" Type="varchar" MaxLength="500" />
+          <Property Name="PostingServiceAdminEmail" Type="varchar" MaxLength="500" />
+          <Property Name="PostingServiceEmailSendTime" Type="time" Precision="7" />
+          <Property Name="PostingServiceEmailLastSendDate" Type="datetime" />
+          <Property Name="PostingServiceLabourScrapSpecificIssue" Type="bit" Nullable="false" />
+          <Property Name="PostingServiceLabourScrapSpecificIssueStockClass" Type="varchar" MaxLength="50" />
+          <Property Name="PackingTransferOutOnReceipt" Type="bit" />
+          <Property Name="PackingTransferOutWarehouse" Type="varchar" MaxLength="15" />
+          <Property Name="PackingTransferOutBin" Type="varchar" MaxLength="30" />
+          <Property Name="ScalesPostCompletedJob" Type="bit" Nullable="false" />
+          <Property Name="MaterialIssueAllowLabelPrint" Type="bit" />
+          <Property Name="LabourPostingCapturePostLabour" Type="bit" />
+          <Property Name="LabourPostingCapturePostScrap" Type="bit" />
+          <Property Name="JobReceiptsPostJobCostRecalc" Type="bit" />
+          <Property Name="BatchPackingWeightRequired" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="mtOpBranchAccess">
           <Key>
@@ -536,6 +595,7 @@
           <EntitySet Name="mtDistributionSetup" EntityType="Self.mtDistributionSetup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtEmailSettings" EntityType="Self.mtEmailSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtLabelPrinter" EntityType="Self.mtLabelPrinter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtManufacturingSetup" EntityType="Self.mtManufacturingSetup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtOpBranchAccess" EntityType="Self.mtOpBranchAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtOpFunction" EntityType="Self.mtOpFunction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtProgramFunction" EntityType="Self.mtProgramFunction" Schema="dbo" store:Type="Tables" />
@@ -728,6 +788,7 @@
           <EntitySet Name="mtReqUserCostCentreSpendLimits" EntityType="MegasoftModel.mtReqUserCostCentreSpendLimit" />
           <EntitySet Name="mtEmailSettings" EntityType="MegasoftModel.mtEmailSetting" />
           <EntitySet Name="mtDistributionSetups" EntityType="MegasoftModel.mtDistributionSetup" />
+          <EntitySet Name="mtManufacturingSetups" EntityType="MegasoftModel.mtManufacturingSetup" />
         </EntityContainer>
         <ComplexType Name="sp_GetRoleAccess_Result">
           <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
@@ -1251,6 +1312,65 @@
           <Property Name="TransportSystemNotificationEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ReqEmailMaxReminders" Type="Int32" />
           <Property Name="ReqEmailReminders" Type="Boolean" />
+          <Property Name="SalesOrderClosureServiceActive" Type="Boolean" />
+          <Property Name="SalesOrderClosureToleranceValue" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SalesOrderClosureEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SalesOrderClosureEmailSendTime" Type="Time" Precision="7" />
+          <Property Name="SalesOrderClosureLastEmailSentDate" Type="DateTime" Precision="3" />
+          <Property Name="RequisitionSystemAdminEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mtManufacturingSetup">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="JobDelink" Type="Boolean" Nullable="false" />
+          <Property Name="JobWarehouseUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="JobWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaterialWarehouseUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="MaterialWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaterialWarehouseExclusion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SubContractMaterialWarehouseUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="SubContractMaterialWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="UserLastUpdated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JobWorkCentreUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceActive" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceProcessBlanks" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceLabourPost" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceLabourRuntimeSetupTime" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceLabourGoodQty" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceLabourScrapQty" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceJobReceipt" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceJobReceiptCostBasis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceJobKitIssue" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceInvReceiptScrap" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceInvReceiptScrapUom" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceInvReceiptScrapStockCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceInvReceiptScrapWarehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceDowntimePosting" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceUpdateLineShipDate" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceLineShipDateGraceDays" Type="Int32" />
+          <Property Name="PostingServiceUpdateJobStartDate" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceJobStartDateUpdateTime" Type="Time" Precision="7" />
+          <Property Name="PostingServiceJobStartDateUpdateIntervalHours" Type="Int32" />
+          <Property Name="PostingServiceJobStartDateLastUpdate" Type="DateTime" Precision="3" />
+          <Property Name="PostingServiceProductionEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceSalesEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceAdminEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostingServiceEmailSendTime" Type="Time" Precision="7" />
+          <Property Name="PostingServiceEmailLastSendDate" Type="DateTime" Precision="3" />
+          <Property Name="PostingServiceLabourScrapSpecificIssue" Type="Boolean" Nullable="false" />
+          <Property Name="PostingServiceLabourScrapSpecificIssueStockClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PackingTransferOutOnReceipt" Type="Boolean" />
+          <Property Name="PackingTransferOutWarehouse" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PackingTransferOutBin" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ScalesPostCompletedJob" Type="Boolean" Nullable="false" />
+          <Property Name="MaterialIssueAllowLabelPrint" Type="Boolean" />
+          <Property Name="LabourPostingCapturePostLabour" Type="Boolean" />
+          <Property Name="LabourPostingCapturePostScrap" Type="Boolean" />
+          <Property Name="JobReceiptsPostJobCostRecalc" Type="Boolean" />
+          <Property Name="BatchPackingWeightRequired" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1767,6 +1887,12 @@
           <EntitySetMapping Name="mtDistributionSetups">
             <EntityTypeMapping TypeName="MegasoftModel.mtDistributionSetup">
               <MappingFragment StoreEntitySet="mtDistributionSetup">
+                <ScalarProperty Name="RequisitionSystemAdminEmail" ColumnName="RequisitionSystemAdminEmail" />
+                <ScalarProperty Name="SalesOrderClosureLastEmailSentDate" ColumnName="SalesOrderClosureLastEmailSentDate" />
+                <ScalarProperty Name="SalesOrderClosureEmailSendTime" ColumnName="SalesOrderClosureEmailSendTime" />
+                <ScalarProperty Name="SalesOrderClosureEmail" ColumnName="SalesOrderClosureEmail" />
+                <ScalarProperty Name="SalesOrderClosureToleranceValue" ColumnName="SalesOrderClosureToleranceValue" />
+                <ScalarProperty Name="SalesOrderClosureServiceActive" ColumnName="SalesOrderClosureServiceActive" />
                 <ScalarProperty Name="ReqEmailReminders" ColumnName="ReqEmailReminders" />
                 <ScalarProperty Name="ReqEmailMaxReminders" ColumnName="ReqEmailMaxReminders" />
                 <ScalarProperty Name="TransportSystemNotificationEmail" ColumnName="TransportSystemNotificationEmail" />
@@ -1802,6 +1928,60 @@
                 <ScalarProperty Name="SalesContractPricingNotificationLetterPath" ColumnName="SalesContractPricingNotificationLetterPath" />
                 <ScalarProperty Name="SalesContractPricingImportFilePath" ColumnName="SalesContractPricingImportFilePath" />
                 <ScalarProperty Name="SalesContractPricingServiceActive" ColumnName="SalesContractPricingServiceActive" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtManufacturingSetups">
+            <EntityTypeMapping TypeName="MegasoftModel.mtManufacturingSetup">
+              <MappingFragment StoreEntitySet="mtManufacturingSetup">
+                <ScalarProperty Name="BatchPackingWeightRequired" ColumnName="BatchPackingWeightRequired" />
+                <ScalarProperty Name="JobReceiptsPostJobCostRecalc" ColumnName="JobReceiptsPostJobCostRecalc" />
+                <ScalarProperty Name="LabourPostingCapturePostScrap" ColumnName="LabourPostingCapturePostScrap" />
+                <ScalarProperty Name="LabourPostingCapturePostLabour" ColumnName="LabourPostingCapturePostLabour" />
+                <ScalarProperty Name="MaterialIssueAllowLabelPrint" ColumnName="MaterialIssueAllowLabelPrint" />
+                <ScalarProperty Name="ScalesPostCompletedJob" ColumnName="ScalesPostCompletedJob" />
+                <ScalarProperty Name="PackingTransferOutBin" ColumnName="PackingTransferOutBin" />
+                <ScalarProperty Name="PackingTransferOutWarehouse" ColumnName="PackingTransferOutWarehouse" />
+                <ScalarProperty Name="PackingTransferOutOnReceipt" ColumnName="PackingTransferOutOnReceipt" />
+                <ScalarProperty Name="PostingServiceLabourScrapSpecificIssueStockClass" ColumnName="PostingServiceLabourScrapSpecificIssueStockClass" />
+                <ScalarProperty Name="PostingServiceLabourScrapSpecificIssue" ColumnName="PostingServiceLabourScrapSpecificIssue" />
+                <ScalarProperty Name="PostingServiceEmailLastSendDate" ColumnName="PostingServiceEmailLastSendDate" />
+                <ScalarProperty Name="PostingServiceEmailSendTime" ColumnName="PostingServiceEmailSendTime" />
+                <ScalarProperty Name="PostingServiceAdminEmail" ColumnName="PostingServiceAdminEmail" />
+                <ScalarProperty Name="PostingServiceSalesEmail" ColumnName="PostingServiceSalesEmail" />
+                <ScalarProperty Name="PostingServiceProductionEmail" ColumnName="PostingServiceProductionEmail" />
+                <ScalarProperty Name="PostingServiceJobStartDateLastUpdate" ColumnName="PostingServiceJobStartDateLastUpdate" />
+                <ScalarProperty Name="PostingServiceJobStartDateUpdateIntervalHours" ColumnName="PostingServiceJobStartDateUpdateIntervalHours" />
+                <ScalarProperty Name="PostingServiceJobStartDateUpdateTime" ColumnName="PostingServiceJobStartDateUpdateTime" />
+                <ScalarProperty Name="PostingServiceUpdateJobStartDate" ColumnName="PostingServiceUpdateJobStartDate" />
+                <ScalarProperty Name="PostingServiceLineShipDateGraceDays" ColumnName="PostingServiceLineShipDateGraceDays" />
+                <ScalarProperty Name="PostingServiceUpdateLineShipDate" ColumnName="PostingServiceUpdateLineShipDate" />
+                <ScalarProperty Name="PostingServiceDowntimePosting" ColumnName="PostingServiceDowntimePosting" />
+                <ScalarProperty Name="PostingServiceInvReceiptScrapWarehouse" ColumnName="PostingServiceInvReceiptScrapWarehouse" />
+                <ScalarProperty Name="PostingServiceInvReceiptScrapStockCode" ColumnName="PostingServiceInvReceiptScrapStockCode" />
+                <ScalarProperty Name="PostingServiceInvReceiptScrapUom" ColumnName="PostingServiceInvReceiptScrapUom" />
+                <ScalarProperty Name="PostingServiceInvReceiptScrap" ColumnName="PostingServiceInvReceiptScrap" />
+                <ScalarProperty Name="PostingServiceJobKitIssue" ColumnName="PostingServiceJobKitIssue" />
+                <ScalarProperty Name="PostingServiceJobReceiptCostBasis" ColumnName="PostingServiceJobReceiptCostBasis" />
+                <ScalarProperty Name="PostingServiceJobReceipt" ColumnName="PostingServiceJobReceipt" />
+                <ScalarProperty Name="PostingServiceLabourScrapQty" ColumnName="PostingServiceLabourScrapQty" />
+                <ScalarProperty Name="PostingServiceLabourGoodQty" ColumnName="PostingServiceLabourGoodQty" />
+                <ScalarProperty Name="PostingServiceLabourRuntimeSetupTime" ColumnName="PostingServiceLabourRuntimeSetupTime" />
+                <ScalarProperty Name="PostingServiceLabourPost" ColumnName="PostingServiceLabourPost" />
+                <ScalarProperty Name="PostingServiceProcessBlanks" ColumnName="PostingServiceProcessBlanks" />
+                <ScalarProperty Name="PostingServiceActive" ColumnName="PostingServiceActive" />
+                <ScalarProperty Name="JobWorkCentreUpdate" ColumnName="JobWorkCentreUpdate" />
+                <ScalarProperty Name="UserLastUpdated" ColumnName="UserLastUpdated" />
+                <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+                <ScalarProperty Name="SubContractMaterialWarehouse" ColumnName="SubContractMaterialWarehouse" />
+                <ScalarProperty Name="SubContractMaterialWarehouseUpdate" ColumnName="SubContractMaterialWarehouseUpdate" />
+                <ScalarProperty Name="MaterialWarehouseExclusion" ColumnName="MaterialWarehouseExclusion" />
+                <ScalarProperty Name="MaterialWarehouse" ColumnName="MaterialWarehouse" />
+                <ScalarProperty Name="MaterialWarehouseUpdate" ColumnName="MaterialWarehouseUpdate" />
+                <ScalarProperty Name="JobWarehouse" ColumnName="JobWarehouse" />
+                <ScalarProperty Name="JobWarehouseUpdate" ColumnName="JobWarehouseUpdate" />
+                <ScalarProperty Name="JobDelink" ColumnName="JobDelink" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
               </MappingFragment>
             </EntityTypeMapping>

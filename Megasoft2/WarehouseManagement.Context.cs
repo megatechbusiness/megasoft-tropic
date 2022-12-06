@@ -151,6 +151,7 @@ namespace Megasoft2
         public DbSet<mtMasterCardStockCodeWarehouse> mtMasterCardStockCodeWarehouses { get; set; }
         public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
         public DbSet<mtProductionPackLabelPrint> mtProductionPackLabelPrints { get; set; }
+        public DbSet<mtWipJobCostRecalcLog> mtWipJobCostRecalcLogs { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {
@@ -3265,6 +3266,40 @@ namespace Megasoft2
                 new ObjectParameter("Job", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_ProductionPackLabelDetailsByJob_Result>("mt_ProductionPackLabelDetailsByJob", jobParameter);
+        }
+    
+        public virtual ObjectResult<mt_WipGetJobDetailsForExpectedCostPost_Result> mt_WipGetJobDetailsForExpectedCostPost(string job)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<mt_WipGetJobDetailsForExpectedCostPost_Result>("mt_WipGetJobDetailsForExpectedCostPost", jobParameter);
+        }
+    
+        public virtual int mt_WipJobCostRecalcUpdateMaterialCost(string job, string updateType, Nullable<int> logId, string posted, string errorMessage)
+        {
+            var jobParameter = job != null ?
+                new ObjectParameter("Job", job) :
+                new ObjectParameter("Job", typeof(string));
+    
+            var updateTypeParameter = updateType != null ?
+                new ObjectParameter("UpdateType", updateType) :
+                new ObjectParameter("UpdateType", typeof(string));
+    
+            var logIdParameter = logId.HasValue ?
+                new ObjectParameter("LogId", logId) :
+                new ObjectParameter("LogId", typeof(int));
+    
+            var postedParameter = posted != null ?
+                new ObjectParameter("Posted", posted) :
+                new ObjectParameter("Posted", typeof(string));
+    
+            var errorMessageParameter = errorMessage != null ?
+                new ObjectParameter("ErrorMessage", errorMessage) :
+                new ObjectParameter("ErrorMessage", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("mt_WipJobCostRecalcUpdateMaterialCost", jobParameter, updateTypeParameter, logIdParameter, postedParameter, errorMessageParameter);
         }
     }
 }

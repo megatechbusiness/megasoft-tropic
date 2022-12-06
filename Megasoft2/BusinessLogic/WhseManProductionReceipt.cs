@@ -11,8 +11,7 @@ namespace Megasoft2.BusinessLogic
     {
         private SysproCore objSyspro = new SysproCore();
         private WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
-        private MegasoftEntities mdb = new MegasoftEntities();
-
+        private MegasoftEntities mdb = new MegasoftEntities();        
         public string PostJobReceipt(List<WhseManJobReceipt> detail)
         {
             string Guid = "";
@@ -725,6 +724,11 @@ namespace Megasoft2.BusinessLogic
                 {
                     return "Failed to login to Syspro.";
                 }
+                
+                HttpCookie database = HttpContext.Current.Request.Cookies.Get("SysproDatabase");
+                var Company = (from a in mdb.mtSysproAdmins where a.DatabaseName == database.Value select a.Company).FirstOrDefault();
+
+                PostJobCostRecalc(Guid, result.FirstOrDefault().Job, result.Sum(a => a.Quantity), Company);
 
                 foreach (var item in result)
                 {
@@ -756,7 +760,7 @@ namespace Megasoft2.BusinessLogic
                             return "Labour Issue Error: " + ErrorMessage;
                         }
                     }
-                    var BatchList = (from a in JobsToPost where a.PalletNo == item.Lot && a.Job == item.Job select new WhseManJobReceipt { Job = a.Job, Lot = a.BatchId, Quantity = (decimal)a.NetQty }).OrderBy(x => x.Lot).ToList();
+                    var BatchList = (from a in JobsToPost where a.PalletNo == item.Lot && a.Job == item.Job select new WhseManJobReceipt { Job = a.Job, Lot = a.BatchId, Quantity = (decimal)a.NetQty }).OrderBy(x => x.Lot).ToList();                    
                     XmlOut = objSyspro.SysproPost(Guid, this.BuildJobReceiptParameter(), this.BuildJobReceiptDocument(BatchList), "WIPTJR");
                     ErrorMessage = objSyspro.GetXmlErrors(XmlOut);
                     string JobJournal = objSyspro.GetXmlValue(XmlOut, "Journal");
@@ -1395,6 +1399,173 @@ namespace Megasoft2.BusinessLogic
 
             return Parameter.ToString();
 
+        }
+
+        //S.R - 2022/12/01 
+        public void PostJobCostRecalc(string Guid, string Job, decimal JobReceiptQty, string Company)
+        {
+
+            string ErrorMessage = "";
+            string NonConformFlag = "", Complete = "", SubJob = "", StockOnHold = "";
+            decimal ExpLabour = 0, ExpMaterial = 0, ExpLabCurrent = 0, ExpMatCurrent = 0;
+            string Username = HttpContext.Current.User.Identity.Name.ToUpper();
+            decimal QtyToMake = (from a in wdb.WipMasters where a.Job == Job select a.QtyToMake).FirstOrDefault();
+            try
+            {
+
+                var ManSetting = (from a in mdb.mtManufacturingSetups where a.CompanyCode == Company select a).ToList();
+                if (ManSetting.Count > 0)
+                {
+                    if (ManSetting.FirstOrDefault().JobReceiptsPostJobCostRecalc != true)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+
+                var result = (from a in wdb.mt_WipGetJobDetailsForExpectedCostPost(Job) select a).FirstOrDefault();
+                if (result == null)
+                {
+                    ErrorMessage = $"Job {Job} not found.";
+                }
+                else
+                {
+                    if (result.NonConformFlag == "Y")
+                    {
+                        ErrorMessage = $"Non Conforming component found on Job {Job}.";
+                    }
+                    if (result.Complete == "Y")
+                    {
+                        ErrorMessage = $"{ErrorMessage} Non Conforming component found on Job {Job}.";
+                    }
+                    if (result.SubJob == "Y")
+                    {
+                        ErrorMessage = $"{ErrorMessage} Job {Job} is a sub Job.";
+                    }
+                    if (result.StockOnHold == "Y")
+                    {
+                        ErrorMessage = $"{ErrorMessage} Job {Job} StockCode on hold.";
+                    }
+                    ExpLabour = result.ExpLabour;
+                    ExpMaterial = result.ExpMaterial;
+                    ExpMatCurrent = result.ExpMatCurrent;
+                    ExpLabCurrent = result.ExpLabCurrent;
+                    ExpMatCurrent = result.ExpMatCurrent;
+                    NonConformFlag = result.NonConformFlag;
+                    Complete = result.Complete;
+                    SubJob = result.SubJob;
+                    StockOnHold = result.StockOnHold;
+                }
+
+                if (ErrorMessage != "")
+                {
+                    using (var savedb = new WarehouseManagementEntities(""))
+                    {
+                        mtWipJobCostRecalcLog obj = new mtWipJobCostRecalcLog();
+                        obj.Job = Job;
+                        obj.ExpLabourOrig = ExpLabour;
+                        obj.ExpMaterialOrig = ExpMaterial;
+                        obj.ExpLabourCurrent = ExpLabCurrent;
+                        obj.ExpMaterialCurrent = ExpMatCurrent;
+                        obj.DateSaved = DateTime.Now;
+                        obj.Posted = "N";
+                        obj.ErrorMessage = ErrorMessage;
+                        obj.SysproUser = Username;
+                        obj.QtyToMake = QtyToMake;
+                        obj.JobReceiptQty = JobReceiptQty;
+                        savedb.Entry(obj).State = System.Data.EntityState.Added;
+                        savedb.SaveChanges();
+                    }
+                }
+                else
+                {
+                    int RowId = 0;
+                    using (var savedb = new WarehouseManagementEntities(""))
+                    {
+                        mtWipJobCostRecalcLog obj = new mtWipJobCostRecalcLog();
+                        obj.Job = Job;
+                        obj.ExpLabourOrig = ExpLabour;
+                        obj.ExpMaterialOrig = ExpMaterial;
+                        obj.ExpLabourCurrent = ExpLabCurrent;
+                        obj.ExpMaterialCurrent = ExpMatCurrent;
+                        obj.DateSaved = DateTime.Now;
+                        obj.Posted = "N";
+                        obj.ErrorMessage = "";
+                        obj.SysproUser = Username;
+                        obj.QtyToMake = QtyToMake;
+                        obj.JobReceiptQty = JobReceiptQty;
+                        savedb.Entry(obj).State = System.Data.EntityState.Added;
+                        savedb.SaveChanges();
+
+                        RowId = obj.Id;
+
+                    }
+
+
+                    wdb.mt_WipJobCostRecalcUpdateMaterialCost(Job, "MaterialCost", 0, "", "");
+
+                    //Declaration
+                    StringBuilder Document = new StringBuilder();
+
+                    //Building Document content
+                    Document.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                    Document.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
+                    Document.Append("<!--");
+                    Document.Append("Sample XML for the WIP Expected Job Cost Recalculation Business Object");
+                    Document.Append("-->");
+                    Document.Append("<PostExpectedCosts xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"WIPTCEDOC.XSD\">");
+                    Document.Append("<Item>");
+                    Document.Append("<Job>" + Job + "</Job>");
+                    Document.Append("<UpdateCurrentCost>Y</UpdateCurrentCost>");
+                    Document.Append("<UpdateOriginalCost>Y</UpdateOriginalCost>");
+                    Document.Append("<UpdateHierarchyCost>Y</UpdateHierarchyCost>");
+                    Document.Append("<IncludeConfirmedJobs>Y</IncludeConfirmedJobs>");
+                    Document.Append("<UpdateCostOfSales>N</UpdateCostOfSales>");
+                    Document.Append("</Item>");
+                    Document.Append("</PostExpectedCosts>");
+
+                    //Declaration
+                    StringBuilder Parameter = new StringBuilder();
+
+                    //Building Parameter content
+                    Parameter.Append("<?xml version=\"1.0\" encoding=\"Windows-1252\"?>");
+                    Parameter.Append("<!-- Copyright 1994-2014 SYSPRO Ltd.-->");
+                    Parameter.Append("<!--");
+                    Parameter.Append("Sample XML for the WIP Expected Job Cost Recalculation Business Object");
+                    Parameter.Append("-->");
+                    Parameter.Append("<PostExpectedCosts xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" xsd:noNamespaceSchemaLocation=\"WIPTCE.XSD\">");
+                    Parameter.Append("<Parameters>");
+                    Parameter.Append("<ApplyIfEntireDocumentValid>Y</ApplyIfEntireDocumentValid>");
+                    Parameter.Append("<ValidateOnly>N</ValidateOnly>");
+                    Parameter.Append("<IgnoreWarnings>Y</IgnoreWarnings>");
+                    Parameter.Append("</Parameters>");
+                    Parameter.Append("</PostExpectedCosts>");
+
+                    string XmlOut = objSyspro.SysproPost(Guid, Parameter.ToString(), Document.ToString(), "WIPTCE");
+                    string PostError = objSyspro.GetXmlErrors(XmlOut);
+                    if (!string.IsNullOrWhiteSpace(PostError))
+                    {
+                        wdb.mt_WipJobCostRecalcUpdateMaterialCost(Job, "Wip", RowId, "N", PostError);
+                    }
+                    else
+                    {
+                        wdb.mt_WipJobCostRecalcUpdateMaterialCost(Job, "Wip", RowId, "Y", "");
+                    }
+
+
+                }
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                //do nothing
+            }
         }
 
     }

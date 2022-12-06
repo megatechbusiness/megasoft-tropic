@@ -661,6 +661,9 @@
     <Compile Include="mtLabourPostControl.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mtManufacturingSetup.cs">
+      <DependentUpon>Megasoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="mtMasterCardArtwork.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
@@ -1006,6 +1009,9 @@
     <Compile Include="mtWhseManSetting.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mtWipJobCostRecalcLog.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="mtWmsDeletedItem.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
@@ -1073,6 +1079,9 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_TransfersGetLotList_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_WipGetJobDetailsForExpectedCostPost_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="MultipleButtonAttribute.cs" />
