@@ -3663,5 +3663,32 @@ namespace Megasoft2.Controllers
         }
 
 
+
+        public ActionResult SendTestEmail()
+        {
+            try
+            {
+
+                var FromAddress = (from a in mdb.mtEmailSettings where a.EmailProgram == "TestEmail" select a.FromAddress).FirstOrDefault();
+                Mail objMail = new Mail();
+                objMail.From = FromAddress;
+                objMail.To = "jreddy@mega-tech.co.za";
+                objMail.Subject = "This is a test email";
+                objMail.Body = "This is a test email";
+                //objMail.CC =
+
+
+                List<string> attachments = new List<string>();
+                _email.SendEmail(objMail, attachments, "TestEmail");
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+
     }
 }

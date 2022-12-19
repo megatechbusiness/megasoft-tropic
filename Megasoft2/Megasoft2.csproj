@@ -83,7 +83,7 @@
       <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="SYSPROWCFServicesClientLibrary40">
-      <HintPath>..\..\..\..\..\Temp\SYSPROWCFServicesClientLibrary40.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Temp\SYSPROWCFServicesClientLibrary40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -2961,6 +2961,7 @@
     <Content Include="Views\InkSystem\InkBomCopyComponent.cshtml" />
     <Content Include="Views\PackLabelPrint\Index.cshtml" />
     <Content Include="Views\PalletMatIssue\Index.cshtml" />
+    <Content Include="Views\Requisition\SendTestEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
