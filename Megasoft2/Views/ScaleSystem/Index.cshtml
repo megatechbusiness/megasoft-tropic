@@ -185,7 +185,7 @@
             </div>
         </div>
         <div class="col-sm-4" id="PrinterNo">
-            <div class="form-group col-sm-4" >
+            <div class="form-group col-sm-4">
                 Printer No
             </div>
             <div class="col-sm-7">
@@ -208,6 +208,15 @@
             </div>
             <div class="col-sm-7">
                 @Html.TextBoxFor(model => model.Meters, new { @class = "form-control tb input-sm" })
+            </div>
+        </div>
+
+        <div class="col-sm-4" id="txtNoOfRolls">
+            <div class="form-group col-sm-4">
+                Parent Roll
+            </div>
+            <div class="col-sm-7">
+                @Html.TextBoxFor(model => model.ParentRoll, new { @class = "form-control tb input-sm" })
             </div>
         </div>
     </div>
@@ -367,7 +376,7 @@
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Save</button>
+                                <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary" @*onclick="NoOfRollPrompt()"*@><span class="glyphicon glyphicon-check"></span> Save</button>
                             </div>
                         </div>
 
@@ -399,6 +408,47 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+
+    //If department is SLIT, prompt for number of rolls
+    <div class="container">
+        <div class="row">
+            <div id="modalNoOfRolls" class="modal fade in">
+                <div class="modal-dialog" style="width:1250px;">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                            <h4 class="modal-title" style="font-weight:bold;">Number of rolls</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal row ">                                
+                                <div class="col-sm-12">
+                                    <h4 class="col-sm-7">
+                                        Please enter the number of rolls
+                                    </h4>
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(model => model.NoOfRolls, new { @class = "form-control input-md", @type = "number", @min = "0"})
+                                        @Html.HiddenFor(model=> model.NoOfRolls)
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-group">
+                                <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button id="SaveRolls" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Save</button>
+                            </div>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dalog -->
+            </div><!-- /.modal -->
+
 
         </div>
     </div>
@@ -474,7 +524,7 @@
             }
         }
 
-$(document).ready(function () {
+    $(document).ready(function () {
     $('#PrintOperator').change(function () {
         var str = $(this).val();
         str = str.substring(str.indexOf("-") + 2);
@@ -491,11 +541,13 @@ $(document).ready(function () {
         $('#PrinterNo').show();
     }
 
-    if (Department != "SLIT") {
+    if (Department != "SLIT") { 
         $('#txtMeters').hide();
+        $('#txtNoOfRolls').hide();
     }
     else {
         $('#txtMeters').show();
+        $('#txtNoOfRolls').show();
     }
                 });
 
@@ -698,5 +750,18 @@ $(document).ready(function () {
                 $('#PrinterNo').show();
             }
         })
+
+        $("#SaveWeight").on("click", function() {
+            alert("test")
+
+            if ($('#Department').val() == "CC") { //TESTT $('#Department').val() == "SLIT"
+                $('#myModal').modal('hide');
+                $('#modalNoOfRolls').modal('show');
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
     </script>
 }

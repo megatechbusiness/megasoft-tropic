@@ -48,6 +48,7 @@ namespace Megasoft2.ViewModel
         public mt_GetPalletDetailsByPalletId_Result PalletList { get; set; }
         public string BoxNo { get; set; }
         public decimal Meters { get; set; }
-
+        public int NoOfRolls { get; set; }
+        public string ParentRoll { get; set; }
     }
 }

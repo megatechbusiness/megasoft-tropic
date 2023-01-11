@@ -13,7 +13,7 @@ namespace Megasoft2
     
     public partial class mt_PalletMatIssueGetPalletDetails_Result
     {
-        public bool Checked { get; set; }
+        public Nullable<bool> Checked { get; set; }
         public string Warehouse { get; set; }
         public string StockCode { get; set; }
         public string Lot { get; set; }

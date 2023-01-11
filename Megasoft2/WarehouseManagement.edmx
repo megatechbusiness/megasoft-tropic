@@ -2257,6 +2257,8 @@
           <Property Name="PrintOpReference" Type="varchar" MaxLength="50" />
           <Property Name="LotIssued" Type="varchar" MaxLength="40" />
           <Property Name="Meters" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ParentRoll" Type="varchar" MaxLength="20" />
+          <Property Name="NoOfRolls" Type="int" />
         </EntityType>
         <EntityType Name="mtProductionLabelsDeleted">
           <Key>
@@ -7901,7 +7903,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_PalletMatIssueGetPalletDetails" ReturnType="Collection(WarehouseManagementModel.mt_PalletMatIssueGetPalletDetails_Result)">
-            <Parameter Name="PalletID" Mode="In" Type="String" />
+          <Parameter Name="PalletID" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
@@ -14646,6 +14648,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="PrintOpReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="Meters" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ParentRoll" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfRolls" Type="Int32" />
         </EntityType>
         <ComplexType Name="mt_ProductionPackLabelDetailsByJob_Result">
           <Property Type="Decimal" Name="BagPerBale" Nullable="true" Precision="10" Scale="0" />
@@ -21635,6 +21639,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="mtProductionLabels">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionLabel">
               <MappingFragment StoreEntitySet="mtProductionLabels">
+                <ScalarProperty Name="NoOfRolls" ColumnName="NoOfRolls" />
+                <ScalarProperty Name="ParentRoll" ColumnName="ParentRoll" />
                 <ScalarProperty Name="Meters" ColumnName="Meters" />
                 <ScalarProperty Name="LotIssued" ColumnName="LotIssued" />
                 <ScalarProperty Name="PrintOpReference" ColumnName="PrintOpReference" />
