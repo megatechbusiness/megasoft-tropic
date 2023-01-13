@@ -738,9 +738,11 @@
             let department = $('#Department').val();
             if (department != "SLIT") {
                 $('#txtMeters').hide();
+                $('#txtNoOfRolls').hide();
             }
             else {
                 $('#txtMeters').show();
+                $('#txtNoOfRolls').show();
             }
             if (department == "EXTR") {
                 $('#PrinterOp').hide();
@@ -752,9 +754,8 @@
         })
 
         $("#SaveWeight").on("click", function() {
-            alert("test")
 
-            if ($('#Department').val() == "CC") { //TESTT $('#Department').val() == "SLIT"
+            if ($('#Department').val() == "SLIT") { 
                 $('#myModal').modal('hide');
                 $('#modalNoOfRolls').modal('show');
                 return false;
