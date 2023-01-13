@@ -554,6 +554,7 @@
 
 
         function CheckBarcodeScanRequired() {
+            $('#Barcode').val(" ")//testt
             //Core value cannot be 0 for department scales - S.R- 2022/10/16
             if ($('#Department').val() == "SCALE" && $('#Core').val() == 0) {
                 alert("Core value cannot be zero.");
@@ -584,7 +585,7 @@
                         alert("Maximum rolls reached. Please receipt pallet to continue.");
                         return false;
                     }
-                }
+                 }
                 $('#BarcodeModal').modal('show');
             }
         }
