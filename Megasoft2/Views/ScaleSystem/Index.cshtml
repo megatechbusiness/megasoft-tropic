@@ -211,7 +211,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4" id="txtNoOfRolls">
+        <div class="col-sm-4" id="txtParentRoll">
             <div class="form-group col-sm-4">
                 Parent Roll
             </div>
@@ -376,7 +376,7 @@
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary" @*onclick="NoOfRollPrompt()"*@><span class="glyphicon glyphicon-check"></span> Save</button>
+                                <button id="SaveWeight" type="submit" name="action:AddLine" value="AddLine" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Save</button>
                             </div>
                         </div>
 
@@ -431,8 +431,9 @@
                                         Please enter the number of rolls
                                     </h4>
                                     <div class="col-sm-5">
-                                        @Html.TextBoxFor(model => model.NoOfRolls, new { @class = "form-control input-md", @type = "number", @min = "0"})
-                                        @Html.HiddenFor(model=> model.NoOfRolls)
+                                        @*@Html.TextBoxFor(model => model.NoOfRolls, new { @class = "form-control input-md", @type = "number", @min = "1",})*@
+                                        @Html.TextBoxFor(model => model.NoOfRolls, new { @class = "form-control input-md" })
+                                        @Html.HiddenFor(model => model.NoOfRolls)
                                     </div>
                                 </div>
                             </div>
@@ -543,11 +544,11 @@
 
     if (Department != "SLIT") { 
         $('#txtMeters').hide();
-        $('#txtNoOfRolls').hide();
+        $('#txtParentRoll').hide();
     }
     else {
         $('#txtMeters').show();
-        $('#txtNoOfRolls').show();
+        $('#txtParentRoll').show();
     }
                 });
 
@@ -738,11 +739,11 @@
             let department = $('#Department').val();
             if (department != "SLIT") {
                 $('#txtMeters').hide();
-                $('#txtNoOfRolls').hide();
+                $('#txtParentRoll').hide();
             }
             else {
                 $('#txtMeters').show();
-                $('#txtNoOfRolls').show();
+                $('#txtParentRoll').show();
             }
             if (department == "EXTR") {
                 $('#PrinterOp').hide();
@@ -764,5 +765,14 @@
                 return true;
             }
         });
+
+        $("#NoOfRolls").keyup(function () {
+            var value = $(this).val();
+            if (!$.isNumeric(value) || value <= 0) {
+                alert("Enter a number greater than 0");
+                $(this).val("");
+            }
+        });
+
     </script>
 }
