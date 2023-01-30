@@ -25,44 +25,52 @@ namespace Megasoft2.BusinessLogic
         {
             try
             {
-                //amke sure Job is a 15-digit number
-                var jobPad = (from a in wdb.mtWhseManSettings select a.JobNumberPadZeros).ToList();
-                var padding = jobPad[0];
-                var jobCode = model.Job;
-                if (padding == true && jobCode != null )
-                {
-                    if(padding == true)
-                    {
-                        jobCode = model.Job.PadLeft(15, '0');
-                    }
-                }
-                else
+                if (model.Job == null || model.Pallet == null)
                 {
                     model.Messages = "Please Enter values into Both Fields";
                     return model;
                 }
-
-                //retrieving and populating fields regarding the Job
-                var JobList = wdb.mt_PalletMatIssueGetJobDetails(jobCode).FirstOrDefault();
-                var palletList = wdb.mt_PalletMatIssueGetPalletDetails(model.Pallet).ToList();
-
-                if (JobList != null && palletList.Count != 0)
-                {
-                    model.StockCode = JobList.StockCode;
-                    model.StockDescription = JobList.StockDescription;
-                    model.JobDescription = JobList.JobDescription;
-                    model.QtyToMake = JobList.QtyToMake;
-                    model.QtyManufactured = JobList.QtyManufactured;
-                    model.Job = jobCode;
-                    model.PalletList = palletList;
-                }
                 else
                 {
-                    model.Messages = "Please Enter values into Both Fields";
-                }
+                    //make sure Job is a 15-digit number
+                    var jobPad = (from a in wdb.mtWhseManSettings select a.JobNumberPadZeros).ToList();
+                    var padding = jobPad[0];
+                    var jobCode = model.Job;
+                    if (padding == true)
+                    {
+                        jobCode = model.Job.PadLeft(15, '0');
+                    }
 
-                
-                return model;
+                    //retrieving and populating fields regarding the Job
+                    var JobList = wdb.mt_PalletMatIssueGetJobDetails(jobCode).FirstOrDefault();
+                    var palletList = wdb.mt_PalletMatIssueGetPalletDetails(model.Pallet).ToList();
+                    var noPallet = (from a in wdb.CusLot_ where a.PalletId == model.Pallet select a).FirstOrDefault();
+
+                    if (JobList == null)
+                    {
+                        model.Messages = "Job not Found.";
+                    }
+                    else if(noPallet == null)
+                    {
+                        model.Messages = "Pallet not Found.";
+                    }
+                    else if(palletList.Count == 0)
+                    {
+                        model.Messages = "Pallet Quantity is Zero.";
+                    }
+                    else
+                    {
+                        model.StockCode = JobList.StockCode;
+                        model.StockDescription = JobList.StockDescription;
+                        model.JobDescription = JobList.JobDescription;
+                        model.QtyToMake = JobList.QtyToMake;
+                        model.QtyManufactured = JobList.QtyManufactured;
+                        model.Job = jobCode;
+                        model.PalletList = palletList;
+                    }
+
+                    return model;
+                }
             }
             catch (Exception ex)
             {
@@ -72,6 +80,6 @@ namespace Megasoft2.BusinessLogic
 
         }
 
-        
+
     }
 }

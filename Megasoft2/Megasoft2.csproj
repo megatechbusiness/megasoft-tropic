@@ -452,6 +452,9 @@
     <Compile Include="CusGenMaster_.cs">
       <DependentUpon>Syspro.tt</DependentUpon>
     </Compile>
+    <Compile Include="CusLot_.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="CustomAuthorizeAttribute.cs" />
     <Compile Include="CustomMetadataValidationProvider.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />

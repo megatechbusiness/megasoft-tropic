@@ -53,7 +53,7 @@ namespace Megasoft2.Controllers
             }
             catch(Exception ex)
             {
-                return Json(ex, JsonRequestBehavior.AllowGet); 
+                return Json(ex.Message, JsonRequestBehavior.AllowGet); 
             }
         }
 

@@ -588,6 +588,16 @@
           <Property Name="SiteCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ShiftCode" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="CusLot+">
+          <Key>
+            <PropertyRef Name="Lot" />
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="Lot" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StockCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PalletId" Type="varchar" MaxLength="40" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="GenControl">
           <Key>
             <PropertyRef Name="Company" />
@@ -2257,6 +2267,8 @@
           <Property Name="PrintOpReference" Type="varchar" MaxLength="50" />
           <Property Name="LotIssued" Type="varchar" MaxLength="40" />
           <Property Name="Meters" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ParentRoll" Type="varchar" MaxLength="20" />
+          <Property Name="NoOfRolls" Type="int" />
         </EntityType>
         <EntityType Name="mtProductionLabelsDeleted">
           <Key>
@@ -5528,6 +5540,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="BomRoute" EntityType="Self.BomRoute" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BomStructure" EntityType="Self.BomStructure" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BomWorkCentre" EntityType="Self.BomWorkCentre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CusLot+" EntityType="Self.CusLot+" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GenControl" EntityType="Self.GenControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GrnDetails" EntityType="Self.GrnDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvBuyer" EntityType="Self.InvBuyer" Schema="dbo" store:Type="Tables" />
@@ -7901,8 +7914,9 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_PalletMatIssueGetPalletDetails" ReturnType="Collection(WarehouseManagementModel.mt_PalletMatIssueGetPalletDetails_Result)">
-            <Parameter Name="PalletID" Mode="In" Type="String" />
+          <Parameter Name="PalletID" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="CusLot_" EntityType="WarehouseManagementModel.CusLot_" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14646,6 +14660,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="PrintOpReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LotIssued" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="Meters" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ParentRoll" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfRolls" Type="Int32" />
         </EntityType>
         <ComplexType Name="mt_ProductionPackLabelDetailsByJob_Result">
           <Property Type="Decimal" Name="BagPerBale" Nullable="true" Precision="10" Scale="0" />
@@ -14708,6 +14724,16 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="PalletId" Nullable="true" MaxLength="40" />
           <Property Type="Decimal" Name="QtyOnHand" Nullable="false" Precision="18" Scale="6" />
         </ComplexType>
+        <EntityType Name="CusLot_">
+          <Key>
+            <PropertyRef Name="Lot" />
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="Lot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PalletId" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -21635,6 +21661,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="mtProductionLabels">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtProductionLabel">
               <MappingFragment StoreEntitySet="mtProductionLabels">
+                <ScalarProperty Name="NoOfRolls" ColumnName="NoOfRolls" />
+                <ScalarProperty Name="ParentRoll" ColumnName="ParentRoll" />
                 <ScalarProperty Name="Meters" ColumnName="Meters" />
                 <ScalarProperty Name="LotIssued" ColumnName="LotIssued" />
                 <ScalarProperty Name="PrintOpReference" ColumnName="PrintOpReference" />
@@ -21744,6 +21772,16 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CusLot_">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.CusLot_">
+              <MappingFragment StoreEntitySet="CusLot+">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="PalletId" ColumnName="PalletId" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
 
         </EntityContainerMapping>
       </Mapping>
