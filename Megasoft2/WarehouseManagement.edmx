@@ -4619,6 +4619,12 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
         <Function Name="mt_MaterialIssueGetWorkCentreByJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Job" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="mt_PalletMatIssueGetJobDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Job" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="mt_PalletMatIssueGetPalletDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PalletID" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="mt_ProductionGetDeletedLots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PalletNo" Type="varchar" Mode="In" />
         </Function>
@@ -7891,6 +7897,12 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="Job" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="mtProductionPackLabelPrints" EntityType="WarehouseManagementModel.mtProductionPackLabelPrint" />
+          <FunctionImport Name="mt_PalletMatIssueGetJobDetails" ReturnType="Collection(WarehouseManagementModel.mt_PalletMatIssueGetJobDetails_Result)">
+          <Parameter Name="Job" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="mt_PalletMatIssueGetPalletDetails" ReturnType="Collection(WarehouseManagementModel.mt_PalletMatIssueGetPalletDetails_Result)">
+            <Parameter Name="PalletID" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14681,6 +14693,21 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PrinterOp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="mt_PalletMatIssueGetJobDetails_Result">
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="StockDescription" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="JobDescription" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="QtyToMake" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="QtyManufactured" Nullable="false" Precision="18" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="mt_PalletMatIssueGetPalletDetails_Result">
+          <Property Type="Boolean" Name="Checked" Nullable="true" />
+          <Property Type="String" Name="Warehouse" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="StockCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Lot" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PalletId" Nullable="true" MaxLength="40" />
+          <Property Type="Decimal" Name="QtyOnHand" Nullable="false" Precision="18" Scale="6" />
+        </ComplexType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -21694,6 +21721,29 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mt_PalletMatIssueGetJobDetails" FunctionName="WarehouseManagementModel.Store.mt_PalletMatIssueGetJobDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_PalletMatIssueGetJobDetails_Result">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="StockDescription" ColumnName="StockDescription" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="QtyToMake" ColumnName="QtyToMake" />
+                <ScalarProperty Name="QtyManufactured" ColumnName="QtyManufactured" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mt_PalletMatIssueGetPalletDetails" FunctionName="WarehouseManagementModel.Store.mt_PalletMatIssueGetPalletDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_PalletMatIssueGetPalletDetails_Result">
+                <ScalarProperty Name="Checked" ColumnName="Checked" />
+                <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="Lot" ColumnName="Lot" />
+                <ScalarProperty Name="PalletId" ColumnName="PalletId" />
+                <ScalarProperty Name="QtyOnHand" ColumnName="QtyOnHand" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
 
         </EntityContainerMapping>
       </Mapping>
