@@ -42,11 +42,11 @@ namespace Megasoft2.BusinessLogic
                             {
                                 Job = item.Job;
                             }
-                            var ComponentCheck = (from a in db.WipJobAllMats where a.Job == Job && a.StockCode == item.StockCode && a.AllocCompleted != "Y" select a).FirstOrDefault();
+                            var ComponentCheck = (from a in db.WipJobAllMats where a.Job == Job && a.StockCode == item.StockCode select a).FirstOrDefault();
 
                             if (ComponentCheck == null)
                             {
-                                return "Component: " + item.StockCode + " Not Found or complete Against Job Allocation:" + Job + " !";
+                                return "Component: " + item.StockCode + " Not Found Against Job Allocation:" + Job + " !";
                             }
                             else
                             {
