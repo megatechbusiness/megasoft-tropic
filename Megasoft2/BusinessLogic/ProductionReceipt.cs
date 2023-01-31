@@ -12,6 +12,8 @@ namespace Megasoft2.BusinessLogic
 
         SysproCore objSyspro = new SysproCore();
         SysproMaterialIssue objMat = new SysproMaterialIssue();
+        WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
+        private SysproCore sys = new SysproCore();
         public string PostProductionReceipt(string details)
         {
             string Guid="";
@@ -485,7 +487,7 @@ namespace Megasoft2.BusinessLogic
             return Parameter.ToString();
         }
 
-        
+
         public string PostJobReceipt(string Guid, string Job, decimal Quantity, string Lot)
         {
             try
@@ -493,7 +495,7 @@ namespace Megasoft2.BusinessLogic
                 string XmlOut, ErrorMessage;
                 XmlOut = objSyspro.SysproPost(Guid, this.BuildJobReceiptParameter(), this.BuildJobReceiptDocument(Job, Quantity, Lot), "WIPTJR");
                 ErrorMessage = objSyspro.GetXmlErrors(XmlOut);
-                if(string.IsNullOrEmpty(ErrorMessage))
+                if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     return "Job Receipt Completed Successfully";
                 }
@@ -502,11 +504,13 @@ namespace Megasoft2.BusinessLogic
                     return ErrorMessage;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+       
 
     }
 }
