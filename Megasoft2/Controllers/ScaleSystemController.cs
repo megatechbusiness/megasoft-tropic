@@ -573,19 +573,15 @@ namespace Megasoft2.Controllers
                             if (PostResult.Contains("Job Receipt Completed Successfully"))
                             {
                                 var scaleSettings = (from a in wdb.mtScales where a.ScaleModelId == model.Scale select a).FirstOrDefault();
-                                //S.R-2022/10/18 - Zero ship quantity if job is linked to a sales order, regardless of what the warehouse is. 
-                                string ErrorMessage = "Failed to zero ship qty";
-                                var Header = wdb.sp_GetScalesJobDetails(Job).ToList().FirstOrDefault();
-                                if (!string.IsNullOrWhiteSpace(Header.SalesOrder))
-                                {
-                                    ErrorMessage = PostSorBackOrderRelease(Header.SalesOrder, Header.SalesOrderLine);
-                                }
                                 if (!string.IsNullOrWhiteSpace(scaleSettings.Warehouse))
                                 {
                                     try
                                     {
+                                        var Header = wdb.sp_GetScalesJobDetails(Job).ToList().FirstOrDefault();
                                         if (!string.IsNullOrWhiteSpace(Header.SalesOrder))
                                         {
+                                            // zero the ship quantity against the order
+                                            string ErrorMessage=PostSorBackOrderRelease(Header.SalesOrder, Header.SalesOrderLine);
                                             if (string.IsNullOrWhiteSpace(ErrorMessage))
                                             {
                                                 //Post immediate transfer
