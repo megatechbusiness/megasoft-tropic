@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.EntityClient;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -256,129 +257,135 @@ namespace Megasoft2.Controllers
                 {
                     try
                     {
-                        string Pallet = model.Pallet;
-                        var MaxReel = 1;
-                        var reels = (from a in wdb.mtProductionLabels where a.Job == Job && a.PalletNo == Pallet select a).ToList();
-                        if (reels.Count > 0)
+                        var counter = model.Department == "SLIT"? model.NoOfRolls: 1; 
+                        for (int j = 0; j < counter; j++)
                         {
-                            MaxReel = (int)reels.Max(b => b.BatchSequence) + 1;
-                        }
-                        string BatchIdToCheck = model.Pallet + "-" + MaxReel.ToString().PadLeft(4, '0');
-
-                        //CODE WILL CHECK DELETED LABEL TABLE TO ENSURE DUPLICATE LABEL ISNT GENERATED 17/05/2019 SYLVAIN
-                        var AllDeletedBatchIdsForJob = (from a in wdb.mtProductionLabelsDeleteds where a.Job == Job select a).ToList();
-                        var CheckIfDeleted = (from a in AllDeletedBatchIdsForJob where a.BatchId == BatchIdToCheck select a).ToList();
-
-                        while (CheckIfDeleted.Count > 0)
-                        {
-                            MaxReel = MaxReel + 1;
-                            BatchIdToCheck = model.Pallet + "-" + MaxReel.ToString().PadLeft(4, '0');
-                            CheckIfDeleted = (from a in AllDeletedBatchIdsForJob where a.BatchId == BatchIdToCheck select a).ToList();
-                        }
-
-                        mtProductionLabel obj = new mtProductionLabel();
-                        obj.Job = Job;
-                        if (model.Department == "EXTR" || model.Department == "SLIT" || model.Department == "SCALE")
-                        {
-                            obj.NetQty = model.Weight - (model.Core);
-                        }
-                        else
-                        {
-                            obj.NetQty = model.Weight - (model.Core + model.Tare);
-                        }
-                        //14082020 - Changed to look at Uom
-                        //var Header = wdb.sp_GetScalesJobDetails(Job).ToList().FirstOrDefault();
-                        //if (Header.StockUom.Substring(0, 1).ToUpper() == "K")
-                        //{
-                        //    obj.NetQty = model.Weight - (model.Core);
-                        //}
-                        //else
-                        //{
-                        //    obj.NetQty = model.Weight - (model.Core + model.Tare);
-                        //}
-
-                        if (model.Department == "SLIT")
-                        {
-                            obj.Meters = model.Meters;
-                        }
-                        obj.GrossQty = model.Weight;
-                        obj.Username = HttpContext.User.Identity.Name.ToUpper();
-                        obj.LabelPrinted = "Y";
-                        obj.DatePrinted = DateTime.Now;
-                        obj.BatchId = BatchIdToCheck;
-                        obj.Customer = model.Customer;
-                        obj.Core = model.Core;
-                        obj.Tare = model.Tare;
-                        obj.PalletNo = model.Pallet;
-                        obj.BatchSequence = MaxReel;
-                        obj.Department = model.Department;
-                        string Initials = "";
-                        DateTime printTime = Convert.ToDateTime(DateTime.Now.ToString("hh:mm tt"));
-                        //DateTime Date = Convert.ToDateTime(DateTime.Now.ToString("dd-MM-yy"));
-                        //var x = DateTime.Parse("00:00");
-                        if (model.Department=="PRINT"|| model.Department=="PRINTING")
-                        {
-                            var BomInitial = wdb.sp_GetPrintScaleOperatorInitial(model.Operator).FirstOrDefault();
-                            if (!string.IsNullOrWhiteSpace(BomInitial.Initial))
+                            string Pallet = model.Pallet;
+                            var MaxReel = 1;
+                            var reels = (from a in wdb.mtProductionLabels where a.Job == Job && a.PalletNo == Pallet select a).ToList();
+                            if (reels.Count > 0)
                             {
-                                Initials = BomInitial.Initial;
+                                MaxReel = (int)reels.Max(b => b.BatchSequence) + 1;
+                            }
+                            string BatchIdToCheck = model.Pallet + "-" + MaxReel.ToString().PadLeft(4, '0');
+
+                            //CODE WILL CHECK DELETED LABEL TABLE TO ENSURE DUPLICATE LABEL ISNT GENERATED 17/05/2019 SYLVAIN
+                            var AllDeletedBatchIdsForJob = (from a in wdb.mtProductionLabelsDeleteds where a.Job == Job select a).ToList();
+                            var CheckIfDeleted = (from a in AllDeletedBatchIdsForJob where a.BatchId == BatchIdToCheck select a).ToList();
+
+                            while (CheckIfDeleted.Count > 0)
+                            {
+                                MaxReel = MaxReel + 1;
+                                BatchIdToCheck = model.Pallet + "-" + MaxReel.ToString().PadLeft(4, '0');
+                                CheckIfDeleted = (from a in AllDeletedBatchIdsForJob where a.BatchId == BatchIdToCheck select a).ToList();
+                            }
+
+                            mtProductionLabel obj = new mtProductionLabel();
+                            obj.Job = Job;
+                            if (model.Department == "EXTR" || model.Department == "SLIT" || model.Department == "SCALE")
+                            {
+                                obj.NetQty = model.Weight - (model.Core);
                             }
                             else
                             {
-                                for (int i = 1; i < model.Operator.Length - 1; i++)
+                                obj.NetQty = model.Weight - (model.Core + model.Tare);
+                            }
+                            //14082020 - Changed to look at Uom
+                            //var Header = wdb.sp_GetScalesJobDetails(Job).ToList().FirstOrDefault();
+                            //if (Header.StockUom.Substring(0, 1).ToUpper() == "K")
+                            //{
+                            //    obj.NetQty = model.Weight - (model.Core);
+                            //}
+                            //else
+                            //{
+                            //    obj.NetQty = model.Weight - (model.Core + model.Tare);
+                            //}
+
+                            if (model.Department == "SLIT")
+                            {
+                                obj.Meters = model.Meters;
+                                obj.ParentRoll = model.ParentRoll;
+                                obj.NoOfRolls = model.NoOfRolls;
+                            }
+                            obj.GrossQty = model.Weight;
+                            obj.Username = HttpContext.User.Identity.Name.ToUpper();
+                            obj.LabelPrinted = "Y";
+                            obj.DatePrinted = DateTime.Now;
+                            obj.BatchId = BatchIdToCheck;
+                            obj.Customer = model.Customer;
+                            obj.Core = model.Core;
+                            obj.Tare = model.Tare;
+                            obj.PalletNo = model.Pallet;
+                            obj.BatchSequence = MaxReel;
+                            obj.Department = model.Department;
+                            string Initials = "";
+                            DateTime printTime = Convert.ToDateTime(DateTime.Now.ToString("hh:mm tt"));
+                            //DateTime Date = Convert.ToDateTime(DateTime.Now.ToString("dd-MM-yy"));
+                            //var x = DateTime.Parse("00:00");
+                            if (model.Department=="PRINT"|| model.Department=="PRINTING")
+                            {
+                                var BomInitial = wdb.sp_GetPrintScaleOperatorInitial(model.Operator).FirstOrDefault();
+                                if (!string.IsNullOrWhiteSpace(BomInitial.Initial))
                                 {
-                                    if (model.Operator[i] == ' ')
+                                    Initials = BomInitial.Initial;
+                                }
+                                else
+                                {
+                                    for (int i = 1; i < model.Operator.Length - 1; i++)
                                     {
-                                        Initials = "" + Char.ToUpper(model.Operator[0]) + Char.ToUpper(model.Operator[i + 1]);
+                                        if (model.Operator[i] == ' ')
+                                        {
+                                            Initials = "" + Char.ToUpper(model.Operator[0]) + Char.ToUpper(model.Operator[i + 1]);
+                                        }
                                     }
                                 }
-                            }
                             
-                            DateTime hourOne = DateTime.Parse("00:00 AM");
-                            DateTime hourTwo = DateTime.Parse("06:00 AM");
-                            if (printTime>=hourOne && printTime<= hourTwo)
-                            {
-                                printTime = printTime.AddDays(-1);
+                                DateTime hourOne = DateTime.Parse("00:00 AM");
+                                DateTime hourTwo = DateTime.Parse("06:00 AM");
+                                if (printTime>=hourOne && printTime<= hourTwo)
+                                {
+                                    printTime = printTime.AddDays(-1);
+                                }
+                                model.PrintOpReference = printTime.ToString("dd")+" "+ Initials + printTime.ToString("MM")+ printTime.ToString("yy") ;
+                                obj.PrintOpReference = model.PrintOpReference;
                             }
-                            model.PrintOpReference = printTime.ToString("dd")+" "+ Initials + printTime.ToString("MM")+ printTime.ToString("yy") ;
-                            obj.PrintOpReference = model.PrintOpReference;
-                        }
-                        obj.ScaleModelId = model.Scale;
-                        if (!string.IsNullOrEmpty(model.Operator))
-                        {
-                            model.Operator = model.Operator.ToUpper();
-                            obj.Operator = model.Operator;
-                        }
-
-                        if (!string.IsNullOrEmpty(model.PrinterNo))
-                        {
-                            model.PrinterNo = model.PrinterNo.ToUpper();
-                            obj.WorkCentre = model.PrinterNo;
-                        }
-
-                        if (!string.IsNullOrEmpty(model.ExtruderNo))
-                        {
-                            model.ExtruderNo = model.ExtruderNo.ToUpper();
-                            obj.PreviousWorkCentre = model.ExtruderNo;
-                        }
-                        //Check if Label Produced is for final operation.
-                        //If it is not final operation we will not receipt this label as it will be receipted during final operation.
-                        //Check last operation in BOM and check if the Cost Centre is the same. i.e. Department = Bagging.
-                        //Check if the last operation on the BOM belongs to the Bagging operation. If it does NOT then we updated the receipted flag to "I".
-                        var BomCostCentre = wdb.sp_GetProductionBomOperations(Job).ToList().OrderByDescending(a => a.Operation).FirstOrDefault().CostCentre;
-                        if (BomCostCentre != null)
-                        {
-                            if (model.Department.ToUpper() != BomCostCentre)
+                            obj.ScaleModelId = model.Scale;
+                            if (!string.IsNullOrEmpty(model.Operator))
                             {
-                                obj.LabelReceipted = "I";
+                                model.Operator = model.Operator.ToUpper();
+                                obj.Operator = model.Operator;
                             }
+
+                            if (!string.IsNullOrEmpty(model.PrinterNo))
+                            {
+                                model.PrinterNo = model.PrinterNo.ToUpper();
+                                obj.WorkCentre = model.PrinterNo;
+                            }
+
+                            if (!string.IsNullOrEmpty(model.ExtruderNo))
+                            {
+                                model.ExtruderNo = model.ExtruderNo.ToUpper();
+                                obj.PreviousWorkCentre = model.ExtruderNo;
+                            }
+                            //Check if Label Produced is for final operation.
+                            //If it is not final operation we will not receipt this label as it will be receipted during final operation.
+                            //Check last operation in BOM and check if the Cost Centre is the same. i.e. Department = Bagging.
+                            //Check if the last operation on the BOM belongs to the Bagging operation. If it does NOT then we updated the receipted flag to "I".
+                            var BomCostCentre = wdb.sp_GetProductionBomOperations(Job).ToList().OrderByDescending(a => a.Operation).FirstOrDefault().CostCentre;
+                            if (BomCostCentre != null)
+                            {
+                                if (model.Department.ToUpper() != BomCostCentre)
+                                {
+                                    obj.LabelReceipted = "I";
+                                }
+                            }
+                            //On Scales there is no scanning so we set the scanned flag to Y and the scanned by to the user
+                            obj.Scanned = "Y";
+                            obj.ScannedBy = HttpContext.User.Identity.Name.ToUpper();
+                            wdb.mtProductionLabels.Add(obj);
+                            wdb.SaveChanges();
+                            LabelDetail.Add(obj);
                         }
-                        //On Scales there is no scanning so we set the scanned flag to Y and the scanned by to the user
-                        obj.Scanned = "Y";
-                        obj.ScannedBy = HttpContext.User.Identity.Name.ToUpper();
-                        wdb.mtProductionLabels.Add(obj);
-                        wdb.SaveChanges();
-                        LabelDetail.Add(obj);
                     }
                     catch (Exception ex)
                     {
