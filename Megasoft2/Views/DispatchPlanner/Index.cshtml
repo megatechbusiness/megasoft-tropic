@@ -52,20 +52,24 @@
                                                             var itemList = new List<SelectListItem>();
                                                             for (int i = 0; i < Model.TruckList.Count; i++)
                                                             {
+                                                                @Html.HiddenFor(model => Model.SaveTL[i])
                                                                 var item = new SelectListItem() { Text = Model.TruckList[i], Value = Model.TruckList[i] };
                                                                 itemList.Add(item);
-                                                                @Html.HiddenFor(model => Model.TruckList[i])
                                                             }
-                                                            @Html.DropDownListFor(m => m.TruckList, itemList, new { @class = "form-control input-sm", @id = "truckList" })
+                                                            @Html.DropDownListFor(n => n.TruckList, itemList, new { @class = "form-control input-sm", @id = "truckList" })
                                                         }
-                                                        @*@Html.DropDownListFor(m => m.TruckList, new SelectList(ViewBag.TruckList), new { @class = "form-control input-sm", @id = "truckList" })*@
+                                                        @*@Html.DropDownListFor(model => model.TruckList, new SelectList(ViewBag.TruckList), new { @class = "form-control input-sm", @id = "truckList" })*@
+
                                                         @*@Html.HiddenFor(model => Model.TruckList)*@
                                                     </div>
 
                                                     <div class="col-lg-3">
                                                         <label for="Tonnage">Truck Tonnage: </label>
                                                         <input type="text" readonly="readonly" id="Tonnage" class="form-control input-sm" />
-                                                        @Html.HiddenFor(model => Model.Capacity)
+                                                        @for (int i = 0; i < Model.Capacity.Count; i++)
+                                                        {
+                                                            @Html.HiddenFor(model => Model.Capacity[i])
+                                                        }
                                                     </div>
 
                                                     <div class=" col-sm-1">
@@ -93,23 +97,22 @@
                                                 @if (Model.Plans.Count != 0)
                                                 {
                                                     var itemList = new List<SelectListItem>();
-                                                    for (int i = 1; i <= Model.Plans.Count; i++)
+                                                    for (int i = 1; i <= ViewBag.PlanNo.Count; i++)
                                                     {
                                                         var item = new SelectListItem() { Text = i.ToString(), Value = i.ToString() };
                                                         itemList.Add(item);
                                                     }
                                                     <div class="col-lg-2">
-                                                        <label for="Plans">Plan #    </label>
+                                                        <label for="Plans" id="dlvLabel">Plan #    </label>
                                                         @Html.DropDownListFor(model => model.DeliveryNo, itemList, new { @class = "form-control input-sm", @id = "Plans" })
-                                                        @Html.HiddenFor(model => Model.DeliveryNo)
-                                                        @Html.HiddenFor(model => Model.Plans)
                                                     </div><div class="col-lg-10 text-right">
                                                         <a href="#" class="btn btn-default btn-sm" id="newPlan">
                                                             <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
                                                         </a>
                                                     </div>
                                                 }
-
+                                                @Html.HiddenFor(model => Model.DeliveryNo)
+                                                @Html.HiddenFor(model => Model.Messages)
                                             </div>
                                         </div>
                                     </div>
@@ -181,6 +184,7 @@
                                                                     </td>
                                                                     <td>
                                                                         @Model.OrderPlans[i].CustCode
+                                                                        @Html.HiddenFor(model => Model.OrderPlans[i].CustCode)
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].Customer)
                                                                     </td>
                                                                     <td id="salesOrder">
@@ -334,6 +338,7 @@
                                                                     </td>
                                                                     <td>
                                                                         @Model.OpenOrders[i].CustCode
+                                                                        @Html.HiddenFor(model => Model.OpenOrders[i].CustCode)
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].Customer)
                                                                     </td>
                                                                     <td id="salesOrder">
@@ -465,7 +470,7 @@
         width: 50%;
     }
 
-    label{
+    label {
         padding-right: 5px;
     }
 </style>
@@ -485,34 +490,28 @@
         $("#frmInvoice").submit(function (e) {
             showprogressbar();
         });
-
-        //Date format: dd-MM-yyyy
-        const formatDate = () =>  {
-            var datePicker = ($("#datePicker").val()).toString().split("-");
-            var date = datePicker[2] + "-" + datePicker[1] + "-" + datePicker[0];
-            $("#DispatchDate").val(date);
-        };
-
+        $("#btnLoad").hide();
         //calendar shows current date
-        Date.prototype.toDateInputValue = (function () {
-            var local = new Date(this);
+        Date.prototype.toDateInputValue = (function (date) {
+            var local = new Date(date);
+            if ($("#Messages").val() !== "Index") {
+                local.setDate(local.getDate() + 1);
+            }
             return local.toJSON().slice(0, 10);
         });
-        document.getElementById('datePicker').value = new Date().toDateInputValue();
-        //formatDate();
-        $("#DispatchDate").val($("#datePicker").val());
-
+        document.getElementById('datePicker').value = new Date().toDateInputValue($("#DispatchDate").val());
+        
         //Display plans for date
         $('#datePicker').on("change", function () {
-            //formatDate();
             $("#DispatchDate").val($("#datePicker").val());
-
+            $("#btnLoad").click();
         })
 
 
         //Show/Change Transporter Capacity
         $("#truckList").prop("selectedIndex", 0);
         $("#Tonnage").val("");
+
         $("#truckList").on("change", function () {
             var cap = @Html.Raw(Json.Encode(ViewBag.Capacity));
             $("#Tonnage").val(cap[$("#truckList").prop('selectedIndex')]);
@@ -521,11 +520,15 @@
 
         $("#Plans").on("change", function () {
             $("#DeliveryNo").val($("#Plans :selected").val());
-            console.log($("#DeliveryNo").val());
+            $("#btnLoad").click();
         })
 
         //clear Plans tbl
         $("#newPlan").on("click", function () {
+            $("#DeliveryNo").val((parseInt($("#Plans :selected").val()) + 1).toString());
+            $("#Plans").hide();
+            $("#newPlan").hide();
+            $("#dlvLabel").append($("#DeliveryNo").val());
             var t = $("#planTbl").DataTable();
             t.clear().draw();
         })
@@ -729,14 +732,24 @@
                 alert("Item not saved to schedule.");
             }
             else {
+                var DispatchDate = $("#DispatchDate").val();
+                if ($("#Plans").val() == null) {
+                    var DeliveryNo = 1;
+                } else {
+                    var DeliveryNo = $("#DeliveryNo").val();
+                }
+                var Customer = $tds.eq(2).text().trim();
                 var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
-                var Line = $tds.eq(4).find('input[type=hidden]').val();
+                var SalesOrderLine = $tds.eq(4).find('input[type=hidden]').val();
                 showprogressbar();
                 var mydata = [];
 
                 var myObject = new Object();
+                myObject.DispatchDate = DispatchDate;
+                myObject.DeliveryNo = parseInt(DeliveryNo);
+                myObject.Customer = Customer
                 myObject.SalesOrder = SalesOrder;
-                myObject.SalesOrderLine = Line;
+                myObject.SalesOrderLine = SalesOrderLine;
 
                 mydata.push(myObject);
 
@@ -745,7 +758,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("DeleteSchedule")",
+                    url: "@Url.Action("DeleteSchedule", "DispatchPlanner")",
                     data: exportdata,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -773,22 +786,30 @@
             alert('Cannot delete unscheduled item.');
         });
 
-        $('#btnSave').on("click", function () {
+        $('#btnSave').on("click", async function() {
             showprogressbar();
             var mydata = [];
             var DispatchDate = $("#DispatchDate").val();
 
-            if ($("#Plans").val() != null) {
-                var DeliveryNo = $("#Plans :selected").text();
-            } else {
+            if ($("#Plans").val() == null) {
                 var DeliveryNo = 1;
+            } else {
+                var DeliveryNo = $("#DeliveryNo").val();
             }
 
             var Transporter = $("#truckList :selected").text();
             var VehicleCapacity = $("#Tonnage").val();
-
+            var MassBal = 0;
             $("#planTbl > tbody > tr ").each(function (i, el) {
                 var $tds = $(this).closest("tr").find('td');
+
+                MassBal += $tds.eq(20).find('input[type=hidden]').val();
+                if (MassBal > VehicleCapacity) {
+                    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity\nAsk J for max possible capacity");
+                    $("#btnLoad").click();
+                    return false;
+                }
+
                 var Customer = $tds.eq(2).text().trim();
                 var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
                 var SalesOrderLine = $tds.eq(4).find('input[type=hidden]').val();
@@ -824,7 +845,6 @@
 
             var myString = JSON.stringify({ details: JSON.stringify(mydata) });
             var exportdata = myString;
-            console.log(exportdata);
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveSchedule","DispatchPlanner")",
@@ -839,7 +859,7 @@
                 hideprogressbar();
                 alert(response);
                 if (response == "Schedule saved!") {
-                   @* @Url.Action("LoadData", "DispatchPlanner");*@
+                    $("#btnLoad").click();
                 }
             }
 

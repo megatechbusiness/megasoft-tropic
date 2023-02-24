@@ -11,6 +11,7 @@ namespace Megasoft2.ViewModel
         public List<mt_DispatchPlanGetOrders_Result> OrderPlans { get; set; }
         public System.DateTime DispatchDate { get; set; }
         public List<string> TruckList { get; set; }
+        public List<string> SaveTL { get; set; }
         public List<string> Capacity { get; set; }
         public List<mtDispatchPlan> Plans { get; set; }
         public string DeliveryNo { get; set; }
