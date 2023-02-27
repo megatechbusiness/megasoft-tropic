@@ -13,6 +13,7 @@ namespace Megasoft2
     
     public partial class mt_DispatchPlanGetOrders_Result
     {
+        public string ScheduleItem { get; set; }
         public string CustCode { get; set; }
         public string Customer { get; set; }
         public string SalesOrder { get; set; }

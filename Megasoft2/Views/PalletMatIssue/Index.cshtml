@@ -158,7 +158,7 @@
                                                         <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.StockCode)</td>
                                                         <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.Lot)</td>
                                                         <td>@Html.DisplayFor(model => Model.TestList[i].Pallet.QtyOnHand)</td>*@
-                                                    <td>@Html.CheckBoxFor(model => Model.PalletList[i].Checked, new { @class = "select" })</td>
+                                                    <td>@Html.CheckBoxFor(model => (bool)Model.PalletList[i].Checked, new { @class = "select" })</td>
                                                     <td class="pallet">@Html.DisplayFor(model => Model.PalletList[i].PalletId)</td>
                                                     <td class="Wh">@Html.DisplayFor(model => Model.PalletList[i].Warehouse)</td>
                                                     <td class="stockCode">@Html.DisplayFor(model => Model.PalletList[i].StockCode)</td>

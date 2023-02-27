@@ -21,21 +21,18 @@ namespace Megasoft2.Controllers
             ViewBag.CanSaveSchedule = CanSaveSchedule();
             try
             {
-                var result = (from a in wdb.mt_DispatchPlanGetOrders() select a).ToList();
-                model.OpenOrders = result;
+
                 System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a).ToList();
+
                 var transporter = (from a in wdb.mtTransporters select new { Name = a.VehicleReg + " - " + a.Transporter, Capacity = a.VehicleCapacity }).ToList();
                 model.TruckList = new List<string> { "Select Transporter" };
-                model.Capacity = new List<string> { "" };
                 foreach (var truck in transporter)
                 {
                     model.TruckList.Add(truck.Name);
-                    model.Capacity.Add(truck.Capacity.ToString());
                 }
                 model.TruckList.Add("!");
                 model.SaveTL = model.TruckList;
-                model.Capacity.Add("14");
 
                 model.DispatchDate = DateTime.Now;
                 model.DeliveryNo = "1";
@@ -144,11 +141,12 @@ namespace Megasoft2.Controllers
             try
             {
                 ModelState.Clear();
+                model.OpenOrders = (from a in wdb.mt_DispatchPlanGetOrders() select a).Distinct().ToList();
                 model.TruckList = model.SaveTL;
+                
                 var dateTime = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a).ToList();
                 ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
-                ViewBag.Capacity = model.Capacity;
                 model.OrderPlans = new List<mt_DispatchPlanGetOrders_Result>();
                 foreach (var item in model.Plans)
                 {
@@ -182,6 +180,7 @@ namespace Megasoft2.Controllers
                 {
                     foreach (var item in myDeserializedObjList)
                     {
+                        item.DispatchDate = Convert.ToDateTime(item.DispatchDate.ToString("yyyy-MM-dd"));
                         var check = (from a in wdb.mtDispatchPlans where a.DispatchDate == item.DispatchDate && a.DeliveryNo == item.DeliveryNo && a.Customer == item.Customer && a.SalesOrder == item.SalesOrder && a.SalesOrderLine == item.SalesOrderLine select a).FirstOrDefault();
                         if (check == null)
                         {

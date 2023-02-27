@@ -65,11 +65,7 @@
 
                                                     <div class="col-lg-3">
                                                         <label for="Tonnage">Truck Tonnage: </label>
-                                                        <input type="text" readonly="readonly" id="Tonnage" class="form-control input-sm" />
-                                                        @for (int i = 0; i < Model.Capacity.Count; i++)
-                                                        {
-                                                            @Html.HiddenFor(model => Model.Capacity[i])
-                                                        }
+                                                        <input type="text" id="Tonnage" class="form-control input-sm" />
                                                     </div>
 
                                                     <div class=" col-sm-1">
@@ -167,7 +163,7 @@
                                                         {
                                                             for (int i = 0; i < Model.OrderPlans.Count; i++)
                                                             {
-
+                                                                
                                                                 var rowColour = "";
                                                                 if (i % 2 == 0)
                                                                 {
@@ -321,7 +317,10 @@
                                                         {
                                                             for (int i = 0; i < Model.OpenOrders.Count; i++)
                                                             {
-
+                                                                if (Model.OpenOrders[i].ScheduleItem == "Y")
+                                                                {
+                                                                    continue;
+                                                                }
                                                                 var rowColour = "";
                                                                 if (i % 2 == 0)
                                                                 {
@@ -467,7 +466,7 @@
 
     .form-control {
         display: inline;
-        width: 50%;
+        width: auto;
     }
 
     label {
@@ -500,22 +499,24 @@
             return local.toJSON().slice(0, 10);
         });
         document.getElementById('datePicker').value = new Date().toDateInputValue($("#DispatchDate").val());
-        
+
         //Display plans for date
         $('#datePicker').on("change", function () {
             $("#DispatchDate").val($("#datePicker").val());
             $("#btnLoad").click();
         })
 
-
-        //Show/Change Transporter Capacity
+        $("#Tonnage").on("change", function () {
+            console.log($("#Tonnage").val());
+        })
+        @*//Show/Change Transporter Capacity
         $("#truckList").prop("selectedIndex", 0);
         $("#Tonnage").val("");
 
         $("#truckList").on("change", function () {
             var cap = @Html.Raw(Json.Encode(ViewBag.Capacity));
             $("#Tonnage").val(cap[$("#truckList").prop('selectedIndex')]);
-        })
+        })*@
 
 
         $("#Plans").on("change", function () {
@@ -800,13 +801,14 @@
             var Transporter = $("#truckList :selected").text();
             var VehicleCapacity = $("#Tonnage").val();
             var MassBal = 0;
-            $("#planTbl > tbody > tr ").each(function (i, el) {
+            $("#planTbl > tbody > tr ").each( async function (i, el) {
                 var $tds = $(this).closest("tr").find('td');
 
                 MassBal += $tds.eq(20).find('input[type=hidden]').val();
-                if (MassBal > VehicleCapacity) {
-                    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity\nAsk J for max possible capacity");
-                    $("#btnLoad").click();
+                if (MassBal > parseInt(VehicleCapacity)) {
+                    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity");
+                    //$("#btnLoad").click();
+                    hideprogressbar();
                     return false;
                 }
 
@@ -833,8 +835,16 @@
                 myObject.MOrderQty = MOrderQty;
                 myObject.MBackOrderQty = MBackOrderQty;
                 myObject.MQtyToDispatch = MQtyToDispatch;
-                myObject.Transporter = Transporter;
-                myObject.VehicleCapacity = VehicleCapacity;
+                if (Transporter === "Select Transporter") {
+                    myObject.Transporter = "";
+                } else {
+                    myObject.Transporter = Transporter;
+                }
+                if (VehicleCapacity === "") {
+                    myObject.VehicleCapacity = 999999;
+                } else {
+                    myObject.VehicleCapacity = VehicleCapacity;
+                }
                 //Add when picker functionality
                 myObject.Picker = "";
                 myObject.Status = "";
