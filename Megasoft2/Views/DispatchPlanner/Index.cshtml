@@ -65,7 +65,14 @@
 
                                                     <div class="col-lg-3">
                                                         <label for="Tonnage">Truck Tonnage: </label>
-                                                        <input type="text" id="Tonnage" class="form-control input-sm" />
+                                                        @if (Model.Plans.Count > 0)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.Plans[0].VehicleCapacity, new { @class = "form-control input-sm", @id = "Tonnage" })
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="text" id="Tonnage" class="form-control input-sm" />
+                                                        }
                                                     </div>
 
                                                     <div class=" col-sm-1">
@@ -98,10 +105,23 @@
                                                         var item = new SelectListItem() { Text = i.ToString(), Value = i.ToString() };
                                                         itemList.Add(item);
                                                     }
-                                                    <div class="col-lg-2">
+                                                    <div class="col-lg-4">
                                                         <label for="Plans" id="dlvLabel">Plan #    </label>
                                                         @Html.DropDownListFor(model => model.DeliveryNo, itemList, new { @class = "form-control input-sm", @id = "Plans" })
-                                                    </div><div class="col-lg-10 text-right">
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        @if (Model.Plans[0].Transporter != null)
+                                                        {
+                                                            <label for="SelectTruck">Selected Transporter: @Model.Plans[0].Transporter</label>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        <label for="OrderTon">Mass Available: </label>
+                                                        <input type="text" id="OrderTon" class="form-control input-sm" readonly="readonly" />
+                                                    </div>
+                                                    <div class="col-lg-2 text-right">
                                                         <a href="#" class="btn btn-default btn-sm" id="newPlan">
                                                             <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
                                                         </a>
@@ -163,7 +183,7 @@
                                                         {
                                                             for (int i = 0; i < Model.OrderPlans.Count; i++)
                                                             {
-                                                                
+
                                                                 var rowColour = "";
                                                                 if (i % 2 == 0)
                                                                 {
@@ -493,7 +513,7 @@
         //calendar shows current date
         Date.prototype.toDateInputValue = (function (date) {
             var local = new Date(date);
-            if ($("#Messages").val() !== "Index") {
+            if ($("#Messages").val() != "Index") {
                 local.setDate(local.getDate() + 1);
             }
             return local.toJSON().slice(0, 10);
@@ -507,7 +527,7 @@
         })
 
         $("#Tonnage").on("change", function () {
-            console.log($("#Tonnage").val());
+            //sconsole.log($("#Tonnage").val());
         })
         @*//Show/Change Transporter Capacity
         $("#truckList").prop("selectedIndex", 0);
@@ -526,7 +546,7 @@
 
         //clear Plans tbl
         $("#newPlan").on("click", function () {
-            $("#DeliveryNo").val((parseInt($("#Plans :selected").val()) + 1).toString());
+            $("#DeliveryNo").val((parseInt($("#Plans option:last").val()) + 1).toString());
             $("#Plans").hide();
             $("#newPlan").hide();
             $("#dlvLabel").append($("#DeliveryNo").val());
@@ -686,7 +706,7 @@
 
                     // Remove row from source Datatable
                     $('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
-
+                    console.log($('#' + srcTable).DataTable().rows);
                 } else {  // Otherwise move dragged row
 
                     // Get source transfer data
@@ -724,6 +744,9 @@
                 row.classList.remove('over');
                 row.style.opacity = '1.0';
             });
+            var $tds = $(this.closest("tr")).find('td');
+            var ms = $tds.eq(21).find('input[type=hidden]').val();
+            console.log(ms);
         }
 
 
@@ -747,7 +770,7 @@
 
                 var myObject = new Object();
                 myObject.DispatchDate = DispatchDate;
-                myObject.DeliveryNo = parseInt(DeliveryNo);
+                myObject.DeliveryNo = DeliveryNo;
                 myObject.Customer = Customer
                 myObject.SalesOrder = SalesOrder;
                 myObject.SalesOrderLine = SalesOrderLine;
@@ -803,14 +826,14 @@
             var MassBal = 0;
             $("#planTbl > tbody > tr ").each( async function (i, el) {
                 var $tds = $(this).closest("tr").find('td');
-
-                MassBal += $tds.eq(20).find('input[type=hidden]').val();
-                if (MassBal > parseInt(VehicleCapacity)) {
-                    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity");
-                    //$("#btnLoad").click();
-                    hideprogressbar();
-                    return false;
-                }
+                var ms = parseInt($tds.eq(21).find('input[type=hidden]').val());
+                MassBal += ms;
+                //if (MassBal > VehicleCapacity) {
+                //    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity");
+                //    //$("#btnLoad").click();
+                //    hideprogressbar();
+                //    return false;
+                //}
 
                 var Customer = $tds.eq(2).text().trim();
                 var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
@@ -825,7 +848,7 @@
 
                 var myObject = new Object();
                 myObject.DispatchDate = DispatchDate;
-                myObject.DeliveryNo = parseInt(DeliveryNo);
+                myObject.DeliveryNo = DeliveryNo;
                 myObject.Customer = Customer
                 myObject.SalesOrder = SalesOrder;
                 myObject.SalesOrderLine = SalesOrderLine;
@@ -853,8 +876,9 @@
 
             });
 
-            var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+            var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal });
             var exportdata = myString;
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveSchedule","DispatchPlanner")",

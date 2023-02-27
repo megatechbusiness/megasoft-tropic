@@ -1,4 +1,5 @@
 ﻿using Megasoft2.ViewModel;
+using Remotion.Data.Linq.Clauses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,9 @@ namespace Megasoft2.Controllers
             {
 
                 System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
-                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a).ToList();
-
+                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
                 var transporter = (from a in wdb.mtTransporters select new { Name = a.VehicleReg + " - " + a.Transporter, Capacity = a.VehicleCapacity }).ToList();
+
                 model.TruckList = new List<string> { "Select Transporter" };
                 foreach (var truck in transporter)
                 {
@@ -33,10 +34,25 @@ namespace Megasoft2.Controllers
                 }
                 model.TruckList.Add("!");
                 model.SaveTL = model.TruckList;
+                List<SelectListItem> items = new List<SelectListItem>();
+                foreach (var item in model.TruckList)
+                {
+                    if (item == model.Plans[0].Transporter)
+                    {
+                        items.Add(new SelectListItem { Text = item, Value = item, Selected = true });
+                    }
+                    else
+                    {
+                        items.Add(new SelectListItem { Text = item, Value = item });
+                    }
 
+                }
+                ViewBag.items = items;
                 model.DispatchDate = DateTime.Now;
-                model.DeliveryNo = "1";
+                model.DeliveryNo = 1;
+
                 LoadData(model);
+
                 model.Messages = "Index";
                 return View(model);
 
@@ -48,33 +64,49 @@ namespace Megasoft2.Controllers
             }
         }
 
-        public bool CanSaveSchedule()
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "LoadData")]
+        public ActionResult LoadData(DispatchPlannerViewModel model)
         {
+            ViewBag.CanSaveSchedule = CanSaveSchedule();
             try
             {
-                var Admin = (from a in mdb.mtUsers where a.Username == HttpContext.User.Identity.Name.ToUpper() && a.Administrator == true select a).ToList();
-                if (Admin.Count > 0)
+                ModelState.Clear();
+                model.OpenOrders = (from a in wdb.mt_DispatchPlanGetOrders() select a).ToList();
+                model.TruckList = model.SaveTL;
+
+                var dateTime = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
+                //var del = Convert.ToInt32(model.DeliveryNo);
+                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == model.DeliveryNo select a).ToList();
+                ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
+
+                model.OrderPlans = new List<mt_DispatchPlanGetOrders_Result>();
+                foreach (var item in model.Plans)
                 {
-                    return true;
+                    if (item.DeliveryNo == model.DeliveryNo)
+                    {
+                        model.OrderPlans.Add(model.OpenOrders.Find(x => (x.CustCode == item.Customer) && (x.SalesOrder == item.SalesOrder) && (x.SalesOrderLine == item.SalesOrderLine)));
+                    }
                 }
-                var Emergency = (from a in mdb.mtOpFunctions where a.Username == HttpContext.User.Identity.Name.ToUpper() && a.Program == "OrderScheduler" && a.ProgramFunction == "SaveSchedule" select a).ToList();
-                if (Emergency.Count > 0)
+
+                if (model.DispatchDate.DayOfYear != DateTime.Now.DayOfYear)
                 {
-                    return true;
+                    model.Messages = "";
                 }
-                else
-                {
-                    return false;
-                }
+
+                return View("Index", model);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                ModelState.AddModelError("", ex.Message);
+                return View("Index", model);
             }
         }
 
+
         [HttpPost]
-        public ActionResult SaveSchedule(string details)
+        public ActionResult SaveSchedule(string details, int mass)
         {
             try
             {
@@ -83,6 +115,10 @@ namespace Megasoft2.Controllers
                 {
                     foreach (var item in myDeserializedObjList)
                     {
+                        if (mass > item.VehicleCapacity)
+                        {
+                            return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
+                        }
                         var check = (from a in wdb.mtDispatchPlans where a.DispatchDate == item.DispatchDate && a.DeliveryNo == item.DeliveryNo && a.Customer == item.Customer && a.SalesOrder == item.SalesOrder && a.SalesOrderLine == item.SalesOrderLine select a).FirstOrDefault();
                         if (check == null)
                         {
@@ -134,43 +170,6 @@ namespace Megasoft2.Controllers
 
 
         [HttpPost]
-        [MultipleButton(Name = "action", Argument = "LoadData")]
-        public ActionResult LoadData(DispatchPlannerViewModel model)
-        {
-            ViewBag.CanSaveSchedule = CanSaveSchedule();
-            try
-            {
-                ModelState.Clear();
-                model.OpenOrders = (from a in wdb.mt_DispatchPlanGetOrders() select a).Distinct().ToList();
-                model.TruckList = model.SaveTL;
-                
-                var dateTime = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
-                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a).ToList();
-                ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
-                model.OrderPlans = new List<mt_DispatchPlanGetOrders_Result>();
-                foreach (var item in model.Plans)
-                {
-                    if (item.DeliveryNo == Convert.ToInt32(model.DeliveryNo))
-                    {
-                        model.OrderPlans.Add(model.OpenOrders.Find(x => (x.CustCode == item.Customer) && (x.SalesOrder == item.SalesOrder) && (x.SalesOrderLine == item.SalesOrderLine)));
-                    }
-                }
-
-                if (model.DispatchDate.DayOfYear != System.DateTime.Now.DayOfYear)
-                {
-                    model.Messages = "";
-                }
-               
-                return View("Index", model);
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View("Index", model);
-            }
-        }
-
-        [HttpPost]
         public ActionResult DeleteSchedule(string details)
         {
             try
@@ -210,6 +209,30 @@ namespace Megasoft2.Controllers
 
         }
 
+        public bool CanSaveSchedule()
+        {
+            try
+            {
+                var Admin = (from a in mdb.mtUsers where a.Username == HttpContext.User.Identity.Name.ToUpper() && a.Administrator == true select a).ToList();
+                if (Admin.Count > 0)
+                {
+                    return true;
+                }
+                var Emergency = (from a in mdb.mtOpFunctions where a.Username == HttpContext.User.Identity.Name.ToUpper() && a.Program == "OrderScheduler" && a.ProgramFunction == "SaveSchedule" select a).ToList();
+                if (Emergency.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
     }
 }
