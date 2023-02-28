@@ -111,14 +111,12 @@
                                                     </div>
 
                                                     <div class="col-lg-3">
-                                                        @if (Model.Plans[0].Transporter != null)
-                                                        {
-                                                            <label for="SelectTruck">Selected Transporter: @Model.Plans[0].Transporter</label>
-                                                        }
+                                                        <label>Selected Transporter: </label>
+                                                        @Html.TextBoxFor(model => Model.Plans[0].Transporter, new { @class = "form-control input-sm", @id = "selectTruck", @readonly = "readonly" })
                                                     </div>
 
                                                     <div class="col-lg-3">
-                                                        <label for="OrderTon">Mass Available: </label>
+                                                        <label for="OrderTon">Total Estimated Mass: </label>
                                                         <input type="text" id="OrderTon" class="form-control input-sm" readonly="readonly" />
                                                     </div>
                                                     <div class="col-lg-2 text-right">
@@ -126,6 +124,26 @@
                                                             <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
                                                         </a>
                                                     </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-lg-4">
+                                                        <label>Plan # 1   </label>
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        <div id="displayTruck" hidden="hidden">
+                                                            <label for="selectTruck">Selected Transporter: </label>
+                                                            <input type="text" id="selectTruck" class="form-control input-sm" readonly="readonly" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-3" id="displayMass" hidden="hidden">
+                                                        <label for="OrderTon">Total Estimated Mass: </label>
+                                                        <input type="text" id="OrderTon" class="form-control input-sm" readonly="readonly" />
+                                                    </div>
+
+                                                    <div class="col-lg-2"></div>
                                                 }
                                                 @Html.HiddenFor(model => Model.DeliveryNo)
                                                 @Html.HiddenFor(model => Model.Messages)
@@ -145,7 +163,7 @@
                                 <div class="form-group">
                                     <div class="table-responsive">
                                         <div class="">
-                                            <table id="planTbl" class="table table-hover table-condensed table-responsive table-bordered tablegrid display nowrap" width="100%">
+                                            <table id="example" class="table table-hover table-condensed table-responsive table-bordered tablegrid display nowrap" width="100%">
                                                 <thead style="font-size:x-small">
                                                     <tr>
                                                         <th></th>
@@ -196,7 +214,7 @@
                                                                         <a href="#" id="btnDelete" class="delLine btn btn-default btn-xs text-right">
                                                                             <span class="fa fa-trash" aria-hidden="true" title="Delete"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;"></span></span>
                                                                         </a>
-
+                                                                        @Html.HiddenFor(model => Model.OrderPlans[i].ScheduleItem)
                                                                     </td>
                                                                     <td>
                                                                         @Model.OrderPlans[i].CustCode
@@ -254,38 +272,38 @@
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].MOrderQty
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].MOrderQty))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].MOrderQty)
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].QtyDelivered
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].QtyDelivered))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].QtyDelivered)
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].InDispatch
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].InDispatch))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].InDispatch)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].InTransitQty
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].InTransitQty))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].InTransitQty)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].QtyBalance
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].QtyBalance))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].QtyBalance)
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].MBackOrderQty
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].MBackOrderQty))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].MBackOrderQty)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OrderPlans[i].QtyDispatched
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].QtyDispatched))
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].QtyDispatched)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].MassBalance
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OrderPlans[i].MassBalance))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MassBalance)
                                                                     </td>
                                                                 </tr>
@@ -411,38 +429,38 @@
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].MOrderQty
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].MOrderQty))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MOrderQty)
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].QtyDelivered
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].QtyDelivered))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].QtyDelivered)
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].InDispatch
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].InDispatch))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].InDispatch)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].InTransitQty
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].InTransitQty))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].InTransitQty)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].QtyBalance
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].QtyBalance))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].QtyBalance)
 
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].MBackOrderQty
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].MBackOrderQty))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MBackOrderQty)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].QtyDispatched
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].QtyDispatched))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].QtyDispatched)
                                                                     </td>
                                                                     <td>
-                                                                        @Model.OpenOrders[i].MassBalance
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.OpenOrders[i].MassBalance))
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MassBalance)
                                                                     </td>
                                                                 </tr>
@@ -468,11 +486,11 @@
 
 
 <style type="text/css">
-    table#planTbl.dataTable tbody tr.over {
+    table#example.dataTable tbody tr.over {
         background-color: #ffa;
     }
 
-        table#planTbl.dataTable tbody tr.over > .sorting_1 {
+        table#example.dataTable tbody tr.over > .sorting_1 {
             background-color: #ffa;
         }
 
@@ -510,6 +528,7 @@
             showprogressbar();
         });
         $("#btnLoad").hide();
+
         //calendar shows current date
         Date.prototype.toDateInputValue = (function (date) {
             var local = new Date(date);
@@ -526,19 +545,28 @@
             $("#btnLoad").click();
         })
 
+        //input validity check
         $("#Tonnage").on("change", function () {
-            //sconsole.log($("#Tonnage").val());
+            if (!parseFloat($("#Tonnage").val())) {
+                alert("Please only enter Numbers into Truck Tonnage!");
+                $("#Tonnage").val("");
+            }
+            @*if (parseFloat(@("#Tonnage").val()) < parseFloat($("#OrderTon").val())) {
+                alert("Esimated Mass exceeds Truck Capacity input\nChoose a Larger Transporter")
+            }*@
         })
-        @*//Show/Change Transporter Capacity
-        $("#truckList").prop("selectedIndex", 0);
-        $("#Tonnage").val("");
 
+        
+        //display selected transporter
         $("#truckList").on("change", function () {
-            var cap = @Html.Raw(Json.Encode(ViewBag.Capacity));
-            $("#Tonnage").val(cap[$("#truckList").prop('selectedIndex')]);
-        })*@
+            $("#displayTruck").show();
+            $("#selectTruck").val($("#truckList :selected").val());
+            if ($("#truckList :selected").val() == "Select Transporter") {
+                $("#displayTruck").hide();
+            }
+        })
 
-
+        //Load new plan
         $("#Plans").on("change", function () {
             $("#DeliveryNo").val($("#Plans :selected").val());
             $("#btnLoad").click();
@@ -549,20 +577,31 @@
             $("#DeliveryNo").val((parseInt($("#Plans option:last").val()) + 1).toString());
             $("#Plans").hide();
             $("#newPlan").hide();
+            $("#Tonnage").val("");
+            $("#OrderTon").val("");
+            $("#selectTruck").val("");
             $("#dlvLabel").append($("#DeliveryNo").val());
-            var t = $("#planTbl").DataTable();
+            var t = $("#example").DataTable();
             t.clear().draw();
         })
+
+
 
         var dragSrcRow = null;  // Keep track of the source row
         var selectedRows = null;   // Keep track of selected rows in the source table
         var srcTable = '';  // Global tracking of table being dragged for 'over' class setting
-        var rows = [];   // Global rows for #planTbl
+        var rows = [];   // Global rows for #example
         var rows2 = [];  // Global rows for #example2
 
+        var MassBal = 0;
+        $("#example > tbody > tr ").each(function (i, el) {
+            var ms = parseFloat(this.cells[21].outerText)*100000;
+            MassBal += ms;
+        })
+        if (MassBal != 0) $("#OrderTon").val(MassBal/100000); 
 
 
-        var table = $('#planTbl').DataTable({
+        var table = $('#example').DataTable({
             paging: false,
             "rowReorder": true,
             "ordering": false,
@@ -586,7 +625,7 @@
 
             drawCallback: function () {
                 // Add HTML5 draggable event listeners to each row
-                rows = document.querySelectorAll('#planTbl tbody tr');
+                rows = document.querySelectorAll('#example tbody tr');
                 [].forEach.call(rows, function (row) {
                     row.addEventListener('dragstart', handleDragStart, false);
                     row.addEventListener('dragenter', handleDragEnter, false)
@@ -706,7 +745,7 @@
 
                     // Remove row from source Datatable
                     $('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
-                    console.log($('#' + srcTable).DataTable().rows);
+
                 } else {  // Otherwise move dragged row
 
                     // Get source transfer data
@@ -732,27 +771,39 @@
             // this/e.target is the source node.
             // Reset the opacity of the source row
             this.style.opacity = '1.0';
-
+            var ms = 0;
             // Clear 'over' class from both tables
-            // and reset opacity
+            // reset opacity, and track order mass
             [].forEach.call(rows, function (row) {
                 row.classList.remove('over');
                 row.style.opacity = '1.0';
+                if (typeof row.cells[21] != "undefined") {
+                    ms += parseFloat(row.cells[21].outerText);
+                }
             });
+
+            if (typeof rows != "undefined") {
+                $("#displayMass").show();
+                $("#OrderTon").val(ms);
+                if ($("#Tonnage").val() != "") {
+                    if (($("#Tonnage").val() - ms) < 0) {
+                        alert("Mass Exceeds Vehicle Capacity!\nPlease remove last order");
+                    }
+                }
+                
+            }
 
             [].forEach.call(rows2, function (row) {
                 row.classList.remove('over');
                 row.style.opacity = '1.0';
             });
-            var $tds = $(this.closest("tr")).find('td');
-            var ms = $tds.eq(21).find('input[type=hidden]').val();
-            console.log(ms);
+
         }
 
 
-        $('#planTbl').on("click", ".delLine", function () {
+        $('#example').on("click", ".delLine", function () {
             var $tds = $(this).closest("tr").find('td');
-            if ($tds.eq(1).find('input[type=hidden]').val() == "N") {
+            if (($tds.eq(1).find('input[type=hidden]').val()) == "N") {
                 alert("Item not saved to schedule.");
             }
             else {
@@ -821,13 +872,15 @@
                 var DeliveryNo = $("#DeliveryNo").val();
             }
 
-            var Transporter = $("#truckList :selected").text();
+            var Transporter = $("#selectTruck").val();
             var VehicleCapacity = $("#Tonnage").val();
-            var MassBal = 0;
-            $("#planTbl > tbody > tr ").each( async function (i, el) {
+            var MassBal = 0.0;
+
+            $("#example > tbody > tr ").each( async function (i, el) {
                 var $tds = $(this).closest("tr").find('td');
-                var ms = parseInt($tds.eq(21).find('input[type=hidden]').val());
+                var ms = parseFloat(this.cells[21].outerText) * 1000000;
                 MassBal += ms;
+                //console.log(MassBal);
                 //if (MassBal > VehicleCapacity) {
                 //    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity");
                 //    //$("#btnLoad").click();
@@ -858,16 +911,11 @@
                 myObject.MOrderQty = MOrderQty;
                 myObject.MBackOrderQty = MBackOrderQty;
                 myObject.MQtyToDispatch = MQtyToDispatch;
-                if (Transporter === "Select Transporter") {
-                    myObject.Transporter = "";
-                } else {
-                    myObject.Transporter = Transporter;
-                }
-                if (VehicleCapacity === "") {
-                    myObject.VehicleCapacity = 999999;
-                } else {
+                myObject.Transporter = Transporter;
+                if (VehicleCapacity !== "") {
                     myObject.VehicleCapacity = VehicleCapacity;
                 }
+
                 //Add when picker functionality
                 myObject.Picker = "";
                 myObject.Status = "";
@@ -876,9 +924,9 @@
 
             });
 
-            var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal });
+            var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal/1000000 });
             var exportdata = myString;
-
+            console.log(exportdata);
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveSchedule","DispatchPlanner")",
@@ -905,7 +953,7 @@
 
 
         $('#btnSendEmail').click(function (event) {
-            $("#planTbl").table2excel({
+            $("#example").table2excel({
                 // exclude CSS class
                 exclude: ".noExl",
                 name: "ReqHeader",

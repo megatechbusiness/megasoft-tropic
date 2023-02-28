@@ -34,20 +34,7 @@ namespace Megasoft2.Controllers
                 }
                 model.TruckList.Add("!");
                 model.SaveTL = model.TruckList;
-                List<SelectListItem> items = new List<SelectListItem>();
-                foreach (var item in model.TruckList)
-                {
-                    if (item == model.Plans[0].Transporter)
-                    {
-                        items.Add(new SelectListItem { Text = item, Value = item, Selected = true });
-                    }
-                    else
-                    {
-                        items.Add(new SelectListItem { Text = item, Value = item });
-                    }
 
-                }
-                ViewBag.items = items;
                 model.DispatchDate = DateTime.Now;
                 model.DeliveryNo = 1;
 
@@ -106,7 +93,7 @@ namespace Megasoft2.Controllers
 
 
         [HttpPost]
-        public ActionResult SaveSchedule(string details, int mass)
+        public ActionResult SaveSchedule(string details, decimal mass)
         {
             try
             {
@@ -119,7 +106,9 @@ namespace Megasoft2.Controllers
                         {
                             return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
                         }
-                        var check = (from a in wdb.mtDispatchPlans where a.DispatchDate == item.DispatchDate && a.DeliveryNo == item.DeliveryNo && a.Customer == item.Customer && a.SalesOrder == item.SalesOrder && a.SalesOrderLine == item.SalesOrderLine select a).FirstOrDefault();
+                        var dateTime = Convert.ToDateTime(item.DispatchDate.ToString("yyyy-MM-dd"));
+
+                        var check = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == item.DeliveryNo && a.Customer == item.Customer && a.SalesOrder == item.SalesOrder && a.SalesOrderLine == item.SalesOrderLine select a).FirstOrDefault();
                         if (check == null)
                         {
                             //Add item to schedule
@@ -140,19 +129,18 @@ namespace Megasoft2.Controllers
                             obj.Picker = item.Picker;
                             obj.Status = item.Status;
                             wdb.Entry(obj).State = System.Data.EntityState.Added;
-
+                            wdb.SaveChanges();
                         }
                         else
                         {
-                            //check.StockDays = item.StockDays;
-                            //check.DateSaved = DateTime.Now;
-                            //check.Username = HttpContext.User.Identity.Name.ToUpper();
-                            //wdb.Entry(check).State = System.Data.EntityState.Modified;
-                            //wdb.SaveChanges();
+                            check.Transporter = item.Transporter;
+                            check.VehicleCapacity = item.VehicleCapacity;
+                            wdb.Entry(check).State = System.Data.EntityState.Modified;
+                            wdb.SaveChanges();
                         }
                     }
 
-                    wdb.SaveChanges();
+
                     return Json("Schedule saved!", JsonRequestBehavior.AllowGet);
                 }
                 else
