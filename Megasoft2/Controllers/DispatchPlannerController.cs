@@ -25,12 +25,12 @@ namespace Megasoft2.Controllers
 
                 System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
-                var transporter = (from a in wdb.mtTransporters select new { Name = a.VehicleReg + " - " + a.Transporter, Capacity = a.VehicleCapacity }).ToList();
+                var transporter = (from a in wdb.ApSuppliers join b in wdb.mtTransporters on a.Supplier equals b.Transporter select a.SupplierName).ToList();
 
                 model.TruckList = new List<string> { "Select Transporter" };
-                foreach (var truck in transporter)
+                foreach (var sup in transporter)
                 {
-                    model.TruckList.Add(truck.Name);
+                    model.TruckList.Add(sup);
                 }
                 model.TruckList.Add("!");
                 model.SaveTL = model.TruckList;

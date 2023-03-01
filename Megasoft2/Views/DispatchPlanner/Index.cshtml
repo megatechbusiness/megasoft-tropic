@@ -67,7 +67,7 @@
                                                         <label for="Tonnage">Truck Tonnage: </label>
                                                         @if (Model.Plans.Count > 0)
                                                         {
-                                                            @Html.TextBoxFor(model => model.Plans[0].VehicleCapacity, new { @class = "form-control input-sm", @id = "Tonnage" })
+                                                            @Html.TextBoxFor(model => model.Plans[0].VehicleCapacity, new { @class = "form-control input-sm text-right", @id = "Tonnage", @style = "float: right" })
                                                         }
                                                         else
                                                         {
@@ -105,9 +105,15 @@
                                                         var item = new SelectListItem() { Text = i.ToString(), Value = i.ToString() };
                                                         itemList.Add(item);
                                                     }
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-1">
                                                         <label for="Plans" id="dlvLabel">Plan #    </label>
                                                         @Html.DropDownListFor(model => model.DeliveryNo, itemList, new { @class = "form-control input-sm", @id = "Plans" })
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        <a href="#" class="btn btn-default btn-sm" id="newPlan">
+                                                            <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
+                                                        </a>
                                                     </div>
 
                                                     <div class="col-lg-3">
@@ -117,12 +123,7 @@
 
                                                     <div class="col-lg-3">
                                                         <label for="OrderTon">Total Estimated Mass: </label>
-                                                        <input type="text" id="OrderTon" class="form-control input-sm" readonly="readonly" />
-                                                    </div>
-                                                    <div class="col-lg-2 text-right">
-                                                        <a href="#" class="btn btn-default btn-sm" id="newPlan">
-                                                            <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
-                                                        </a>
+                                                        <input type="text" id="OrderTon" class="form-control input-sm text-right" readonly="readonly" style="float:right;"/>
                                                     </div>
                                                 }
                                                 else
@@ -140,7 +141,7 @@
 
                                                     <div class="col-lg-3" id="displayMass" hidden="hidden">
                                                         <label for="OrderTon">Total Estimated Mass: </label>
-                                                        <input type="text" id="OrderTon" class="form-control input-sm" readonly="readonly" />
+                                                        <input type="text" id="OrderTon" class="form-control input-sm text-right" readonly="readonly" style="float:right;" />
                                                     </div>
 
                                                     <div class="col-lg-2"></div>
