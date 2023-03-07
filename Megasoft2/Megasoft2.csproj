@@ -619,6 +619,9 @@
     <Compile Include="mtDispatchPlan.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="mtDispatchStatu.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="mtDispatchVerification.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
@@ -2970,6 +2973,7 @@
     <Content Include="Views\PackLabelPrint\Index.cshtml" />
     <Content Include="Views\PalletMatIssue\Index.cshtml" />
     <Content Include="Views\DispatchPlanner\Index.cshtml" />
+    <Content Include="Views\DispatchPlanner\PickerSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

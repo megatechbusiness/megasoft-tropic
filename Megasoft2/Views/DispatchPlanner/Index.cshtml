@@ -56,7 +56,7 @@
                                                                 var item = new SelectListItem() { Text = Model.TruckList[i], Value = Model.TruckList[i] };
                                                                 itemList.Add(item);
                                                             }
-                                                            @Html.DropDownListFor(n => n.TruckList, itemList, new { @class = "form-control input-sm", @id = "truckList" })
+                                                            @Html.DropDownListFor(n => n.TruckList, itemList, new { @class = "form-control input-sm", @id = "truckList", @style = "float: right" })
                                                         }
                                                         @*@Html.DropDownListFor(model => model.TruckList, new SelectList(ViewBag.TruckList), new { @class = "form-control input-sm", @id = "truckList" })*@
 
@@ -71,11 +71,15 @@
                                                         }
                                                         else
                                                         {
-                                                            <input type="text" id="Tonnage" class="form-control input-sm" />
+                                                            <input type="text" id="Tonnage" class="form-control input-sm text-right" style="float:right;"/>
                                                         }
                                                     </div>
 
-                                                    <div class=" col-sm-1">
+                                                    <div class=" col-sm-1 text-right">
+                                                        <a href="@Url.Action("PickerSelect", "DispatchPlanner", new { date = Model.DispatchDate, delNo = Model.DeliveryNo})" id="btnComments" class="modal-link btn btn-sm btn-success">
+                                                            <span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;" title="Choose Picker">Release</span>
+                                                        </a>
+
                                                         <button type="submit" class="btn btn-default btn-sm" name="action:LoadData" value="LoadData" id="btnLoad">
                                                             <i class="fa fa-refresh fa-lg" title="Load" aria-hidden="true"></i>
                                                             <span class="sr-only">Load</span>
@@ -118,7 +122,7 @@
 
                                                     <div class="col-lg-3">
                                                         <label>Selected Transporter: </label>
-                                                        @Html.TextBoxFor(model => Model.Plans[0].Transporter, new { @class = "form-control input-sm", @id = "selectTruck", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => Model.Plans[0].Transporter, new { @class = "form-control input-sm", @id = "selectTruck", @readonly = "readonly", @style = "float: right" })
                                                     </div>
 
                                                     <div class="col-lg-3">
@@ -135,7 +139,7 @@
                                                     <div class="col-lg-3">
                                                         <div id="displayTruck" hidden="hidden">
                                                             <label for="selectTruck">Selected Transporter: </label>
-                                                            <input type="text" id="selectTruck" class="form-control input-sm" readonly="readonly" />
+                                                            <input type="text" id="selectTruck" class="form-control input-sm" readonly="readonly" style="float:right;"/>
                                                         </div>
                                                     </div>
 
@@ -181,6 +185,7 @@
                                                         <th>Desc.</th>
                                                         <th>Size</th>
                                                         <th>Uom</th>
+                                                        @*<th>Picker</th>*@
                                                         <th>Order Date</th>
                                                         <th>Line Ship Date</th>
                                                         <th>Cust. Request Date</th>
@@ -258,6 +263,10 @@
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].MOrderUom)
 
                                                                     </td>
+                                                                    @*<td>
+                                                                        @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList, "Value", "Text"))
+                                                                        @Html.HiddenFor(model => model.Picker)
+                                                                    </td>*@
                                                                     <td>
                                                                         @Model.OrderPlans[i].OrderDate
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].OrderDate)
@@ -335,6 +344,7 @@
                                                         <th>Desc.</th>
                                                         <th>Size</th>
                                                         <th>Uom</th>
+                                                        @*<th>Picker</th>*@
                                                         <th>Order Date</th>
                                                         <th>Line Ship Date</th>
                                                         <th>Cust. Request Date</th>
@@ -415,6 +425,10 @@
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MOrderUom)
 
                                                                     </td>
+                                                                    @*<td >
+                                                                        @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList), new { @class = "form-control input-sm", style = "width:100%" })
+                                                                        @Html.HiddenFor(model => model.Picker)
+                                                                    </td>*@
                                                                     <td>
                                                                         @Model.OpenOrders[i].OrderDate
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].OrderDate)
@@ -557,7 +571,7 @@
             }*@
         })
 
-        
+
         //display selected transporter
         $("#truckList").on("change", function () {
             $("#displayTruck").show();
@@ -586,7 +600,13 @@
             t.clear().draw();
         })
 
-
+        //$("#PlanPicker").on("change", function () {
+        //    console.log("ddl");
+        //    var $tds = $(this).closest("tr").find('td');
+        //    $tds.eq(11).find('input[type=hidden]').val($("#Picker :selected").val());
+        //    console.log($tds.eq(11).find('input[type=hidden]').val());
+            
+        //})
 
         var dragSrcRow = null;  // Keep track of the source row
         var selectedRows = null;   // Keep track of selected rows in the source table
@@ -597,10 +617,11 @@
         var MassBal = 0;
         $("#example > tbody > tr ").each(function (i, el) {
             var ms = parseFloat(this.cells[21].outerText)*100000;
-            MassBal += ms;
+            MassBal += Math.round(ms);
+
         })
         if (MassBal != 0) $("#OrderTon").val(MassBal/100000); 
-
+ 
 
         var table = $('#example').DataTable({
             paging: false,
@@ -780,6 +801,10 @@
                 row.style.opacity = '1.0';
                 if (typeof row.cells[21] != "undefined") {
                     ms += parseFloat(row.cells[21].outerText);
+                    //row.cells[11].children[0].id = "PlanPicker";
+                    //console.log(row.cells[11].children[0].id);
+
+
                 }
             });
 
@@ -880,14 +905,7 @@
             $("#example > tbody > tr ").each( async function (i, el) {
                 var $tds = $(this).closest("tr").find('td');
                 var ms = parseFloat(this.cells[21].outerText) * 1000000;
-                MassBal += ms;
-                //console.log(MassBal);
-                //if (MassBal > VehicleCapacity) {
-                //    alert("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity");
-                //    //$("#btnLoad").click();
-                //    hideprogressbar();
-                //    return false;
-                //}
+                MassBal += Math.round(ms);
 
                 var Customer = $tds.eq(2).text().trim();
                 var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
@@ -927,7 +945,8 @@
 
             var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal/1000000 });
             var exportdata = myString;
-            console.log(exportdata);
+            //console.log(exportdata);
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveSchedule","DispatchPlanner")",

@@ -14,6 +14,7 @@ namespace Megasoft2.ViewModel
         public List<string> SaveTL { get; set; }
         public List<mtDispatchPlan> Plans { get; set; }
         public int DeliveryNo { get; set; }
+        public string Picker { get; set; }
         public string Messages { get; set; }
     }
 }

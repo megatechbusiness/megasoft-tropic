@@ -1266,10 +1266,19 @@
           <Property Name="MOrderQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="MBackOrderQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="MQtyToDispatch" Type="decimal" Precision="18" Scale="6" Nullable="false" />
-          <Property Name="Transporter" Type="varchar" MaxLength="40" />
+          <Property Name="Transporter" Type="varchar" MaxLength="50" />
           <Property Name="VehicleCapacity" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Picker" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PickComplete" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DatePickComplete" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mtDispatchStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="mtDispatchVerification">
           <Key>
@@ -5569,6 +5578,7 @@ warning 6002: The table/view 'TheOUTDOORSCompanyT.dbo.vwWipJobMatSpec' does not 
           <EntitySet Name="LotDetail" EntityType="Self.LotDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtBankingDetails" EntityType="Self.mtBankingDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtDispatchPlan" EntityType="Self.mtDispatchPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mtDispatchStatus" EntityType="Self.mtDispatchStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtDispatchVerification" EntityType="Self.mtDispatchVerification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtExpenseIssueMatrix" EntityType="Self.mtExpenseIssueMatrix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mtInvDelayedPosting" EntityType="Self.mtInvDelayedPosting" Schema="dbo" store:Type="Tables" />
@@ -7931,8 +7941,9 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <FunctionImport Name="mt_PalletMatIssueGetPalletDetails" ReturnType="Collection(WarehouseManagementModel.mt_PalletMatIssueGetPalletDetails_Result)">
           <Parameter Name="PalletID" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="mtDispatchPlans" EntityType="WarehouseManagementModel.mtDispatchPlan" />
           <FunctionImport Name="mt_DispatchPlanGetOrders" ReturnType="Collection(WarehouseManagementModel.mt_DispatchPlanGetOrders_Result)" />
+          <EntitySet Name="mtDispatchPlans" EntityType="WarehouseManagementModel.mtDispatchPlan" />
+          <EntitySet Name="mtDispatchStatus" EntityType="WarehouseManagementModel.mtDispatchStatu" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -14740,30 +14751,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="String" Name="PalletId" Nullable="true" MaxLength="40" />
           <Property Type="Decimal" Name="QtyOnHand" Nullable="false" Precision="18" Scale="6" />
         </ComplexType>
-        <EntityType Name="mtDispatchPlan">
-          <Key>
-            <PropertyRef Name="DispatchDate" />
-            <PropertyRef Name="DeliveryNo" />
-            <PropertyRef Name="Customer" />
-            <PropertyRef Name="SalesOrder" />
-            <PropertyRef Name="SalesOrderLine" />
-          </Key>
-          <Property Name="DispatchDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DeliveryNo" Type="Int32" Nullable="false" />
-          <Property Name="Customer" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="SalesOrderLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
-          <Property Name="MStockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MStockDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Size" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="MOrderQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="MBackOrderQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="MQtyToDispatch" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="Transporter" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="VehicleCapacity" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Picker" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="mt_DispatchPlanGetOrders_Result">
           <Property Type="String" Name="ScheduleItem" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="CustCode" Nullable="true" MaxLength="15" />
@@ -14788,6 +14775,39 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="Decimal" Name="MBackOrderQty" Nullable="true" Precision="18" Scale="6" />
           <Property Type="Decimal" Name="QtyDispatched" Nullable="false" Precision="38" Scale="6" />
         </ComplexType>
+        <EntityType Name="mtDispatchPlan">
+          <Key>
+            <PropertyRef Name="DispatchDate" />
+            <PropertyRef Name="DeliveryNo" />
+            <PropertyRef Name="Customer" />
+            <PropertyRef Name="SalesOrder" />
+            <PropertyRef Name="SalesOrderLine" />
+          </Key>
+          <Property Name="DispatchDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeliveryNo" Type="Int32" Nullable="false" />
+          <Property Name="Customer" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SalesOrderLine" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="MStockCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MStockDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Size" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="MOrderQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="MBackOrderQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="MQtyToDispatch" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Transporter" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleCapacity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Picker" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PickComplete" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DatePickComplete" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="mtDispatchStatu">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
 
       </Schema>
     </edmx:ConceptualModels>
@@ -21826,27 +21846,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="mtDispatchPlans">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchPlan">
-              <MappingFragment StoreEntitySet="mtDispatchPlan">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Picker" ColumnName="Picker" />
-                <ScalarProperty Name="VehicleCapacity" ColumnName="VehicleCapacity" />
-                <ScalarProperty Name="Transporter" ColumnName="Transporter" />
-                <ScalarProperty Name="MQtyToDispatch" ColumnName="MQtyToDispatch" />
-                <ScalarProperty Name="MBackOrderQty" ColumnName="MBackOrderQty" />
-                <ScalarProperty Name="MOrderQty" ColumnName="MOrderQty" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="MStockDesc" ColumnName="MStockDesc" />
-                <ScalarProperty Name="MStockCode" ColumnName="MStockCode" />
-                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
-                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
-                <ScalarProperty Name="DispatchDate" ColumnName="DispatchDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="mt_DispatchPlanGetOrders" FunctionName="WarehouseManagementModel.Store.mt_DispatchPlanGetOrders">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WarehouseManagementModel.mt_DispatchPlanGetOrders_Result">
@@ -21875,6 +21874,37 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="mtDispatchPlans">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchPlan">
+              <MappingFragment StoreEntitySet="mtDispatchPlan">
+                <ScalarProperty Name="DatePickComplete" ColumnName="DatePickComplete" />
+                <ScalarProperty Name="PickComplete" ColumnName="PickComplete" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Picker" ColumnName="Picker" />
+                <ScalarProperty Name="VehicleCapacity" ColumnName="VehicleCapacity" />
+                <ScalarProperty Name="Transporter" ColumnName="Transporter" />
+                <ScalarProperty Name="MQtyToDispatch" ColumnName="MQtyToDispatch" />
+                <ScalarProperty Name="MBackOrderQty" ColumnName="MBackOrderQty" />
+                <ScalarProperty Name="MOrderQty" ColumnName="MOrderQty" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="MStockDesc" ColumnName="MStockDesc" />
+                <ScalarProperty Name="MStockCode" ColumnName="MStockCode" />
+                <ScalarProperty Name="SalesOrderLine" ColumnName="SalesOrderLine" />
+                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
+                <ScalarProperty Name="DispatchDate" ColumnName="DispatchDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mtDispatchStatus">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchStatu">
+              <MappingFragment StoreEntitySet="mtDispatchStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
 
         </EntityContainerMapping>
       </Mapping>

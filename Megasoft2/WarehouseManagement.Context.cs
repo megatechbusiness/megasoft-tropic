@@ -152,6 +152,7 @@ namespace Megasoft2
         public DbSet<mtProductionLabel> mtProductionLabels { get; set; }
         public DbSet<mtProductionPackLabelPrint> mtProductionPackLabelPrints { get; set; }
         public DbSet<mtDispatchPlan> mtDispatchPlans { get; set; }
+        public DbSet<mtDispatchStatu> mtDispatchStatus { get; set; }
     
         public virtual ObjectResult<sp_CheckStockCodeBins_Result> sp_CheckStockCodeBins(string warehouse, string stockCode, string bin)
         {

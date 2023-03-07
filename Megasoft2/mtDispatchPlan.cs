@@ -29,5 +29,7 @@ namespace Megasoft2
         public Nullable<decimal> VehicleCapacity { get; set; }
         public string Picker { get; set; }
         public string Status { get; set; }
+        public string PickComplete { get; set; }
+        public System.DateTime DatePickComplete { get; set; }
     }
 }
