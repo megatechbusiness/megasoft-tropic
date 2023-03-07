@@ -1,0 +1,710 @@
+﻿@model Megasoft2.ViewModel.DispatchPlannerViewModel
+
+
+<div class="bs-example">
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="max-height: 52px;">
+            <div class="row">
+                &nbsp&nbsp
+                <div class="btn-group btn-breadcrumb">
+                    <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+                    <a href="@Url.Action("Index", "DispatchPlanner")" class="btn btn-default">Dispatch Plan</a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="col-md-12">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmInvoice" }))
+                {
+                    @Html.AntiForgeryToken()
+                    if (!Html.ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger fade in">
+                            @Html.ValidationSummary(true)
+                        </div>
+                    }
+
+                    <div class="">
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="">
+
+                                        <div class="form-horizontal row">
+                                            <div class="form-group">
+                                                <div class="" style="margin-left: 15px; margin-right: 15px;">
+                                                    <div class="col-lg-4">
+                                                        <label for="datePicker" style="text-align:center"> Dispatch Date: </label>
+                                                        <input type="date" id="datePicker" name="datePicker" class="form-control input-sm" />
+                                                        @Html.HiddenFor(model => Model.DispatchDate)
+                                                    </div>
+
+
+                                                    <div class=" col-sm-1 text-right">
+
+                                                        <button type="submit" class="btn btn-default btn-sm" name="action:LoadData" value="LoadData" id="btnLoad">
+                                                            <i class="fa fa-refresh fa-lg" title="Load" aria-hidden="true"></i>
+                                                            <span class="sr-only">Load</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="col-lg-1 text-right">
+                                                        @if (ViewBag.CanSaveSchedule)
+                                                        {
+                                                            <button type="button" class="btn btn-primary btn-sm" id="btnSave">
+                                                                <i class="fa fa-save fa-lg" title="Save" aria-hidden="true"></i>
+                                                                <span class="sr-only">Save</span>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-horizontal row">
+                                            <div class="form-group">
+                                                <div class="" style="margin-left: 15px; margin-right: 15px;">
+
+                                                    @if (Model.Plans.Count != 0)
+                                                    {
+                                                        var itemList = new List<SelectListItem>();
+                                                        for (int i = 1; i <= ViewBag.PlanNo.Count; i++)
+                                                        {
+                                                            var item = new SelectListItem() { Text = i.ToString(), Value = i.ToString() };
+                                                            itemList.Add(item);
+                                                        }
+                                                        <div class="col-lg-12">
+                                                            <label for="Plans" id="dlvLabel">Plan #    </label>
+                                                            @Html.DropDownListFor(model => model.DeliveryNo, itemList, new { @class = "form-control input-sm", @id = "Plans" })
+                                                        </div>
+                                                    }
+                                                    @Html.HiddenFor(model => Model.DeliveryNo)
+                                                    @Html.HiddenFor(model => Model.Messages)
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-horizontal row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <div class="">
+                                            <table id="example" class="table table-hover table-condensed table-responsive table-bordered tablegrid display nowrap" width="100%">
+                                                <thead style="font-size:x-small">
+                                                    <tr>
+                                                        <th>Customer</th>
+                                                        <th>Sales Order</th>
+                                                        <th>SO Line</th>
+                                                        <th>StockCode</th>
+                                                        <th>Desc.</th>
+                                                        <th>Size</th>
+                                                        <th>Order Qty.</th>
+                                                        <th>Back Order Qty</th>
+                                                        <th>Qty to Dispatch</th>
+                                                        <th>Transporter</th>
+                                                        <th>Vehicle Capacity</th>
+                                                        <th>Picker</th>
+                                                        <th>Status</th>
+                                                        <th>PickComplete</th>
+                                                        <th>DatePickComplete</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody style="font-size:x-small">
+                                                    @if (Model != null)
+                                                    {
+                                                        if (Model.Plans != null)
+                                                        {
+                                                            for (int i = 0; i < Model.Plans.Count; i++)
+                                                            {
+
+                                                                var rowColour = "";
+                                                                if (i % 2 == 0)
+                                                                {
+                                                                    rowColour = "#31b0d5";
+                                                                }
+
+                                                                <tr style="color:black;background-color:@rowColour">
+                                                                    <td>
+                                                                        @Model.Plans[i].Customer
+                                                                        @Html.HiddenFor(model => Model.Plans[i].Customer)
+                                                                    </td>
+                                                                    <td id="salesOrder">
+                                                                        @Model.Plans[i].SalesOrder
+                                                                        @Html.HiddenFor(model => Model.Plans[i].SalesOrder)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].SalesOrderLine
+                                                                        @Html.HiddenFor(model => Model.Plans[i].SalesOrderLine)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].MStockCode
+                                                                        @Html.HiddenFor(model => Model.Plans[i].MStockCode)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].MStockDesc
+                                                                        @Html.HiddenFor(model => Model.Plans[i].MStockDesc)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].Size
+                                                                        @Html.HiddenFor(model => Model.Plans[i].Size)
+                                                                    </td>
+                                                                    <td>
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.Plans[i].MOrderQty))
+                                                                        @Html.HiddenFor(model => Model.Plans[i].MOrderQty)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.Plans[i].MBackOrderQty))
+                                                                        @Html.HiddenFor(model => Model.Plans[i].MBackOrderQty)
+                                                                    </td>
+                                                                    <td>
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.Plans[i].MQtyToDispatch))
+                                                                        @Html.HiddenFor(model => Model.Plans[i].MQtyToDispatch)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].Transporter
+                                                                        @Html.HiddenFor(model => Model.Plans[i].Transporter)
+                                                                    </td>
+                                                                    <td>
+                                                                        @String.Format("{0:0.000000}", Convert.ToDecimal(Model.Plans[i].VehicleCapacity))
+                                                                        @Html.HiddenFor(model => Model.Plans[i].VehicleCapacity)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList))
+                                                                        @Html.HiddenFor(model => model.Picker)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].Status
+                                                                        @Html.HiddenFor(model => Model.Plans[i].Status)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].PickComplete
+                                                                        @Html.HiddenFor(model => Model.Plans[i].PickComplete)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Model.Plans[i].DatePickComplete
+                                                                        @Html.HiddenFor(model => Model.Plans[i].DatePickComplete)
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />*@
+
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTable/dataTables.min.css")" />
+
+
+<style type="text/css">
+    table#example.dataTable tbody tr.over {
+        background-color: #ffa;
+    }
+
+        table#example.dataTable tbody tr.over > .sorting_1 {
+            background-color: #ffa;
+        }
+
+    table#example2.dataTable tbody tr.over {
+        background-color: #ffa;
+    }
+
+        table#example2.dataTable tbody tr.over > .sorting_1 {
+            background-color: #ffa;
+        }
+
+    .form-control {
+        display: inline;
+        width: auto;
+    }
+
+    label {
+        padding-right: 5px;
+    }
+</style>
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+
+
+
+    $(document).ready(function () {
+
+        $('#wrapper').addClass('toggled-2');
+        $("#frmInvoice").submit(function (e) {
+            showprogressbar();
+        });
+        $("#btnLoad").hide();
+
+        //calendar shows current date
+        Date.prototype.toDateInputValue = (function (date) {
+            var local = new Date(date);
+            if ($("#Messages").val() != "Index") {
+                local.setDate(local.getDate() + 1);
+            }
+            return local.toJSON().slice(0, 10);
+        });
+        document.getElementById('datePicker').value = new Date().toDateInputValue($("#DispatchDate").val());
+
+        //Display plans for date
+        $('#datePicker').on("change", function () {
+            $("#DispatchDate").val($("#datePicker").val());
+            $("#btnLoad").click();
+        })
+
+        //input validity check
+        $("#Tonnage").on("change", function () {
+            if (!parseFloat($("#Tonnage").val())) {
+                alert("Please only enter Numbers into Truck Tonnage!");
+                $("#Tonnage").val("");
+            }
+            @*if (parseFloat(@("#Tonnage").val()) < parseFloat($("#OrderTon").val())) {
+                alert("Esimated Mass exceeds Truck Capacity input\nChoose a Larger Transporter")
+            }*@
+        })
+
+
+        //display selected transporter
+        $("#truckList").on("change", function () {
+            $("#displayTruck").show();
+            $("#selectTruck").val($("#truckList :selected").val());
+            if ($("#truckList :selected").val() == "Select Transporter") {
+                $("#displayTruck").hide();
+            }
+        })
+
+        //Load new plan
+        $("#Plans").on("change", function () {
+            $("#DeliveryNo").val($("#Plans :selected").val());
+            $("#btnLoad").click();
+        })
+
+        //clear Plans tbl
+        $("#newPlan").on("click", function () {
+            $("#DeliveryNo").val((parseInt($("#Plans option:last").val()) + 1).toString());
+            $("#Plans").hide();
+            $("#newPlan").hide();
+            $("#Tonnage").val("");
+            $("#OrderTon").val("");
+            $("#selectTruck").val("");
+            $("#dlvLabel").append($("#DeliveryNo").val());
+            var t = $("#example").DataTable();
+            t.clear().draw();
+        })
+
+        //$("#PlanPicker").on("change", function () {
+        //    console.log("ddl");
+        //    var $tds = $(this).closest("tr").find('td');
+        //    $tds.eq(11).find('input[type=hidden]').val($("#Picker :selected").val());
+        //    console.log($tds.eq(11).find('input[type=hidden]').val());
+
+        //})
+
+        var dragSrcRow = null;  // Keep track of the source row
+        var selectedRows = null;   // Keep track of selected rows in the source table
+        var srcTable = '';  // Global tracking of table being dragged for 'over' class setting
+        var rows = [];   // Global rows for #example
+        var rows2 = [];  // Global rows for #example2
+
+        var MassBal = 0;
+        $("#example > tbody > tr ").each(function (i, el) {
+            var ms = parseFloat(this.cells[21].outerText)*100000;
+            MassBal += Math.round(ms);
+
+        })
+        if (MassBal != 0) $("#OrderTon").val(MassBal/100000);
+
+
+        var table = $('#example').DataTable({
+            paging: false,
+            "rowReorder": true,
+            "ordering": false,
+            "scrollY": 200,
+            "scrollX": true,
+            order: [[1, 'asc']],
+            columnDefs: [{
+                orderable: true,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+
+            // Add HTML5 draggable class to each row
+            createdRow: function (row, data, dataIndex, cells) {
+                $(row).attr('draggable', 'true');
+            },
+
+            drawCallback: function () {
+                // Add HTML5 draggable event listeners to each row
+                rows = document.querySelectorAll('#example tbody tr');
+                [].forEach.call(rows, function (row) {
+                    row.addEventListener('dragstart', handleDragStart, false);
+                    row.addEventListener('dragenter', handleDragEnter, false)
+                    row.addEventListener('dragover', handleDragOver, false);
+                    row.addEventListener('dragleave', handleDragLeave, false);
+                    row.addEventListener('drop', handleDrop, false);
+                    row.addEventListener('dragend', handleDragEnd, false);
+                });
+            }
+        });
+
+        var table2 = $('#example2').DataTable({
+            paging: false,
+            "ordering": false,
+            "scrollY": 200,
+            "scrollX": true,
+            order: [[1, 'asc']],
+
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+
+            // Add HTML5 draggable class to each row
+            createdRow: function (row, data, dataIndex, cells) {
+                $(row).attr('draggable', 'true');
+            },
+
+            drawCallback: function () {
+                // Add HTML5 draggable event listeners to each row
+                rows2 = document.querySelectorAll('#example2 tbody tr');
+                [].forEach.call(rows2, function (row) {
+                    row.addEventListener('dragstart', handleDragStart, false);
+                    row.addEventListener('dragenter', handleDragEnter, false)
+                    row.addEventListener('dragover', handleDragOver, false);
+                    row.addEventListener('dragleave', handleDragLeave, false);
+                    row.addEventListener('drop', handleDrop, false);
+                    row.addEventListener('dragend', handleDragEnd, false);
+                });
+            }
+        });
+
+        function handleDragStart(e) {
+            // this / e.target is the source node.
+
+            // Set the source row opacity
+            this.style.opacity = '0.4';
+
+            // Keep track globally of the source row and source table id
+            dragSrcRow = this;
+            srcTable = this.parentNode.parentNode.id
+
+            // Keep track globally of selected rows
+            selectedRows = $('#' + srcTable).DataTable().rows({ selected: true });
+
+            // Allow moves
+            e.dataTransfer.effectAllowed = 'move';
+
+            // Save the source row html as text
+            e.dataTransfer.setData('text/plain', e.target.outerHTML);
+
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault(); // Necessary. Allows us to drop.
+            }
+
+            // Allow moves
+            e.dataTransfer.dropEffect = 'move';
+
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            // this / e.target is the current hover target.
+            // Get current table id
+            var currentTable = this.parentNode.parentNode.id
+
+            // Don't show drop zone if in source table
+            if (currentTable !== srcTable) {
+                this.classList.add('over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            // this / e.target is previous target element.
+
+            // Remove the drop zone when leaving element
+            this.classList.remove('over');
+        }
+
+        function handleDrop(e) {
+            // this / e.target is current target element.
+
+            if (e.stopPropagation) {
+                e.stopPropagation(); // stops the browser from redirecting.
+            }
+
+            // Get destination table id, row
+            var dstTable = $(this.closest('table')).attr('id');
+            var dstRow = $(this.closest('tr')).index();
+
+            // No need to process if src and dst table are the same
+            if (srcTable !== dstTable) {
+
+                // If selected rows and dragged item is selected then move selected rows
+                if (selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) {
+
+                    // Add row to destination Datatable
+                    $('#' + dstTable).DataTable().rows.add(selectedRows.data()).draw();
+
+                    // Remove row from source Datatable
+                    $('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
+
+                } else {  // Otherwise move dragged row
+
+                    // Get source transfer data
+                    var srcData = e.dataTransfer.getData('text/plain');
+                    // Add row to destination Datatable
+                    $('#' + dstTable).DataTable().row.add($(srcData)).draw();
+
+                    // Remove row from source Datatable
+                    $('#' + srcTable).DataTable().row(dragSrcRow).remove().draw();
+                }
+
+            }
+            else {
+
+
+                $('#' + srcTable + ' > tbody > tr:eq(' + dstRow + ')').after(dragSrcRow);
+
+            }
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            // this/e.target is the source node.
+            // Reset the opacity of the source row
+            this.style.opacity = '1.0';
+            var ms = 0;
+            // Clear 'over' class from both tables
+            // reset opacity, and track order mass
+            [].forEach.call(rows, function (row) {
+                row.classList.remove('over');
+                row.style.opacity = '1.0';
+                if (typeof row.cells[21] != "undefined") {
+                    ms += parseFloat(row.cells[21].outerText);
+                    //row.cells[11].children[0].id = "PlanPicker";
+                    //console.log(row.cells[11].children[0].id);
+
+
+                }
+            });
+
+            if (typeof rows != "undefined") {
+                $("#displayMass").show();
+                $("#OrderTon").val(ms);
+                if ($("#Tonnage").val() != "") {
+                    if (($("#Tonnage").val() - ms) < 0) {
+                        alert("Mass Exceeds Vehicle Capacity!\nPlease remove last order");
+                    }
+                }
+
+            }
+
+            [].forEach.call(rows2, function (row) {
+                row.classList.remove('over');
+                row.style.opacity = '1.0';
+            });
+
+        }
+
+
+        $('#example').on("click", ".delLine", function () {
+            var $tds = $(this).closest("tr").find('td');
+            if (($tds.eq(1).find('input[type=hidden]').val()) == "N") {
+                alert("Item not saved to schedule.");
+            }
+            else {
+                var DispatchDate = $("#DispatchDate").val();
+                if ($("#Plans").val() == null) {
+                    var DeliveryNo = 1;
+                } else {
+                    var DeliveryNo = $("#DeliveryNo").val();
+                }
+                var Customer = $tds.eq(2).text().trim();
+                var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
+                var SalesOrderLine = $tds.eq(4).find('input[type=hidden]').val();
+                showprogressbar();
+                var mydata = [];
+
+                var myObject = new Object();
+                myObject.DispatchDate = DispatchDate;
+                myObject.DeliveryNo = DeliveryNo;
+                myObject.Customer = Customer
+                myObject.SalesOrder = SalesOrder;
+                myObject.SalesOrderLine = SalesOrderLine;
+
+                mydata.push(myObject);
+
+                var myString = JSON.stringify({ details: JSON.stringify(mydata) });
+                var exportdata = myString;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteSchedule", "DispatchPlanner")",
+                    data: exportdata,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnDelSuccess,
+                    failure: OnDelErrorCall
+                });
+
+                function OnDelSuccess(response) {
+                    hideprogressbar();
+                    alert(response);
+                    if (response == "Schedule line deleted!") {
+                        $("#btnLoad").click();
+                    }
+                }
+
+                function OnDelErrorCall(response) {
+                    hideprogressbar();
+                    alert(response);
+                }
+            }
+        });
+
+
+        $('#example2').on("click", ".delLine", function () {
+            alert('Cannot delete unscheduled item.');
+        });
+
+        $('#btnSave').on("click", async function() {
+            showprogressbar();
+            var mydata = [];
+            var DispatchDate = $("#DispatchDate").val();
+
+            if ($("#Plans").val() == null) {
+                var DeliveryNo = 1;
+            } else {
+                var DeliveryNo = $("#DeliveryNo").val();
+            }
+
+            var Transporter = $("#selectTruck").val();
+            var VehicleCapacity = $("#Tonnage").val();
+            var MassBal = 0.0;
+
+            $("#example > tbody > tr ").each( async function (i, el) {
+                var $tds = $(this).closest("tr").find('td');
+                var ms = parseFloat(this.cells[21].outerText) * 1000000;
+                MassBal += Math.round(ms);
+
+                var Customer = $tds.eq(2).text().trim();
+                var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
+                var SalesOrderLine = $tds.eq(4).find('input[type=hidden]').val();
+                var MStockCode = $tds.eq(7).find('input[type=hidden]').val();
+                var MStockDesc = $tds.eq(8).find('input[type=hidden]').val();
+                var Size = $tds.eq(9).find('input[type=hidden]').val();
+                var MOrderQty = $tds.eq(14).find('input[type=hidden]').val();
+                var MBackOrderQty = $tds.eq(19).find('input[type=hidden]').val();
+                var MQtyToDispatch = $tds.eq(20).find('input[type=hidden]').val();
+
+
+                var myObject = new Object();
+                myObject.DispatchDate = DispatchDate;
+                myObject.DeliveryNo = DeliveryNo;
+                myObject.Customer = Customer
+                myObject.SalesOrder = SalesOrder;
+                myObject.SalesOrderLine = SalesOrderLine;
+                myObject.MStockCode = MStockCode;
+                myObject.MStockDesc = MStockDesc;
+                myObject.Size = Size;
+                myObject.MOrderQty = MOrderQty;
+                myObject.MBackOrderQty = MBackOrderQty;
+                myObject.MQtyToDispatch = MQtyToDispatch;
+                myObject.Transporter = Transporter;
+                if (VehicleCapacity !== "") {
+                    myObject.VehicleCapacity = VehicleCapacity;
+                }
+
+                //Add when picker functionality
+                myObject.Picker = "";
+                myObject.Status = "";
+
+                mydata.push(myObject);
+
+            });
+
+            var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal/1000000 });
+            var exportdata = myString;
+            //console.log(exportdata);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveSchedule","DispatchPlanner")",
+                data: exportdata,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: OnErrorCall
+            });
+
+            function OnSuccess(response) {
+                hideprogressbar();
+                alert(response);
+                if (response == "Schedule saved!") {
+                    $("#btnLoad").click();
+                }
+            }
+
+            function OnErrorCall(response) {
+                hideprogressbar();
+                alert(response);
+            }
+        });
+
+
+        $('#btnSendEmail').click(function (event) {
+            $("#example").table2excel({
+                // exclude CSS class
+                exclude: ".noExl",
+                name: "ReqHeader",
+                filename: "ReqHeader", //do not include extension
+                exclude_inputs: true
+            });
+        });
+
+    });
+</script>

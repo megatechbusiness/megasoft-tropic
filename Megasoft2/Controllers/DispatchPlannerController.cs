@@ -25,7 +25,7 @@ namespace Megasoft2.Controllers
             try
             {
 
-                System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
                 var transporter = (from a in wdb.ApSuppliers join b in wdb.mtTransporters on a.Supplier equals b.Transporter select a.SupplierName).ToList();
 
@@ -88,6 +88,37 @@ namespace Megasoft2.Controllers
             {
                 ModelState.AddModelError("", ex.Message);
                 return View("Index", model);
+            }
+        }
+
+        [CustomAuthorize("DispatchPlanner")]
+        public ActionResult Picking()
+        {
+            return View();
+        }
+
+
+        [CustomAuthorize("DispatchPlanner")]
+        public ActionResult Maintenence()
+        {
+            ViewBag.CanSaveSchedule = CanSaveSchedule();
+            DispatchPlannerViewModel model = new DispatchPlannerViewModel();
+            try
+            {
+                System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
+                ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
+                var PickersList = new List<string> { "" };
+                PickersList.AddRange((from a in mdb.mtUsers where a.Picker == true select a.Username).ToList());
+                ViewBag.PickersList = PickersList;
+                
+                return View("Maintenence", model);
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View("Maintenence", model);
             }
         }
 
@@ -269,5 +300,9 @@ namespace Megasoft2.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+
+
     }
 }

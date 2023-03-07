@@ -2974,6 +2974,8 @@
     <Content Include="Views\PalletMatIssue\Index.cshtml" />
     <Content Include="Views\DispatchPlanner\Index.cshtml" />
     <Content Include="Views\DispatchPlanner\PickerSelect.cshtml" />
+    <Content Include="Views\DispatchPlanner\Picking.cshtml" />
+    <Content Include="Views\DispatchPlanner\Maintenence.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
