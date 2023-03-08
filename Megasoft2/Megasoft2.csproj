@@ -336,6 +336,7 @@
     <Compile Include="Controllers\DemoCameraController.cs" />
     <Compile Include="Controllers\DepartmentMasterController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DispatchPlannerController.cs" />
     <Compile Include="Controllers\DispatchVerificationController.cs" />
     <Compile Include="Controllers\EmailSettingsController.cs" />
     <Compile Include="Controllers\GlCodeTagController.cs" />
@@ -614,6 +615,12 @@
     </Compile>
     <Compile Include="mtDepartment.cs">
       <DependentUpon>Syspro.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtDispatchPlan.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mtDispatchStatu.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mtDispatchVerification.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
@@ -1021,6 +1028,9 @@
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_DirectExpenseByStockCode_Result.cs">
+      <DependentUpon>WarehouseManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mt_DispatchPlanGetOrders_Result.cs">
       <DependentUpon>WarehouseManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="mt_GetDetailLot_Result.cs">
@@ -2094,6 +2104,7 @@
     <Compile Include="ViewModel\BuyerStatsViewModel.cs" />
     <Compile Include="ViewModel\CustomerInvoiceViewModel.cs" />
     <Compile Include="ViewModel\CustomerOrderScheduleViewModel.cs" />
+    <Compile Include="ViewModel\DispatchPlannerViewModel.cs" />
     <Compile Include="ViewModel\EmailRequestForQuote.cs" />
     <Compile Include="ViewModel\EmailSettingsViewModel.cs" />
     <Compile Include="ViewModel\ExpenseIssue.cs" />
@@ -2961,6 +2972,10 @@
     <Content Include="Views\InkSystem\InkBomCopyComponent.cshtml" />
     <Content Include="Views\PackLabelPrint\Index.cshtml" />
     <Content Include="Views\PalletMatIssue\Index.cshtml" />
+    <Content Include="Views\DispatchPlanner\Index.cshtml" />
+    <Content Include="Views\DispatchPlanner\PickerSelect.cshtml" />
+    <Content Include="Views\DispatchPlanner\Picking.cshtml" />
+    <Content Include="Views\DispatchPlanner\Maintenence.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

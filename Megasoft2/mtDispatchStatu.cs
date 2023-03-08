@@ -10,14 +10,11 @@
 namespace Megasoft2
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class mt_PalletMatIssueGetPalletDetails_Result
+    public partial class mtDispatchStatu
     {
-        public Nullable<bool> Checked { get; set; }
-        public string Warehouse { get; set; }
-        public string StockCode { get; set; }
-        public string Lot { get; set; }
-        public string PalletId { get; set; }
-        public decimal QtyOnHand { get; set; }
+        public string Status { get; set; }
+        public string Description { get; set; }
     }
 }
