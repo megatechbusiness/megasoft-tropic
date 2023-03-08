@@ -185,7 +185,6 @@
                                                         <th>Desc.</th>
                                                         <th>Size</th>
                                                         <th>Uom</th>
-                                                        @*<th>Picker</th>*@
                                                         <th>Order Date</th>
                                                         <th>Line Ship Date</th>
                                                         <th>Cust. Request Date</th>
@@ -263,10 +262,6 @@
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].MOrderUom)
 
                                                                     </td>
-                                                                    @*<td>
-                                                                        @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList, "Value", "Text"))
-                                                                        @Html.HiddenFor(model => model.Picker)
-                                                                    </td>*@
                                                                     <td>
                                                                         @Model.OrderPlans[i].OrderDate
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].OrderDate)
@@ -344,7 +339,6 @@
                                                         <th>Desc.</th>
                                                         <th>Size</th>
                                                         <th>Uom</th>
-                                                        @*<th>Picker</th>*@
                                                         <th>Order Date</th>
                                                         <th>Line Ship Date</th>
                                                         <th>Cust. Request Date</th>
@@ -425,10 +419,6 @@
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MOrderUom)
 
                                                                     </td>
-                                                                    @*<td >
-                                                                        @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList), new { @class = "form-control input-sm", style = "width:100%" })
-                                                                        @Html.HiddenFor(model => model.Picker)
-                                                                    </td>*@
                                                                     <td>
                                                                         @Model.OpenOrders[i].OrderDate
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].OrderDate)
@@ -571,7 +561,7 @@
             }*@
         })
 
-
+        
         //display selected transporter
         $("#truckList").on("change", function () {
             $("#displayTruck").show();
@@ -600,13 +590,7 @@
             t.clear().draw();
         })
 
-        //$("#PlanPicker").on("change", function () {
-        //    console.log("ddl");
-        //    var $tds = $(this).closest("tr").find('td');
-        //    $tds.eq(11).find('input[type=hidden]').val($("#Picker :selected").val());
-        //    console.log($tds.eq(11).find('input[type=hidden]').val());
-            
-        //})
+
 
         var dragSrcRow = null;  // Keep track of the source row
         var selectedRows = null;   // Keep track of selected rows in the source table
@@ -621,7 +605,7 @@
 
         })
         if (MassBal != 0) $("#OrderTon").val(MassBal/100000); 
- 
+
 
         var table = $('#example').DataTable({
             paging: false,
@@ -801,10 +785,6 @@
                 row.style.opacity = '1.0';
                 if (typeof row.cells[21] != "undefined") {
                     ms += parseFloat(row.cells[21].outerText);
-                    //row.cells[11].children[0].id = "PlanPicker";
-                    //console.log(row.cells[11].children[0].id);
-
-
                 }
             });
 
@@ -945,8 +925,7 @@
 
             var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal/1000000 });
             var exportdata = myString;
-            //console.log(exportdata);
-
+            console.log(exportdata);
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveSchedule","DispatchPlanner")",

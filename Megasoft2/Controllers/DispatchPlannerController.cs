@@ -1,12 +1,10 @@
-﻿using DotNetOpenAuth.Messaging;
-using Megasoft2.ViewModel;
+﻿using Megasoft2.ViewModel;
 using Remotion.Data.Linq.Clauses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls.WebParts;
 
 namespace Megasoft2.Controllers
 {
@@ -17,7 +15,7 @@ namespace Megasoft2.Controllers
         WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
         MegasoftEntities mdb = new MegasoftEntities();
 
-        [CustomAuthorize("DispatchPlanner")]
+        [CustomAuthorize(Activity: "CustomerOrderScheduler")]
         public ActionResult Index()
         {
             DispatchPlannerViewModel model = new DispatchPlannerViewModel();
@@ -25,7 +23,7 @@ namespace Megasoft2.Controllers
             try
             {
 
-                DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
                 var transporter = (from a in wdb.ApSuppliers join b in wdb.mtTransporters on a.Supplier equals b.Transporter select a.SupplierName).ToList();
 
@@ -54,7 +52,7 @@ namespace Megasoft2.Controllers
 
 
         [HttpPost]
-        [CustomAuthorize(Activity: "DispatchPlanner")]
+        [MultipleButton(Name = "action", Argument = "LoadData")]
         public ActionResult LoadData(DispatchPlannerViewModel model)
         {
             ViewBag.CanSaveSchedule = CanSaveSchedule();
@@ -65,6 +63,7 @@ namespace Megasoft2.Controllers
                 model.TruckList = model.SaveTL;
 
                 var dateTime = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
+                //var del = Convert.ToInt32(model.DeliveryNo);
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == model.DeliveryNo select a).ToList();
                 ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
 
@@ -91,41 +90,8 @@ namespace Megasoft2.Controllers
             }
         }
 
-        [CustomAuthorize("DispatchPlanner")]
-        public ActionResult Picking()
-        {
-            return View();
-        }
-
-
-        [CustomAuthorize("DispatchPlanner")]
-        public ActionResult Maintenence()
-        {
-            ViewBag.CanSaveSchedule = CanSaveSchedule();
-            DispatchPlannerViewModel model = new DispatchPlannerViewModel();
-            try
-            {
-                System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
-                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
-                ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
-                var PickersList = new List<string> { "" };
-                PickersList.AddRange((from a in mdb.mtUsers where a.Picker == true select a.Username).ToList());
-                ViewBag.PickersList = PickersList;
-                
-                return View("Maintenence", model);
-
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View("Maintenence", model);
-            }
-        }
-
 
         [HttpPost]
-        [CustomAuthorize(Activity: "DispatchPlanner")]
-
         public ActionResult SaveSchedule(string details, decimal mass)
         {
             try
@@ -134,9 +100,9 @@ namespace Megasoft2.Controllers
                 if (myDeserializedObjList.Count > 0)
                 {
                     if (mass > myDeserializedObjList[0].VehicleCapacity)
-                    {
-                        return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
-                    }
+                        {
+                            return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
+                        }
                     foreach (var item in myDeserializedObjList)
                     {
                         var dateTime = Convert.ToDateTime(item.DispatchDate.ToString("yyyy-MM-dd"));
@@ -193,8 +159,6 @@ namespace Megasoft2.Controllers
 
 
         [HttpPost]
-        [CustomAuthorize(Activity: "DispatchPlanner")]
-
         public ActionResult DeleteSchedule(string details)
         {
             try
