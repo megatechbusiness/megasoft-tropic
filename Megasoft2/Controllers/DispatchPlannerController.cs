@@ -1,10 +1,13 @@
-﻿using Megasoft2.ViewModel;
+﻿using DotNetOpenAuth.Messaging;
+using Megasoft2.ViewModel;
+using Microsoft.Ajax.Utilities;
 using Remotion.Data.Linq.Clauses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.WebParts;
 
 namespace Megasoft2.Controllers
 {
@@ -15,31 +18,18 @@ namespace Megasoft2.Controllers
         WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
         MegasoftEntities mdb = new MegasoftEntities();
 
-        [CustomAuthorize(Activity: "CustomerOrderScheduler")]
+        [CustomAuthorize(Activity: "DispatchPlanner")]
         public ActionResult Index()
         {
             DispatchPlannerViewModel model = new DispatchPlannerViewModel();
             ViewBag.CanSaveSchedule = CanSaveSchedule();
             try
             {
-
-                System.DateTime dateTime = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
-                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == 1 select a).ToList();
-                var transporter = (from a in wdb.ApSuppliers join b in wdb.mtTransporters on a.Supplier equals b.Transporter select a.SupplierName).ToList();
-
-                model.TruckList = new List<string> { "Select Transporter" };
-                foreach (var sup in transporter)
-                {
-                    model.TruckList.Add(sup);
-                }
-                model.SaveTL = model.TruckList;
-
                 model.DispatchDate = DateTime.Now;
                 model.DeliveryNo = 1;
 
                 LoadData(model);
 
-                model.Messages = "Index";
                 return View(model);
 
             }
@@ -60,12 +50,17 @@ namespace Megasoft2.Controllers
             {
                 ModelState.Clear();
                 model.OpenOrders = (from a in wdb.mt_DispatchPlanGetOrders() select a).ToList();
-                model.TruckList = model.SaveTL;
 
-                var dateTime = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
-                //var del = Convert.ToInt32(model.DeliveryNo);
-                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == model.DeliveryNo select a).ToList();
-                ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime select a.DeliveryNo).Distinct().ToList();
+                var transporter = (from a in wdb.ApSuppliers join b in wdb.mtTransporters on a.Supplier equals b.Transporter select a.SupplierName).ToList();
+                model.TruckList = new List<string> { "Select Transporter" };
+                foreach (var sup in transporter)
+                {
+                    model.TruckList.Add(sup);
+                }
+
+                var date = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
+                model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == date && a.DeliveryNo == model.DeliveryNo select a).ToList();
+                ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == date select a.DeliveryNo).Distinct().ToList();
 
                 model.OrderPlans = new List<mt_DispatchPlanGetOrders_Result>();
                 foreach (var item in model.Plans)
@@ -76,9 +71,23 @@ namespace Megasoft2.Controllers
                     }
                 }
 
+                if (model.Messages == "Main")
+                {
+                    var PickersList = new List<string> { "" };
+                    PickersList.AddRange((from a in mdb.mtUsers where a.Picker == true select a.Username).ToList());
+                    ViewBag.PickersList = PickersList;
+                    ViewBag.TruckList = model.TruckList;
+                    if (model.DispatchDate.DayOfYear != DateTime.Now.DayOfYear)
+                    {
+                        model.Messages = "!today";
+                    }
+
+                    return View("Maintenence", model);
+                }
+
                 if (model.DispatchDate.DayOfYear != DateTime.Now.DayOfYear)
                 {
-                    model.Messages = "";
+                    model.Messages = "!today";
                 }
 
                 return View("Index", model);
@@ -90,8 +99,42 @@ namespace Megasoft2.Controllers
             }
         }
 
+        [CustomAuthorize(Activity: "DispatchPlanner")]
+        public ActionResult Picking()
+        {
+            return View();
+        }
+
+
+
+        [CustomAuthorize(Activity: "DispatchPlanner")]
+        public ActionResult Maintenence()
+        {
+            ViewBag.CanSaveSchedule = CanSaveSchedule();
+            DispatchPlannerViewModel model = new DispatchPlannerViewModel();
+            try
+            {
+                model.DispatchDate = DateTime.Now;
+                model.DeliveryNo = 1;
+
+                model.Messages = "Main";
+
+                LoadData(model);
+
+                return View("Maintenence", model);
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View("Maintenence", model);
+            }
+        }
+
 
         [HttpPost]
+        [CustomAuthorize(Activity: "DispatchPlanner")]
+
         public ActionResult SaveSchedule(string details, decimal mass)
         {
             try
@@ -100,9 +143,9 @@ namespace Megasoft2.Controllers
                 if (myDeserializedObjList.Count > 0)
                 {
                     if (mass > myDeserializedObjList[0].VehicleCapacity)
-                        {
-                            return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
-                        }
+                    {
+                        return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
+                    }
                     foreach (var item in myDeserializedObjList)
                     {
                         var dateTime = Convert.ToDateTime(item.DispatchDate.ToString("yyyy-MM-dd"));
@@ -123,6 +166,7 @@ namespace Megasoft2.Controllers
                             obj.MOrderQty = item.MOrderQty;
                             obj.MBackOrderQty = item.MBackOrderQty;
                             obj.MQtyToDispatch = item.MQtyToDispatch;
+                            obj.MassBalance = mass;
                             obj.Transporter = item.Transporter;
                             obj.VehicleCapacity = item.VehicleCapacity;
                             obj.Picker = item.Picker;
@@ -159,6 +203,8 @@ namespace Megasoft2.Controllers
 
 
         [HttpPost]
+        [CustomAuthorize(Activity: "DispatchPlanner")]
+
         public ActionResult DeleteSchedule(string details)
         {
             try
