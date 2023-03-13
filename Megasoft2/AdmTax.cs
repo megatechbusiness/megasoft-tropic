@@ -54,6 +54,7 @@ namespace Megasoft2
         public decimal RevChgCurTaxRate { get; set; }
         public decimal RevChgPrvTaxRate { get; set; }
         public Nullable<System.DateTime> RevChgTaxEffDate { get; set; }
+        public string PriceList { get; set; }
     
         public virtual ICollection<GrnDetail> GrnDetails { get; set; }
         public virtual ICollection<InvMaster> InvMasters { get; set; }

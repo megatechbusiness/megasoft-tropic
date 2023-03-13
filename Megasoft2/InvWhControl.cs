@@ -94,6 +94,52 @@ namespace Megasoft2
         public string LostFoundWarehouse { get; set; }
         public string SiteCode { get; set; }
         public string ShiftCode { get; set; }
+        public string PickAllocationOvr { get; set; }
+        public string KanbanReplenish { get; set; }
+        public string KanbanUseRecBin { get; set; }
+        public string KanbanUseDispBin { get; set; }
+        public string KanbanReceivingBin { get; set; }
+        public string KanbanDispBin { get; set; }
+        public decimal KanbanWhSequence1 { get; set; }
+        public decimal KanbanWhSequence2 { get; set; }
+        public decimal KanbanWhSequence3 { get; set; }
+        public decimal KanbanWhSequence4 { get; set; }
+        public decimal KanbanWhSequence5 { get; set; }
+        public decimal KanbanWhSequence6 { get; set; }
+        public decimal KanbanWhSequence7 { get; set; }
+        public decimal KanbanWhSequence8 { get; set; }
+        public decimal KanbanWhSequence9 { get; set; }
+        public decimal KanbanWhSequence10 { get; set; }
+        public decimal KanbanWhSequence11 { get; set; }
+        public decimal KanbanWhSequence12 { get; set; }
+        public decimal KanbanWhSequence13 { get; set; }
+        public decimal KanbanWhSequence14 { get; set; }
+        public decimal KanbanWhSequence15 { get; set; }
+        public decimal KanbanWhSequence16 { get; set; }
+        public decimal KanbanWhSequence17 { get; set; }
+        public decimal KanbanWhSequence18 { get; set; }
+        public decimal KanbanWhSequence19 { get; set; }
+        public decimal KanbanWhSequence20 { get; set; }
+        public string KanbanWarehouse1 { get; set; }
+        public string KanbanWarehouse2 { get; set; }
+        public string KanbanWarehouse3 { get; set; }
+        public string KanbanWarehouse4 { get; set; }
+        public string KanbanWarehouse5 { get; set; }
+        public string KanbanWarehouse6 { get; set; }
+        public string KanbanWarehouse7 { get; set; }
+        public string KanbanWarehouse8 { get; set; }
+        public string KanbanWarehouse9 { get; set; }
+        public string KanbanWarehouse10 { get; set; }
+        public string KanbanWarehouse11 { get; set; }
+        public string KanbanWarehouse12 { get; set; }
+        public string KanbanWarehouse13 { get; set; }
+        public string KanbanWarehouse14 { get; set; }
+        public string KanbanWarehouse15 { get; set; }
+        public string KanbanWarehouse16 { get; set; }
+        public string KanbanWarehouse17 { get; set; }
+        public string KanbanWarehouse18 { get; set; }
+        public string KanbanWarehouse19 { get; set; }
+        public string KanbanWarehouse20 { get; set; }
     
         public virtual BomRoute BomRoute { get; set; }
         public virtual ICollection<GrnDetail> GrnDetails { get; set; }

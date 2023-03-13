@@ -45,12 +45,16 @@ namespace Megasoft2.Controllers
         [MultipleButton(Name = "action", Argument = "LoadData")]
         public ActionResult LoadData(DispatchPlannerViewModel model)
         {
+
+            //Retrieves all required data(open orders, dispatch plans, transporters, pickers
             ViewBag.CanSaveSchedule = CanSaveSchedule();
             try
             {
                 ModelState.Clear();
+                //Populate orders table
                 model.OpenOrders = (from a in wdb.mt_DispatchPlanGetOrders() select a).ToList();
 
+                //Populate Transporter ddl
                 var transporter = (from a in wdb.ApSuppliers join b in wdb.mtTransporters on a.Supplier equals b.Transporter select a.SupplierName).ToList();
                 model.TruckList = new List<string> { "Select Transporter" };
                 foreach (var sup in transporter)
@@ -58,10 +62,14 @@ namespace Megasoft2.Controllers
                     model.TruckList.Add(sup);
                 }
 
+                //Convert to Syspro date format
                 var date = Convert.ToDateTime(model.DispatchDate.ToString("yyyy-MM-dd"));
+                
+                //Access orders for specific Plan
                 model.Plans = (from a in wdb.mtDispatchPlans where a.DispatchDate == date && a.DeliveryNo == model.DeliveryNo select a).ToList();
                 ViewBag.PlanNo = (from a in wdb.mtDispatchPlans where a.DispatchDate == date select a.DeliveryNo).Distinct().ToList();
 
+                //Populate DispatchPlan table using orders table for relevant DispatchPlan
                 model.OrderPlans = new List<mt_DispatchPlanGetOrders_Result>();
                 foreach (var item in model.Plans)
                 {
@@ -71,12 +79,15 @@ namespace Megasoft2.Controllers
                     }
                 }
 
+                //Populates Picker ddl for Maintenence Page
                 if (model.Messages == "Main")
                 {
                     var PickersList = new List<string> { "" };
                     PickersList.AddRange((from a in mdb.mtUsers where a.Picker == true select a.Username).ToList());
                     ViewBag.PickersList = PickersList;
                     ViewBag.TruckList = model.TruckList;
+
+                    //see below
                     if (model.DispatchDate.DayOfYear != DateTime.Now.DayOfYear)
                     {
                         model.Messages = "!today";
@@ -85,6 +96,7 @@ namespace Megasoft2.Controllers
                     return View("Maintenence", model);
                 }
 
+                //Checks if Plan is for today to correctly display the date for the onscreen calendar
                 if (model.DispatchDate.DayOfYear != DateTime.Now.DayOfYear)
                 {
                     model.Messages = "!today";
@@ -142,10 +154,13 @@ namespace Megasoft2.Controllers
                 List<mtDispatchPlan> myDeserializedObjList = (List<mtDispatchPlan>)Newtonsoft.Json.JsonConvert.DeserializeObject(details, typeof(List<mtDispatchPlan>));
                 if (myDeserializedObjList.Count > 0)
                 {
+
+                    //Check for Order mass > Transporter capacity
                     if (mass > myDeserializedObjList[0].VehicleCapacity)
                     {
                         return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
                     }
+
                     foreach (var item in myDeserializedObjList)
                     {
                         var dateTime = Convert.ToDateTime(item.DispatchDate.ToString("yyyy-MM-dd"));
@@ -153,7 +168,7 @@ namespace Megasoft2.Controllers
                         var check = (from a in wdb.mtDispatchPlans where a.DispatchDate == dateTime && a.DeliveryNo == item.DeliveryNo && a.Customer == item.Customer && a.SalesOrder == item.SalesOrder && a.SalesOrderLine == item.SalesOrderLine select a).FirstOrDefault();
                         if (check == null)
                         {
-                            //Add item to schedule
+                            //Add item to Plan
                             mtDispatchPlan obj = new mtDispatchPlan();
                             obj.DispatchDate = item.DispatchDate;
                             obj.DeliveryNo = item.DeliveryNo;
@@ -166,7 +181,7 @@ namespace Megasoft2.Controllers
                             obj.MOrderQty = item.MOrderQty;
                             obj.MBackOrderQty = item.MBackOrderQty;
                             obj.MQtyToDispatch = item.MQtyToDispatch;
-                            obj.MassBalance = mass;
+                            obj.MassBalance = item.MassBalance;
                             obj.Transporter = item.Transporter;
                             obj.VehicleCapacity = item.VehicleCapacity;
                             obj.Picker = item.Picker;
@@ -178,15 +193,18 @@ namespace Megasoft2.Controllers
                         }
                         else
                         {
+                            //Edit Items in Plan
                             check.Transporter = item.Transporter;
                             check.VehicleCapacity = item.VehicleCapacity;
+                            check.Picker = item.Picker;
+                            check.Status = item.Status;
                             wdb.Entry(check).State = System.Data.EntityState.Modified;
                             wdb.SaveChanges();
                         }
                     }
 
 
-                    return Json("Schedule saved!", JsonRequestBehavior.AllowGet);
+                    return Json("Dispatch Plan saved!", JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

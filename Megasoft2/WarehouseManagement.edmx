@@ -101,6 +101,7 @@
           <Property Name="RevChgCurTaxRate" Type="decimal" Precision="8" Scale="5" Nullable="false" />
           <Property Name="RevChgPrvTaxRate" Type="decimal" Precision="8" Scale="5" Nullable="false" />
           <Property Name="RevChgTaxEffDate" Type="datetime" />
+          <Property Name="PriceList" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="ApSupplier">
           <Key>
@@ -138,7 +139,7 @@
           <Property Name="LctRequired" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="EdiTypeFlag" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="EdiReceiverCode" Type="varchar" MaxLength="40" Nullable="false" />
-          <Property Name="WithTaxId" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="WithTaxId" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="WithTaxCode" Type="char" MaxLength="5" Nullable="false" />
           <Property Name="Pyr1099Val" Type="decimal" Precision="14" Scale="2" Nullable="false" />
           <Property Name="MerchGlCode" Type="varchar" MaxLength="35" Nullable="false" />
@@ -164,7 +165,7 @@
           <Property Name="MinPoMass" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="MinPoVolume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="Nationality" Type="char" MaxLength="3" Nullable="false" />
-          <Property Name="TaxRegnNum" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TaxRegnNum" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="EdiFax" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="BankAccount" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="BankBranch" Type="varchar" MaxLength="50" Nullable="false" />
@@ -911,6 +912,7 @@
           <Property Name="SpecificGravity6" Type="decimal" Precision="8" Scale="6" Nullable="false" />
           <Property Name="SuppUnitFactor" Type="decimal" Precision="12" Scale="6" Nullable="false" />
           <Property Name="SuppUnitsMulDiv" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="QmInspectionReq" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="InvNarration">
           <Key>
@@ -1193,6 +1195,52 @@
           <Property Name="LostFoundWarehouse" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="SiteCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ShiftCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PickAllocationOvr" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="KanbanReplenish" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="KanbanUseRecBin" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="KanbanUseDispBin" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="KanbanReceivingBin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="KanbanDispBin" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="KanbanWhSequence1" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence2" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence3" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence4" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence5" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence6" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence7" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence8" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence9" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence10" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence11" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence12" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence13" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence14" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence15" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence16" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence17" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence18" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence19" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWhSequence20" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="KanbanWarehouse1" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse2" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse3" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse4" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse5" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse6" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse7" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse8" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse9" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse10" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse11" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse12" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse13" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse14" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse15" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse16" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse17" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse18" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse19" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KanbanWarehouse20" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="LotDetail">
           <Key>
@@ -1266,6 +1314,7 @@
           <Property Name="MOrderQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="MBackOrderQty" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="MQtyToDispatch" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MassBalance" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="Transporter" Type="varchar" MaxLength="50" />
           <Property Name="VehicleCapacity" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Picker" Type="varchar" MaxLength="50" Nullable="false" />
@@ -7942,8 +7991,8 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Parameter Name="PalletID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="mt_DispatchPlanGetOrders" ReturnType="Collection(WarehouseManagementModel.mt_DispatchPlanGetOrders_Result)" />
-          <EntitySet Name="mtDispatchPlans" EntityType="WarehouseManagementModel.mtDispatchPlan" />
           <EntitySet Name="mtDispatchStatus" EntityType="WarehouseManagementModel.mtDispatchStatu" />
+          <EntitySet Name="mtDispatchPlans" EntityType="WarehouseManagementModel.mtDispatchPlan" />
         </EntityContainer>
         <ComplexType Name="sp_CheckStockCodeBins_Result">
           <Property Type="String" Name="Bin" Nullable="false" MaxLength="20" />
@@ -9297,6 +9346,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="SpecificGravity6" Type="Decimal" Nullable="false" Precision="8" Scale="6" />
           <Property Name="SuppUnitFactor" Type="Decimal" Nullable="false" Precision="12" Scale="6" />
           <Property Name="SuppUnitsMulDiv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="QmInspectionReq" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <Association Name="Syspro_FK_GrnDetails_InvMaster">
           <End Type="WarehouseManagementModel.InvMaster" Role="InvMaster" Multiplicity="1" />
@@ -9461,6 +9511,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="RevChgCurTaxRate" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
           <Property Name="RevChgPrvTaxRate" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
           <Property Name="RevChgTaxEffDate" Type="DateTime" Precision="3" />
+          <Property Name="PriceList" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="Syspro_FK_GrnDetails_AdmTax">
           <End Type="WarehouseManagementModel.AdmTax" Role="AdmTax" Multiplicity="1" />
@@ -11550,6 +11601,52 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="LostFoundWarehouse" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="SiteCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ShiftCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PickAllocationOvr" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="KanbanReplenish" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="KanbanUseRecBin" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="KanbanUseDispBin" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="KanbanReceivingBin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanDispBin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWhSequence1" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence2" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence3" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence4" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence5" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence6" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence7" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence8" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence9" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence10" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence11" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence12" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence13" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence14" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence15" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence16" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence17" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence18" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence19" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWhSequence20" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="KanbanWarehouse1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse4" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse5" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse6" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse7" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse8" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse9" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse10" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse11" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse12" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse13" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse14" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse15" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse16" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse17" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse18" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse19" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KanbanWarehouse20" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="WipJobClass">
           <Key>
@@ -13803,7 +13900,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="LctRequired" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="EdiTypeFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="EdiReceiverCode" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="WithTaxId" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="WithTaxId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="WithTaxCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
           <Property Name="Pyr1099Val" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
           <Property Name="MerchGlCode" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
@@ -13829,7 +13926,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="MinPoMass" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="MinPoVolume" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="Nationality" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="TaxRegnNum" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TaxRegnNum" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="EdiFax" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="BankAccount" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BankBranch" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -14775,6 +14872,13 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Type="Decimal" Name="MBackOrderQty" Nullable="true" Precision="18" Scale="6" />
           <Property Type="Decimal" Name="QtyDispatched" Nullable="false" Precision="38" Scale="6" />
         </ComplexType>
+        <EntityType Name="mtDispatchStatu">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="mtDispatchPlan">
           <Key>
             <PropertyRef Name="DispatchDate" />
@@ -14794,19 +14898,13 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <Property Name="MOrderQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="MBackOrderQty" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="MQtyToDispatch" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="MassBalance" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="Transporter" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="VehicleCapacity" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Picker" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="PickComplete" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="DatePickComplete" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="mtDispatchStatu">
-          <Key>
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
 
       </Schema>
@@ -16300,6 +16398,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="InvMasters">
             <EntityTypeMapping TypeName="WarehouseManagementModel.InvMaster">
               <MappingFragment StoreEntitySet="InvMaster">
+                <ScalarProperty Name="QmInspectionReq" ColumnName="QmInspectionReq" />
                 <ScalarProperty Name="SuppUnitsMulDiv" ColumnName="SuppUnitsMulDiv" />
                 <ScalarProperty Name="SuppUnitFactor" ColumnName="SuppUnitFactor" />
                 <ScalarProperty Name="SpecificGravity6" ColumnName="SpecificGravity6" />
@@ -16489,6 +16588,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="AdmTaxes">
             <EntityTypeMapping TypeName="WarehouseManagementModel.AdmTax">
               <MappingFragment StoreEntitySet="AdmTax">
+                <ScalarProperty Name="PriceList" ColumnName="PriceList" />
                 <ScalarProperty Name="RevChgTaxEffDate" ColumnName="RevChgTaxEffDate" />
                 <ScalarProperty Name="RevChgPrvTaxRate" ColumnName="RevChgPrvTaxRate" />
                 <ScalarProperty Name="RevChgCurTaxRate" ColumnName="RevChgCurTaxRate" />
@@ -18688,6 +18788,52 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
           <EntitySetMapping Name="InvWhControls">
             <EntityTypeMapping TypeName="WarehouseManagementModel.InvWhControl">
               <MappingFragment StoreEntitySet="InvWhControl">
+                <ScalarProperty Name="KanbanWarehouse20" ColumnName="KanbanWarehouse20" />
+                <ScalarProperty Name="KanbanWarehouse19" ColumnName="KanbanWarehouse19" />
+                <ScalarProperty Name="KanbanWarehouse18" ColumnName="KanbanWarehouse18" />
+                <ScalarProperty Name="KanbanWarehouse17" ColumnName="KanbanWarehouse17" />
+                <ScalarProperty Name="KanbanWarehouse16" ColumnName="KanbanWarehouse16" />
+                <ScalarProperty Name="KanbanWarehouse15" ColumnName="KanbanWarehouse15" />
+                <ScalarProperty Name="KanbanWarehouse14" ColumnName="KanbanWarehouse14" />
+                <ScalarProperty Name="KanbanWarehouse13" ColumnName="KanbanWarehouse13" />
+                <ScalarProperty Name="KanbanWarehouse12" ColumnName="KanbanWarehouse12" />
+                <ScalarProperty Name="KanbanWarehouse11" ColumnName="KanbanWarehouse11" />
+                <ScalarProperty Name="KanbanWarehouse10" ColumnName="KanbanWarehouse10" />
+                <ScalarProperty Name="KanbanWarehouse9" ColumnName="KanbanWarehouse9" />
+                <ScalarProperty Name="KanbanWarehouse8" ColumnName="KanbanWarehouse8" />
+                <ScalarProperty Name="KanbanWarehouse7" ColumnName="KanbanWarehouse7" />
+                <ScalarProperty Name="KanbanWarehouse6" ColumnName="KanbanWarehouse6" />
+                <ScalarProperty Name="KanbanWarehouse5" ColumnName="KanbanWarehouse5" />
+                <ScalarProperty Name="KanbanWarehouse4" ColumnName="KanbanWarehouse4" />
+                <ScalarProperty Name="KanbanWarehouse3" ColumnName="KanbanWarehouse3" />
+                <ScalarProperty Name="KanbanWarehouse2" ColumnName="KanbanWarehouse2" />
+                <ScalarProperty Name="KanbanWarehouse1" ColumnName="KanbanWarehouse1" />
+                <ScalarProperty Name="KanbanWhSequence20" ColumnName="KanbanWhSequence20" />
+                <ScalarProperty Name="KanbanWhSequence19" ColumnName="KanbanWhSequence19" />
+                <ScalarProperty Name="KanbanWhSequence18" ColumnName="KanbanWhSequence18" />
+                <ScalarProperty Name="KanbanWhSequence17" ColumnName="KanbanWhSequence17" />
+                <ScalarProperty Name="KanbanWhSequence16" ColumnName="KanbanWhSequence16" />
+                <ScalarProperty Name="KanbanWhSequence15" ColumnName="KanbanWhSequence15" />
+                <ScalarProperty Name="KanbanWhSequence14" ColumnName="KanbanWhSequence14" />
+                <ScalarProperty Name="KanbanWhSequence13" ColumnName="KanbanWhSequence13" />
+                <ScalarProperty Name="KanbanWhSequence12" ColumnName="KanbanWhSequence12" />
+                <ScalarProperty Name="KanbanWhSequence11" ColumnName="KanbanWhSequence11" />
+                <ScalarProperty Name="KanbanWhSequence10" ColumnName="KanbanWhSequence10" />
+                <ScalarProperty Name="KanbanWhSequence9" ColumnName="KanbanWhSequence9" />
+                <ScalarProperty Name="KanbanWhSequence8" ColumnName="KanbanWhSequence8" />
+                <ScalarProperty Name="KanbanWhSequence7" ColumnName="KanbanWhSequence7" />
+                <ScalarProperty Name="KanbanWhSequence6" ColumnName="KanbanWhSequence6" />
+                <ScalarProperty Name="KanbanWhSequence5" ColumnName="KanbanWhSequence5" />
+                <ScalarProperty Name="KanbanWhSequence4" ColumnName="KanbanWhSequence4" />
+                <ScalarProperty Name="KanbanWhSequence3" ColumnName="KanbanWhSequence3" />
+                <ScalarProperty Name="KanbanWhSequence2" ColumnName="KanbanWhSequence2" />
+                <ScalarProperty Name="KanbanWhSequence1" ColumnName="KanbanWhSequence1" />
+                <ScalarProperty Name="KanbanDispBin" ColumnName="KanbanDispBin" />
+                <ScalarProperty Name="KanbanReceivingBin" ColumnName="KanbanReceivingBin" />
+                <ScalarProperty Name="KanbanUseDispBin" ColumnName="KanbanUseDispBin" />
+                <ScalarProperty Name="KanbanUseRecBin" ColumnName="KanbanUseRecBin" />
+                <ScalarProperty Name="KanbanReplenish" ColumnName="KanbanReplenish" />
+                <ScalarProperty Name="PickAllocationOvr" ColumnName="PickAllocationOvr" />
                 <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
                 <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
                 <ScalarProperty Name="LostFoundWarehouse" ColumnName="LostFoundWarehouse" />
@@ -21874,6 +22020,14 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="mtDispatchStatus">
+            <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchStatu">
+              <MappingFragment StoreEntitySet="mtDispatchStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="mtDispatchPlans">
             <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchPlan">
               <MappingFragment StoreEntitySet="mtDispatchPlan">
@@ -21883,6 +22037,7 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="Picker" ColumnName="Picker" />
                 <ScalarProperty Name="VehicleCapacity" ColumnName="VehicleCapacity" />
                 <ScalarProperty Name="Transporter" ColumnName="Transporter" />
+                <ScalarProperty Name="MassBalance" ColumnName="MassBalance" />
                 <ScalarProperty Name="MQtyToDispatch" ColumnName="MQtyToDispatch" />
                 <ScalarProperty Name="MBackOrderQty" ColumnName="MBackOrderQty" />
                 <ScalarProperty Name="MOrderQty" ColumnName="MOrderQty" />
@@ -21894,14 +22049,6 @@ FROM [dbo].[vwWipJobMatSpec] AS [vwWipJobMatSpec]</DefiningQuery>
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
                 <ScalarProperty Name="DispatchDate" ColumnName="DispatchDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="mtDispatchStatus">
-            <EntityTypeMapping TypeName="WarehouseManagementModel.mtDispatchStatu">
-              <MappingFragment StoreEntitySet="mtDispatchStatus">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

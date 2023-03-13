@@ -227,7 +227,7 @@
                                                                 </td>
                                                                 <td>
                                                                     @String.Format("{0:0.000000}", Convert.ToDecimal(Model.Plans[i].MassBalance))
-                                                                    @Html.HiddenFor(model => Model.OpenOrders[i].MassBalance)
+                                                                    @Html.HiddenFor(model => Model.Plans[i].MassBalance)
                                                                 </td>
                                                                 <td>
                                                                     @Model.Plans[i].Transporter
@@ -354,19 +354,31 @@
         })
 
 
-        $("#PlanPicker").on("change", function () {
-            console.log(this);
-            var $tds = $(this).closest("tr").find('td');
-            $tds.eq(13).find('input[type=hidden]').val($("#PlanPicker :selected").val());
-            console.log($tds.eq(13).find('input[type=hidden]').val());
+        //$("#PlanPicker").on("change", function () {
+        //    var $tds = $(this).closest("tr").find('td');
+        //    console.log($tds.eq(13).find("#PlanPicker :selected").val());
+        //    $tds.eq(13).find('input[type=hidden]').val($("#PlanPicker :selected").val());
+        //    console.log($tds.eq(13).find('input[type=hidden]').val());
 
+        //})
+
+        //Load new plan
+        $("#Plans").on("change", function () {
+            $("#DeliveryNo").val($("#Plans :selected").val());
+            $("#btnLoad").click();
         })
-
         
-        var MassBal = $("#example").find("tr:nth-child(1)").find("td:nth-child(11)").text().trim();
-        if (MassBal != 0) $("#OrderTon").val(MassBal);
+        //var MassBal = $("#example").find("tr:nth-child(1)").find("td:nth-child(11)").text().trim();
+        //if (MassBal != 0) $("#OrderTon").val(MassBal);
+        var MassBal = 0;
+        $("#example > tbody > tr ").each(function (i, el) {
+            var ms = parseFloat(this.cells[10].outerText) * 100000;
+            MassBal += Math.round(ms);
+            this.cells[13].children[0].value = this.cells[13].children[1].value;
+        })
+        if (MassBal != 0) $("#OrderTon").val(MassBal / 100000); 
 
-        var rows = [];   // Global rows for #example
+
 
         var table = $('#example').DataTable({
             paging: false,
@@ -458,19 +470,13 @@
 
             $("#example > tbody > tr ").each( async function (i, el) {
                 var $tds = $(this).closest("tr").find('td');
-                var ms = parseFloat(this.cells[21].outerText) * 1000000;
+                var ms = parseFloat(this.cells[10].outerText) * 1000000;
                 MassBal += Math.round(ms);
 
-                var Customer = $tds.eq(2).text().trim();
-                var SalesOrder = $tds.eq(3).find('input[type=hidden]').val();
-                var SalesOrderLine = $tds.eq(4).find('input[type=hidden]').val();
-                var MStockCode = $tds.eq(7).find('input[type=hidden]').val();
-                var MStockDesc = $tds.eq(8).find('input[type=hidden]').val();
-                var Size = $tds.eq(9).find('input[type=hidden]').val();
-                var MOrderQty = $tds.eq(14).find('input[type=hidden]').val();
-                var MBackOrderQty = $tds.eq(19).find('input[type=hidden]').val();
-                var MQtyToDispatch = $tds.eq(20).find('input[type=hidden]').val();
-
+                var Customer = $tds.eq(1).text().trim();
+                var SalesOrder = $tds.eq(2).find('input[type=hidden]').val();
+                var SalesOrderLine = $tds.eq(3).find('input[type=hidden]').val();
+                var Picker = $tds.eq(13).find("#PlanPicker :selected").val();
 
                 var myObject = new Object();
                 myObject.DispatchDate = DispatchDate;
@@ -478,21 +484,15 @@
                 myObject.Customer = Customer
                 myObject.SalesOrder = SalesOrder;
                 myObject.SalesOrderLine = SalesOrderLine;
-                myObject.MStockCode = MStockCode;
-                myObject.MStockDesc = MStockDesc;
-                myObject.Size = Size;
-                myObject.MOrderQty = MOrderQty;
-                myObject.MBackOrderQty = MBackOrderQty;
-                myObject.MQtyToDispatch = MQtyToDispatch;
                 myObject.Transporter = Transporter;
                 if (VehicleCapacity !== "") {
                     myObject.VehicleCapacity = VehicleCapacity;
                 }
 
-                //Add when picker functionality
-                myObject.Picker = "";
-                myObject.Status = "";
-
+                if (Picker) {
+                    myObject.Picker = Picker;
+                    myObject.Status = "1";
+                }
                 mydata.push(myObject);
 
             });

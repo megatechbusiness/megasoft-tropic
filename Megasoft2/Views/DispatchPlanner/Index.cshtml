@@ -10,6 +10,8 @@
                 <div class="btn-group btn-breadcrumb">
                     <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
                     <a href="@Url.Action("Index", "DispatchPlanner")" class="btn btn-default">Dispatch Plans</a>
+                    <a href="@Url.Action("Maintenence", "DispatchPlanner")" class="btn btn-default">Maintenence</a>
+
                 </div>
             </div>
         </div>
@@ -789,7 +791,7 @@
                 row.classList.remove('over');
                 row.style.opacity = '1.0';
                 if (typeof row.cells[21] != "undefined") {
-                    ms += parseFloat(row.cells[21].outerText);
+                    ms += parseFloat(row.cells[21].outerText)*100000;
                     //row.cells[11].children[0].id = "PlanPicker";
                     //console.log(row.cells[11].children[0].id);
 
@@ -799,9 +801,9 @@
 
             if (typeof rows != "undefined") {
                 $("#displayMass").show();
-                $("#OrderTon").val(ms);
+                $("#OrderTon").val(ms/100000);
                 if ($("#Tonnage").val() != "") {
-                    if (($("#Tonnage").val() - ms) < 0) {
+                    if (($("#Tonnage").val() - ms/100000) < 0) {
                         alert("Mass Exceeds Vehicle Capacity!\nPlease remove last order");
                     }
                 }
@@ -905,7 +907,7 @@
                 var MOrderQty = $tds.eq(14).find('input[type=hidden]').val();
                 var MBackOrderQty = $tds.eq(19).find('input[type=hidden]').val();
                 var MQtyToDispatch = $tds.eq(20).find('input[type=hidden]').val();
-
+                var MassBalance = $tds.eq(21).find('input[type=hidden]').val();
 
                 var myObject = new Object();
                 myObject.DispatchDate = DispatchDate;
@@ -919,6 +921,7 @@
                 myObject.MOrderQty = MOrderQty;
                 myObject.MBackOrderQty = MBackOrderQty;
                 myObject.MQtyToDispatch = MQtyToDispatch;
+                myObject.MassBalance = MassBalance;
                 myObject.Transporter = Transporter;
                 if (VehicleCapacity !== "") {
                     myObject.VehicleCapacity = VehicleCapacity;
@@ -929,12 +932,12 @@
                 myObject.Status = "";
 
                 mydata.push(myObject);
-
+                //console.log(myObject);
             });
 
             var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal/1000000 });
             var exportdata = myString;
-            //console.log(exportdata);
+            //console.log(JSON.stringify(mydata));
 
             $.ajax({
                 type: "POST",
