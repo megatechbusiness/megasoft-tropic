@@ -324,6 +324,7 @@
             var local = new Date(date);
             if ($("#Messages").val() === "!today") {
                 local.setDate(local.getDate() + 1);
+                $("#Messages").val("Main");
             }
             return local.toJSON().slice(0, 10);
         });
@@ -493,6 +494,10 @@
                     myObject.Picker = Picker;
                     myObject.Status = "1";
                 }
+                else {
+                    myObject.Picker = "";
+                    myObject.Status = "";
+                }
                 mydata.push(myObject);
 
             });
@@ -514,7 +519,7 @@
             function OnSuccess(response) {
                 hideprogressbar();
                 alert(response);
-                if (response == "Schedule saved!") {
+                if (response == "Dispatch Plan saved!") {
                     $("#btnLoad").click();
                 }
             }

@@ -111,13 +111,6 @@ namespace Megasoft2.Controllers
             }
         }
 
-        [CustomAuthorize(Activity: "DispatchPlanner")]
-        public ActionResult Picking()
-        {
-            return View();
-        }
-
-
 
         [CustomAuthorize(Activity: "DispatchPlanner")]
         public ActionResult Maintenence()

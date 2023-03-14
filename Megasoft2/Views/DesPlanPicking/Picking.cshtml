@@ -15,11 +15,11 @@
             <div class="form-horizontal row spacer-xs">
                 <div class="col-xs-3 text-left">
                     <a href="#" class="btn btn-success" id="btnNext" tabindex="-1">
-                        <span class="fa fa-long-arrow-right" aria-hidden="true"> Next</span>
+                        <span class="fa fa-arrow-left" aria-hidden="true"> Back</span>
                     </a>
                 </div>
                 <div class="col-xs-5 text-center">
-                    <h5>S/O-Line: <label id="SalesOrder"></label>-<label id="LineNo"></label> WMS Id:<label id="WmsId"></label></h5>
+                    <h5>S/O-Line: <label>@Model.Plans[0].SalesOrder</label>-<label>@Model.Plans[0].SalesOrderLine</label></h5>
                     @*<h4></h4>*@
 
                 </div>
@@ -36,8 +36,8 @@
                     </a>
                 </div>
                 <div class="col-xs-5 text-center">
-                    <h5><label id="lblStockCode"></label></h5>
-                    <h5><label id="lblDesc"></label></h5>
+                    <h5><label>@Model.Plans[0].MStockCode</label></h5>
+                    <h5><label>@Model.Plans[0].MStockDesc</label></h5>
                 </div>
                 <div class="col-xs-2 text-left">
                     <a href="#" class="btn btn-default" id="btnAddItem" tabindex="-1">
@@ -180,67 +180,7 @@
 <script type="text/javascript">
 
 
-    function LoadReasons() {
-        var $dropdown = $("#ddlReason");
-        $.getJSON('WmsPicking/GetReasons', function (data) {
-            $.each(data, function () {
-            $dropdown.append($("<option />").val(this.Value).text(this.Text));
-            });
-        });
-    }
 
-    function GetNextOrder(WmsId) {
-
-        var NewId,SalesOrderLine;
-        $('#errordiv').text("");
-        $('#errordiv').removeClass("alert alert-danger");
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("GetNextOrder","WmsPicking")",
-            data: "{'WmsId': '" + WmsId + "', 'SalesOrderLine': '" + $('#LineNo').html() + "'}",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: NextOrderSuccess,
-            failure: NextOrderError
-        });
-
-        function NextOrderSuccess(data) {
-            if (typeof data == 'object') {
-                $.each(data, function (i, SO) {
-                    $('#SalesOrder').html(SO.SalesOrder);
-                    $('#LineNo').html(SO.SalesOrderLine);
-                    $('#WmsId').html(SO.WmsId);
-                    $('#lblStockCode').html(SO.StockCode);
-                    $('#lblDesc').html(SO.Description);
-                    $('#lblStockCode2').html(SO.StockCode);
-                    $('#lblDesc2').html(SO.Description);
-                    NewId = SO.WmsId;
-                    SalesOrderLine = SO.SalesOrderLine;
-                });
-                GetScanItems(NewId, SalesOrderLine);
-                $('#Barcode').focus();
-            }
-            else {
-                alert(data);
-                $('#SalesOrder').html("");
-                $('#LineNo').html("");
-                $('#WmsId').html("0");
-                $('#lblStockCode').html("");
-                $('#lblDesc').html("");
-                $('#lblStockCode2').html("");
-                $('#lblDesc2').html("");
-            }
-
-        }
-
-        function NextOrderError(response) {
-            $('#errordiv').text(response);
-            $('#errordiv').addClass("alert alert-danger");
-            alert(response);
-        }
-
-    }
 
     function GetScanItems(WmsId, SalesOrderLine) {
 
@@ -272,21 +212,6 @@
 
         //alert($(window).width());
 
-        LoadReasons();
-
-        GetNextOrder("0");
-
-        $('#btnAddItem').on('click', function (e) {
-            $('#Main').hide();
-            $('#DivAddItem').show();
-            $('#DivDelItem').hide();
-        });
-
-        $('#btnDelItem').on('click', function (e) {
-            $('#Main').hide();
-            $('#DivDelItem').show();
-            $('#DivAddItem').hide();
-        });
 
         $('#tblLines').on("click", ".delLine", function () {
 
@@ -298,21 +223,9 @@
             $('#DelBarcode').val(Barcode);
         });
 
-        $('#btnBack').on('click', function (e) {
-            $('#Main').show();
-            $('#DivAddItem').hide();
-            $('#DivDelItem').hide();
-        });
-
-        $('#btnDelBack').on('click', function (e) {
-            $('#Main').show();
-            $('#DivAddItem').hide();
-            $('#DivDelItem').hide();
-        });
-
 
         $('#btnNext').on('click', function (e) {
-            GetNextOrder($('#WmsId').html());
+           window.location.href = '@Url.Action("Index", "DesPlanPicking")'
         });
 
         $('#btnCheck').on('click', function (e) {
