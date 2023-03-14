@@ -15,7 +15,7 @@ namespace Megasoft2.Controllers
         WarehouseManagementEntities wdb = new WarehouseManagementEntities("");
         MegasoftEntities mdb = new MegasoftEntities();
 
-        [CustomAuthorize(Activity: "CustomerOrderScheduler")]
+        [CustomAuthorize(Activity: "DispatchPlanner")]
         public ActionResult Index()
         {
             DispatchPlannerViewModel model = new DispatchPlannerViewModel();
@@ -100,9 +100,9 @@ namespace Megasoft2.Controllers
                 if (myDeserializedObjList.Count > 0)
                 {
                     if (mass > myDeserializedObjList[0].VehicleCapacity)
-                        {
-                            return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
-                        }
+                    {
+                        return Json("Cannot Schedule Dispatch!\nMass Balance exceeds Vehicle Capacity", JsonRequestBehavior.AllowGet);
+                    }
                     foreach (var item in myDeserializedObjList)
                     {
                         var dateTime = Convert.ToDateTime(item.DispatchDate.ToString("yyyy-MM-dd"));

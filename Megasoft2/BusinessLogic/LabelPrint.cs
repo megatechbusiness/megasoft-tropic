@@ -1729,6 +1729,7 @@ namespace Megasoft2.BusinessLogic
                             Template = Template.Replace("<<SUPERVISOR>>", detail[i].Supervisor);
                             Template = Template.Replace("<<SETTER>>", detail[i].Supervisor);
                             Template = Template.Replace("<<BAILNO>>", detail[i].BatchId);
+                            Template = Template.Replace("<<OPCODE>>", packDetails[0].OpCode.ToString());
                         }
                         reader.Close();
                         StreamWriter writer;
