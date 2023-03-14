@@ -1221,11 +1221,23 @@ namespace Megasoft2.BusinessLogic
                     Template = Template.Replace("##DATE##", DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
 
                     reader.Close();
-                    StreamWriter writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ScaleLabel/Labels/" + Department + "/ScaleLabelTemp.lbl").ToString(), false);
+                    //SR - 2023/03/14 - Create temp file with batch number appended to file name.
+                    //When multiple users print at the same time, unique files would be sent to the printer
+                    StreamWriter writer = new StreamWriter(HttpContext.Current.Server.MapPath("~/ScaleLabel/Labels/" + Department + "/"+detail.FirstOrDefault().BatchId+".lbl").ToString(), false);
                     writer.WriteLine(Template);
                     writer.Close();
                     string PrinterPath = (from a in mdb.mtLabelPrinters where a.PrinterName == Printer select a.PrinterPath).FirstOrDefault();
-                    File.Copy(HttpContext.Current.Server.MapPath("~/ScaleLabel/Labels/" + Department + "/ScaleLabelTemp.lbl").ToString(), PrinterPath, true);
+                    File.Copy(HttpContext.Current.Server.MapPath("~/ScaleLabel/Labels/" + Department + "/" + detail.FirstOrDefault().BatchId + ".lbl").ToString(), PrinterPath, true);
+                    //Delete the temp file after printing
+                    try
+                    {
+                        File.Delete(HttpContext.Current.Server.MapPath("~/ScaleLabel/Labels/" + Department + "/" + detail.FirstOrDefault().BatchId + ".lbl").ToString());
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    
                 }
 
                 return "";
@@ -1729,6 +1741,7 @@ namespace Megasoft2.BusinessLogic
                             Template = Template.Replace("<<SUPERVISOR>>", detail[i].Supervisor);
                             Template = Template.Replace("<<SETTER>>", detail[i].Supervisor);
                             Template = Template.Replace("<<BAILNO>>", detail[i].BatchId);
+                            Template = Template.Replace("<<OPCODE>>", packDetails[0].OpCode.ToString());
                         }
                         reader.Close();
                         StreamWriter writer;
