@@ -1,0 +1,105 @@
+﻿@model Megasoft2.ViewModel.DispatchPlannerViewModel
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<fieldset>
+    <div class="form-group " style="margin-left:-20px">
+        <div class="form-horizontal row spacer-xs" id="firstrow">
+
+            <div id="errordiv" class="col-xs-10" style="font-size:xx-small">
+
+            </div>
+        </div>
+
+        <div id="Main">
+
+
+            <h3 style="text-align:center;"> Picking List for @(HttpContext.Current.User.Identity.Name.ToUpper())</h3>
+            <hr />
+            <div class="form-horizontal row spacer-xs col-xs-11">
+                <div id="Results">
+                    <table id="tblLines" class="table table-hover table-striped table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SO - Line</th>
+                                <th>StockCode</th>
+                                <th>Desc.</th>
+                                <th>Qty to Pick</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                if (Model.Plans != null)
+                                {
+                                    for (int i = 0; i < Model.Plans.Count; i++)
+                                    {
+
+                                        var rowColour = "";
+                                        if (i % 2 == 0)
+                                        {
+                                            rowColour = "#31b0d5";
+                                        }
+
+                                        <tr style="color:black;background-color:@rowColour">
+                                            <td id="salesOrder">
+                                                <a href="@Url.Action("Picking", "DesPlanPicking", new { Cust = Model.Plans[i].Customer, So = Model.Plans[i].SalesOrder, SoLine = (int)Model.Plans[i].SalesOrderLine })">
+                                                    @Model.Plans[i].SalesOrder -
+                                                    @Model.Plans[i].SalesOrderLine
+                                                </a>
+                                                @Html.HiddenFor(model => Model.Plans[i].DispatchDate)
+                                                @Html.HiddenFor(model => Model.Plans[i].DeliveryNo)
+                                                @Html.HiddenFor(model => Model.Plans[i].Customer)
+                                                @Html.HiddenFor(model => Model.Plans[i].SalesOrder)
+                                                @Html.HiddenFor(model => Model.Plans[i].SalesOrderLine)
+                                            </td>
+                                            <td>
+                                                @Model.Plans[i].MStockCode
+                                                @Html.HiddenFor(model => Model.Plans[i].MStockCode)
+
+                                            </td>
+                                            <td>
+                                                @Model.Plans[i].MStockDesc
+                                                @Html.HiddenFor(model => Model.Plans[i].MStockDesc)
+
+                                            </td>
+                                            <td>
+                                                @String.Format("{0:0.000000}", Convert.ToDecimal(Model.Plans[i].MQtyToDispatch))
+                                                @Html.HiddenFor(model => Model.Plans[i].MQtyToDispatch)
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</fieldset>
+
+<style type="text/css">
+    .table-striped tbody tr.highlight td {
+        background-color: limegreen;
+    }
+</style>
+
+
+@Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+@Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+    });
+</script>

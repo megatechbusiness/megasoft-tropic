@@ -10,6 +10,8 @@
                 <div class="btn-group btn-breadcrumb">
                     <a href="@Url.Action("Home", "Home")" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
                     <a href="@Url.Action("Index", "DispatchPlanner")" class="btn btn-default">Dispatch Plans</a>
+                    <a href="@Url.Action("Maintenence", "DispatchPlanner")" class="btn btn-default">Maintenence</a>
+
                 </div>
             </div>
         </div>
@@ -40,39 +42,50 @@
                                             <div class="form-group">
                                                 <div class="" style="margin-left: 15px; margin-right: 15px;">
                                                     <div class="col-lg-4">
-                                                        <label for="datePicker" style="text-align:center"> Dispatch Date: </label>
-                                                        <input type="date" id="datePicker" name="datePicker" class="form-control input-sm" />
+                                                        <div class="col-sm-4">
+                                                            <label for="datePicker" style="text-align:center"> Dispatch Date: </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="date" id="datePicker" name="datePicker" class="form-control input-sm" />
+                                                        </div>
                                                         @Html.HiddenFor(model => Model.DispatchDate)
                                                     </div>
 
                                                     <div class="col-lg-3">
-                                                        <label for="truckList">Transporter: </label>
-                                                        @if (Model.TruckList != null)
-                                                        {
-                                                            var itemList = new List<SelectListItem>();
-                                                            for (int i = 0; i < Model.TruckList.Count; i++)
+                                                        <div class="col-sm-6">
+                                                            <label for="truckList">Transporter: </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @if (Model.TruckList != null)
                                                             {
-                                                                @Html.HiddenFor(model => Model.SaveTL[i])
-                                                                var item = new SelectListItem() { Text = Model.TruckList[i], Value = Model.TruckList[i] };
-                                                                itemList.Add(item);
+                                                                var itemList = new List<SelectListItem>();
+                                                                for (int i = 0; i < Model.TruckList.Count; i++)
+                                                                {
+                                                                    var item = new SelectListItem() { Text = Model.TruckList[i], Value = Model.TruckList[i] };
+                                                                    itemList.Add(item);
+                                                                }
+                                                                @Html.DropDownListFor(n => n.TruckList, itemList, new { @class = "form-control input-sm", @id = "truckList", @style = "float: right" })
                                                             }
-                                                            @Html.DropDownListFor(n => n.TruckList, itemList, new { @class = "form-control input-sm", @id = "truckList", @style = "float: right" })
-                                                        }
+                                                        </div>
                                                         @*@Html.DropDownListFor(model => model.TruckList, new SelectList(ViewBag.TruckList), new { @class = "form-control input-sm", @id = "truckList" })*@
 
                                                         @*@Html.HiddenFor(model => Model.TruckList)*@
                                                     </div>
 
                                                     <div class="col-lg-3">
-                                                        <label for="Tonnage">Truck Tonnage: </label>
-                                                        @if (Model.Plans.Count > 0)
-                                                        {
-                                                            @Html.TextBoxFor(model => model.Plans[0].VehicleCapacity, new { @class = "form-control input-sm text-right", @id = "Tonnage", @style = "float: right" })
-                                                        }
-                                                        else
-                                                        {
-                                                            <input type="text" id="Tonnage" class="form-control input-sm text-right" style="float:right;"/>
-                                                        }
+                                                        <div class="col-sm-6">
+                                                            <label for="Tonnage">Truck Tonnage: </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @if (Model.Plans.Count > 0)
+                                                            {
+                                                                @Html.TextBoxFor(model => model.Plans[0].VehicleCapacity, new { @class = "form-control input-sm text-right", @id = "Tonnage", @style = "float: right" })
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="Tonnage" class="form-control input-sm text-right" style="float:right;" />
+                                                            }
+                                                        </div>
                                                     </div>
 
                                                     <div class=" col-sm-1 text-right">
@@ -109,43 +122,65 @@
                                                         var item = new SelectListItem() { Text = i.ToString(), Value = i.ToString() };
                                                         itemList.Add(item);
                                                     }
-                                                    <div class="col-lg-1">
-                                                        <label for="Plans" id="dlvLabel">Plan #    </label>
-                                                        @Html.DropDownListFor(model => model.DeliveryNo, itemList, new { @class = "form-control input-sm", @id = "Plans" })
+                                                    <div class="col-lg-2">
+                                                        <div class="col-sm-5">
+                                                            <label for="Plans" id="dlvLabel">Plan #  </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.DropDownListFor(model => model.DeliveryNo, itemList, new { @class = "form-control input-sm", @id = "Plans" })
+                                                        </div>
                                                     </div>
 
-                                                    <div class="col-lg-3">
+                                                    <div class="col-lg-2">
                                                         <a href="#" class="btn btn-default btn-sm" id="newPlan">
                                                             <span class="fa fa-plus-square-o" aria-hidden="true" title="New"><span style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:12px;">  New</span></span>
                                                         </a>
                                                     </div>
 
                                                     <div class="col-lg-3">
-                                                        <label>Selected Transporter: </label>
-                                                        @Html.TextBoxFor(model => Model.Plans[0].Transporter, new { @class = "form-control input-sm", @id = "selectTruck", @readonly = "readonly", @style = "float: right" })
+                                                        <div class="col-sm-6">
+                                                            <label>Selected Transporter: </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.TextBoxFor(model => Model.Plans[0].Transporter, new { @class = "form-control input-sm", @id = "selectTruck", @readonly = "readonly", @style = "float: right" })
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-lg-3">
-                                                        <label for="OrderTon">Total Estimated Mass: </label>
-                                                        <input type="text" id="OrderTon" class="form-control input-sm text-right" readonly="readonly" style="float:right;"/>
+                                                        <div class="col-sm-6">
+                                                            <label for="OrderTon">Total Estimated Mass: </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" id="OrderTon" class="form-control input-sm text-right" readonly="readonly" style="float:right;" />
+                                                        </div>
                                                     </div>
                                                 }
                                                 else
                                                 {
                                                     <div class="col-lg-4">
-                                                        <label>Plan # 1   </label>
+                                                        <div class="col-sm-12">
+                                                            <label>Plan # 1   </label>
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-lg-3">
                                                         <div id="displayTruck" hidden="hidden">
-                                                            <label for="selectTruck">Selected Transporter: </label>
-                                                            <input type="text" id="selectTruck" class="form-control input-sm" readonly="readonly" style="float:right;"/>
+                                                            <div class="col-sm-6">
+                                                                <label for="selectTruck">Selected Transporter: </label>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" id="selectTruck" class="form-control input-sm" readonly="readonly" style="float:right;" />
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-3" id="displayMass" hidden="hidden">
-                                                        <label for="OrderTon">Total Estimated Mass: </label>
-                                                        <input type="text" id="OrderTon" class="form-control input-sm text-right" readonly="readonly" style="float:right;" />
+                                                        <div class="col-sm-6">
+                                                            <label for="OrderTon">Total Estimated Mass: </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" id="OrderTon" class="form-control input-sm text-right" readonly="readonly" style="float:right;" />
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-lg-2"></div>
@@ -185,6 +220,7 @@
                                                         <th>Desc.</th>
                                                         <th>Size</th>
                                                         <th>Uom</th>
+                                                        @*<th>Picker</th>*@
                                                         <th>Order Date</th>
                                                         <th>Line Ship Date</th>
                                                         <th>Cust. Request Date</th>
@@ -262,6 +298,10 @@
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].MOrderUom)
 
                                                                     </td>
+                                                                    @*<td>
+                                                                            @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList, "Value", "Text"))
+                                                                            @Html.HiddenFor(model => model.Picker)
+                                                                        </td>*@
                                                                     <td>
                                                                         @Model.OrderPlans[i].OrderDate
                                                                         @Html.HiddenFor(model => Model.OrderPlans[i].OrderDate)
@@ -339,6 +379,7 @@
                                                         <th>Desc.</th>
                                                         <th>Size</th>
                                                         <th>Uom</th>
+                                                        @*<th>Picker</th>*@
                                                         <th>Order Date</th>
                                                         <th>Line Ship Date</th>
                                                         <th>Cust. Request Date</th>
@@ -419,6 +460,10 @@
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].MOrderUom)
 
                                                                     </td>
+                                                                    @*<td >
+                                                                            @Html.DropDownListFor(model => model.Picker, new SelectList(ViewBag.PickersList), new { @class = "form-control input-sm", style = "width:100%" })
+                                                                            @Html.HiddenFor(model => model.Picker)
+                                                                        </td>*@
                                                                     <td>
                                                                         @Model.OpenOrders[i].OrderDate
                                                                         @Html.HiddenFor(model => Model.OpenOrders[i].OrderDate)
@@ -509,12 +554,8 @@
 
     .form-control {
         display: inline;
-        width: auto;
     }
 
-    label {
-        padding-right: 5px;
-    }
 </style>
 
 @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
@@ -537,7 +578,7 @@
         //calendar shows current date
         Date.prototype.toDateInputValue = (function (date) {
             var local = new Date(date);
-            if ($("#Messages").val() != "Index") {
+            if ($("#Messages").val() === "!today") {
                 local.setDate(local.getDate() + 1);
             }
             return local.toJSON().slice(0, 10);
@@ -556,12 +597,9 @@
                 alert("Please only enter Numbers into Truck Tonnage!");
                 $("#Tonnage").val("");
             }
-            @*if (parseFloat(@("#Tonnage").val()) < parseFloat($("#OrderTon").val())) {
-                alert("Esimated Mass exceeds Truck Capacity input\nChoose a Larger Transporter")
-            }*@
         })
 
-        
+
         //display selected transporter
         $("#truckList").on("change", function () {
             $("#displayTruck").show();
@@ -591,7 +629,6 @@
         })
 
 
-
         var dragSrcRow = null;  // Keep track of the source row
         var selectedRows = null;   // Keep track of selected rows in the source table
         var srcTable = '';  // Global tracking of table being dragged for 'over' class setting
@@ -604,7 +641,7 @@
             MassBal += Math.round(ms);
 
         })
-        if (MassBal != 0) $("#OrderTon").val(MassBal/100000); 
+        if (MassBal != 0) $("#OrderTon").val(MassBal/100000);
 
 
         var table = $('#example').DataTable({
@@ -784,19 +821,23 @@
                 row.classList.remove('over');
                 row.style.opacity = '1.0';
                 if (typeof row.cells[21] != "undefined") {
-                    ms += parseFloat(row.cells[21].outerText);
+                    ms += parseFloat(row.cells[21].outerText)*100000;
+                    //row.cells[11].children[0].id = "PlanPicker";
+                    //console.log(row.cells[11].children[0].id);
+
+
                 }
             });
 
             if (typeof rows != "undefined") {
                 $("#displayMass").show();
-                $("#OrderTon").val(ms);
+                $("#OrderTon").val(ms/100000);
                 if ($("#Tonnage").val() != "") {
-                    if (($("#Tonnage").val() - ms) < 0) {
+                    if (($("#Tonnage").val() - ms/100000) < 0) {
                         alert("Mass Exceeds Vehicle Capacity!\nPlease remove last order");
                     }
                 }
-                
+
             }
 
             [].forEach.call(rows2, function (row) {
@@ -896,7 +937,7 @@
                 var MOrderQty = $tds.eq(14).find('input[type=hidden]').val();
                 var MBackOrderQty = $tds.eq(19).find('input[type=hidden]').val();
                 var MQtyToDispatch = $tds.eq(20).find('input[type=hidden]').val();
-
+                var MassBalance = $tds.eq(21).find('input[type=hidden]').val();
 
                 var myObject = new Object();
                 myObject.DispatchDate = DispatchDate;
@@ -910,6 +951,7 @@
                 myObject.MOrderQty = MOrderQty;
                 myObject.MBackOrderQty = MBackOrderQty;
                 myObject.MQtyToDispatch = MQtyToDispatch;
+                myObject.MassBalance = MassBalance;
                 myObject.Transporter = Transporter;
                 if (VehicleCapacity !== "") {
                     myObject.VehicleCapacity = VehicleCapacity;
@@ -920,12 +962,13 @@
                 myObject.Status = "";
 
                 mydata.push(myObject);
-
+                //console.log(myObject);
             });
 
             var myString = JSON.stringify({ details: JSON.stringify(mydata), mass: MassBal/1000000 });
             var exportdata = myString;
-            console.log(exportdata);
+            //console.log(JSON.stringify(mydata));
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveSchedule","DispatchPlanner")",
@@ -939,7 +982,7 @@
             function OnSuccess(response) {
                 hideprogressbar();
                 alert(response);
-                if (response == "Schedule saved!") {
+                if (response == "Dispatch Plan saved!") {
                     $("#btnLoad").click();
                 }
             }

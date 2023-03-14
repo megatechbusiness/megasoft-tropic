@@ -336,6 +336,7 @@
     <Compile Include="Controllers\DemoCameraController.cs" />
     <Compile Include="Controllers\DepartmentMasterController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DesPlanPickingController.cs" />
     <Compile Include="Controllers\DispatchPlannerController.cs" />
     <Compile Include="Controllers\DispatchVerificationController.cs" />
     <Compile Include="Controllers\EmailSettingsController.cs" />
@@ -2974,8 +2975,9 @@
     <Content Include="Views\PalletMatIssue\Index.cshtml" />
     <Content Include="Views\DispatchPlanner\Index.cshtml" />
     <Content Include="Views\DispatchPlanner\PickerSelect.cshtml" />
-    <Content Include="Views\DispatchPlanner\Picking.cshtml" />
     <Content Include="Views\DispatchPlanner\Maintenence.cshtml" />
+    <Content Include="Views\DesPlanPicking\Index.cshtml" />
+    <Content Include="Views\DesPlanPicking\Picking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

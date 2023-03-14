@@ -25,6 +25,7 @@ namespace Megasoft2
         public decimal MOrderQty { get; set; }
         public decimal MBackOrderQty { get; set; }
         public decimal MQtyToDispatch { get; set; }
+        public decimal MassBalance { get; set; }
         public string Transporter { get; set; }
         public Nullable<decimal> VehicleCapacity { get; set; }
         public string Picker { get; set; }

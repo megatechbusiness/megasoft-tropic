@@ -170,6 +170,7 @@ namespace Megasoft2
         public decimal SpecificGravity6 { get; set; }
         public decimal SuppUnitFactor { get; set; }
         public string SuppUnitsMulDiv { get; set; }
+        public string QmInspectionReq { get; set; }
     
         public virtual ICollection<GrnDetail> GrnDetails { get; set; }
         public virtual ICollection<InvStockTake> InvStockTakes { get; set; }
